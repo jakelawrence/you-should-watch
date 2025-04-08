@@ -6,8 +6,6 @@ const nextConfig = {
     unoptimized: true,
     domains: ["a.ltrbxd.com"], // Add the hostname here
   },
-  assetPrefix: isProd ? "/what-do-i-watch/" : "",
-  basePath: isProd ? "/what-do-i-watch" : "",
 };
 
 export default nextConfig;
