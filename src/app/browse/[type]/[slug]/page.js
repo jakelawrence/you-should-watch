@@ -90,10 +90,10 @@ export default function GenrePage() {
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+      <div className={`min-h-screen bg-background text-text-primary`}>
         <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="animate-pulse text-gray-500 dark:text-gray-400">Loading...</div>
+          <div className="animate-pulse text-text-secondary">Loading...</div>
         </div>
       </div>
     );
@@ -101,27 +101,27 @@ export default function GenrePage() {
 
   if (error) {
     return (
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+      <div className={`min-h-screen bg-background text-text-primary`}>
         <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/10 px-4 py-2 rounded-lg">{error}</div>
+          <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
+    <div className={`min-h-screen bg-background text-text-primary`}>
       <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/browse" className="text-blue-500 hover:text-blue-600 mb-4 inline-block">
+              <Link href="/browse" className="mb-4 inline-block">
                 ← Back to Browse
               </Link>
               <h1 className="text-3xl font-bold mt-2">{title}</h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">{movies.length} movies found</p>
+              <p className="mt-2">{movies.length} movies found</p>
             </div>
           </div>
 

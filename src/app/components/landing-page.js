@@ -6,11 +6,14 @@ import { MovieCollection } from "./movie-collection";
 import { useRouter } from "next/navigation";
 import { useDebounce } from "../hooks/useDebounce";
 import { Search, Loader2 } from "lucide-react";
+import addedToCollectionAlert from "./added-to-collection-alert";
 
 export default function LandingPage() {
   const router = useRouter();
+
   const [collectionItems, setCollectionItems] = useState([]);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
+  const [hasShownCollection, setHasShownCollection] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -19,6 +22,7 @@ export default function LandingPage() {
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const { showCollectionAlert, CollectionAlert } = addedToCollectionAlert();
 
   // Load collection from sessionStorage on mount
   useEffect(() => {
@@ -100,16 +104,21 @@ export default function LandingPage() {
 
   const addToCollection = (movie) => {
     if (collectionItems.length >= 5) {
-      alert("Your collection is limited to 5 movies maximum.");
+      showCollectionAlert("Your collection is limited to 5 movies maximum.", "error");
       return;
     }
 
     if (!collectionItems.find((item) => item.slug === movie.slug)) {
       setCollectionItems([...collectionItems, movie]);
-      setIsCollectionOpen(true);
+      if (!hasShownCollection) setIsCollectionOpen(true);
+
       setSearchQuery("");
       setSearchResults([]);
       setShowDropdown(false);
+      if (hasShownCollection) showCollectionAlert(`${movie.name} added to cart!`, "success");
+      setHasShownCollection(true);
+    } else {
+      showCollectionAlert(`${movie.name} has already been added to cart.`, "warning");
     }
   };
 
@@ -137,11 +146,10 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background text-text-primary">
       <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
       <main className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
-        <div className="w-full max-w-2xl px-4">
-          <h2 className="text-lg font-semibold mb-4 pl-4">welcome to...</h2>
-          <div className="text-center mb-12">
+        <div className="w-full max-w-2xl mx-auto px-4">
+          <div className="max-w-fit mx-auto">
+            <h2 className="text-lg font-semibold mb-4 ml-2">welcome to...</h2>
             <h1 className="text-5xl font-bold mb-6">the movie plug</h1>
-            {/* <p className="text-xl text-text-secondary">Find Your Next Favorite Movie in Seconds!</p> */}
           </div>
 
           <div className="relative" ref={searchInputRef}>
@@ -185,8 +193,8 @@ export default function LandingPage() {
             {searchError && <div className="mt-2 text-danger text-sm bg-danger/10 px-3 py-2 rounded-lg inline-block">{searchError}</div>}
           </div>
         </div>
+        <CollectionAlert />
       </main>
-
       <MovieCollection
         isOpen={isCollectionOpen}
         onClose={() => setIsCollectionOpen(false)}
