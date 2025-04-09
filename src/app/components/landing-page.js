@@ -14,6 +14,7 @@ export default function LandingPage() {
   const [collectionItems, setCollectionItems] = useState([]);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
   const [hasShownCollection, setHasShownCollection] = useState(false);
+  const [fetchingSuggestedMovies, setFetchingSuggestedMovies] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -129,6 +130,7 @@ export default function LandingPage() {
   const handleGetSuggestedMovies = async () => {
     let slugs = collectionItems.map((movie) => movie.slug).join(",");
     try {
+      setFetchingSuggestedMovies(true);
       const suggestedMoviesResponse = await fetch("/api/getSuggestedMovies?slugs=" + slugs);
       const suggestedMoviesData = await suggestedMoviesResponse.json();
 
@@ -141,6 +143,21 @@ export default function LandingPage() {
       console.error("Failed to fetch suggested movies:", error);
     }
   };
+
+  if (fetchingSuggestedMovies) {
+    return (
+      <div className={`min-h-screen bg-background text-text-primary`}>
+        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+        <main className="flex text-center items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="w-full max-w-2xl mx-auto px-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="animate-pulse text-text-secondary">Loading...</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-text-primary">
@@ -174,16 +191,18 @@ export default function LandingPage() {
                     onClick={() => addToCollection(movie)}
                     className="w-full px-4 py-3 text-left hover:bg-secondary/50 transition-colors flex items-center justify-between border-b border-border last:border-0"
                   >
-                    <div>
-                      <div className="font-medium text-text-primary">{movie.name}</div>
-                      <div className="text-sm text-text-secondary">{movie.year}</div>
+                    <div className="flex items-center space-x-3">
+                      <img src={movie.posterUrl} alt={movie.name} className="w-12 h-16 object-cover rounded flex-shrink-0" />
+                      <div>
+                        <div className="font-medium text-text-primary">{movie.name}</div>
+                        <div className="text-sm text-text-secondary">{movie.year}</div>
+                      </div>
                     </div>
                     <div className="text-primary font-medium">+</div>
                   </button>
                 ))}
               </div>
             )}
-
             {isSearching && (
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
                 <Loader2 className="animate-spin text-primary" size={20} />

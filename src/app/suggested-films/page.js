@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { NavigationBar } from "../components/navigation-bar";
 import { MovieCard } from "../components/movie-card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function SuggestedFilmsPage() {
   const [suggestedMovies, setSuggestedMovies] = useState([]);
@@ -76,39 +78,13 @@ export default function SuggestedFilmsPage() {
         )}
 
         {!loading && !error && suggestedMovies.length > 0 && (
-          <div className="relative max-w-lg mx-auto">
-            <div className="movie-card">
-              <MovieCard movie={suggestedMovies[currentIndex]} />
-            </div>
-
-            <div className="flex justify-between items-center mt-6">
-              <button
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                className={`p-2 rounded-full ${
-                  currentIndex === 0 ? "bg-primary text-white hover:bg-primary-light cursor-not-allowed" : "bg-secondary text-text-secondary"
-                }`}
-              >
-                <ChevronLeft size={24} />
-              </button>
-
-              <span className="text-text-secondary">
-                {currentIndex + 1} of {suggestedMovies.length}
-              </span>
-
-              <button
-                onClick={handleNext}
-                disabled={currentIndex === suggestedMovies.length - 1}
-                className={`p-2 rounded-full ${
-                  currentIndex === suggestedMovies.length - 1
-                    ? "bg-primary text-white hover:bg-primary-light cursor-not-allowed"
-                    : "bg-secondary text-text-secondary "
-                }`}
-              >
-                <ChevronRight size={24} />
-              </button>
-            </div>
-          </div>
+          <Carousel swipeable={true} emulateTouch={true} infiniteLoop={true} thumbWidth={50}>
+            {suggestedMovies.map((film) => (
+              <div className="p-4" key={film.slug}>
+                <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} />
+              </div>
+            ))}
+          </Carousel>
         )}
       </main>
     </div>
