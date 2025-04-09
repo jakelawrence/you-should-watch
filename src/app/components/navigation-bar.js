@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "./logo";
+import { Clapperboard } from "lucide-react";
 
 export function NavigationBar({ collectionItemsCount, onCollectionClick }) {
   const router = useRouter();
@@ -17,17 +18,17 @@ export function NavigationBar({ collectionItemsCount, onCollectionClick }) {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => router.push("/browse")}
-              className="text-text-secondary hover:text-text-primary px-3 py-2 rounded-md text-sm transition-colors"
+              className="text-text-secondary hover:text-text-primary px-3 py-2 rounded-md text-sm font-bold transition-colors"
             >
               Browse
             </button>
             <button
               onClick={onCollectionClick}
-              className="relative text-text-secondary hover:text-text-primary px-3 py-2 rounded-md text-sm transition-colors"
+              className="relative text-text-secondary hover:text-text-primary px-3 py-2 rounded-md transition-colors"
             >
-              Collection
+              <Clapperboard size={24} className="text-purple-600" />
               {collectionItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs/4 font-bold rounded-full h-4 w-4 flex items-center justify-center">
                   {collectionItemsCount}
                 </span>
               )}

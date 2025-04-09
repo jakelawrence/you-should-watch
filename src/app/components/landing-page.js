@@ -178,7 +178,7 @@ export default function LandingPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for movies..."
-                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-lg transition-all"
+                  className="w-full pl-12 pr-4 py-4 font-bold rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-lg transition-all"
                 />
               </div>
             </form>
