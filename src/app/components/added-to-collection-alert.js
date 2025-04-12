@@ -65,7 +65,7 @@ export default function addedToCollectionAlert() {
     const transformClass = alert.isLeaving ? "translate-y-6" : "translate-y-0";
 
     return (
-      <div className="fixed bottom-6 left-0 right-0 flex justify-center items-center pointer-events-none z-50">
+      <div className="fixed top-6 left-0 right-0 flex justify-center items-center pointer-events-none z-50">
         <div
           className={`p-4 rounded shadow-lg pointer-events-auto max-w-md transition-all duration-300 ease-in-out ${opacityClass} ${transformClass} ${
             alertStyles[alert.type]

@@ -3,21 +3,21 @@ import { Star, Plus } from "lucide-react";
 
 export const MovieCard = ({ movie, onAddToCollection }) => {
   return (
-    <div className="bg-background rounded-lg shadow-sm overflow-hidden">
-      <div className="relative h-[400px]">
+    <div className="bg-background rounded-lg overflow-hidden">
+      <div className="relative">
         <img
           src={movie.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")}
           alt={movie.name}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain rounded-xl"
           loading="lazy"
         />
         {onAddToCollection && (
           <button
             onClick={() => onAddToCollection(movie)}
-            className="absolute top-2 right-2 p-2 bg-primary hover:bg-primary-light text-white rounded-full shadow-lg transition-colors"
+            className="absolute top-2 right-2 p-1 bg-white text-white rounded-full cursor-pointer"
             aria-label={`Add ${movie.name} to collection`}
           >
-            <Plus size={20} />
+            <Plus size={25} className="text-purple-600" />
           </button>
         )}
         {movie.rating && (
