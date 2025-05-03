@@ -82,6 +82,26 @@ const createTables = async (db) => {
     )`
     );
 
+    await dbRun(
+      db,
+      `CREATE TABLE IF NOT EXISTS actors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      actorSlug TEXT,
+      movieSlug TEXT,
+      FOREIGN KEY (movieSlug) REFERENCES movies(slug)
+    )`
+    );
+
+    await dbRun(
+      db,
+      `CREATE TABLE IF NOT EXISTS directors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      directorSlug TEXT,
+      movieSlug TEXT,
+      FOREIGN KEY (movieSlug) REFERENCES movies(slug)
+    )`
+    );
+
     console.log("Tables created successfully.");
   } catch (error) {
     throw new Error(`Error creating tables: ${error.message}`);
@@ -229,101 +249,117 @@ const dropLikeRow = async () => {
   await dbRun(db, "DELETE FROM likes WHERE movieSlug not in (select distinct slug from movies)");
 };
 
-// const importFile = async (db, fileName) => {
-//   console.log(`Importing data from ${fileName}...`);
-//   try {
-//     // Read JSON file
-//     const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../../FILES/code/GiveMeAMovieToWatch/json_files/", fileName), "utf8"));
-//     // Determine table name from file name (remove .json extension)
-//     const tableName = fileName.replace(".json", "");
+const importFile = async (db, fileName) => {
+  console.log(`Importing data from ${fileName}...`);
+  try {
+    // Read JSON file
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../../../../FILES/code/GiveMeAMovieToWatch/json_files/", fileName), "utf8"));
+    // Determine table name from file name (remove .json extension)
+    const tableName = fileName.replace(".json", "");
 
-//     // Create appropriate prepared statement based on table
-//     let stmt;
-//     switch (tableName) {
-//       case "movies":
-//         stmt = db.prepare(
-//           "INSERT OR REPLACE INTO movies (slug, name, avgRating, popularityRanking, posterUrl, link, year) VALUES (?, ?, ?, ?, ?, ?, ?)"
-//         );
-//         let popularityRanking = 1;
-//         for (const item of data) {
-//           await runPreparedStatement(stmt, [
-//             item.slug,
-//             item.name,
-//             parseFloat(item.avgRating),
-//             popularityRanking,
-//             item.posterUrl,
-//             item.link,
-//             item.year,
-//           ]);
-//           popularityRanking++;
-//         }
-//         break;
-//       case "genres":
-//         stmt = db.prepare("INSERT OR REPLACE INTO genres (movieSlug, genre) VALUES (?, ?)");
-//         for (const item of data) {
-//           await runPreparedStatement(stmt, [item.movieSlug, item.genre]);
-//         }
-//         break;
-//       case "likes":
-//         stmt = db.prepare("INSERT OR REPLACE INTO likes (username, movieSlug) VALUES (?, ?)");
-//         for (const item of data) {
-//           await runPreparedStatement(stmt, [item.username, item.filmSlug]);
-//         }
-//         break;
-//       case "favorites":
-//         stmt = db.prepare("INSERT OR REPLACE INTO favorites (username, movieSlug) VALUES (?, ?)");
-//         for (const item of data) {
-//           await runPreparedStatement(stmt, [item.username, item.movieSlug]);
-//         }
-//         break;
-//       case "nanogenres":
-//         stmt = db.prepare("INSERT OR REPLACE INTO nanogenres (movieSlug, nanogenre) VALUES (?, ?)");
-//         for (const item of data) {
-//           console.log(item);
-//           await runPreparedStatement(stmt, [item.filmSlug, item.nanogenre]);
-//         }
-//         break;
-//       default:
-//         throw new Error(`Unknown table type: ${tableName}`);
-//     }
+    // Create appropriate prepared statement based on table
+    let stmt;
+    switch (tableName) {
+      case "movies":
+        stmt = db.prepare(
+          "INSERT OR REPLACE INTO movies (slug, name, avgRating, popularityRanking, posterUrl, link, year) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        );
+        let popularityRanking = 1;
+        for (const item of data) {
+          await runPreparedStatement(stmt, [
+            item.slug,
+            item.name,
+            parseFloat(item.avgRating),
+            popularityRanking,
+            item.posterUrl,
+            item.link,
+            item.year,
+          ]);
+          popularityRanking++;
+        }
+        break;
+      case "genres":
+        stmt = db.prepare("INSERT OR REPLACE INTO genres (movieSlug, genre) VALUES (?, ?)");
+        for (const item of data) {
+          console.log(item);
+          await runPreparedStatement(stmt, [item.filmSlug, item.genre]);
+        }
+        break;
+      case "likes":
+        stmt = db.prepare("INSERT OR REPLACE INTO likes (username, movieSlug) VALUES (?, ?)");
+        for (const item of data) {
+          await runPreparedStatement(stmt, [item.username, item.filmSlug]);
+        }
+        break;
+      case "favorites":
+        stmt = db.prepare("INSERT OR REPLACE INTO favorites (username, movieSlug) VALUES (?, ?)");
+        for (const item of data) {
+          await runPreparedStatement(stmt, [item.username, item.filmSlug]);
+        }
+        break;
+      case "nanogenres":
+        stmt = db.prepare("INSERT OR REPLACE INTO nanogenres (movieSlug, nanogenre) VALUES (?, ?)");
+        for (const item of data) {
+          console.log(item);
+          await runPreparedStatement(stmt, [item.filmSlug, item.nanogenre]);
+        }
+        break;
+      case "actors":
+        stmt = db.prepare("INSERT OR REPLACE INTO actors (actorSlug, movieSlug) VALUES (?, ?)");
+        for (const item of data) {
+          console.log(item);
+          await runPreparedStatement(stmt, [item.actorSlug, item.movieSlug]);
+        }
+        break;
 
-//     // Finalize the prepared statement
-//     await new Promise((resolve, reject) => {
-//       stmt.finalize((err) => (err ? reject(err) : resolve()));
-//     });
+      case "directors":
+        stmt = db.prepare("INSERT OR REPLACE INTO directors (directorSlug, movieSlug) VALUES (?, ?)");
+        for (const item of data) {
+          console.log(item);
+          await runPreparedStatement(stmt, [item.directorSlug, item.movieSlug]);
+        }
+        break;
+      default:
+        throw new Error(`Unknown table type: ${tableName}`);
+    }
 
-//     console.log(`Successfully imported data from ${fileName}`);
-//   } catch (error) {
-//     console.error(`Error importing ${fileName}:`, error);
-//     throw new Error(`Error importing data from ${fileName}: ${error.message}`);
-//   }
-// };
+    // Finalize the prepared statement
+    await new Promise((resolve, reject) => {
+      stmt.finalize((err) => (err ? reject(err) : resolve()));
+    });
 
-// const createTableAndInsertData = async (tableName, fileName) => {
-//   db = await initializeDB();
-//   try {
-//     await createTables(db);
-//     await importFile(db, fileName);
-//     await createIndexes(db);
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error(`Error dropping ${tableName} table: ${error.message}`);
-//   } finally {
-//     if (db) {
-//       await new Promise((resolve, reject) => {
-//         db.close((err) => {
-//           if (err) {
-//             console.error("Error closing database:", err);
-//             reject(err);
-//           } else {
-//             console.log("Database connection closed.");
-//             resolve();
-//           }
-//         });
-//       });
-//     }
-//   }
-// };
+    console.log(`Successfully imported data from ${fileName}`);
+  } catch (error) {
+    console.error(`Error importing ${fileName}:`, error);
+    throw new Error(`Error importing data from ${fileName}: ${error.message}`);
+  }
+};
+
+const createTableAndInsertData = async (tableName, fileName) => {
+  db = await initializeDB();
+  try {
+    await createTables(db);
+    await importFile(db, fileName);
+    await createIndexes(db);
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Error dropping ${tableName} table: ${error.message}`);
+  } finally {
+    if (db) {
+      await new Promise((resolve, reject) => {
+        db.close((err) => {
+          if (err) {
+            console.error("Error closing database:", err);
+            reject(err);
+          } else {
+            console.log("Database connection closed.");
+            resolve();
+          }
+        });
+      });
+    }
+  }
+};
 
 // const deleteMoviesWithNoGenre = async (db) => {
 //   db = await initializeDB();
@@ -383,8 +419,8 @@ const main = async () => {
   }
 };
 
-main();
+// main();
 // deleteMoviesWithNoGenre();
 // dropTable("movies");
 // dropLikeRow();
-// createTableAndInsertData("movies", "movies.json");
+createTableAndInsertData("directors", "directors.json");

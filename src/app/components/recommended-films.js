@@ -11,10 +11,13 @@ const RecommendedFilms = ({ recommendations, onBack }) => {
       </button>
       <h2 className="text-center text-2xl font-bold mb-4">Recommendations</h2>
       <Carousel swipeable={true}>
-        {recommendations.map((film) => (
-          <div key={film.slug}>
-            <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} />
-          </div>
+        {recommendations.map((movie) => (
+          <MovieCard
+            key={movie.slug}
+            movie={movie}
+            onAddToCollection={() => addToCollection(movie)}
+            isInCollection={collectionItems.some((item) => item.slug === movie.slug)}
+          />
         ))}
       </Carousel>
     </div>

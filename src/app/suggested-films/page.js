@@ -78,13 +78,15 @@ export default function SuggestedFilmsPage() {
         )}
 
         {!loading && !error && suggestedMovies.length > 0 && (
-          <Carousel swipeable={true} emulateTouch={true} infiniteLoop={true} thumbWidth={50}>
-            {suggestedMovies.map((film) => (
-              <div className="p-4" key={film.slug}>
-                <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} />
-              </div>
-            ))}
-          </Carousel>
+          <div className="max-w-2xl mx-auto">
+            <Carousel swipeable={true} emulateTouch={true} dynamicHeight={false} infiniteLoop={true} thumbWidth={50} className="carousel-container">
+              {suggestedMovies.map((film) => (
+                <div className="p-4 flex justify-center" key={film.slug}>
+                  <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} className="max-h-96 object-contain" />
+                </div>
+              ))}
+            </Carousel>
+          </div>
         )}
       </main>
     </div>

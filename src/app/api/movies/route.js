@@ -46,10 +46,10 @@ export async function GET(request) {
     const cacheKey = `movies:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${name}`;
 
     // Check cache
-    const cachedResult = cache.get(cacheKey);
-    if (cachedResult) {
-      return NextResponse.json(cachedResult);
-    }
+    // const cachedResult = cache.get(cacheKey);
+    // if (cachedResult) {
+    //   return NextResponse.json(cachedResult);
+    // }
 
     const db = await openDb();
 
@@ -162,12 +162,12 @@ export async function GET(request) {
     }
 
     if (genre) {
-      countQuery += ` AND EXISTS (SELECT 1 FROM genres g2 WHERE g2.movieSlug = m.slug AND g2.genre = ?)`;
+      countQuery += ` AND EXISTS (SELECT 1 FROM genres g2 WHERE g2.movieSlug = m.slug AND LOWER(g2.genre) = LOWER(?))`;
       countParams.push(genre);
     }
 
     if (nanogenre) {
-      countQuery += ` AND EXISTS (SELECT 1 FROM nanogenres ng2 WHERE ng2.movieSlug = m.slug AND ng2.nanogenre = ?)`;
+      countQuery += ` AND EXISTS (SELECT 1 FROM nanogenres ng2 WHERE ng2.movieSlug = m.slug AND LOWER(ng2.nanogenre) = LOWER(?))`;
       countParams.push(nanogenre);
     }
 
@@ -212,7 +212,7 @@ export async function GET(request) {
     };
 
     // Cache the result
-    cache.set(cacheKey, result);
+    // cache.set(cacheKey, result);
 
     return NextResponse.json(result);
   } catch (error) {

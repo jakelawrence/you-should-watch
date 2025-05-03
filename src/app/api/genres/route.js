@@ -6,14 +6,14 @@ export async function GET(request) {
   console.log("genres route");
   const { searchParams } = new URL(request.url);
   const limit = parseInt(searchParams.get("limit")) || 3;
-  // const cacheKey = `genres-${limit}`;
+  const cacheKey = `genres-${limit}`;
 
   try {
     // Check cache first
-    // const cachedGenres = cache.get(cacheKey);
-    // if (cachedGenres) {
-    //   return NextResponse.json({ genres: cachedGenres });
-    // }
+    const cachedGenres = cache.get(cacheKey);
+    if (cachedGenres) {
+      return NextResponse.json({ genres: cachedGenres });
+    }
 
     const db = await openDb();
     const genres = await db.all(`SELECT DISTINCT 
@@ -28,7 +28,7 @@ export async function GET(request) {
     await db.close();
     const processedGenres = genres.map((g) => ({
       ...g,
-      examples: g.examples.split(",").slice(0, limit),
+      examples: g.examples.split(","),
     }));
     // cache.set(cacheKey, processedGenres);
     return NextResponse.json({ genres: processedGenres });
