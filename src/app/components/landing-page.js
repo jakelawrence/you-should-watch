@@ -9,6 +9,7 @@ export const LandingPage = ({
   searchQuery,
   setSearchQuery,
   showDropdown,
+  addToCollection,
   isSearching,
   setIsSearching,
   searchError,
@@ -81,7 +82,9 @@ export const LandingPage = ({
 
       <div className="relative" ref={searchInputRef}>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        {showDropdown && searchResults.length > 0 && <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} />}
+        {showDropdown && searchResults.length > 0 && (
+          <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} addToCollection={addToCollection} />
+        )}
         {isSearching && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
             <Loader2 className="animate-spin text-primary" size={20} />

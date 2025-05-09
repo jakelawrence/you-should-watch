@@ -1,8 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { MovieCollectionProvider } from "./contexts/MovieCollectionContext";
-import { NavigationBar } from "./components/navigation-bar";
-import { MovieCollection } from "./components/movie-collection";
+
 const inter = Inter({ weight: "200", subsets: ["latin"] });
 
 export const metadata = {
@@ -12,14 +10,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="min-h-screen bg-background text-text-primary">
-      <body className={`${inter.className} antialiased`}>
-        <MovieCollectionProvider>
-          <NavigationBar />
-          {children}
-          <MovieCollection />
-        </MovieCollectionProvider>
-      </body>
+    <html lang="en" className="bg-gray-50 dark:bg-gray-900">
+      <body className={`${inter.className} antialiased bg-gray-50 dark:bg-gray-900`}>{children}</body>
     </html>
   );
 }

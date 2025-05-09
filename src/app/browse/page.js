@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { NavigationBar } from "../components/navigation-bar";
+import { MovieCollection } from "../components/movie-collection";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loading } from "../components/loading";
-import { useMovieCollection } from "../contexts/MovieCollectionContext";
-import addedToCollectionAlert from "../components/added-to-collection-alert";
 
 const ITEMS_PER_PAGE = 16;
 
@@ -15,13 +14,27 @@ export default function BrowsePage() {
   const [displayedCollections, setDisplayedCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [collectionItems, setCollectionItems] = useState([]);
+  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
+  const [isCollectionMinimized, setIsCollectionMinimized] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const { CollectionAlert, showCollectionAlert } = addedToCollectionAlert();
   const observerTarget = useRef(null);
 
-  const { collectionItems, isCollectionOpen, setIsCollectionOpen, setIsCollectionMinimized, isCollectionMinimized, handleGetSuggestions } =
-    useMovieCollection();
+  const handleGetSuggestions = async () => {
+    try {
+      const slugs = collectionItems.map((movie) => movie.slug).join(",");
+      const response = await fetch(`/api/getSuggestedMovies?slugs=${slugs}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch suggested movies");
+      }
+      const suggestedMovies = await response.json();
+      sessionStorage.setItem("suggestedMovies", JSON.stringify(suggestedMovies));
+      router.push("/suggested-films");
+    } catch (error) {
+      console.error("Failed to fetch suggested movies:", error);
+    }
+  };
 
   const loadMoreCollections = useCallback(() => {
     if (isLoadingMore) return;
@@ -34,6 +47,13 @@ export default function BrowsePage() {
     setHasMore(currentLength + ITEMS_PER_PAGE < collections.length);
     setIsLoadingMore(false);
   }, [collections, displayedCollections.length, isLoadingMore]);
+
+  useEffect(() => {
+    const savedCollection = sessionStorage.getItem("userCollection");
+    if (savedCollection) {
+      setCollectionItems(JSON.parse(savedCollection));
+    }
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem("userCollection", JSON.stringify(collectionItems));
@@ -111,19 +131,30 @@ export default function BrowsePage() {
   }, [hasMore, isLoadingMore, loadMoreCollections]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className={`min-h-screen bg-background text-text-primary`}>
+        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="animate-pulse text-text-secondary">Loading...</div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
+      <div className={`min-h-screen bg-background text-text-primary`}>
+        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <>
+    <div className={`min-h-screen bg-background text-text-primary`}>
+      <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-12">
           <div className="mb-8">
@@ -158,6 +189,16 @@ export default function BrowsePage() {
           </div>
         </div>
       </main>
-    </>
+
+      <MovieCollection
+        isOpen={isCollectionOpen}
+        onClose={() => setIsCollectionOpen(false)}
+        isMinimized={isCollectionMinimized}
+        onToggleMinimize={() => setIsCollectionMinimized(!isCollectionMinimized)}
+        items={collectionItems}
+        onRemove={() => {}}
+        onGetSuggestions={handleGetSuggestions}
+      />
+    </div>
   );
 }

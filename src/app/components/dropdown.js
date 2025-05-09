@@ -1,8 +1,6 @@
 import React from "react";
-import { useMovieCollection } from "../contexts/MovieCollectionContext";
 
-export const Dropdown = ({ dropdownRef, searchResults }) => {
-  const { addToCollection } = useMovieCollection();
+export const Dropdown = ({ dropdownRef, searchResults, addToCollection }) => {
   return (
     <div ref={dropdownRef} className="absolute z-10 w-full mt-2 bg-background rounded-xl shadow-lg border border-border overflow-y-auto">
       {searchResults.map((movie) => (
