@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { NavigationBar } from "../../../components/navigation-bar";
-import { MovieCollection } from "../../../components/movie-collection";
 import { MovieCard } from "../../../components/movie-card";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useMovieCollection } from "../../../contexts/MovieCollectionContext";
 
 export default function GenrePage() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Use the movie collection context
+  const { collectionItems, isCollectionOpen, toggleCollection, closeCollection, addToCollection, removeFromCollection } = useMovieCollection();
 
   const { type, slug } = params;
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
@@ -21,26 +23,10 @@ export default function GenrePage() {
   const [totalMovies, setTotalMovies] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [collectionItems, setCollectionItems] = useState([]);
-  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
-  const [isCollectionMinimized, setIsCollectionMinimized] = useState(false);
   const [title, setTitle] = useState("");
 
   // Available options for movies per page
   const perPageOptions = [24, 48, 64, 84];
-
-  // Load collection from sessionStorage on mount
-  useEffect(() => {
-    const savedCollection = sessionStorage.getItem("userCollection");
-    if (savedCollection) {
-      setCollectionItems(JSON.parse(savedCollection));
-    }
-  }, []);
-
-  // Save collection to sessionStorage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem("userCollection", JSON.stringify(collectionItems));
-  }, [collectionItems]);
 
   // Fetch movies for the genre/nanogenre
   useEffect(() => {
@@ -83,25 +69,6 @@ export default function GenrePage() {
 
     fetchMovies();
   }, [type, slug, currentPage, moviesPerPage]);
-
-  const addToCollection = (movie) => {
-    if (collectionItems.length >= 5) {
-      alert("Your collection is limited to 5 movies maximum.");
-      return;
-    }
-
-    if (!collectionItems.find((item) => item.slug === movie.slug)) {
-      setCollectionItems([...collectionItems, movie]);
-      setIsCollectionOpen(true);
-      if (isCollectionMinimized) {
-        setIsCollectionMinimized(false);
-      }
-    }
-  };
-
-  const removeFromCollection = (movie) => {
-    setCollectionItems(collectionItems.filter((item) => item.slug !== movie.slug));
-  };
 
   const navigateToPage = (page) => {
     const params = new URLSearchParams(searchParams);
@@ -170,138 +137,115 @@ export default function GenrePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background text-text-primary">
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="animate-pulse text-text-secondary">Loading...</div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="animate-pulse text-text-secondary">Loading...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-background text-text-primary">
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background text-text-primary">
-      <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <Link href="/browse" className="mb-4 inline-block">
-                ← Back to Browse
-              </Link>
-              <h1 className="text-3xl font-bold mt-2">{title}</h1>
-              <p className="mt-2">
-                Showing {showingFrom}-{showingTo} of {totalMovies} movies
-              </p>
-            </div>
-
-            <div className="mt-4 sm:mt-0 flex items-center">
-              <label htmlFor="moviesPerPage" className="mr-2 text-sm">
-                Show:
-              </label>
-              <select
-                id="moviesPerPage"
-                value={moviesPerPage}
-                onChange={(e) => changeMoviesPerPage(e.target.value)}
-                className="bg-background-card text-text-primary border border-border-light rounded-md px-3 py-1.5 text-sm"
-              >
-                {perPageOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Link href="/browse" className="mb-4 inline-block">
+              ← Back to Browse
+            </Link>
+            <h1 className="text-3xl font-bold mt-2">{title}</h1>
+            <p className="mt-2">
+              Showing {showingFrom}-{showingTo} of {totalMovies} movies
+            </p>
           </div>
 
-          {movies.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {movies.map((movie) => (
-                <MovieCard
-                  key={movie.slug}
-                  movie={movie}
-                  onAddToCollection={() => addToCollection(movie)}
-                  isInCollection={collectionItems.some((item) => item.slug === movie.slug)}
-                />
+          <div className="mt-4 sm:mt-0 flex items-center">
+            <label htmlFor="moviesPerPage" className="mr-2 text-sm">
+              Show:
+            </label>
+            <select
+              id="moviesPerPage"
+              value={moviesPerPage}
+              onChange={(e) => changeMoviesPerPage(e.target.value)}
+              className="bg-background-card text-text-primary border border-border-light rounded-md px-3 py-1.5 text-sm"
+            >
+              {perPageOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
               ))}
-            </div>
-          ) : (
-            <div className="text-center py-16 text-text-secondary">No movies found</div>
-          )}
-
-          {/* Pagination controls */}
-          {totalPages > 1 && (
-            <div className="mt-8 flex flex-col items-center space-y-4">
-              <div className="text-sm text-text-secondary">
-                Page {currentPage} of {totalPages}
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => navigateToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={`p-2 rounded-md ${
-                    currentPage === 1 ? "text-text-disabled cursor-not-allowed" : "text-text-primary hover:bg-background-card"
-                  }`}
-                  aria-label="Previous page"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-
-                <div className="flex space-x-1">
-                  {generatePageNumbers().map((page, index) => (
-                    <button
-                      key={index}
-                      onClick={() => typeof page === "number" && navigateToPage(page)}
-                      disabled={page === "..." || page === currentPage}
-                      className={`min-w-10 h-10 flex items-center justify-center rounded-md ${
-                        page === currentPage
-                          ? "bg-primary text-white font-medium"
-                          : page === "..."
-                          ? "text-text-secondary cursor-default"
-                          : "hover:bg-background-card text-text-primary"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => navigateToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={`p-2 rounded-md ${
-                    currentPage === totalPages ? "text-text-disabled cursor-not-allowed" : "text-text-primary hover:bg-background-card"
-                  }`}
-                  aria-label="Next page"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-            </div>
-          )}
+            </select>
+          </div>
         </div>
-      </main>
 
-      <MovieCollection
-        isOpen={isCollectionOpen}
-        onClose={() => setIsCollectionOpen(false)}
-        isMinimized={isCollectionMinimized}
-        onToggleMinimize={() => setIsCollectionMinimized(!isCollectionMinimized)}
-        items={collectionItems}
-        onRemove={removeFromCollection}
-      />
-    </div>
+        {movies.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {movies.map((movie) => (
+              <MovieCard key={movie.slug} movie={movie} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 text-text-secondary">No movies found</div>
+        )}
+
+        {/* Pagination controls */}
+        {totalPages > 1 && (
+          <div className="mt-8 flex flex-col items-center space-y-4">
+            <div className="text-sm text-text-secondary">
+              Page {currentPage} of {totalPages}
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => navigateToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-md ${
+                  currentPage === 1 ? "text-text-disabled cursor-not-allowed" : "text-text-primary hover:bg-background-card"
+                }`}
+                aria-label="Previous page"
+              >
+                <ChevronLeft size={20} />
+              </button>
+
+              <div className="flex space-x-1">
+                {generatePageNumbers().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === "number" && navigateToPage(page)}
+                    disabled={page === "..." || page === currentPage}
+                    className={`min-w-10 h-10 flex items-center justify-center rounded-md ${
+                      page === currentPage
+                        ? "bg-primary text-purple-600 font-medium"
+                        : page === "..."
+                        ? "text-text-secondary cursor-default"
+                        : "hover:bg-background-card text-text-primary"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => navigateToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-md ${
+                  currentPage === totalPages ? "text-text-disabled cursor-not-allowed" : "text-text-primary hover:bg-background-card"
+                }`}
+                aria-label="Next page"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }

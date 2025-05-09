@@ -45,7 +45,7 @@ async function generateRecommendations(inputMovieSlugs) {
 
     async function getDirectorsForFilm(movieSlug) {
       try {
-        const directorRows = await db.all("SELECT directorSlug FROM directors WHERE movieSlug = ?", [movieSlug]);
+        const directorRows = await db.all("SELECT directorSlug FROM directors WHERE movieSlug = ? LIMIT 2", [movieSlug]);
         return directorRows.map((row) => row.directorSlug);
       } catch (error) {
         // Handle case where directors table might not exist yet
@@ -56,7 +56,7 @@ async function generateRecommendations(inputMovieSlugs) {
 
     async function getActorsForFilm(movieSlug) {
       try {
-        const actorRows = await db.all("SELECT actorSlug FROM actors WHERE movieSlug = ?", [movieSlug]);
+        const actorRows = await db.all("SELECT actorSlug FROM actors WHERE movieSlug = ? LIMIT 5", [movieSlug]);
         return actorRows.map((row) => row.actorSlug);
       } catch (error) {
         // Handle case where actors table might not exist yet
@@ -412,7 +412,6 @@ async function generateRecommendations(inputMovieSlugs) {
         ...movie,
         score: enhancedScores[movie.slug],
         genres: movie.genres ? movie.genres.split(",") : [],
-        actors: inputActors[movie.slug],
       }));
 
       // Sort by score

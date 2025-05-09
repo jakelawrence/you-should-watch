@@ -2,31 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { NavigationBar } from "../components/navigation-bar";
-import { MovieCard } from "../components/movie-card";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { MoviePoster } from "../components/movie-poster";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useMovieCollection } from "../contexts/MovieCollectionContext";
+import addedToCollectionAlert from "../components/added-to-collection-alert";
 
 export default function SuggestedFilmsPage() {
   const [suggestedMovies, setSuggestedMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { collectionItems } = useMovieCollection();
+  const { CollectionAlert } = addedToCollectionAlert();
 
   useEffect(() => {
     const loadSuggestedMovies = async () => {
       try {
-        // Get the slugs from sessionStorage
-        const savedCollection = sessionStorage.getItem("userCollection");
-        if (!savedCollection) {
-          setError("No collection found. Please add movies to your collection first.");
-          setLoading(false);
-          return;
-        }
-
-        const collectionItems = JSON.parse(savedCollection);
         const slugs = collectionItems.map((movie) => movie.slug).join(",");
-
         // Fetch suggested movies
         const response = await fetch(`/api/getSuggestedMovies?slugs=${slugs}`);
         if (!response.ok) {
@@ -46,17 +39,8 @@ export default function SuggestedFilmsPage() {
     loadSuggestedMovies();
   }, []);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev < suggestedMovies.length - 1 ? prev + 1 : prev));
-  };
-
   return (
-    <div className="min-h-screen bg-background text-text-primary">
-      <NavigationBar />
+    <>
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Suggested Films</h1>
@@ -78,17 +62,47 @@ export default function SuggestedFilmsPage() {
         )}
 
         {!loading && !error && suggestedMovies.length > 0 && (
-          <div className="max-w-2xl mx-auto">
-            <Carousel swipeable={true} emulateTouch={true} dynamicHeight={false} infiniteLoop={true} thumbWidth={50} className="carousel-container">
-              {suggestedMovies.map((film) => (
-                <div className="p-4 flex justify-center" key={film.slug}>
-                  <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} className="max-h-96 object-contain" />
-                </div>
+          <div className="max-w-2xl mx-auto select-none">
+            <Carousel
+              swipeable={true}
+              emulateTouch={true}
+              dynamicHeight={false}
+              infiniteLoop={true}
+              thumbWidth={50}
+              renderArrowPrev={(clickHandler, hasPrev) => {
+                return (
+                  <div
+                    className={`${
+                      hasPrev ? "absolute" : "hidden"
+                    } top-0 bottom-0 left-0 flex justify-center items-center p-3 opacity-30 hover:opacity-100 cursor-pointer z-20`}
+                    onClick={clickHandler}
+                  >
+                    <MdOutlineKeyboardArrowLeft className="w-9 h-9 text-dark" />
+                  </div>
+                );
+              }}
+              renderArrowNext={(clickHandler, hasNext) => {
+                return (
+                  <div
+                    className={`${
+                      hasNext ? "absolute" : "hidden"
+                    } top-0 bottom-0 right-0 flex justify-center items-center p-3 opacity-30 hover:opacity-100 cursor-pointer z-20`}
+                    onClick={clickHandler}
+                  >
+                    <MdOutlineKeyboardArrowRight className="w-9 h-9 text-dark" />
+                  </div>
+                );
+              }}
+              className="carousel-container"
+            >
+              {suggestedMovies.map((movie) => (
+                <img src={movie.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={movie.name} className="max-h-96 object-contain" />
               ))}
             </Carousel>
           </div>
         )}
       </main>
-    </div>
+      <CollectionAlert />
+    </>
   );
 }
