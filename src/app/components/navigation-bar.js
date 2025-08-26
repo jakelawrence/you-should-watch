@@ -4,10 +4,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "./logo";
 import { Clapperboard } from "lucide-react";
+import { useMovieCollection } from "../context/MovieCollectionContext";
 
-export function NavigationBar({ collectionItemsCount, onCollectionClick }) {
+export function NavigationBar() {
   const router = useRouter();
-
+  const { collectionItems, setIsCollectionOpen, isCollectionOpen } = useMovieCollection();
   return (
     <>
       {/* This spacer div keeps content from going under the fixed navbar */}
@@ -27,13 +28,13 @@ export function NavigationBar({ collectionItemsCount, onCollectionClick }) {
                 Browse
               </button>
               <button
-                onClick={onCollectionClick}
+                onClick={() => setIsCollectionOpen(true)}
                 className="relative text-text-secondary hover:text-text-primary px-3 py-2 rounded-md transition-colors"
               >
                 <Clapperboard size={24} className="text-purple-600" />
-                {collectionItemsCount > 0 && (
+                {collectionItems.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs/4 font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                    {collectionItemsCount}
+                    {collectionItems.length}
                   </span>
                 )}
               </button>

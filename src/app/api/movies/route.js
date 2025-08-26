@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { openDb, DatabaseError } from "../lib/db";
 import { validateQueryParams } from "../lib/validation";
+import { query, getMoviesOfGenres, getMovies } from "../lib/dynamodb";
 import { cache } from "../lib/cache";
 
 const SORT_OPTIONS = ["popularity", "alphabetical", "rating", "year", "releaseDate", "popularityRanking", "views"];
@@ -46,174 +47,76 @@ export async function GET(request) {
     const cacheKey = `movies:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${name}`;
 
     // Check cache
-    // const cachedResult = cache.get(cacheKey);
-    // if (cachedResult) {
-    //   return NextResponse.json(cachedResult);
-    // }
+    const cachedResult = cache.get(cacheKey);
+    if (cachedResult) {
+      return NextResponse.json(cachedResult);
+    }
 
-    const db = await openDb();
-
-    // Build query dynamically based on filters
-    let query = `
-      SELECT m.*, 
-             GROUP_CONCAT(DISTINCT g.genre) as genres,
-             GROUP_CONCAT(DISTINCT ng.nanogenre) as nanogenres
-      FROM movies m
-      LEFT JOIN genres g ON m.slug = g.movieSlug
-      LEFT JOIN nanogenres ng ON m.slug = ng.movieSlug
-      WHERE 1=1
-    `;
-
-    const params = [];
+    let conditions = [];
+    let filters = [];
+    let params = {};
+    let names = {};
 
     // Add search by slug
     if (slug) {
-      query += ` AND m.slug = ?`;
-      params.push(slug);
+      conditions.push(`slug = :slug`);
+      params[":slug"] = slug;
+      names["#slug"] = "slug"; // needed if 'slug' is a reserved word
     }
 
     // Add search by name (case-insensitive partial match)
     if (name) {
-      query += ` AND LOWER(m.name) LIKE LOWER(?)`;
-      params.push(`%${name}%`);
-    }
-
-    if (genre) {
-      query += ` AND EXISTS (
-        SELECT 1 FROM genres g2 
-        WHERE g2.movieSlug = m.slug 
-        AND UPPER(g2.genre) = UPPER(?)
-      )`;
-      params.push(genre);
-    }
-
-    // Add nanogenre filtering
-    if (nanogenre) {
-      query += ` AND EXISTS (
-        SELECT 1 FROM nanogenres ng2 
-        WHERE ng2.movieSlug = m.slug 
-        AND ng2.nanogenre = ?
-      )`;
-      params.push(nanogenre);
+      filters.push(`begins_with(nameLower, :nameLower)`);
+      params[":nameLower"] = name.toLocaleLowerCase();
     }
 
     // Improved decade search
     if (decade) {
-      query += ` AND year >= ? AND year < ?`;
+      filters.push(`year >= :fromYear AND year < :toYear`);
       params.push(decade, decade + 10);
+      params[":fromYear"] = decade;
+      params[":toYear"] = decade + 10;
     }
 
     if (minRating) {
-      query += ` AND avgRating >= ?`;
-      params.push(minRating);
+      filters.push(`avgRating >= :minRating`);
+      params[":minRating"] = minRating;
     }
 
     if (rating) {
-      query += ` AND rating = ?`;
-      params.push(rating);
+      filters.push(`rating = :rating`);
+      params[":rating"] = rating;
     }
-
-    query += ` GROUP BY m.slug`;
-    console.log("sortBy=" + sortBy);
-
-    // Add sorting
-    switch (sortBy) {
-      case "alphabetical":
-        query += ` ORDER BY m.name`;
-        break;
-      case "rating":
-        query += ` ORDER BY m.avgRating DESC`;
-        break;
-      case "year":
-        query += ` ORDER BY m.year DESC`;
-        break;
-      case "popularityRanking":
-        query += ` ORDER BY m.popularityRanking ASC`;
-        break;
-      case "views":
-        query += ` ORDER BY m.views DESC`;
-        break;
-      default: // popularity - use original order in database (by rowid)
-        query += ` ORDER BY m.rowid`;
-    }
-
-    query += ` LIMIT ? OFFSET ?`;
-    params.push(limit, offset);
-
-    const movies = await db.all(query, params);
-
-    // Get total count for pagination
-    let countQuery = `
-      SELECT COUNT(1) as count 
-      FROM movies m
-      WHERE 1=1
-    `;
-
-    const countParams = [];
-
-    if (slug) {
-      countQuery += ` AND m.slug = ?`;
-      countParams.push(slug);
-    }
-
-    if (name) {
-      countQuery += ` AND LOWER(m.name) LIKE LOWER(?)`;
-      countParams.push(`%${name}%`);
-    }
-
+    let movies;
     if (genre) {
-      countQuery += ` AND EXISTS (SELECT 1 FROM genres g2 WHERE g2.movieSlug = m.slug AND LOWER(g2.genre) = LOWER(?))`;
-      countParams.push(genre);
+      let movieSlugs = await getMoviesOfGenres([genre]);
+      movies = await getMovies(movieSlugs);
+      movies = Array.from(movies.values());
+    } else {
+      movies = await query("movies", filters, params, names);
     }
+    movies.sort((a, b) => a.popularity - b.popularity);
+    // // Initialize default count
+    // let totalMoviesCount = 0;
 
-    if (nanogenre) {
-      countQuery += ` AND EXISTS (SELECT 1 FROM nanogenres ng2 WHERE ng2.movieSlug = m.slug AND LOWER(ng2.nanogenre) = LOWER(?))`;
-      countParams.push(nanogenre);
-    }
+    // // Extract count from DynamoDB response
+    // if (countResult && countResult.length > 0 && countResult[0]["Count(*)"]) {
+    //   totalMoviesCount = parseInt(countResult[0]["Count(*)"].N, 10);
+    // }
 
-    if (decade) countQuery += ` AND year >= ? AND year < ?`;
-    if (decade) countParams.push(decade, decade + 10);
-
-    if (minRating) {
-      countQuery += ` AND avgRating >= ?`;
-      countParams.push(minRating);
-    }
-
-    if (rating) {
-      countQuery += ` AND rating = ?`;
-      countParams.push(rating);
-    }
-
-    const totalCount = await db.get(countQuery, countParams);
-    await db.close();
-
+    // Use the count in your pagination info
     const result = {
-      movies: movies.map((movie) => ({
-        ...movie,
-        genres: movie.genres ? movie.genres.split(",") : [],
-        nanogenres: movie.nanogenres ? movie.nanogenres.split(",") : [],
-      })),
+      movies: movies,
       pagination: {
-        total: totalCount ? totalCount.count : 3000,
+        // total: totalMoviesCount,
+        total: 100,
         page,
         limit,
-        totalPages: Math.ceil((totalCount ? totalCount.count : 3000) / limit),
+        // totalPages: Math.ceil(totalMoviesCount / limit),
+        totalPages: 5,
       },
-      filters: {
-        sortBy,
-        genre,
-        nanogenre,
-        decade,
-        minRating,
-        rating,
-        slug,
-        name,
-      },
+      // Rest of your result object...
     };
-
-    // Cache the result
-    // cache.set(cacheKey, result);
-
     return NextResponse.json(result);
   } catch (error) {
     console.error("Database error:", error);

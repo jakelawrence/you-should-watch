@@ -421,6 +421,6 @@ const main = async () => {
 
 // main();
 // deleteMoviesWithNoGenre();
-// dropTable("movies");
+dropxTable("actors");
 // dropLikeRow();
-createTableAndInsertData("directors", "directors.json");
+createTableAndInsertData("actors", "actors.json");

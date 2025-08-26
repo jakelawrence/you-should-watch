@@ -1,42 +1,26 @@
 import React from "react";
-import { Star, Plus } from "lucide-react";
+import { Star, Plus, Minus } from "lucide-react";
+import { useMovieCollection } from "../context/MovieCollectionContext";
 
-export const MovieCard = ({ movie, onAddToCollection }) => {
+export const MovieCard = ({ movie }) => {
+  const { addToCollection, removeFromCollection } = useMovieCollection();
   return (
-    <div className="bg-background rounded-lg overflow-hidden">
+    <div className="w-16 h-24 sm:w-20 sm:h-28 md:w-24 md:h-36 lg:w-28 lg:h-40 xl:w-32 xl:h-48 bg-background rounded-lg overflow-hidden">
       <div className="relative">
         <img
           src={movie.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")}
           alt={movie.name}
-          className="w-full h-full object-contain rounded-xl"
+          className="w-full h-full object-cover rounded-t-lg"
           loading="lazy"
         />
-        {onAddToCollection && (
-          <button
-            onClick={() => onAddToCollection(movie)}
-            className="absolute top-2 right-2 p-1 bg-white text-white rounded-full cursor-pointer"
-            aria-label={`Add ${movie.name} to collection`}
-          >
-            <Plus size={25} className="text-purple-600" />
-          </button>
-        )}
-        {movie.rating && (
-          <div className="absolute bottom-2 left-2 bg-background/90 text-text-primary px-2 py-1 rounded-lg flex items-center text-sm shadow-sm">
-            <Star size={16} className="mr-1 text-yellow-400" /> {movie.rating.toFixed(1)}
-          </div>
-        )}
-      </div>
-      <div className="p-4">
-        <h3 className="font-semibold text-xl mb-2 line-clamp-1 text-text-primary">{movie.name}</h3>
-        <div className="flex flex-wrap gap-2 mb-3">
-          <span className="text-sm text-text-secondary">{movie.year}</span>
-          {movie.genres?.slice(0, 2).map((genre, index) => (
-            <span key={index} className="text-sm text-text-secondary">
-              {genre}
-            </span>
-          ))}
-        </div>
-        <p className="text-sm line-clamp-3 text-text-secondary leading-relaxed">{movie.description}</p>
+
+        {/* Remove button */}
+        <button
+          onClick={() => removeFromCollection(movie)}
+          className="absolute top-1 right-1 sm:top-1.5 sm:right-1.5 md:top-2 md:right-2 bg-red-500/90 hover:bg-red-600/90 text-white rounded-full p-0.5 sm:p-1 transition-colors duration-200 shadow-sm"
+        >
+          <Minus size={8} className="sm:size-7 md:size-5 lg:size-5" />
+        </button>
       </div>
     </div>
   );

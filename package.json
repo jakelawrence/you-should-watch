@@ -11,7 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.806.0",
+    "@aws-sdk/lib-dynamodb": "^3.806.0",
     "@heroicons/react": "^2.2.0",
+    "aws-sdk": "^2.1692.0",
     "flickity": "^3.0.0",
     "lucide-react": "^0.474.0",
     "next": "^15.2.4",

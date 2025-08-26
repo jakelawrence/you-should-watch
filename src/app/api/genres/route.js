@@ -1,9 +1,27 @@
 import { NextResponse } from "next/server";
 import { openDb, DatabaseError } from "../lib/db";
 import { cache } from "../lib/cache";
+import { query } from "../lib/dynamodb";
+
+function getProcessedGenres(genres) {
+  let processedGenres = new Map();
+  genres.forEach(({ id, genre, movieSlug, movieName }) => {
+    let genreObject;
+    if (!processedGenres.has(genre)) {
+      genreObject = {
+        genre: genre,
+        movieCount: 0,
+        examples: [],
+      };
+    } else genreObject = processedGenres.get(genre);
+    genreObject.movieCount += 1;
+    if (genreObject.examples.length < 3) genreObject.examples.push(movieName);
+    processedGenres.set(genre, genreObject);
+  });
+  return Array.from(processedGenres.values());
+}
 
 export async function GET(request) {
-  console.log("genres route");
   const { searchParams } = new URL(request.url);
   const limit = parseInt(searchParams.get("limit")) || 3;
   const cacheKey = `genres-${limit}`;
@@ -14,23 +32,13 @@ export async function GET(request) {
     if (cachedGenres) {
       return NextResponse.json({ genres: cachedGenres });
     }
+    let filters = [];
+    let params = {};
+    let names = {};
 
-    const db = await openDb();
-    const genres = await db.all(`SELECT DISTINCT 
-        g.genre,
-        COUNT(DISTINCT g.movieSlug) as movieCount,
-        GROUP_CONCAT(DISTINCT m.name) as examples
-      FROM genres g
-      JOIN movies m ON g.movieSlug = m.slug
-      GROUP BY g.genre
-      HAVING movieCount >= 3
-      ORDER BY movieCount DESC`);
-    await db.close();
-    const processedGenres = genres.map((g) => ({
-      ...g,
-      examples: g.examples.split(","),
-    }));
-    // cache.set(cacheKey, processedGenres);
+    const genres = await query("genres", filters, params, names);
+    const processedGenres = getProcessedGenres(genres);
+    cache.set(cacheKey, processedGenres);
     return NextResponse.json({ genres: processedGenres });
   } catch (error) {
     if (error instanceof DatabaseError) {

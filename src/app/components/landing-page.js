@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchBar } from "./search-bar";
+import { MovieDrawer } from "./movie-drawer";
+import { Logo } from "./logo";
 import { Dropdown } from "./dropdown";
 import { Loader2 } from "lucide-react";
 import { useDebounce } from "../hooks/useDebounce";
+import { useMovieCollection } from "../context/MovieCollectionContext";
 
 export const LandingPage = ({
   searchInputRef,
   searchQuery,
   setSearchQuery,
   showDropdown,
-  addToCollection,
   isSearching,
   setIsSearching,
   searchError,
@@ -17,6 +19,7 @@ export const LandingPage = ({
   setShowDropdown,
 }) => {
   const dropdownRef = useRef(null);
+  const { handleGetSuggestedMovies, isGettingSuggestions } = useMovieCollection();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [searchResults, setSearchResults] = useState([]);
 
@@ -73,24 +76,47 @@ export const LandingPage = ({
     searchMovies();
   }, [debouncedSearchQuery]);
 
-  return (
-    <div className="w-full max-w-2xl mx-auto px-4">
-      <div className="max-w-fit mx-auto">
-        <h2 className="text-lg font-semibold mb-4 ml-2">welcome to...</h2>
-        <h1 className="text-5xl font-bold mb-6">the movie plug</h1>
-      </div>
+  const handleMovieAdded = () => {
+    setSearchQuery("");
+    setShowDropdown(false);
+    setSearchResults([]);
+  };
 
-      <div className="relative" ref={searchInputRef}>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        {showDropdown && searchResults.length > 0 && (
-          <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} addToCollection={addToCollection} />
-        )}
-        {isSearching && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2">
-            <Loader2 className="animate-spin text-primary" size={20} />
-          </div>
-        )}
-        {searchError && <div className="mt-2 text-danger text-sm bg-danger/10 px-3 py-2 rounded-lg inline-block">{searchError}</div>}
+  return (
+    <div className="flex justify-center px-4">
+      <div className="w-full max-w-2xl lg:max-w-full lg:px-8">
+        <Logo />
+
+        <div className="relative mb-7" ref={searchInputRef}>
+          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          {showDropdown && searchResults.length > 0 && (
+            <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} onMovieAdded={handleMovieAdded} />
+          )}
+          {isSearching && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Loader2 className="animate-spin text-primary" size={20} />
+            </div>
+          )}
+          {searchError && <div className="mt-2 text-danger text-sm bg-danger/10 px-3 py-2 rounded-lg inline-block">{searchError}</div>}
+        </div>
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={handleGetSuggestedMovies}
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ff8000] to-[#40bcf4] hover:from-[#ff8000]/90 hover:to-[#40bcf4]/90 text-white font-medium rounded-full transition-all duration-200 shadow-md hover:shadow-lg"
+          >
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Suggest Movies For Me
+            </>
+          </button>
+        </div>
+        <MovieDrawer />
       </div>
     </div>
   );

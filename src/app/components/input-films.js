@@ -134,65 +134,6 @@ const InputFilms = () => {
         </div>
       </div>
     </div>
-    // <div className="h-screen w-full bg-[#264653] flex items-center justify-center">
-    //   <div className="max-w-screen-md w-full mx-auto px-4 sm:px-8 py-6 relative bg-[#2A9D8F] text-white rounded-lg shadow-lg">
-    //     {!showRecommendations ? (
-    //       <>
-    //         {/* Search Bar */}
-    //         <div className="flex flex-col h-screen justify-end p-6">
-    //           <div className="search-bar w-full">
-    //             <input
-    //               type="text"
-    //               placeholder="Search for a film..."
-    //               value={query}
-    //               onChange={handleInputChange}
-    //               className="w-full p-2 border border-[#E76F51] bg-white text-[#264653] rounded"
-    //               disabled={loading}
-    //             />
-    //             {suggestions.length > 0 && (
-    //               <ul className="bg-[#F4A261] shadow-md rounded mt-2">
-    //                 {suggestions.map((film) => (
-    //                   <li
-    //                     key={film.slug}
-    //                     onClick={() => handleFilmSelect(film)}
-    //                     className="flex items-center gap-4 p-2 cursor-pointer hover:bg-gray-100"
-    //                   >
-    //                     <img src={film.posterUrl} alt={film.name} className="w-12 h-16 object-cover rounded" />
-    //                     <span>{film.name}</span>
-    //                   </li>
-    //                 ))}
-    //               </ul>
-    //             )}
-    //           </div>
-    //         </div>
-
-    //         {/* Selected Films Carousel */}
-    //         {inputFilms.length > 0 && (
-    //           <Carousel ref={carouselRef} showArrows={true}>
-    //             {inputFilms.map((film, idx) => (
-    //               <div key={film.slug}>
-    //                 <img src={film.posterUrl} alt={film.name} />
-    //                 <p className="legend">
-    //                   <a href={film.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-    //                     {film.name}
-    //                   </a>
-    //                 </p>
-    //                 <button onClick={() => handleRemoveFilm(film.slug, idx)} className="text-red-500 text-sm mt-1" disabled={loading}>
-    //                   Remove
-    //                 </button>
-    //               </div>
-    //             ))}
-    //           </Carousel>
-    //         )}
-
-    //         {/* Get Suggestions Button */}
-    //         <button className="bg-[#E9C46A] text-[#264653] px-4 py-2 rounded hover:bg-[#F4A261]">Get Suggestions</button>
-    //       </>
-    //     ) : (
-    //       <RecommendedFilms recommendations={recommendations} onBack={() => setShowRecommendations(false)} />
-    //     )}
-    //   </div>
-    // </div>
   );
 };
 

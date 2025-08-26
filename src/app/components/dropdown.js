@@ -1,12 +1,22 @@
 import React from "react";
+import { useMovieCollection } from "../context/MovieCollectionContext";
 
-export const Dropdown = ({ dropdownRef, searchResults, addToCollection }) => {
+export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
+  const { addToCollection } = useMovieCollection();
+
+  const handleAddMovie = (movie) => {
+    addToCollection(movie);
+    if (onMovieAdded) {
+      onMovieAdded(); // This will clear the search
+    }
+  };
+
   return (
     <div ref={dropdownRef} className="absolute z-10 w-full mt-2 bg-background rounded-xl shadow-lg border border-border overflow-y-auto">
       {searchResults.map((movie) => (
         <button
           key={movie.slug}
-          onClick={() => addToCollection(movie)}
+          onClick={() => handleAddMovie(movie)}
           className="w-full px-4 py-3 text-left hover:bg-secondary/50 transition-colors flex items-center justify-between border-b border-border last:border-0"
         >
           <div className="flex items-center space-x-3">

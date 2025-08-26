@@ -1,8 +1,28 @@
 import { NextResponse } from "next/server";
 import { openDb, DatabaseError } from "../lib/db";
 import { cache } from "../lib/cache";
+import { query } from "../lib/dynamodb";
+
+function getProcessedNanogenres(nanogenres) {
+  let processedNanogenres = new Map();
+  nanogenres.forEach(({ id, nanogenre, movieSlug, movieName }) => {
+    let nanogenreObject;
+    if (!processedNanogenres.has(nanogenre)) {
+      nanogenreObject = {
+        nanogenre: nanogenre,
+        movieCount: 0,
+        examples: [],
+      };
+    } else nanogenreObject = processedNanogenres.get(nanogenre);
+    nanogenreObject.movieCount += 1;
+    if (nanogenreObject.examples.length < 3) nanogenreObject.examples.push(movieName);
+    processedNanogenres.set(nanogenre, nanogenreObject);
+  });
+  return Array.from(processedNanogenres.values());
+}
 
 export async function GET(request) {
+  console.log("/api/nanogenres");
   const { searchParams } = new URL(request.url);
   const limit = parseInt(searchParams.get("limit")) || 3;
   const cacheKey = `nanogenres-${limit}`;
@@ -13,26 +33,16 @@ export async function GET(request) {
     if (cachedNanogenres) {
       return NextResponse.json({ nanogenres: cachedNanogenres });
     }
+    let filters = [];
+    let params = {};
+    let names = {};
 
-    const db = await openDb();
-    const nanogenres = await db.all(`SELECT DISTINCT 
-        n.nanogenre,
-        COUNT(DISTINCT n.movieSlug) as movieCount,
-        GROUP_CONCAT(DISTINCT m.name) as examples
-      FROM nanogenres n
-      JOIN movies m ON n.movieSlug = m.slug
-      GROUP BY n.nanogenre
-      HAVING movieCount >= 3
-      ORDER BY movieCount DESC`);
-    await db.close();
-    const processedNanogenres = nanogenres.map((ng) => ({
-      ...ng,
-      examples: ng.examples.split(",").slice(0, limit),
-    }));
-
+    const nanogenres = await query("nanogenres", filters, params, names);
+    const processedNanogenres = getProcessedNanogenres(nanogenres);
     cache.set(cacheKey, processedNanogenres);
     return NextResponse.json({ nanogenres: processedNanogenres });
   } catch (error) {
+    console.log(error);
     if (error instanceof DatabaseError) {
       return NextResponse.json({ error: error.message, code: error.code }, { status: 503 });
     }

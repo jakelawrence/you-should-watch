@@ -1,8 +1,26 @@
 import { NextResponse } from "next/server";
 import { openDb, DatabaseError } from "../../api/lib/db";
+import {
+  query,
+  getMovie,
+  getMovies,
+  getMovieGenres,
+  getMovieDirectors,
+  getMovieActors,
+  getMovieFavoritedUsers,
+  getMovieLikedUsers,
+  getUserFavorites,
+  getUsersFavorites,
+  getUserLikes,
+  getUsersLikes,
+  getGenresOfMovies,
+  getDirectorsOfMovies,
+  getActorsOfMovies,
+} from "../lib/dynamodb";
 
 // Constants for scoring calculations
 const FAVORITE_MULTIPLIER = 30;
+const LIKE_MULTIPLIER = 30;
 const SHARED_GENRE_MULTIPLIER = 3;
 const DIRECTOR_MULTIPLIER = 5;
 const ACTOR_MULTIPLIER = 2;
@@ -19,59 +37,87 @@ const BAYESIAN_WEIGHT = 5; // Weight for prior in Bayesian average
  * @param {string[]} inputMovieSlugs - Array of film slugs provided by the user.
  * @returns {Object[]} - Array of recommended movies sorted by score.
  */
+
+const formatList = (fieldName, valueArray, prefix = "val") => {
+  // Handle empty array
+  if (!Array.isArray(valueArray) || valueArray.length === 0) {
+    throw new Error("valueArray must be a non-empty array");
+  }
+
+  // Generate placeholders for each value
+  const placeholders = valueArray.map((_, index) => `:${prefix}${index}`);
+
+  // Create the IN filter expression
+  const filterExpression = `${fieldName} IN (${placeholders.join(", ")})`;
+
+  // Create expression attribute values object
+  const expressionAttributeValues = {};
+  valueArray.forEach((value, index) => {
+    expressionAttributeValues[`:${prefix}${index}`] = value;
+  });
+
+  return [filterExpression, expressionAttributeValues];
+};
+
 async function generateRecommendations(inputMovieSlugs) {
   if (!inputMovieSlugs || inputMovieSlugs.length === 0) {
     return [];
   }
 
   try {
-    const db = await openDb();
-    const userScores = {};
-    const userInteractionCounts = {}; // Track how many input movies each user liked or favorited
-    const filmLikeCounts = {}; // Track the total likes for each movie
-    const inputGenres = new Set(); // Collect genres from input films
-    const inputDirectors = new Set(); // Collect directors from input films
-    const inputActors = new Set(); // Collect actors from input films
+    async function getDirectorsForMovie(movieSlug) {
+      let filters = [];
+      let params = {};
 
-    // Track unique user-movie interactions
-    const processedFavorites = new Set();
-    const processedLikes = new Set();
+      // Add search by movieSlug
+      filters.push(`movieSlug = :movieSlug`);
+      params[":movieSlug"] = movieSlug;
 
-    // Helper functions for retrieving movie metadata
-    async function getGenresForFilm(movieSlug) {
-      const genreRows = await db.all("SELECT genre FROM genres WHERE movieSlug = ?", [movieSlug]);
-      return genreRows.map((row) => row.genre);
+      const directors = await query("directors", filters, params);
+      return directors.map((row) => row.directorSlug);
     }
 
-    async function getDirectorsForFilm(movieSlug) {
-      try {
-        const directorRows = await db.all("SELECT directorSlug FROM directors WHERE movieSlug = ?", [movieSlug]);
-        return directorRows.map((row) => row.directorSlug);
-      } catch (error) {
-        // Handle case where directors table might not exist yet
-        console.warn("Could not fetch directors, table may not exist:", error.message);
-        return [];
-      }
+    async function getUserFavoritesOfMovies(movieSlugs) {
+      var [filters, params] = formatList("movieSlug", movieSlugs);
+
+      const favorites = await query("favorites", filters, params, names);
+      return favorites;
     }
 
-    async function getActorsForFilm(movieSlug) {
-      try {
-        const actorRows = await db.all("SELECT actorSlug FROM actors WHERE movieSlug = ?", [movieSlug]);
-        return actorRows.map((row) => row.actorSlug);
-      } catch (error) {
-        // Handle case where actors table might not exist yet
-        console.warn("Could not fetch actors, table may not exist:", error.message);
-        return [];
-      }
+    async function getActorsForMovie(movieSlug) {
+      let filters = [];
+      let params = {};
+
+      // Add search by movieSlug
+      filters.push(`movieSlug = :movieSlug`);
+      params[":movieSlug"] = movieSlug;
+
+      const actors = await query("actors", filters, params);
+      return actors.map((row) => row.actorSlug);
+    }
+
+    async function getMovieLikeCounts() {
+      let movieLikeCounts = new Map();
+      let filters = [];
+      let params = {};
+      let names = {};
+      const likes = await query("likes", filters, params, names);
+      likes.forEach((movieSlug) => {
+        if (!movieLikeCounts.has(movieSlug)) movieLikeCounts.set(movieSlug, 0);
+        let movieCount = movieLikeCounts.get(movieSlug);
+        movieCount += 1;
+        movieLikeCounts.set(movieSlug, movieCount);
+      });
+      return movieLikeCounts;
     }
 
     async function getMovieDetails(movieSlug) {
-      const movie = await db.get("SELECT * FROM movies WHERE slug = ?", [movieSlug]);
+      const movie = await getMovie(movieSlug);
       if (!movie) return null;
 
-      const genres = await getGenresForFilm(movieSlug);
-      const directors = await getDirectorsForFilm(movieSlug);
-      const actors = await getActorsForFilm(movieSlug);
+      const genres = await getMovieGenres(movieSlug);
+      const directors = await getMovieDirectors(movieSlug);
+      const actors = await getMovieActors(movieSlug);
 
       return {
         ...movie,
@@ -81,25 +127,23 @@ async function generateRecommendations(inputMovieSlugs) {
       };
     }
 
+    //const db = await openDb();
+    const userScores = {};
+    const userInteractionCounts = {}; // Track how many input movies each user liked or favorited
+    const movieLikeCounts = await getMovieLikeCounts(); // Track the total likes for each movie
+    const inputGenres = new Set(); // Collect genres from input films
+    const inputDirectors = new Set(); // Collect directors from input films
+    const inputActors = new Set(); // Collect actors from input films
+
+    // Track unique user-movie interactions
+    const processedFavorites = new Set();
+    const processedLikes = new Set();
+
     // Calculate median or average popularity of input films
     const placeholders = inputMovieSlugs.map(() => "?").join(",");
-    const inputFilmIndices = await db.all(`SELECT popularityRanking FROM movies WHERE slug IN (${placeholders})`, inputMovieSlugs);
-    const indices = inputFilmIndices.map((row) => row.popularityRanking);
-
-    let comparisonIndex;
-    if (indices.length > 5) {
-      // Median Index
-      indices.sort((a, b) => a - b); // Sort numerically
-      const medianIndex = indices[Math.floor(indices.length / 2)];
-      comparisonIndex = medianIndex;
-    } else if (indices.length > 0) {
-      // Average Index
-      const averageIndex = Math.floor(indices.reduce((sum, index) => sum + index, 0) / indices.length);
-      comparisonIndex = averageIndex;
-    } else {
-      // Default if no valid indices
-      comparisonIndex = 0;
-    }
+    console.log(inputMovieSlugs);
+    // const inputFilmIndices = await db.all(`SELECT popularityRanking FROM movies WHERE slug IN (${placeholders})`, inputMovieSlugs);
+    // const indices = inputFilmIndices.map((row) => row.popularityRanking);
 
     // Collect metadata from input films for content-based filtering
     const inputMovieDetails = [];
@@ -134,181 +178,94 @@ async function generateRecommendations(inputMovieSlugs) {
         }
       }
     }
+    const indices = inputMovieDetails.map((row) => row.popularity);
+    let comparisonIndex;
+    if (indices.length > 5) {
+      // Median Index
+      indices.sort((a, b) => a - b); // Sort numerically
+      const medianIndex = indices[Math.floor(indices.length / 2)];
+      comparisonIndex = medianIndex;
+    } else if (indices.length > 0) {
+      // Average Index
+      const averageIndex = Math.floor(indices.reduce((sum, index) => sum + index, 0) / indices.length);
+      comparisonIndex = averageIndex;
+    } else {
+      // Default if no valid indices
+      comparisonIndex = 0;
+    }
 
+    //console.log(inputMovieDetails);
     // Calculate average release year and runtime
     const averageYear = validYearCount > 0 ? Math.floor(totalReleaseYears / validYearCount) : null;
     const averageRuntime = validRuntimeCount > 0 ? Math.floor(totalRuntimes / validRuntimeCount) : null;
 
-    // Count likes per movie for score normalization
-    const likeCounts = await db.all("SELECT movieSlug, COUNT(*) as count FROM likes GROUP BY movieSlug");
-    likeCounts.forEach((row) => {
-      filmLikeCounts[row.movieSlug] = row.count;
-    });
-
     // Calculate average number of likes across all movies for Bayesian averaging
-    const totalLikeCounts = Object.values(filmLikeCounts).reduce((sum, count) => sum + count, 0);
-    const averageLikes = totalLikeCounts / Object.keys(filmLikeCounts).length || 1;
+    const totalLikeCounts = Object.values(movieLikeCounts).reduce((sum, count) => sum + count, 0);
+    const averageLikes = totalLikeCounts / Object.keys(movieLikeCounts).length || 1;
 
     // Find all users who favorited or liked the input films and count their interactions
-    const userFavorites = await db.all(
-      `SELECT username, movieSlug FROM favorites 
-       WHERE movieSlug IN (${placeholders})
-       GROUP BY username, movieSlug`,
-      inputMovieSlugs
-    );
+    let userFavorites = [];
+    for await (const movieSlug of inputMovieSlugs) {
+      let favoritedUsers = await getMovieFavoritedUsers(movieSlug);
+      favoritedUsers.forEach((username) => {
+        const interactionKey = `${username}:${movieSlug}`;
+        if (!processedLikes.has(interactionKey)) {
+          userInteractionCounts[username] = (userInteractionCounts[username] || 0) + 1;
+          processedLikes.add(interactionKey);
+        }
+      });
+      userFavorites.push(favoritedUsers);
+    }
 
-    userFavorites.forEach((fav) => {
-      const interactionKey = `${fav.username}:${fav.movieSlug}`;
-      if (!processedFavorites.has(interactionKey)) {
-        userInteractionCounts[fav.username] = (userInteractionCounts[fav.username] || 0) + 1;
-        processedFavorites.add(interactionKey);
-      }
-    });
+    let userLikes = [];
+    for await (const movieSlug of inputMovieSlugs) {
+      let likedUsers = await getMovieLikedUsers(movieSlug);
+      likedUsers.forEach((username) => {
+        const interactionKey = `${username}:${movieSlug}`;
+        if (!processedLikes.has(interactionKey)) {
+          userInteractionCounts[username] = (userInteractionCounts[username] || 0) + 1;
+          processedLikes.add(interactionKey);
+        }
+      });
+      userLikes.push(likedUsers);
+    }
 
-    const userLikes = await db.all(
-      `SELECT username, movieSlug FROM likes 
-       WHERE movieSlug IN (${placeholders})
-       GROUP BY username, movieSlug`,
-      inputMovieSlugs
-    );
-
-    userLikes.forEach((like) => {
-      const interactionKey = `${like.username}:${like.movieSlug}`;
-      if (!processedLikes.has(interactionKey)) {
-        userInteractionCounts[like.username] = (userInteractionCounts[like.username] || 0) + 1;
-        processedLikes.add(interactionKey);
-      }
-    });
+    let usernames = Object.keys(userInteractionCounts);
+    const usersOtherLikes = await getUsersLikes(usernames);
+    const usersOtherFavorites = await getUsersFavorites(usernames);
 
     // Score movies based on user favorites and likes, weighted by interaction counts
-    for (const username of Object.keys(userInteractionCounts)) {
+    for (const username of usernames) {
       const interactionMultiplier = userInteractionCounts[username];
 
-      // Add weight for favorites (check for timestamp if available)
-      let favoritesQuery = `SELECT movieSlug`;
-      let favoritesParams = [username, ...inputMovieSlugs];
+      const userOtherFavorites = usersOtherFavorites.get(username);
 
-      try {
-        // Check if timestamp column exists
-        const tableInfo = await db.all("PRAGMA table_info(favorites)");
-        const hasTimestamp = tableInfo.some((col) => col.name === "timestamp");
+      userOtherFavorites.forEach((movieSlug) => {
+        const interactionKey = `${username}:${movieSlug}`;
+        if (!processedFavorites.has(interactionKey) && !inputMovieSlugs.includes(movieSlug)) {
+          let multiplier = FAVORITE_MULTIPLIER * interactionMultiplier;
 
-        if (hasTimestamp) {
-          favoritesQuery = `SELECT movieSlug, timestamp FROM favorites 
-                           WHERE username = ? 
-                           AND movieSlug NOT IN (${placeholders})`;
-        } else {
-          favoritesQuery = `SELECT movieSlug FROM favorites 
-                           WHERE username = ? 
-                           AND movieSlug NOT IN (${placeholders})`;
+          userScores[movieSlug] = (userScores[movieSlug] || 0) + multiplier;
+          processedFavorites.add(interactionKey);
         }
+      });
 
-        const userOtherFavorites = await db.all(favoritesQuery, favoritesParams);
+      const userOtherLikes = usersOtherLikes.get(username);
 
-        userOtherFavorites.forEach((fav) => {
-          const interactionKey = `${username}:${fav.movieSlug}`;
-          if (!processedFavorites.has(interactionKey)) {
-            let multiplier = FAVORITE_MULTIPLIER * interactionMultiplier;
+      userOtherLikes.forEach((movieSlug) => {
+        const interactionKey = `${username}:${movieSlug}`;
+        if (!processedFavorites.has(interactionKey) && !inputMovieSlugs.includes(movieSlug)) {
+          let multiplier = LIKE_MULTIPLIER * interactionMultiplier;
 
-            // Apply recency boost if timestamp is available
-            if (fav.timestamp) {
-              const now = Date.now();
-              const daysSince = (now - fav.timestamp) / (1000 * 60 * 60 * 24);
-              const MAX_DAYS_RECENT = 90;
-
-              if (daysSince <= MAX_DAYS_RECENT) {
-                // Boost recent interactions by up to 50%
-                multiplier *= 1 + 0.5 * (1 - daysSince / MAX_DAYS_RECENT);
-              }
-            }
-
-            userScores[fav.movieSlug] = (userScores[fav.movieSlug] || 0) + multiplier;
-            processedFavorites.add(interactionKey);
-          }
-        });
-      } catch (error) {
-        console.warn("Error processing favorites with timestamps:", error.message);
-
-        // Fallback to simpler query without timestamp
-        const userOtherFavorites = await db.all(
-          `SELECT movieSlug FROM favorites 
-           WHERE username = ? 
-           AND movieSlug NOT IN (${placeholders})`,
-          [username, ...inputMovieSlugs]
-        );
-
-        userOtherFavorites.forEach((fav) => {
-          const interactionKey = `${username}:${fav.movieSlug}`;
-          if (!processedFavorites.has(interactionKey)) {
-            userScores[fav.movieSlug] = (userScores[fav.movieSlug] || 0) + FAVORITE_MULTIPLIER * interactionMultiplier;
-            processedFavorites.add(interactionKey);
-          }
-        });
-      }
-
-      // Similar approach for likes with timestamp if available
-      let likesQuery = `SELECT movieSlug`;
-      let likesParams = [username, ...inputMovieSlugs];
-
-      try {
-        const tableInfo = await db.all("PRAGMA table_info(likes)");
-        const hasTimestamp = tableInfo.some((col) => col.name === "timestamp");
-
-        if (hasTimestamp) {
-          likesQuery = `SELECT movieSlug, timestamp FROM likes 
-                       WHERE username = ? 
-                       AND movieSlug NOT IN (${placeholders})`;
-        } else {
-          likesQuery = `SELECT movieSlug FROM likes 
-                       WHERE username = ? 
-                       AND movieSlug NOT IN (${placeholders})`;
+          userScores[movieSlug] = (userScores[movieSlug] || 0) + multiplier;
+          processedFavorites.add(interactionKey);
         }
-
-        const userOtherLikes = await db.all(likesQuery, likesParams);
-
-        userOtherLikes.forEach((like) => {
-          const interactionKey = `${username}:${like.movieSlug}`;
-          if (!processedLikes.has(interactionKey)) {
-            let multiplier = 1 * interactionMultiplier;
-
-            if (like.timestamp) {
-              const now = Date.now();
-              const daysSince = (now - like.timestamp) / (1000 * 60 * 60 * 24);
-              const MAX_DAYS_RECENT = 90;
-
-              if (daysSince <= MAX_DAYS_RECENT) {
-                multiplier *= 1 + 0.3 * (1 - daysSince / MAX_DAYS_RECENT);
-              }
-            }
-
-            userScores[like.movieSlug] = (userScores[like.movieSlug] || 0) + multiplier;
-            processedLikes.add(interactionKey);
-          }
-        });
-      } catch (error) {
-        console.warn("Error processing likes with timestamps:", error.message);
-
-        // Fallback to simpler query
-        const userOtherLikes = await db.all(
-          `SELECT movieSlug FROM likes 
-           WHERE username = ? 
-           AND movieSlug NOT IN (${placeholders})`,
-          [username, ...inputMovieSlugs]
-        );
-
-        userOtherLikes.forEach((like) => {
-          const interactionKey = `${username}:${like.movieSlug}`;
-          if (!processedLikes.has(interactionKey)) {
-            userScores[like.movieSlug] = (userScores[like.movieSlug] || 0) + 1 * interactionMultiplier;
-            processedLikes.add(interactionKey);
-          }
-        });
-      }
+      });
     }
 
     // Adjust scores based on like ratios (normalized popularity)
     Object.keys(userScores).forEach((slug) => {
-      const totalLikes = filmLikeCounts[slug] || 1; // Avoid division by zero
+      const totalLikes = movieLikeCounts[slug] || 1; // Avoid division by zero
       const likeRatio = userScores[slug] / totalLikes;
       userScores[slug] *= likeRatio;
     });
@@ -316,21 +273,22 @@ async function generateRecommendations(inputMovieSlugs) {
     // Apply enhanced filtering and scoring based on content factors
     const enhancedScores = {};
     const movieSlugs = Object.keys(userScores);
+    const movieDetails = await getMovies(movieSlugs);
+    const movieGenres = await getGenresOfMovies(movieSlugs);
 
-    for (const slug of movieSlugs) {
-      const movieDetails = await getMovieDetails(slug);
-
-      if (!movieDetails) continue;
-
-      const { genres: filmGenres, directors, actors, releaseYear, runtime, popularityRanking } = movieDetails;
+    for (const [movieSlug, movieDetail] of movieDetails) {
+      if (!movieDetail) continue;
+      let filmGenres = movieGenres.get(movieSlug);
+      let releaseYear = movieDetail.year;
+      let popularityRanking = movieDetail.popularity;
 
       // Skip movies that don't meet basic criteria
-      if (!filmGenres.length || !popularityRanking || popularityRanking < comparisonIndex) {
+      if (!filmGenres || !filmGenres.length || !popularityRanking || popularityRanking < comparisonIndex) {
         continue;
       }
 
       // Base score from collaborative filtering
-      let score = userScores[slug] || 0;
+      let score = userScores[movieSlug] || 0;
 
       // Apply content-based filtering factors:
 
@@ -343,20 +301,20 @@ async function generateRecommendations(inputMovieSlugs) {
       score *= 1 + sharedGenres.length * SHARED_GENRE_MULTIPLIER;
 
       // 2. Director overlap
-      if (directors && directors.length) {
-        const sharedDirectors = directors.filter((director) => inputDirectors.has(director));
-        if (sharedDirectors.length > 0) {
-          score *= 1 + sharedDirectors.length * DIRECTOR_MULTIPLIER;
-        }
-      }
+      // if (directors && directors.length) {
+      //   const sharedDirectors = directors.filter((director) => inputDirectors.has(director));
+      //   if (sharedDirectors.length > 0) {
+      //     score *= 1 + sharedDirectors.length * DIRECTOR_MULTIPLIER;
+      //   }
+      // }
 
       // 3. Actor overlap
-      if (actors && actors.length) {
-        const sharedActors = actors.filter((actor) => inputActors.has(actor));
-        if (sharedActors.length > 0) {
-          score *= 1 + Math.min(sharedActors.length, 3) * ACTOR_MULTIPLIER;
-        }
-      }
+      // if (actors && actors.length) {
+      //   const sharedActors = actors.filter((actor) => inputActors.has(actor));
+      //   if (sharedActors.length > 0) {
+      //     score *= 1 + Math.min(sharedActors.length, 3) * ACTOR_MULTIPLIER;
+      //   }
+      // }
 
       // 5. Year/decade similarity
       if (averageYear && releaseYear) {
@@ -373,56 +331,43 @@ async function generateRecommendations(inputMovieSlugs) {
       }
 
       // 6. Runtime similarity
-      if (averageRuntime && runtime) {
-        const runtimeDifference = Math.abs(runtime - averageRuntime);
-        const runtimeSimilarity = Math.max(0, 1 - runtimeDifference / averageRuntime);
-        score *= 1 + runtimeSimilarity * RUNTIME_SIMILARITY_FACTOR;
-      }
+      // if (averageRuntime && runtime) {
+      //   const runtimeDifference = Math.abs(runtime - averageRuntime);
+      //   const runtimeSimilarity = Math.max(0, 1 - runtimeDifference / averageRuntime);
+      //   score *= 1 + runtimeSimilarity * RUNTIME_SIMILARITY_FACTOR;
+      // }
 
       // Apply Bayesian averaging to handle movies with few ratings more fairly
-      const totalLikes = filmLikeCounts[slug] || 1;
+      const totalLikes = movieLikeCounts[movieSlug] || 1;
       const bayesianScore = (score * totalLikes + averageLikes * BAYESIAN_WEIGHT) / (totalLikes + BAYESIAN_WEIGHT);
 
       // Store the final adjusted score
-      enhancedScores[slug] = bayesianScore;
+      enhancedScores[movieSlug] = bayesianScore;
     }
 
     // Get movie details for top recommendations
     const topSlugs = Object.entries(enhancedScores)
       .sort((a, b) => b[1] - a[1]) // Sort by score descending
-      .slice(0, NUM_OF_RECOMMENDATIONS * 2) // Get twice as many for diversity function
+      .slice(0, NUM_OF_RECOMMENDATIONS) // Get twice as many for diversity function
       .map(([slug]) => slug);
-
     let rankedMovies = [];
 
     if (topSlugs.length > 0) {
-      const slugPlaceholders = topSlugs.map(() => "?").join(",");
-      rankedMovies = await db.all(
-        `SELECT m.*, 
-                GROUP_CONCAT(DISTINCT g.genre) as genres
-         FROM movies m
-         LEFT JOIN genres g ON m.slug = g.movieSlug
-         WHERE m.slug IN (${slugPlaceholders})
-         GROUP BY m.slug`,
-        topSlugs
-      );
-
       // Add scores and format genres
-      rankedMovies = rankedMovies.map((movie) => ({
-        ...movie,
-        score: enhancedScores[movie.slug],
-        genres: movie.genres ? movie.genres.split(",") : [],
-        actors: inputActors[movie.slug],
+      rankedMovies = topSlugs.map((movie) => ({
+        ...movieDetails.get(movie),
+        score: enhancedScores[movie],
+        genres: movieGenres.has(movie) ? movieGenres.get(movie) : [],
+        actors: [],
       }));
 
       // Sort by score
       rankedMovies.sort((a, b) => b.score - a.score);
 
       // Apply diversity filter to ensure genre variety
-      rankedMovies = diversifyRecommendations(rankedMovies);
+      //rankedMovies = diversifyRecommendations(rankedMovies);
     }
-
-    await db.close();
+    //log(rankedMovies);
     return rankedMovies;
   } catch (error) {
     console.error("Error generating recommendations:", error);
@@ -436,6 +381,7 @@ async function generateRecommendations(inputMovieSlugs) {
  * @param {number} maxPerGenre - Maximum movies per genre (default: 3)
  * @returns {Object[]} - Diversified recommendations
  */
+
 function diversifyRecommendations(recommendations, maxPerGenre = 3) {
   const result = [];
   const genreCounts = {};

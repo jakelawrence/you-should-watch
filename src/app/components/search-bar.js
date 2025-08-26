@@ -5,7 +5,7 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   return (
     <form onSubmit={(e) => e.preventDefault()} className="relative">
       <div className="relative">
-        <Search className="text-purple-600 absolute left-4 top-1/2 -translate-y-1/2" size={20} />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2" size={20} />
         <input
           type="text"
           value={searchQuery}

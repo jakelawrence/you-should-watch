@@ -29,19 +29,6 @@ export default function GenrePage() {
   // Available options for movies per page
   const perPageOptions = [24, 48, 64, 84];
 
-  // Load collection from sessionStorage on mount
-  useEffect(() => {
-    const savedCollection = sessionStorage.getItem("userCollection");
-    if (savedCollection) {
-      setCollectionItems(JSON.parse(savedCollection));
-    }
-  }, []);
-
-  // Save collection to sessionStorage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem("userCollection", JSON.stringify(collectionItems));
-  }, [collectionItems]);
-
   // Fetch movies for the genre/nanogenre
   useEffect(() => {
     const fetchMovies = async () => {
@@ -83,25 +70,6 @@ export default function GenrePage() {
 
     fetchMovies();
   }, [type, slug, currentPage, moviesPerPage]);
-
-  const addToCollection = (movie) => {
-    if (collectionItems.length >= 5) {
-      alert("Your collection is limited to 5 movies maximum.");
-      return;
-    }
-
-    if (!collectionItems.find((item) => item.slug === movie.slug)) {
-      setCollectionItems([...collectionItems, movie]);
-      setIsCollectionOpen(true);
-      if (isCollectionMinimized) {
-        setIsCollectionMinimized(false);
-      }
-    }
-  };
-
-  const removeFromCollection = (movie) => {
-    setCollectionItems(collectionItems.filter((item) => item.slug !== movie.slug));
-  };
 
   const navigateToPage = (page) => {
     const params = new URLSearchParams(searchParams);
@@ -171,7 +139,6 @@ export default function GenrePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-text-primary">
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse text-text-secondary">Loading...</div>
         </div>
@@ -182,7 +149,6 @@ export default function GenrePage() {
   if (error) {
     return (
       <div className="min-h-screen bg-background text-text-primary">
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
         </div>
@@ -192,7 +158,6 @@ export default function GenrePage() {
 
   return (
     <div className="min-h-screen bg-background text-text-primary">
-      <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -228,12 +193,7 @@ export default function GenrePage() {
           {movies.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {movies.map((movie) => (
-                <MovieCard
-                  key={movie.slug}
-                  movie={movie}
-                  onAddToCollection={() => addToCollection(movie)}
-                  isInCollection={collectionItems.some((item) => item.slug === movie.slug)}
-                />
+                <MovieCard key={movie.slug} movie={movie} />
               ))}
             </div>
           ) : (
@@ -293,15 +253,6 @@ export default function GenrePage() {
           )}
         </div>
       </main>
-
-      <MovieCollection
-        isOpen={isCollectionOpen}
-        onClose={() => setIsCollectionOpen(false)}
-        isMinimized={isCollectionMinimized}
-        onToggleMinimize={() => setIsCollectionMinimized(!isCollectionMinimized)}
-        items={collectionItems}
-        onRemove={removeFromCollection}
-      />
     </div>
   );
 }

@@ -21,15 +21,9 @@ export default function BrowsePage() {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const observerTarget = useRef(null);
 
-  const handleGetSuggestions = async () => {
+  const handleGetSuggestedMovies = async () => {
+    let slugs = collectionItems.map((movie) => movie.slug).join(",");
     try {
-      const slugs = collectionItems.map((movie) => movie.slug).join(",");
-      const response = await fetch(`/api/getSuggestedMovies?slugs=${slugs}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch suggested movies");
-      }
-      const suggestedMovies = await response.json();
-      sessionStorage.setItem("suggestedMovies", JSON.stringify(suggestedMovies));
       router.push("/suggested-films");
     } catch (error) {
       console.error("Failed to fetch suggested movies:", error);
@@ -63,7 +57,6 @@ export default function BrowsePage() {
     const fetchInitialData = async () => {
       try {
         setLoading(true);
-
         const [genresResponse, nanogenresResponse] = await Promise.all([fetch("/api/genres"), fetch("/api/nanogenres")]);
 
         if (!genresResponse.ok || !nanogenresResponse.ok) {
@@ -71,7 +64,8 @@ export default function BrowsePage() {
         }
         const { genres } = await genresResponse.json();
         const { nanogenres } = await nanogenresResponse.json();
-
+        console.log(genres);
+        console.log(nanogenresResponse);
         if (!genres || !nanogenres) {
           throw new Error("Invalid data format");
         }
@@ -84,6 +78,7 @@ export default function BrowsePage() {
             movieCount: genre.movieCount,
             examples: genre.examples,
           })),
+
           ...nanogenres.map((nanogenre) => ({
             name: nanogenre.nanogenre.replace(/-/g, ", ").replace(/\b\w/g, (char) => char.toUpperCase()),
             type: "nanogenre",
@@ -133,7 +128,7 @@ export default function BrowsePage() {
   if (loading) {
     return (
       <div className={`min-h-screen bg-background text-text-primary`}>
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+        {/* <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} /> */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="animate-pulse text-text-secondary">Loading...</div>
         </div>
@@ -144,7 +139,7 @@ export default function BrowsePage() {
   if (error) {
     return (
       <div className={`min-h-screen bg-background text-text-primary`}>
-        <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+        {/* <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} /> */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-danger bg-danger/10 px-4 py-2 rounded-lg">{error}</div>
         </div>
@@ -154,7 +149,7 @@ export default function BrowsePage() {
 
   return (
     <div className={`min-h-screen bg-background text-text-primary`}>
-      <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} />
+      {/* <NavigationBar collectionItemsCount={collectionItems.length} onCollectionClick={() => setIsCollectionOpen(!isCollectionOpen)} /> */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-12">
           <div className="mb-8">
@@ -189,16 +184,6 @@ export default function BrowsePage() {
           </div>
         </div>
       </main>
-
-      <MovieCollection
-        isOpen={isCollectionOpen}
-        onClose={() => setIsCollectionOpen(false)}
-        isMinimized={isCollectionMinimized}
-        onToggleMinimize={() => setIsCollectionMinimized(!isCollectionMinimized)}
-        items={collectionItems}
-        onRemove={() => {}}
-        onGetSuggestions={handleGetSuggestions}
-      />
     </div>
   );
 }

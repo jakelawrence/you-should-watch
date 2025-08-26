@@ -3,11 +3,15 @@
 import { useState, useEffect } from "react";
 import { NavigationBar } from "../components/navigation-bar";
 import { MovieCard } from "../components/movie-card";
+import { MovieCollection } from "../components/movie-collection";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Carousel } from "react-responsive-carousel";
+import { Logo } from "../components/logo";
+import { useMovieCollection } from "../context/MovieCollectionContext";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function SuggestedFilmsPage() {
+  const { collectionItems } = useMovieCollection();
   const [suggestedMovies, setSuggestedMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,15 +20,11 @@ export default function SuggestedFilmsPage() {
   useEffect(() => {
     const loadSuggestedMovies = async () => {
       try {
-        // Get the slugs from sessionStorage
-        const savedCollection = sessionStorage.getItem("userCollection");
-        if (!savedCollection) {
+        if (collectionItems.length == 0) {
           setError("No collection found. Please add movies to your collection first.");
           setLoading(false);
           return;
         }
-
-        const collectionItems = JSON.parse(savedCollection);
         const slugs = collectionItems.map((movie) => movie.slug).join(",");
 
         // Fetch suggested movies
@@ -46,6 +46,15 @@ export default function SuggestedFilmsPage() {
     loadSuggestedMovies();
   }, []);
 
+  const handleGetSuggestedMovies = async () => {
+    let slugs = collectionItems.map((movie) => movie.slug).join(",");
+    try {
+      router.push("/suggested-films");
+    } catch (error) {
+      console.error("Failed to fetch suggested movies:", error);
+    }
+  };
+
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
   };
@@ -55,39 +64,46 @@ export default function SuggestedFilmsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-text-primary">
-      <NavigationBar />
-      <main className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Suggested Films</h1>
-          <p className="text-text-secondary">Based on your collection</p>
+    <div className="overflow-hidden bg-background text-text-primary">
+      <main className="flex items-center justify-center h-[calc(100vh-4rem)]">
+        <div className="flex justify-center px-4">
+          <div className="w-full max-w-2xl lg:max-w-full lg:px-8">
+            <Logo />
+
+            {loading && (
+              <div className="flex justify-center items-center min-h-[200px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            )}
+
+            {error && <div className="text-center text-danger text-lg p-4 bg-danger/10 rounded-lg">{error}</div>}
+
+            {!loading && !error && suggestedMovies.length === 0 && (
+              <div className="text-center text-text-secondary text-lg p-4 bg-secondary rounded-lg">
+                No suggested movies found. Try adding more movies to your collection.
+              </div>
+            )}
+
+            {!loading && !error && suggestedMovies.length > 0 && (
+              <div className="max-w-2xl mx-auto">
+                <Carousel
+                  swipeable={true}
+                  emulateTouch={true}
+                  dynamicHeight={false}
+                  infiniteLoop={true}
+                  thumbWidth={50}
+                  className="carousel-container"
+                >
+                  {suggestedMovies.map((film) => (
+                    <div className="p-4 flex justify-center" key={film.slug}>
+                      <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} className="max-h-96 object-contain" />
+                    </div>
+                  ))}
+                </Carousel>
+              </div>
+            )}
+          </div>
         </div>
-
-        {loading && (
-          <div className="flex justify-center items-center min-h-[200px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
-        )}
-
-        {error && <div className="text-center text-danger text-lg p-4 bg-danger/10 rounded-lg">{error}</div>}
-
-        {!loading && !error && suggestedMovies.length === 0 && (
-          <div className="text-center text-text-secondary text-lg p-4 bg-secondary rounded-lg">
-            No suggested movies found. Try adding more movies to your collection.
-          </div>
-        )}
-
-        {!loading && !error && suggestedMovies.length > 0 && (
-          <div className="max-w-2xl mx-auto">
-            <Carousel swipeable={true} emulateTouch={true} dynamicHeight={false} infiniteLoop={true} thumbWidth={50} className="carousel-container">
-              {suggestedMovies.map((film) => (
-                <div className="p-4 flex justify-center" key={film.slug}>
-                  <img src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")} alt={film.name} className="max-h-96 object-contain" />
-                </div>
-              ))}
-            </Carousel>
-          </div>
-        )}
       </main>
     </div>
   );
