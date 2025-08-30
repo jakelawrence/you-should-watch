@@ -84,8 +84,9 @@ export const LandingPage = ({
   };
 
   return (
-    <div className="flex justify-center px-4">
-      <div className="w-full max-w-2xl lg:max-w-full lg:px-8">
+    <div className="flex flex-col h-screen px-4">
+      {/* Header */}
+      <div className="w-full max-w-2xl lg:max-w-full lg:px-8 mx-auto">
         <Logo />
         <div className="relative mb-7" ref={searchInputRef}>
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

@@ -57,7 +57,6 @@ export function MovieCollectionProvider({ children }) {
     removeFromCollection,
     handleGetSuggestedMovies,
     isGettingSuggestions,
-    setIsGettingSuggestions,
   };
 
   return <MovieCollectionContext.Provider value={value}>{children}</MovieCollectionContext.Provider>;

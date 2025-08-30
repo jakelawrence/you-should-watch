@@ -22,7 +22,7 @@ export const MovieDrawer = () => {
 
   return (
     <div className="w-full overflow-hidden">
-      <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 justify-items-center p-2 sm:p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-items-center p-2 sm:p-4">
         {[...collectionItems, ...Array(4 - collectionItems.length).fill(null)].map((movie, index) =>
           movie ? <MovieCard key={movie.slug} movie={movie} /> : <MovieSlot key={`placeholder-${index}`} index={index} />
         )}
