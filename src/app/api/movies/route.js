@@ -39,12 +39,12 @@ export async function GET(request) {
     const minRating = parseFloat(searchParams.get("minRating"));
     const rating = searchParams.get("rating");
     const slug = searchParams.get("slug");
-    const name = searchParams.get("name");
+    const title = searchParams.get("title");
 
     const offset = (page - 1) * limit;
 
     // Generate cache key based on query parameters
-    const cacheKey = `movies:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${name}`;
+    const cacheKey = `movies:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${title}`;
 
     // Check cache
     const cachedResult = cache.get(cacheKey);
@@ -65,9 +65,13 @@ export async function GET(request) {
     }
 
     // Add search by name (case-insensitive partial match)
-    if (name) {
-      filters.push(`begins_with(nameLower, :nameLower)`);
-      params[":nameLower"] = name.toLocaleLowerCase();
+    if (title) {
+      console.log("Searching for title: " + title);
+      filters.push(`contains(titleLower, :titleLower)`);
+      params[":titleLower"] = title
+        .toLocaleLowerCase()
+        .replace(/\u00A0/g, " ")
+        .trim();
     }
 
     // Improved decade search
@@ -88,6 +92,7 @@ export async function GET(request) {
       params[":rating"] = rating;
     }
     let movies;
+    console.log("filters=" + filters);
     if (genre) {
       let movieSlugs = await getMoviesOfGenres([genre]);
       movies = await getMovies(movieSlugs);
@@ -96,26 +101,9 @@ export async function GET(request) {
       movies = await query("movies", filters, params, names);
     }
     movies.sort((a, b) => a.popularity - b.popularity);
-    // // Initialize default count
-    // let totalMoviesCount = 0;
 
-    // // Extract count from DynamoDB response
-    // if (countResult && countResult.length > 0 && countResult[0]["Count(*)"]) {
-    //   totalMoviesCount = parseInt(countResult[0]["Count(*)"].N, 10);
-    // }
-
-    // Use the count in your pagination info
     const result = {
       movies: movies,
-      pagination: {
-        // total: totalMoviesCount,
-        total: 100,
-        page,
-        limit,
-        // totalPages: Math.ceil(totalMoviesCount / limit),
-        totalPages: 5,
-      },
-      // Rest of your result object...
     };
     return NextResponse.json(result);
   } catch (error) {

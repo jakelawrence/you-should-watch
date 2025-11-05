@@ -1,5 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand, QueryCommand, ScanCommand, BatchGetCommand } from "@aws-sdk/lib-dynamodb";
+import { logger } from "../lib/logger";
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION,
@@ -10,6 +11,74 @@ const client = new DynamoDBClient({
 });
 
 const dynamodb = DynamoDBDocumentClient.from(client);
+
+// Simple in-memory cache
+const queryCache = new Map();
+
+/**
+ * Enhanced query function that supports caching and getting all results with pagination
+ * @param {string} tableName - DynamoDB table name
+ * @param {Array<string>} filters - Filter expressions
+ * @param {object} params - ExpressionAttributeValues
+ * @param {object} names - ExpressionAttributeNames
+ * @param {object} options - Extra options { ttl: number in ms, forceRefresh: boolean }
+ */
+export async function queryAllItems(tableName, filters = [], params = {}, names = {}, options = {}) {
+  const { ttl = 5 * 60 * 1000, forceRefresh = false } = options; // default: 5 min cache
+  const cacheKey = JSON.stringify({ tableName, filters, params, names });
+
+  // Check cache
+  if (!forceRefresh && queryCache.has(cacheKey)) {
+    const { data, expiry } = queryCache.get(cacheKey);
+    if (Date.now() < expiry) {
+      logger.debug(`📦 Cache hit for ${tableName}`);
+      return data;
+    } else {
+      queryCache.delete(cacheKey); // expired
+    }
+  }
+
+  let allItems = [];
+  let lastEvaluatedKey = null;
+  let scanCount = 0;
+
+  do {
+    scanCount++;
+    logger.debug(`🔍 Querying ${tableName} - batch ${scanCount}`);
+
+    const queryParams = {
+      TableName: tableName,
+      ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
+      ...(Object.keys(names).length > 0 && { ExpressionAttributeNames: names }),
+      ...(Object.keys(params).length > 0 && { ExpressionAttributeValues: params }),
+    };
+
+    if (filters.length > 0) {
+      queryParams.FilterExpression = filters.join(" AND ");
+    }
+
+    const { ScanCommand } = await import("@aws-sdk/lib-dynamodb");
+    const command = new ScanCommand(queryParams);
+    const result = await dynamodb.send(command);
+
+    allItems = allItems.concat(result.Items || []);
+    lastEvaluatedKey = result.LastEvaluatedKey;
+
+    if (scanCount % 10 === 0) {
+      logger.info(`🔍 Progress: ${allItems.length} items from ${tableName} so far...`);
+    }
+  } while (lastEvaluatedKey);
+
+  logger.info(`🔍 Retrieved ${allItems.length} total items from ${tableName} in ${scanCount} batches`);
+
+  // Store in cache
+  queryCache.set(cacheKey, {
+    data: allItems,
+    expiry: Date.now() + ttl,
+  });
+
+  return allItems;
+}
 
 export async function query(table, filters, params, names = null) {
   console.log(table, filters, params, names);
@@ -53,6 +122,7 @@ export async function query(table, filters, params, names = null) {
 }
 
 export async function getMovie(movieSlug) {
+  console.log("movieSlug=" + movieSlug);
   try {
     const command = new GetCommand({
       TableName: "movies",
@@ -525,7 +595,7 @@ export async function getUsersFavorites(usernames, options = {}) {
       //   `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(validUsernames.length / batchSize)} (${usernameBatch.length} users)`
       // );
 
-      const batchResults = await scanUsersBatch(usernameBatch, "likes", { limit, consistentRead });
+      const batchResults = await scanUsersBatch(usernameBatch, "favorites", { limit, consistentRead });
 
       // Merge results from this batch
       batchResults.results.forEach((item) => {

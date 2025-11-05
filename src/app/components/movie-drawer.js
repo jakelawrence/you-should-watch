@@ -21,12 +21,10 @@ export const MovieDrawer = () => {
   }, [isCollectionOpen, () => setIsCollectionOpen(false)]);
 
   return (
-    <div className="w-full overflow-hidden">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-items-center p-2 sm:p-4">
-        {[...collectionItems, ...Array(4 - collectionItems.length).fill(null)].map((movie, index) =>
-          movie ? <MovieCard key={movie.slug} movie={movie} /> : <MovieSlot key={`placeholder-${index}`} index={index} />
-        )}
-      </div>
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-items-center p-2 sm:p-4 ">
+      {[...collectionItems, ...Array(4 - collectionItems.length).fill(null)].map((movie, index) =>
+        movie ? <MovieCard key={movie.slug} movie={movie} /> : <MovieSlot key={`placeholder-${index}`} index={index} />
+      )}
     </div>
   );
 };

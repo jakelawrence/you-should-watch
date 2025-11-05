@@ -1,243 +1,315 @@
 "use client";
+import React, { useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight, Star, Clock, Calendar } from "lucide-react";
 
-import { useState, useEffect } from "react";
-import { Logo } from "../components/logo";
-import { useMovieCollection } from "../context/MovieCollectionContext";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { SuggestedMoviesCarousel } from "../components/suggested-movies-carousel";
+// Static test data
+const TEST_MOVIES = [
+  {
+    averageRating: 3.04,
+    director: "Kenji Kamiyama",
+    length: 134,
+    numberOfReviews: 111676,
+    tagline: "Hope has yet to abandon these lands.",
+    year: "2024",
+    slug: "the-lord-of-the-rings-the-war-of-the-rohirrim",
+    titleLower: "the lord of the rings: the war of the rohirrim",
+    description:
+      "A sudden attack by Wulf, a clever and traitorous lord of Rohan seeking vengeance for the death of his father, forces Helm Hammerhand, the King of Rohan, and his people to make a daring last stand in the ancient stronghold of the Hornburg.",
+    posterUrl:
+      "https://a.ltrbxd.com/resized/film-poster/7/5/4/1/1/5/754115-the-lord-of-the-rings-the-war-of-the-rohirrim-0-140-0-210-crop.jpg?v=375e344669",
+    title: "The Lord of the Rings: The War of the Rohirrim",
+    score: 2426.009047619048,
+    genres: ["Action", "Fantasy", "Adventure", "Animation"],
+    actors: [],
+  },
+  {
+    averageRating: 3.55,
+    director: "Ron Howard",
+    length: 104,
+    numberOfReviews: 834468,
+    tagline: "You better watch out!",
+    year: "2000",
+    slug: "how-the-grinch-stole-christmas-2000",
+    titleLower: "how the grinch stole christmas",
+    description:
+      "The Grinch decides to rob Whoville of Christmas - but a dash of kindness from little Cindy Lou Who and her family may be enough to melt his heart…",
+    posterUrl: "https://a.ltrbxd.com/resized/film-poster/4/7/5/5/3/47553-the-grinch-0-140-0-210-crop.jpg?v=38c8815075",
+    title: "How the Grinch Stole Christmas",
+    score: 1390.3050780912793,
+    genres: ["Fantasy", "Comedy", "Family"],
+    actors: [],
+  },
+  {
+    averageRating: 3.84,
+    director: "Nick Park",
+    length: 79,
+    numberOfReviews: 404696,
+    tagline: "New friends. Old enemies.",
+    year: "2024",
+    slug: "wallace-gromit-vengeance-most-fowl",
+    titleLower: "wallace & gromit: vengeance most fowl",
+    description:
+      "Gromit's concern that Wallace is becoming too dependent on his inventions proves justified, when Wallace invents a smart gnome that seems to develop a mind of its own. When it emerges that a vengeful figure from the past might be masterminding things, it falls to Gromit to battle sinister forces and save his master… or Wallace may never be able to invent again!",
+    posterUrl: "https://a.ltrbxd.com/resized/film-poster/8/3/4/5/6/1/834561-wallace-gromit-vengeance-most-fowl-0-140-0-210-crop.jpg?v=b5b3c56e5e",
+    title: "Wallace & Gromit: Vengeance Most Fowl",
+    score: 1017.063595890411,
+    genres: ["Adventure", "Animation", "Family", "Comedy"],
+    actors: [],
+  },
+  {
+    averageRating: 3.69,
+    director: "Robert Eggers",
+    length: 133,
+    numberOfReviews: 2167295,
+    tagline: "Succumb to the darkness.",
+    year: "2024",
+    slug: "nosferatu-2024",
+    titleLower: "nosferatu",
+    description:
+      "A gothic tale of obsession between a haunted young woman and the terrifying vampire infatuated with her, causing untold horror in its wake.",
+    posterUrl: "https://a.ltrbxd.com/resized/film-poster/3/5/9/5/0/5/359505-nosferatu-2024-0-140-0-210-crop.jpg?v=a12d4ad648",
+    title: "Nosferatu",
+    score: 939.7509628378375,
+    genres: ["Fantasy", "Horror", "Drama"],
+    actors: [],
+  },
+  {
+    averageRating: 4.09,
+    director: "Joachim Trier",
+    length: 128,
+    numberOfReviews: 742710,
+    tagline: "A journey of self-discovery.",
+    year: "2021",
+    slug: "the-worst-person-in-the-world",
+    titleLower: "the worst person in the world",
+    description:
+      "The chronicles of four years in the life of Julie, a young woman who navigates the troubled waters of her love life and struggles to find her career path, leading her to take a realistic look at who she really is.",
+    posterUrl: "https://a.ltrbxd.com/resized/film-poster/5/8/5/2/5/8/585258-the-worst-person-in-the-world-0-140-0-210-crop.jpg?v=92bc344c27",
+    title: "The Worst Person in the World",
+    score: 873.8579357798167,
+    genres: ["Romance", "Comedy", "Drama"],
+    actors: [],
+  },
+];
 
-export default function SuggestedFilmsPage() {
-  const { collectionItems } = useMovieCollection();
-  const [suggestedMovies, setSuggestedMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const router = useRouter();
+// Static color palettes for each movie
+const TEST_COLORS = {
+  "the-lord-of-the-rings-the-war-of-the-rohirrim": {
+    dominant: "#8B4513",
+    palette: ["#8B4513", "#D2691E", "#FFE4B5", "#2F4F4F"],
+    background: "#8B4513",
+    accent: "#FFE4B5",
+    button: "#D2691E",
+  },
+  "how-the-grinch-stole-christmas-2000": {
+    dominant: "#228B22",
+    palette: ["#228B22", "#DC143C", "#FFD700", "#FFFFFF"],
+    background: "#228B22",
+    accent: "#DC143C",
+    button: "#FFD700",
+  },
+  "wallace-gromit-vengeance-most-fowl": {
+    dominant: "#FF8C00",
+    palette: ["#FF8C00", "#8B4513", "#F5DEB3", "#4682B4"],
+    background: "#FF8C00",
+    accent: "#4682B4",
+    button: "#F5DEB3",
+  },
+  "nosferatu-2024": {
+    dominant: "#2C1810",
+    palette: ["#2C1810", "#8B0000", "#D3D3D3", "#4A4A4A"],
+    background: "#2C1810",
+    accent: "#8B0000",
+    button: "#D3D3D3",
+  },
+  "the-worst-person-in-the-world": {
+    dominant: "#FF6B9D",
+    palette: ["#FF6B9D", "#FFA07A", "#87CEEB", "#F0E68C"],
+    background: "#FF6B9D",
+    accent: "#87CEEB",
+    button: "#FFA07A",
+  },
+};
 
-  const handleBackClick = () => {
-    router.push("/"); // Navigate to main page
-    // Alternative: router.back(); // Go back to previous page
+const MovieSlider = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [movies] = useState(TEST_MOVIES);
+  const [extractedColors] = useState(TEST_COLORS);
+  const [currentMovie, setCurrentMovie] = useState(TEST_MOVIES[0]);
+  const [currentColors, setCurrentColors] = useState(TEST_COLORS[TEST_MOVIES[0].slug]);
+
+  const nextSlide = useCallback(() => {
+    if (isAnimating) return;
+    let nextSlideIndex = (currentSlide + 1) % movies.length;
+    setIsAnimating(true);
+    setCurrentSlide(nextSlideIndex);
+    setCurrentMovie(movies[nextSlideIndex]);
+    setCurrentColors(extractedColors[movies[nextSlideIndex].slug]);
+    setTimeout(() => setIsAnimating(false), 200);
+  }, [isAnimating, movies.length, currentSlide, movies, extractedColors]);
+
+  const prevSlide = useCallback(() => {
+    if (isAnimating) return;
+    let prevSlideIndex = (currentSlide - 1) % movies.length;
+    if (prevSlideIndex === -1) prevSlideIndex = movies.length - 1;
+    setIsAnimating(true);
+    setCurrentSlide(prevSlideIndex);
+    setCurrentMovie(movies[prevSlideIndex]);
+    setCurrentColors(extractedColors[movies[prevSlideIndex].slug]);
+    setTimeout(() => setIsAnimating(false), 200);
+  }, [isAnimating, movies.length, currentSlide, movies, extractedColors]);
+
+  const goToSlide = (index) => {
+    if (isAnimating || index === currentSlide) return;
+    setIsAnimating(true);
+    setCurrentSlide(index);
+    setCurrentMovie(movies[index]);
+    setCurrentColors(extractedColors[movies[index].slug]);
+    setTimeout(() => setIsAnimating(false), 200);
   };
 
-  useEffect(() => {
-    const loadSuggestedMovies = async () => {
-      try {
-        if (collectionItems.length == 0) {
-          setError("No collection found. Please add movies to your collection first.");
-          setLoading(false);
-          return;
-        }
-        const slugs = collectionItems.map((movie) => movie.slug).join(",");
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
 
-        // // Fetch suggested movies
-        // const response = await fetch(`/api/getSuggestedMovies?slugs=${slugs}`);
-        // if (!response.ok) {
-        //   throw new Error("Failed to fetch suggested movies");
-        // }
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
 
-        // const data = await response.json();
-        // console.log(JSON.stringify(data));
-        setSuggestedMovies([
-          {
-            popularity: 114,
-            avgRating: 4.26,
-            nameLower: "alien",
-            year: "1979",
-            slug: "alien",
-            link: "https://letterboxd.com/film/alien/",
-            name: "Alien",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/8v/f1/qw/aa/bg7K6VtUG7Ew70gQj6SSroD5d4R-0-140-0-210-crop.jpg?v=a932f9e98e",
-            score: 72600.83333333333,
-            genres: ["Horror", "Science Fiction"],
-            actors: [],
-          },
-          {
-            popularity: 492,
-            avgRating: 3.73,
-            nameLower: "suspiria",
-            year: "2018",
-            slug: "suspiria-2018",
-            link: "https://letterboxd.com/film/suspiria-2018/",
-            name: "Suspiria",
-            posterUrl: "https://a.ltrbxd.com/resized/film-poster/2/9/3/0/6/6/293066-suspiria-0-140-0-210-crop.jpg?v=1e4a2f2d40",
-            score: 67200.83333333333,
-            genres: ["Mystery", "Horror", "Drama"],
-            actors: [],
-          },
-          {
-            popularity: 515,
-            avgRating: 4.21,
-            nameLower: "rosemary's baby",
-            year: "1968",
-            slug: "rosemarys-baby",
-            link: "https://letterboxd.com/film/rosemarys-baby/",
-            name: "Rosemary's Baby",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/ea/vc/su/y2/fdLOXB8AysEGRL44I1RvoKiWDcW-0-140-0-210-crop.jpg?v=8e18e4f70c",
-            score: 51450.833333333336,
-            genres: ["Horror", "Drama", "Thriller"],
-            actors: [],
-          },
-          {
-            popularity: 196,
-            avgRating: 4.26,
-            nameLower: "mulholland drive",
-            year: "2001",
-            slug: "mulholland-drive",
-            link: "https://letterboxd.com/film/mulholland-drive/",
-            name: "Mulholland Drive",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/kv/7n/p8/tv/fMC8JBWx2VjsJ53JopAcFjqmlYv-0-140-0-210-crop.jpg?v=3d69c00608",
-            score: 51450.833333333336,
-            genres: ["Thriller", "Drama", "Mystery"],
-            actors: [],
-          },
-          {
-            popularity: 395,
-            avgRating: 3.85,
-            nameLower: "carrie",
-            year: "1976",
-            slug: "carrie-1976",
-            link: "https://letterboxd.com/film/carrie-1976/",
-            name: "Carrie",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/2c/5d/69/bc/uc3OvgmbnYaS5Y0BOjSmC1EmSz1-0-140-0-210-crop.jpg?v=52ac29973c",
-            score: 51450.833333333336,
-            genres: ["Horror", "Thriller"],
-            actors: [],
-          },
-          {
-            popularity: 295,
-            avgRating: 4.02,
-            nameLower: "the favourite",
-            year: "2018",
-            slug: "the-favourite",
-            link: "https://letterboxd.com/film/the-favourite/",
-            name: "The Favourite",
-            posterUrl: "https://a.ltrbxd.com/resized/film-poster/3/1/0/7/0/5/310705-the-favourite-0-140-0-210-crop.jpg?v=c5488e37ef",
-            score: 48600.833333333336,
-            genres: ["Drama", "Comedy", "History", "Thriller"],
-            actors: [],
-          },
-          {
-            popularity: 218,
-            avgRating: 3.69,
-            nameLower: "bones and all",
-            year: "2022",
-            slug: "bones-and-all",
-            link: "https://letterboxd.com/film/bones-and-all/",
-            name: "Bones and All",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/xi/cb/mo/xg/bones2-0-140-0-210-crop.jpg?v=bdb6694df9",
-            score: 38400.833333333336,
-            genres: ["Romance", "Horror", "Drama"],
-            actors: [],
-          },
-          {
-            popularity: 173,
-            avgRating: 4.25,
-            nameLower: "the prestige",
-            year: "2006",
-            slug: "the-prestige",
-            link: "https://letterboxd.com/film/the-prestige/",
-            name: "The Prestige",
-            posterUrl: "https://a.ltrbxd.com/resized/film-poster/5/1/1/4/7/51147-the-prestige-0-140-0-210-crop.jpg?v=ad7e891177",
-            score: 38400.833333333336,
-            genres: ["Drama", "Mystery", "Science Fiction"],
-            actors: [],
-          },
-          {
-            popularity: 74,
-            avgRating: 4.12,
-            nameLower: "arrival",
-            year: "2016",
-            slug: "arrival-2016",
-            link: "https://letterboxd.com/film/arrival-2016/",
-            name: "Arrival",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/3u/dy/qd/qd/4Iu5f2nv7huqvuYkmZvSPOtbFjs-0-140-0-210-crop.jpg?v=0fc28fdf2c",
-            score: 38400.833333333336,
-            genres: ["Mystery", "Drama", "Science Fiction"],
-            actors: [],
-          },
-          {
-            popularity: 115,
-            avgRating: 4.3,
-            nameLower: "prisoners",
-            year: "2013",
-            slug: "prisoners",
-            link: "https://letterboxd.com/film/prisoners/",
-            name: "Prisoners",
-            posterUrl: "https://a.ltrbxd.com/resized/sm/upload/iw/eg/4g/nm/3w79tTsv6tmlT8Jww6snyPrgVok-0-140-0-210-crop.jpg?v=778c7ae8b8",
-            score: 38400.833333333336,
-            genres: ["Thriller", "Drama", "Crime"],
-            actors: [],
-          },
-        ]);
-      } catch (err) {
-        setError("Failed to load suggested movies");
-        console.error("Error loading suggested movies:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
 
-    loadSuggestedMovies();
-  }, []);
-
-  const handleGetSuggestedMovies = async () => {
-    let slugs = collectionItems.map((movie) => movie.slug).join(",");
-    try {
-      router.push("/suggested-films");
-    } catch (error) {
-      console.error("Failed to fetch suggested movies:", error);
+    if (distance > minSwipeDistance) {
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevSlide();
     }
-  };
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev < suggestedMovies.length - 1 ? prev + 1 : prev));
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   return (
-    <div className="overflow-hidden bg-background text-text-primary min-h-screen">
-      <main className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <div className="mb-6">
-          <button
-            onClick={handleBackClick}
-            className="flex items-center gap-2 text-text-primary hover:text-primary transition-colors duration-200 bg-secondary hover:bg-secondary/80 px-4 py-2 rounded-lg"
+    <div className="min-h-screen bg-white p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Main Card Container */}
+        <div
+          className="relative border-8 border-black p-6 md:p-12 transition-all duration-300 shadow-none md:shadow-[12px_12px_0px_0px_#000000]"
+          style={{
+            backgroundColor: currentColors.dominant,
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Back Button */}
+          <a
+            href="http://localhost:3000/"
+            className="inline-block mb-6 bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform"
+            style={{ boxShadow: "4px 4px 0px 0px #000000" }}
           >
-            <ArrowLeft size={20} />
-            <span className="font-medium">Back to Home</span>
-          </button>
+            ← BACK
+          </a>
+
+          {/* Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[600px]">
+            {/* Movie Info Section */}
+            <div className="order-2 md:order-1 space-y-6">
+              <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
+                {/* Title Card */}
+                <div className="bg-white border-4 border-black p-6 mb-6" style={{ boxShadow: "6px 6px 0px 0px #000000" }}>
+                  <h1 className="text-4xl md:text-6xl font-black text-black mb-3 uppercase tracking-tight">{currentMovie.title}</h1>
+                  <p className="text-black text-lg font-bold leading-relaxed">{currentMovie.tagline}</p>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="bg-yellow-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                    <Calendar className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
+                    <p className="text-black font-black text-lg">{currentMovie.year}</p>
+                  </div>
+                  <div className="bg-cyan-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                    <Clock className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
+                    <p className="text-black font-black text-lg">{currentMovie.length}m</p>
+                  </div>
+                  <div className="bg-pink-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                    <Star className="mx-auto mb-2 text-black fill-black" size={24} strokeWidth={3} />
+                    <p className="text-black font-black text-lg">{currentMovie.averageRating}/5</p>
+                  </div>
+                </div>
+
+                {/* Info Cards */}
+                <div className="space-y-4">
+                  <div className="bg-white border-4 border-black p-4" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                    <span className="text-black text-sm font-black uppercase">Genre: </span>
+                    <span className="text-black font-bold">{currentMovie.genres?.join(", ") || "N/A"}</span>
+                  </div>
+                  <div className="bg-white border-4 border-black p-4" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                    <span className="text-black text-sm font-black uppercase">Director: </span>
+                    <span className="text-black font-bold">{currentMovie.director}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Poster Section */}
+            <div className="order-1 md:order-2 flex justify-center items-center">
+              <button
+                onClick={prevSlide}
+                className="bg-white border-4 border-black w-16 h-16 flex items-center justify-center mr-8"
+                style={{ boxShadow: "6px 6px 0px 0px #000000" }}
+              >
+                <ChevronLeft className="text-black" size={32} strokeWidth={3} />
+              </button>
+
+              <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
+                {/* Poster Container */}
+                <div
+                  className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white"
+                  style={{
+                    boxShadow: "12px 12px 0px 0px #000000",
+                    transform: "rotate(-2deg)",
+                  }}
+                >
+                  <img
+                    src={currentMovie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || currentMovie.posterUrl}
+                    alt={`${currentMovie.title} poster`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <button
+                onClick={nextSlide}
+                className="bg-white border-4 border-black w-16 h-16 flex items-center justify-center ml-8"
+                style={{
+                  boxShadow: "6px 6px 0px 0px #000000",
+                }}
+              >
+                <ChevronRight className="text-black" size={32} strokeWidth={3} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Content Container */}
-        <div className="w-full max-w-sm sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto">
-          <Logo />
-
-          {/* Loading State */}
-          {loading && (
-            <div className="flex justify-center items-center min-h-[300px] sm:min-h-[400px]">
-              <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-primary"></div>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && <div className="text-center text-danger text-sm sm:text-lg p-4 sm:p-6 bg-danger/10 rounded-lg mx-4">{error}</div>}
-
-          {/* Empty State */}
-          {!loading && !error && suggestedMovies.length === 0 && (
-            <div className="text-center text-text-secondary text-sm sm:text-lg p-4 sm:p-6 bg-secondary rounded-lg mx-4">
-              No suggested movies found. Try adding more movies to your collection.
-            </div>
-          )}
-
-          {/* Suggestions Carousel */}
-          {!loading && !error && suggestedMovies.length > 0 && <SuggestedMoviesCarousel suggestedMovies={suggestedMovies} />}
+        {/* Slide Indicators */}
+        <div className="flex justify-center gap-3 mt-8">
+          {movies.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-4 h-4 border-2 border-black transition-all ${index === currentSlide ? "bg-black" : "bg-white"}`}
+              style={{ boxShadow: "2px 2px 0px 0px #000000" }}
+            />
+          ))}
         </div>
-      </main>
+      </div>
     </div>
   );
-}
+};
+
+export default MovieSlider;

@@ -49,14 +49,14 @@ export const SuggestedMoviesCarousel = ({ suggestedMovies }) => {
               <div className="relative mb-4">
                 <img
                   src={film.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")}
-                  alt={film.name}
+                  alt={film.title}
                   className="max-h-90 sm:max-h-64 md:max-h-80 lg:max-h-96 xl:max-h-[28rem] object-contain rounded-lg shadow-lg"
                 />
               </div>
 
               {/* Movie Details */}
               <div className="text-center max-w-xs sm:max-w-sm md:max-w-md">
-                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-text-primary mb-2 line-clamp-2">{film.name}</h3>
+                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-text-primary mb-2 line-clamp-2">{film.title}</h3>
 
                 {film.year && <p className="text-text-secondary text-sm sm:text-base mb-2">{film.year}</p>}
 

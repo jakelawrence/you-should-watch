@@ -25,7 +25,7 @@ export function MovieCollectionProvider({ children }) {
       alert("Your collection is limited to 4 movies maximum.");
       return;
     }
-
+    console.log("Adding movie to collection: " + movie.title);
     if (!collectionItems.find((item) => item.slug === movie.slug)) {
       setCollectionItems([...collectionItems, movie]);
       setIsCollectionOpen(true);

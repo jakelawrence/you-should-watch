@@ -1,0 +1,851 @@
+[2025-09-27T18:20:00.051Z] 🚀 generateRecommendations started 
+[2025-09-27T18:20:00.052Z] 📥 Input movie slugs: [
+  "theres-something-about-mary"
+]
+[2025-09-27T18:20:00.052Z] INFO: 🔧 Initializing recommendation algorithm variables 
+[2025-09-27T18:20:00.052Z] INFO: 👍 Getting movie like counts 
+[2025-09-27T18:20:00.052Z] DEBUG: 🔍 Querying likes - batch 1 
+[2025-09-27T18:20:01.351Z] DEBUG: 🔍 Querying likes - batch 2 
+[2025-09-27T18:20:02.182Z] DEBUG: 🔍 Querying likes - batch 3 
+[2025-09-27T18:20:03.046Z] DEBUG: 🔍 Querying likes - batch 4 
+[2025-09-27T18:20:03.833Z] DEBUG: 🔍 Querying likes - batch 5 
+[2025-09-27T18:20:04.647Z] DEBUG: 🔍 Querying likes - batch 6 
+[2025-09-27T18:20:05.422Z] DEBUG: 🔍 Querying likes - batch 7 
+[2025-09-27T18:20:06.192Z] DEBUG: 🔍 Querying likes - batch 8 
+[2025-09-27T18:20:07.349Z] DEBUG: 🔍 Querying likes - batch 9 
+[2025-09-27T18:20:08.310Z] DEBUG: 🔍 Querying likes - batch 10 
+[2025-09-27T18:20:11.179Z] INFO: 🔍 Progress: 175229 items from likes so far... 
+[2025-09-27T18:20:11.179Z] DEBUG: 🔍 Querying likes - batch 11 
+[2025-09-27T18:20:13.103Z] DEBUG: 🔍 Querying likes - batch 12 
+[2025-09-27T18:20:14.656Z] DEBUG: 🔍 Querying likes - batch 13 
+[2025-09-27T18:20:16.170Z] DEBUG: 🔍 Querying likes - batch 14 
+[2025-09-27T18:20:17.744Z] DEBUG: 🔍 Querying likes - batch 15 
+[2025-09-27T18:20:19.320Z] DEBUG: 🔍 Querying likes - batch 16 
+[2025-09-27T18:20:19.861Z] INFO: 🔍 Retrieved 268857 total items from likes in 16 batches 
+[2025-09-27T18:20:19.862Z] INFO: 👍 Processing 268857 like records 
+[2025-09-27T18:20:19.922Z] INFO: 👍 Generated like counts for 5000 movies 
+[2025-09-27T18:20:19.924Z] INFO: 👍 Top 5 most liked movies: [
+  [
+    "parasite-2019",
+    1117
+  ],
+  [
+    "spider-man-into-the-spider-verse",
+    945
+  ],
+  [
+    "whiplash-2014",
+    899
+  ],
+  [
+    "interstellar",
+    805
+  ],
+  [
+    "portrait-of-a-lady-on-fire",
+    787
+  ]
+]
+[2025-09-27T18:20:19.924Z] INFO: movieLikeCounts=[object Map] 
+[2025-09-27T18:20:19.924Z] INFO: 📊 Collecting input movie metadata 
+[2025-09-27T18:20:19.924Z] INFO: 📊 Processing input movie: theres-something-about-mary 
+[2025-09-27T18:20:19.924Z] DEBUG: 📋 Getting movie details for: theres-something-about-mary
+[2025-09-27T18:20:20.370Z] DEBUG: 📋 Movie details for theres-something-about-mary: {
+  "title": "There’s Something About Mary",
+  "genreCount": 2,
+  "directorCount": 2,
+  "actorCount": 12
+}
+[2025-09-27T18:20:20.371Z] DEBUG: 🏷️ Genres for theres-something-about-mary: [
+  "Romance",
+  "Comedy"
+]
+[2025-09-27T18:20:20.371Z] DEBUG: 🎬 Directors for theres-something-about-mary: [
+  "peter-farrelly",
+  "bobby-farrelly"
+]
+[2025-09-27T18:20:20.371Z] DEBUG: 🎭 Actors for theres-something-about-mary: [
+  "max-murphy",
+  "michael-the-cannon-gannon",
+  "michael-cheney",
+  "josh-miller-6",
+  "brian-mcglaughlin",
+  "neil-pomfret",
+  "andrew-greenbury",
+  "susan-oday",
+  "emilio-diaz-2",
+  "jon-mone",
+  "jeffrey-p-lerner",
+  "tim-sheehan"
+]
+[2025-09-27T18:20:20.372Z] DEBUG: 📅 Release year for theres-something-about-mary: 1998 
+[2025-09-27T18:20:20.372Z] DEBUG: ⏰ Runtime for theres-something-about-mary: 120 minutes 
+[2025-09-27T18:20:20.372Z] INFO: 📊 Input movie analysis summary: 
+[2025-09-27T18:20:20.373Z] INFO: 📊 Valid movies processed: 1/1 
+[2025-09-27T18:20:20.373Z] INFO: 🏷️ Unique input genres (2): [
+  "Romance",
+  "Comedy"
+]
+[2025-09-27T18:20:20.373Z] INFO: 🎬 Unique input directors (2): [
+  "peter-farrelly",
+  "bobby-farrelly"
+]
+[2025-09-27T18:20:20.373Z] INFO: 🎭 Unique input actors (12): [
+  "max-murphy",
+  "michael-the-cannon-gannon",
+  "michael-cheney",
+  "josh-miller-6",
+  "brian-mcglaughlin",
+  "neil-pomfret",
+  "andrew-greenbury",
+  "susan-oday",
+  "emilio-diaz-2",
+  "jon-mone"
+]
+[2025-09-27T18:20:20.373Z] INFO: 📈 Number of reviews indices: [
+  226777
+]
+[2025-09-27T18:20:20.374Z] INFO: 📈 Using average numberOfReviews: 226777
+[2025-09-27T18:20:20.374Z] INFO: 📊 Calculated averages: 
+[2025-09-27T18:20:20.374Z] INFO: 📊 Input movie analysis summary: 
+[2025-09-27T18:20:20.374Z] INFO: 📅 Total Release Years: 1998 
+[2025-09-27T18:20:20.374Z] INFO: ⏰ Average runtime: 120 minutes 
+[2025-09-27T18:20:20.374Z] INFO: 👍 Average likes per movie: 53.77 (from 268857 total likes across 5000 movies) 
+[2025-09-27T18:20:20.375Z] INFO: 👥 Finding users who interacted with input movies 
+[2025-09-27T18:20:20.375Z] DEBUG: ❤️ Getting users who favorited: theres-something-about-mary 
+[2025-09-27T18:20:20.465Z] DEBUG: ❤️ Found 0 users who favorited theres-something-about-mary 
+[2025-09-27T18:20:20.466Z] DEBUG: 👍 Getting users who liked: theres-something-about-mary 
+[2025-09-27T18:20:20.650Z] DEBUG: 👍 Found 17 users who liked theres-something-about-mary 
+[2025-09-27T18:20:20.650Z] INFO: 👥 Found 17 unique users who interacted with input movies 
+[2025-09-27T18:20:20.650Z] INFO: 👥 Top 10 users by interaction count: [
+  [
+    "thesherminator",
+    1
+  ],
+  [
+    "coreywagstaff",
+    1
+  ],
+  [
+    "prolelol",
+    1
+  ],
+  [
+    "kevin_matthews",
+    1
+  ],
+  [
+    "daveleedu",
+    1
+  ],
+  [
+    "cinema_strikes",
+    1
+  ],
+  [
+    "calum_marsh",
+    1
+  ],
+  [
+    "superpulse",
+    1
+  ],
+  [
+    "robertdavid",
+    1
+  ],
+  [
+    "sophy",
+    1
+  ]
+]
+[2025-09-27T18:20:20.651Z] INFO: 🔍 Getting other movies liked/favorited by these users 
+[2025-09-27T18:20:21.269Z] INFO: 🔍 Got other likes data for 17 users 
+[2025-09-27T18:20:21.270Z] INFO: 🔍 Got other favorites data for 17 users 
+[2025-09-27T18:20:21.271Z] INFO: 🎯 Calculating collaborative filtering scores 
+[2025-09-27T18:20:21.271Z] DEBUG: 👍 User thesherminator has 11 other likes 
+[2025-09-27T18:20:21.271Z] DEBUG: ❤️ User coreywagstaff has 4 other favorites (interaction multiplier: 1) 
+[2025-09-27T18:20:21.272Z] DEBUG: 👍 User coreywagstaff has 19 other likes 
+[2025-09-27T18:20:21.272Z] DEBUG: ❤️ User prolelol has 4 other favorites (interaction multiplier: 1) 
+[2025-09-27T18:20:21.272Z] DEBUG: 👍 User prolelol has 14 other likes 
+[2025-09-27T18:20:21.272Z] DEBUG: 👍 User kevin_matthews has 10 other likes 
+[2025-09-27T18:20:21.272Z] DEBUG: 👍 User daveleedu has 2 other likes 
+[2025-09-27T18:20:21.272Z] DEBUG: 👍 User cinema_strikes has 9 other likes 
+[2025-09-27T18:20:21.273Z] DEBUG: 👍 User calum_marsh has 4 other likes 
+[2025-09-27T18:20:21.273Z] DEBUG: ❤️ User superpulse has 4 other favorites (interaction multiplier: 1) 
+[2025-09-27T18:20:21.273Z] DEBUG: 👍 User superpulse has 19 other likes 
+[2025-09-27T18:20:21.273Z] DEBUG: ❤️ User robertdavid has 4 other favorites (interaction multiplier: 1) 
+[2025-09-27T18:20:21.273Z] DEBUG: 👍 User robertdavid has 9 other likes 
+[2025-09-27T18:20:21.273Z] DEBUG: 👍 User sophy has 5 other likes 
+[2025-09-27T18:20:21.273Z] DEBUG: 👍 User alphonse0 has 3 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User genatossio30001 has 13 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: ❤️ User lifewithnopants has 4 other favorites (interaction multiplier: 1) 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User lifewithnopants has 11 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User nickyd has 18 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User hkfanatic has 9 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User tschutzer has 15 other likes 
+[2025-09-27T18:20:21.274Z] DEBUG: 👍 User lebowskidoo has 6 other likes 
+[2025-09-27T18:20:21.274Z] INFO: 🎯 Generated initial scores for 181 candidate movies 
+[2025-09-27T18:20:21.275Z] INFO: 🎯 Top 5 initial scores: [
+  [
+    "titanic-1997",
+    60
+  ],
+  [
+    "dune-part-two",
+    60
+  ],
+  [
+    "i-saw-the-tv-glow",
+    50
+  ],
+  [
+    "x-2022",
+    50
+  ],
+  [
+    "climax-2018",
+    50
+  ]
+]
+[2025-09-27T18:20:21.275Z] INFO: 📊 Adjusting scores based on like ratios 
+[2025-09-27T18:20:21.275Z] DEBUG: 📊 Score adjustment for rebels-of-the-neon-god: 10.00 -> 3.33 (ratio: 0.333) 
+[2025-09-27T18:20:21.275Z] DEBUG: 📊 Score adjustment for goodfellas: 30.00 -> 1.16 (ratio: 0.039) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for come-and-see: 10.00 -> 0.26 (ratio: 0.026) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for in-the-mood-for-love: 10.00 -> 0.15 (ratio: 0.015) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for harakiri: 10.00 -> 0.34 (ratio: 0.034) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for pig-2021: 10.00 -> 0.61 (ratio: 0.061) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for titanic-1997: 60.00 -> 16.74 (ratio: 0.279) 
+[2025-09-27T18:20:21.276Z] DEBUG: 📊 Score adjustment for paris-texas: 10.00 -> 0.19 (ratio: 0.019) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for whiplash-2014: 20.00 -> 0.44 (ratio: 0.022) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for drive-my-car: 10.00 -> 0.40 (ratio: 0.040) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for sherlock-jr: 10.00 -> 0.30 (ratio: 0.030) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for i-saw-the-tv-glow: 50.00 -> 7.67 (ratio: 0.153) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for x-2022: 50.00 -> 15.43 (ratio: 0.309) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for dune-part-two: 60.00 -> 4.80 (ratio: 0.080) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for climax-2018: 50.00 -> 28.41 (ratio: 0.568) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for bottoms: 10.00 -> 0.37 (ratio: 0.037) 
+[2025-09-27T18:20:21.277Z] DEBUG: 📊 Score adjustment for new-york-new-york: 10.00 -> 6.25 (ratio: 0.625) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for the-lord-of-the-rings-the-two-towers: 20.00 -> 0.65 (ratio: 0.033) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for an-american-in-paris: 10.00 -> 3.03 (ratio: 0.303) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for youre-next: 10.00 -> 1.89 (ratio: 0.189) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for a-different-man: 10.00 -> 0.38 (ratio: 0.038) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for persona: 10.00 -> 0.20 (ratio: 0.020) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for wings-of-desire: 10.00 -> 0.66 (ratio: 0.066) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for the-silence-of-the-lambs: 10.00 -> 0.13 (ratio: 0.013) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for spider-man-across-the-spider-verse: 20.00 -> 0.54 (ratio: 0.027) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for sisters: 10.00 -> 3.45 (ratio: 0.345) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for the-empire-strikes-back: 30.00 -> 1.15 (ratio: 0.038) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for transformers-one: 10.00 -> 1.27 (ratio: 0.127) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for saw-vi: 10.00 -> 5.00 (ratio: 0.500) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for no-one-will-save-you: 10.00 -> 2.78 (ratio: 0.278) 
+[2025-09-27T18:20:21.278Z] DEBUG: 📊 Score adjustment for the-untouchables: 10.00 -> 2.70 (ratio: 0.270) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for the-color-purple-2023: 10.00 -> 3.70 (ratio: 0.370) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for how-to-have-sex: 10.00 -> 1.32 (ratio: 0.132) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for kill-bill-vol-1: 50.00 -> 5.94 (ratio: 0.119) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for evil-dead-ii: 50.00 -> 15.63 (ratio: 0.313) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for black-swan: 50.00 -> 6.83 (ratio: 0.137) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for blue-beetle: 10.00 -> 4.76 (ratio: 0.476) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for marriage-story-2019: 20.00 -> 1.96 (ratio: 0.098) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for antichrist: 10.00 -> 2.70 (ratio: 0.270) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for scott-pilgrim-vs-the-world: 10.00 -> 0.47 (ratio: 0.047) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for coco-2017: 10.00 -> 0.34 (ratio: 0.034) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for 10-things-i-hate-about-you: 10.00 -> 0.41 (ratio: 0.041) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for crash-2004: 10.00 -> 50.00 (ratio: 5.000) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for avengers-infinity-war: 10.00 -> 0.52 (ratio: 0.052) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for thor-ragnarok: 10.00 -> 0.65 (ratio: 0.065) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for cast-away: 10.00 -> 1.96 (ratio: 0.196) 
+[2025-09-27T18:20:21.279Z] DEBUG: 📊 Score adjustment for hunt-for-the-wilderpeople: 10.00 -> 0.75 (ratio: 0.075) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for speed: 10.00 -> 0.97 (ratio: 0.097) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for gremlins-2-the-new-batch: 10.00 -> 1.45 (ratio: 0.145) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for ran: 10.00 -> 0.33 (ratio: 0.033) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for terminator-2-judgment-day: 10.00 -> 0.24 (ratio: 0.024) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for fallen-leaves-2023: 10.00 -> 1.32 (ratio: 0.132) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for point-break: 10.00 -> 1.23 (ratio: 0.123) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for perfect-blue: 10.00 -> 0.18 (ratio: 0.018) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for a-woman-under-the-influence: 10.00 -> 0.28 (ratio: 0.028) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for anatomy-of-a-fall: 10.00 -> 0.29 (ratio: 0.029) 
+[2025-09-27T18:20:21.280Z] DEBUG: 📊 Score adjustment for avengers-endgame: 10.00 -> 0.56 (ratio: 0.056) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for the-wizard-of-oz-1939: 10.00 -> 0.51 (ratio: 0.051) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for ikiru: 10.00 -> 0.35 (ratio: 0.035) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for portrait-of-a-lady-on-fire: 10.00 -> 0.13 (ratio: 0.013) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for the-apartment: 10.00 -> 0.18 (ratio: 0.018) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for killers-of-the-flower-moon: 10.00 -> 0.30 (ratio: 0.030) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for signs: 10.00 -> 1.27 (ratio: 0.127) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for in-the-heat-of-the-night: 10.00 -> 2.56 (ratio: 0.256) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for vagabond: 10.00 -> 2.50 (ratio: 0.250) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for grave-of-the-fireflies: 10.00 -> 0.26 (ratio: 0.026) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for vampire-hunter-d-bloodlust: 10.00 -> 3.33 (ratio: 0.333) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for interstellar: 10.00 -> 0.12 (ratio: 0.012) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for magnolia: 10.00 -> 0.43 (ratio: 0.043) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for unstoppable-2010: 10.00 -> 3.23 (ratio: 0.323) 
+[2025-09-27T18:20:21.281Z] DEBUG: 📊 Score adjustment for the-worst-person-in-the-world: 10.00 -> 0.36 (ratio: 0.036) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for the-fugitive-1993: 50.00 -> 39.68 (ratio: 0.794) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for playtime: 50.00 -> 32.47 (ratio: 0.649) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for gymkata: 50.00 -> 2500.00 (ratio: 50.000) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for barb-star-go-to-vista-del-mar: 50.00 -> 31.65 (ratio: 0.633) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for winter-light: 10.00 -> 1.75 (ratio: 0.175) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for love-lies-bleeding-2024: 10.00 -> 0.43 (ratio: 0.043) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for the-post-2017: 20.00 -> 14.29 (ratio: 0.714) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for to-live-and-die-in-la: 10.00 -> 1.28 (ratio: 0.128) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for the-nice-guys: 10.00 -> 0.50 (ratio: 0.050) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for hard-boiled: 10.00 -> 1.22 (ratio: 0.122) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for mom-and-dad-2017: 10.00 -> 14.29 (ratio: 1.429) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for pain-and-glory: 10.00 -> 1.43 (ratio: 0.143) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for wallace-gromit-vengeance-most-fowl: 10.00 -> 0.41 (ratio: 0.041) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for ad-astra-2019: 10.00 -> 1.45 (ratio: 0.145) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for the-face-of-another: 10.00 -> 1.67 (ratio: 0.167) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for lady-bird: 10.00 -> 0.35 (ratio: 0.035) 
+[2025-09-27T18:20:21.282Z] DEBUG: 📊 Score adjustment for the-hunt-2012: 10.00 -> 0.48 (ratio: 0.048) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for the-disaster-artist: 10.00 -> 1.47 (ratio: 0.147) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for the-killer-2023: 10.00 -> 0.61 (ratio: 0.061) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for x2: 10.00 -> 1.79 (ratio: 0.179) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for scary-stories-to-tell-in-the-dark-2019: 10.00 -> 14.29 (ratio: 1.429) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for streets-of-fire: 50.00 -> 92.59 (ratio: 1.852) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for fox-and-his-friends: 50.00 -> 2500.00 (ratio: 50.000) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for beau-travail: 50.00 -> 27.47 (ratio: 0.549) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for eyes-wide-shut: 50.00 -> 11.79 (ratio: 0.236) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for vertigo: 10.00 -> 0.31 (ratio: 0.031) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for schindlers-list: 30.00 -> 2.05 (ratio: 0.068) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for walle: 10.00 -> 0.33 (ratio: 0.033) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for all-that-jazz: 10.00 -> 0.32 (ratio: 0.032) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for meeks-cutoff: 10.00 -> 4.35 (ratio: 0.435) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for room-2015: 10.00 -> 0.70 (ratio: 0.070) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for se7en: 20.00 -> 0.53 (ratio: 0.027) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for lost-in-translation: 10.00 -> 0.86 (ratio: 0.086) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for the-princess-and-the-frog: 10.00 -> 1.25 (ratio: 0.125) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for little-women-1994: 10.00 -> 2.33 (ratio: 0.233) 
+[2025-09-27T18:20:21.283Z] DEBUG: 📊 Score adjustment for millennium-mambo: 10.00 -> 1.72 (ratio: 0.172) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for pulp-fiction: 10.00 -> 0.20 (ratio: 0.020) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for love-streams: 10.00 -> 1.89 (ratio: 0.189) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for sonatine: 10.00 -> 3.23 (ratio: 0.323) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for night-moves: 10.00 -> 2.33 (ratio: 0.233) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for the-irishman-2019: 10.00 -> 0.69 (ratio: 0.069) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for jules-and-jim: 10.00 -> 4.17 (ratio: 0.417) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for the-velocipastor: 10.00 -> 12.50 (ratio: 1.250) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for taste-of-cherry: 20.00 -> 2.37 (ratio: 0.118) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for battleship-potemkin: 10.00 -> 3.13 (ratio: 0.313) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for no-country-for-old-men: 10.00 -> 0.18 (ratio: 0.018) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for the-man-who-wasnt-there-2001: 10.00 -> 3.13 (ratio: 0.313) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for nocturnal-animals: 10.00 -> 1.30 (ratio: 0.130) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for this-is-the-end: 10.00 -> 2.70 (ratio: 0.270) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for back-to-the-future-part-iii: 10.00 -> 3.85 (ratio: 0.385) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for john-mulaney-baby-j: 10.00 -> 2.04 (ratio: 0.204) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for speed-racer: 50.00 -> 47.17 (ratio: 0.943) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for vision-quest: 50.00 -> 2500.00 (ratio: 50.000) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for youth-without-youth: 50.00 -> 2500.00 (ratio: 50.000) 
+[2025-09-27T18:20:21.284Z] DEBUG: 📊 Score adjustment for johnny-guitar: 50.00 -> 56.82 (ratio: 1.136) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for collateral: 10.00 -> 0.81 (ratio: 0.081) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for the-lake-house: 10.00 -> 7.69 (ratio: 0.769) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for the-player: 10.00 -> 1.22 (ratio: 0.122) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for rebecca: 10.00 -> 0.91 (ratio: 0.091) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for star-wars: 20.00 -> 1.13 (ratio: 0.056) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for sorcerer: 10.00 -> 0.58 (ratio: 0.058) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for rosemarys-baby: 10.00 -> 0.33 (ratio: 0.033) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for knock-at-the-cabin: 10.00 -> 1.69 (ratio: 0.169) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for the-princess-diaries: 10.00 -> 1.59 (ratio: 0.159) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for funeral-parade-of-roses: 10.00 -> 0.68 (ratio: 0.068) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for sing-sing-2023: 10.00 -> 0.36 (ratio: 0.036) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for baby-driver: 10.00 -> 0.60 (ratio: 0.060) 
+[2025-09-27T18:20:21.285Z] DEBUG: 📊 Score adjustment for star-trek: 10.00 -> 2.17 (ratio: 0.217) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for the-shape-of-water: 10.00 -> 0.75 (ratio: 0.075) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for ford-v-ferrari: 10.00 -> 1.25 (ratio: 0.125) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for charlie-wilsons-war: 10.00 -> 50.00 (ratio: 5.000) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for juno: 10.00 -> 0.76 (ratio: 0.076) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for django-unchained: 10.00 -> 0.22 (ratio: 0.022) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for toy-story-4: 10.00 -> 1.16 (ratio: 0.116) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for midsommar: 10.00 -> 0.53 (ratio: 0.053) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for taylor-swift-reputation-stadium-tour: 10.00 -> 0.89 (ratio: 0.089) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for gone-baby-gone: 10.00 -> 2.94 (ratio: 0.294) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for kill-bill-the-whole-bloody-affair: 10.00 -> 1.02 (ratio: 0.102) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for mrs-doubtfire: 10.00 -> 2.50 (ratio: 0.250) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for civil-war-2024: 10.00 -> 0.55 (ratio: 0.055) 
+[2025-09-27T18:20:21.286Z] DEBUG: 📊 Score adjustment for roma-2018: 10.00 -> 0.74 (ratio: 0.074) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for from-russia-with-love: 10.00 -> 5.00 (ratio: 0.500) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for before-sunrise: 10.00 -> 0.15 (ratio: 0.015) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for z: 10.00 -> 1.35 (ratio: 0.135) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for marnie: 10.00 -> 4.35 (ratio: 0.435) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for the-straight-story: 10.00 -> 0.81 (ratio: 0.081) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for godzilla-minus-one: 10.00 -> 0.34 (ratio: 0.034) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for bride-of-frankenstein: 10.00 -> 1.03 (ratio: 0.103) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for casablanca: 10.00 -> 0.27 (ratio: 0.027) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for the-truman-show: 10.00 -> 0.22 (ratio: 0.022) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for taxi-driver: 10.00 -> 0.40 (ratio: 0.040) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for pans-labyrinth: 10.00 -> 0.50 (ratio: 0.050) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for willy-wonka-the-chocolate-factory: 10.00 -> 1.02 (ratio: 0.102) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for monty-python-and-the-holy-grail: 10.00 -> 0.88 (ratio: 0.088) 
+[2025-09-27T18:20:21.287Z] DEBUG: 📊 Score adjustment for im-still-here-2024: 10.00 -> 0.40 (ratio: 0.040) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for the-shawshank-redemption: 10.00 -> 0.17 (ratio: 0.017) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for the-brutalist: 10.00 -> 0.27 (ratio: 0.027) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for the-iron-giant: 10.00 -> 0.38 (ratio: 0.038) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for rashomon: 10.00 -> 0.80 (ratio: 0.080) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for life-of-brian: 10.00 -> 1.52 (ratio: 0.152) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for glass-onion: 10.00 -> 0.48 (ratio: 0.048) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for ghostbusters: 10.00 -> 1.22 (ratio: 0.122) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for moonrise-kingdom: 10.00 -> 0.65 (ratio: 0.065) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for in-bruges: 10.00 -> 0.74 (ratio: 0.074) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for robin-hood-prince-of-thieves: 10.00 -> 20.00 (ratio: 2.000) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for doctor-sleep: 10.00 -> 1.41 (ratio: 0.141) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for la-la-land: 10.00 -> 0.21 (ratio: 0.021) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for aquaman-2018: 10.00 -> 3.33 (ratio: 0.333) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for it-happened-one-night: 10.00 -> 0.99 (ratio: 0.099) 
+[2025-09-27T18:20:21.288Z] DEBUG: 📊 Score adjustment for indiana-jones-and-the-kingdom-of-the-crystal-skull: 10.00 -> 6.25 (ratio: 0.625) 
+[2025-09-27T18:20:21.288Z] INFO: 🎨 Applying content-based filtering and enhanced scoring 
+[2025-09-27T18:20:21.288Z] INFO: 🎨 Processing 181 candidate movies for content filtering 
+[2025-09-27T18:20:23.364Z] INFO: 🎨 Got details for 163 movies and genres for 155 movies 
+[2025-09-27T18:20:23.364Z] DEBUG: 🎨 Processing a-different-man: genres=0, year=2024, numberOfReviews=259150 
+[2025-09-27T18:20:23.365Z] DEBUG: ⚠️ Skipping a-different-man: genres=0, numberOfReviews=259150 < 45355.4 
+[2025-09-27T18:20:23.365Z] DEBUG: 🎨 Processing playtime: genres=1, year=1967, numberOfReviews=90624 
+[2025-09-27T18:20:23.365Z] DEBUG: 🏷️ Genre boost for playtime: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.365Z] DEBUG: 📅 Recency adjustment for playtime: 58 years old, multiplier: 1.05 
+[2025-09-27T18:20:23.365Z] DEBUG: 🎯 Final scoring for playtime: 32.47 -> 204.75 -> 145.31 (Bayesian with 77 likes) 
+[2025-09-27T18:20:23.365Z] DEBUG: 🎨 Processing the-color-purple-2023: genres=1, year=2023, numberOfReviews=98176 
+[2025-09-27T18:20:23.366Z] DEBUG: ⚠️ Skipping the-color-purple-2023: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.366Z] DEBUG: 🎨 Processing signs: genres=5, year=2002, numberOfReviews=427429 
+[2025-09-27T18:20:23.366Z] DEBUG: ⚠️ Skipping signs: no shared genres (movie: Drama, Science Fiction, Horror, Mystery, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.366Z] DEBUG: 🎨 Processing the-disaster-artist: genres=2, year=2017, numberOfReviews=386656 
+[2025-09-27T18:20:23.366Z] DEBUG: 🏷️ Genre boost for the-disaster-artist: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.366Z] DEBUG: 📅 Recency adjustment for the-disaster-artist: 8 years old, multiplier: 1.66 
+[2025-09-27T18:20:23.366Z] DEBUG: 🎯 Final scoring for the-disaster-artist: 1.47 -> 14.68 -> 31.24 (Bayesian with 68 likes) 
+[2025-09-27T18:20:23.367Z] DEBUG: 🎨 Processing pig-2021: genres=2, year=2021, numberOfReviews=285364 
+[2025-09-27T18:20:23.367Z] DEBUG: ⚠️ Skipping pig-2021: no shared genres (movie: Drama, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.367Z] DEBUG: 🎨 Processing ad-astra-2019: genres=2, year=2019, numberOfReviews=408582 
+[2025-09-27T18:20:23.367Z] DEBUG: ⚠️ Skipping ad-astra-2019: no shared genres (movie: Science Fiction, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.367Z] DEBUG: 🎨 Processing the-empire-strikes-back: genres=3, year=1980, numberOfReviews=1786967 
+[2025-09-27T18:20:23.367Z] DEBUG: ⚠️ Skipping the-empire-strikes-back: no shared genres (movie: Science Fiction, Action, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.367Z] DEBUG: 🎨 Processing the-killer-2023: genres=2, year=2023, numberOfReviews=721580 
+[2025-09-27T18:20:23.367Z] DEBUG: ⚠️ Skipping the-killer-2023: no shared genres (movie: Thriller, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.367Z] DEBUG: 🎨 Processing drive-my-car: genres=1, year=2021, numberOfReviews=342871 
+[2025-09-27T18:20:23.368Z] DEBUG: ⚠️ Skipping drive-my-car: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.368Z] DEBUG: 🎨 Processing dune-part-two: genres=2, year=2024, numberOfReviews=2634077 
+[2025-09-27T18:20:23.368Z] DEBUG: ⚠️ Skipping dune-part-two: no shared genres (movie: Science Fiction, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.368Z] DEBUG: 🎨 Processing eyes-wide-shut: genres=3, year=1999, numberOfReviews=953458 
+[2025-09-27T18:20:23.368Z] DEBUG: ⚠️ Skipping eyes-wide-shut: no shared genres (movie: Drama, Mystery, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.368Z] DEBUG: 🎨 Processing fallen-leaves-2023: genres=3, year=2023, numberOfReviews=191154 
+[2025-09-27T18:20:23.368Z] DEBUG: 🏷️ Genre boost for fallen-leaves-2023: shared 2 genres (Romance, Comedy), multiplier: 11.00 
+[2025-09-27T18:20:23.368Z] DEBUG: 📅 Recency adjustment for fallen-leaves-2023: 2 years old, multiplier: 1.90 
+[2025-09-27T18:20:23.369Z] DEBUG: 🎯 Final scoring for fallen-leaves-2023: 1.32 -> 27.54 -> 37.95 (Bayesian with 76 likes) 
+[2025-09-27T18:20:23.369Z] DEBUG: 🎨 Processing black-swan: genres=3, year=2010, numberOfReviews=2422525 
+[2025-09-27T18:20:23.369Z] DEBUG: ⚠️ Skipping black-swan: no shared genres (movie: Thriller, Horror, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.369Z] DEBUG: 🎨 Processing in-the-heat-of-the-night: genres=4, year=1967, numberOfReviews=78698 
+[2025-09-27T18:20:23.369Z] DEBUG: ⚠️ Skipping in-the-heat-of-the-night: no shared genres (movie: Mystery, Drama, Crime, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.369Z] DEBUG: 🎨 Processing walle: genres=3, year=2008, numberOfReviews=2121767 
+[2025-09-27T18:20:23.369Z] DEBUG: ⚠️ Skipping walle: no shared genres (movie: Animation, Family, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.369Z] DEBUG: 🎨 Processing sisters: genres=0, year=1972, numberOfReviews=53813 
+[2025-09-27T18:20:23.370Z] DEBUG: ⚠️ Skipping sisters: genres=0, numberOfReviews=53813 < 45355.4 
+[2025-09-27T18:20:23.370Z] DEBUG: 🎨 Processing scott-pilgrim-vs-the-world: genres=3, year=2010, numberOfReviews=2090783 
+[2025-09-27T18:20:23.371Z] DEBUG: 🏷️ Genre boost for scott-pilgrim-vs-the-world: shared 2 genres (Romance, Comedy), multiplier: 11.00 
+[2025-09-27T18:20:23.371Z] DEBUG: 📅 Recency adjustment for scott-pilgrim-vs-the-world: 15 years old, multiplier: 1.46 
+[2025-09-27T18:20:23.371Z] DEBUG: 🎯 Final scoring for scott-pilgrim-vs-the-world: 0.47 -> 7.49 -> 16.22 (Bayesian with 215 likes) 
+[2025-09-27T18:20:23.371Z] DEBUG: 🎨 Processing x2: genres=3, year=2003, numberOfReviews=533395 
+[2025-09-27T18:20:23.371Z] DEBUG: ⚠️ Skipping x2: no shared genres (movie: Action, Adventure, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.371Z] DEBUG: 🎨 Processing scary-stories-to-tell-in-the-dark-2019: genres=3, year=2019, numberOfReviews=226235 
+[2025-09-27T18:20:23.371Z] DEBUG: ⚠️ Skipping scary-stories-to-tell-in-the-dark-2019: no shared genres (movie: Mystery, Adventure, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.372Z] DEBUG: 🎨 Processing the-face-of-another: genres=2, year=1966, numberOfReviews=46584 
+[2025-09-27T18:20:23.372Z] DEBUG: ⚠️ Skipping the-face-of-another: no shared genres (movie: Drama, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.372Z] DEBUG: 🎨 Processing sherlock-jr: genres=3, year=1924, numberOfReviews=109774 
+[2025-09-27T18:20:23.372Z] DEBUG: 🏷️ Genre boost for sherlock-jr: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.372Z] DEBUG: 📅 Recency adjustment for sherlock-jr: 101 years old, multiplier: 1.01 
+[2025-09-27T18:20:23.372Z] DEBUG: 🎯 Final scoring for sherlock-jr: 0.30 -> 1.80 -> 8.55 (Bayesian with 335 likes) 
+[2025-09-27T18:20:23.372Z] DEBUG: 🎨 Processing saw-vi: genres=2, year=2009, numberOfReviews=201124 
+[2025-09-27T18:20:23.372Z] DEBUG: ⚠️ Skipping saw-vi: no shared genres (movie: Horror, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.372Z] DEBUG: 🎨 Processing evil-dead-ii: genres=3, year=1987, numberOfReviews=372256 
+[2025-09-27T18:20:23.373Z] DEBUG: 🏷️ Genre boost for evil-dead-ii: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.373Z] DEBUG: 📅 Recency adjustment for evil-dead-ii: 38 years old, multiplier: 1.14 
+[2025-09-27T18:20:23.373Z] DEBUG: 🎯 Final scoring for evil-dead-ii: 15.63 -> 107.10 -> 94.40 (Bayesian with 160 likes) 
+[2025-09-27T18:20:23.373Z] DEBUG: 🎨 Processing pain-and-glory: genres=1, year=2019, numberOfReviews=154582 
+[2025-09-27T18:20:23.373Z] DEBUG: ⚠️ Skipping pain-and-glory: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.373Z] DEBUG: 🎨 Processing ikiru: genres=1, year=1952, numberOfReviews=157438 
+[2025-09-27T18:20:23.373Z] DEBUG: ⚠️ Skipping ikiru: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.374Z] DEBUG: 🎨 Processing the-nice-guys: genres=3, year=2016, numberOfReviews=1020427 
+[2025-09-27T18:20:23.374Z] DEBUG: 🏷️ Genre boost for the-nice-guys: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.375Z] DEBUG: 📅 Recency adjustment for the-nice-guys: 9 years old, multiplier: 1.63 
+[2025-09-27T18:20:23.375Z] DEBUG: 🎯 Final scoring for the-nice-guys: 0.50 -> 4.92 -> 14.73 (Bayesian with 199 likes) 
+[2025-09-27T18:20:23.375Z] DEBUG: 🎨 Processing bottoms: genres=1, year=2023, numberOfReviews=1239833 
+[2025-09-27T18:20:23.375Z] DEBUG: 🏷️ Genre boost for bottoms: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.375Z] DEBUG: 📅 Recency adjustment for bottoms: 2 years old, multiplier: 1.90 
+[2025-09-27T18:20:23.375Z] DEBUG: 🎯 Final scoring for bottoms: 0.37 -> 4.21 -> 11.93 (Bayesian with 271 likes) 
+[2025-09-27T18:20:23.375Z] DEBUG: 🎨 Processing mom-and-dad-2017: genres=0, year=2017, numberOfReviews=54764 
+[2025-09-27T18:20:23.375Z] DEBUG: ⚠️ Skipping mom-and-dad-2017: genres=0, numberOfReviews=54764 < 45355.4 
+[2025-09-27T18:20:23.375Z] DEBUG: 🎨 Processing wallace-gromit-vengeance-most-fowl: genres=4, year=2024, numberOfReviews=404696 
+[2025-09-27T18:20:23.376Z] DEBUG: 🏷️ Genre boost for wallace-gromit-vengeance-most-fowl: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.376Z] DEBUG: 📅 Recency adjustment for wallace-gromit-vengeance-most-fowl: 1 years old, multiplier: 1.95 
+[2025-09-27T18:20:23.376Z] DEBUG: 🎯 Final scoring for wallace-gromit-vengeance-most-fowl: 0.41 -> 4.83 -> 13.21 (Bayesian with 242 likes) 
+[2025-09-27T18:20:23.376Z] DEBUG: 🎨 Processing no-one-will-save-you: genres=4, year=2023, numberOfReviews=226690 
+[2025-09-27T18:20:23.376Z] DEBUG: ⚠️ Skipping no-one-will-save-you: no shared genres (movie: Science Fiction, Horror, Mystery, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.376Z] DEBUG: 🎨 Processing the-untouchables: genres=3, year=1987, numberOfReviews=267586 
+[2025-09-27T18:20:23.376Z] DEBUG: ⚠️ Skipping the-untouchables: no shared genres (movie: Crime, Thriller, History vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.377Z] DEBUG: 🎨 Processing all-that-jazz: genres=2, year=1979, numberOfReviews=109580 
+[2025-09-27T18:20:23.377Z] DEBUG: ⚠️ Skipping all-that-jazz: no shared genres (movie: Drama, Music vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.377Z] DEBUG: 🎨 Processing vampire-hunter-d-bloodlust: genres=0, year=2000, numberOfReviews=64546 
+[2025-09-27T18:20:23.377Z] DEBUG: ⚠️ Skipping vampire-hunter-d-bloodlust: genres=0, numberOfReviews=64546 < 45355.4 
+[2025-09-27T18:20:23.377Z] DEBUG: 🎨 Processing unstoppable-2010: genres=0, year=2010, numberOfReviews=98168 
+[2025-09-27T18:20:23.377Z] DEBUG: ⚠️ Skipping unstoppable-2010: genres=0, numberOfReviews=98168 < 45355.4 
+[2025-09-27T18:20:23.377Z] DEBUG: 🎨 Processing in-the-mood-for-love: genres=2, year=2000, numberOfReviews=773170 
+[2025-09-27T18:20:23.377Z] DEBUG: 🏷️ Genre boost for in-the-mood-for-love: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.378Z] DEBUG: 📅 Year similarity boost for in-the-mood-for-love: 2 years difference, multiplier: 2.60 
+[2025-09-27T18:20:23.378Z] DEBUG: 📅 Recency adjustment for in-the-mood-for-love: 25 years old, multiplier: 1.28 
+[2025-09-27T18:20:23.378Z] DEBUG: 🎯 Final scoring for in-the-mood-for-love: 0.15 -> 2.99 -> 6.53 (Bayesian with 667 likes) 
+[2025-09-27T18:20:23.378Z] DEBUG: 🎨 Processing an-american-in-paris: genres=3, year=1951, numberOfReviews=58121 
+[2025-09-27T18:20:23.378Z] DEBUG: 🏷️ Genre boost for an-american-in-paris: shared 2 genres (Romance, Comedy), multiplier: 11.00 
+[2025-09-27T18:20:23.378Z] DEBUG: 📅 Recency adjustment for an-american-in-paris: 74 years old, multiplier: 1.02 
+[2025-09-27T18:20:23.378Z] DEBUG: 🎯 Final scoring for an-american-in-paris: 3.03 -> 34.08 -> 45.94 (Bayesian with 33 likes) 
+[2025-09-27T18:20:23.378Z] DEBUG: 🎨 Processing youre-next: genres=3, year=2011, numberOfReviews=205917 
+[2025-09-27T18:20:23.378Z] DEBUG: ⚠️ Skipping youre-next: no shared genres (movie: Thriller, Mystery, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.378Z] DEBUG: 🎨 Processing new-york-new-york: genres=0, year=1977, numberOfReviews=30136 
+[2025-09-27T18:20:23.378Z] DEBUG: ⚠️ Skipping new-york-new-york: genres=0, numberOfReviews=30136 < 45355.4 
+[2025-09-27T18:20:23.379Z] DEBUG: 🎨 Processing winter-light: genres=1, year=1963, numberOfReviews=64043 
+[2025-09-27T18:20:23.379Z] DEBUG: ⚠️ Skipping winter-light: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.379Z] DEBUG: 🎨 Processing climax-2018: genres=2, year=2018, numberOfReviews=411325 
+[2025-09-27T18:20:23.379Z] DEBUG: ⚠️ Skipping climax-2018: no shared genres (movie: Horror, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.379Z] DEBUG: 🎨 Processing spider-man-across-the-spider-verse: genres=4, year=2023, numberOfReviews=2857401 
+[2025-09-27T18:20:23.379Z] DEBUG: ⚠️ Skipping spider-man-across-the-spider-verse: no shared genres (movie: Science Fiction, Adventure, Animation, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.379Z] DEBUG: 🎨 Processing magnolia: genres=1, year=1999, numberOfReviews=432321 
+[2025-09-27T18:20:23.380Z] DEBUG: ⚠️ Skipping magnolia: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.380Z] DEBUG: 🎨 Processing interstellar: genres=3, year=2014, numberOfReviews=4311266 
+[2025-09-27T18:20:23.381Z] DEBUG: ⚠️ Skipping interstellar: no shared genres (movie: Adventure, Drama, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.381Z] DEBUG: 🎨 Processing portrait-of-a-lady-on-fire: genres=3, year=2019, numberOfReviews=918935 
+[2025-09-27T18:20:23.381Z] DEBUG: 🏷️ Genre boost for portrait-of-a-lady-on-fire: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.381Z] DEBUG: 📅 Recency adjustment for portrait-of-a-lady-on-fire: 6 years old, multiplier: 1.74 
+[2025-09-27T18:20:23.381Z] DEBUG: 🎯 Final scoring for portrait-of-a-lady-on-fire: 0.13 -> 1.32 -> 4.46 (Bayesian with 787 likes) 
+[2025-09-27T18:20:23.381Z] DEBUG: 🎨 Processing avengers-endgame: genres=3, year=2019, numberOfReviews=2779258 
+[2025-09-27T18:20:23.381Z] DEBUG: ⚠️ Skipping avengers-endgame: no shared genres (movie: Science Fiction, Action, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.381Z] DEBUG: 🎨 Processing vertigo: genres=3, year=1958, numberOfReviews=675645 
+[2025-09-27T18:20:23.381Z] DEBUG: 🏷️ Genre boost for vertigo: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.381Z] DEBUG: 📅 Recency adjustment for vertigo: 67 years old, multiplier: 1.03 
+[2025-09-27T18:20:23.381Z] DEBUG: 🎯 Final scoring for vertigo: 0.31 -> 1.91 -> 8.84 (Bayesian with 324 likes) 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎨 Processing anatomy-of-a-fall: genres=3, year=2023, numberOfReviews=1298358 
+[2025-09-27T18:20:23.382Z] DEBUG: ⚠️ Skipping anatomy-of-a-fall: no shared genres (movie: Crime, Mystery, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎨 Processing beau-travail: genres=1, year=1999, numberOfReviews=112540 
+[2025-09-27T18:20:23.382Z] DEBUG: ⚠️ Skipping beau-travail: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎨 Processing a-woman-under-the-influence: genres=1, year=1974, numberOfReviews=119261 
+[2025-09-27T18:20:23.382Z] DEBUG: ⚠️ Skipping a-woman-under-the-influence: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎨 Processing transformers-one: genres=4, year=2024, numberOfReviews=266869 
+[2025-09-27T18:20:23.382Z] DEBUG: ⚠️ Skipping transformers-one: no shared genres (movie: Adventure, Animation, Family, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎨 Processing hunt-for-the-wilderpeople: genres=3, year=2016, numberOfReviews=332739 
+[2025-09-27T18:20:23.382Z] DEBUG: 🏷️ Genre boost for hunt-for-the-wilderpeople: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.382Z] DEBUG: 📅 Recency adjustment for hunt-for-the-wilderpeople: 9 years old, multiplier: 1.63 
+[2025-09-27T18:20:23.382Z] DEBUG: 🎯 Final scoring for hunt-for-the-wilderpeople: 0.75 -> 7.30 -> 19.93 (Bayesian with 134 likes) 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎨 Processing thor-ragnarok: genres=3, year=2017, numberOfReviews=1944124 
+[2025-09-27T18:20:23.383Z] DEBUG: ⚠️ Skipping thor-ragnarok: no shared genres (movie: Adventure, Action, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎨 Processing titanic-1997: genres=2, year=1997, numberOfReviews=2406541 
+[2025-09-27T18:20:23.383Z] DEBUG: 🏷️ Genre boost for titanic-1997: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.383Z] DEBUG: 📅 Year similarity boost for titanic-1997: 1 years difference, multiplier: 2.80 
+[2025-09-27T18:20:23.383Z] DEBUG: 📅 Recency adjustment for titanic-1997: 28 years old, multiplier: 1.24 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎯 Final scoring for titanic-1997: 16.74 -> 348.20 -> 292.65 (Bayesian with 215 likes) 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎨 Processing kill-bill-vol-1: genres=2, year=2003, numberOfReviews=2310207 
+[2025-09-27T18:20:23.383Z] DEBUG: ⚠️ Skipping kill-bill-vol-1: no shared genres (movie: Action, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎨 Processing antichrist: genres=3, year=2009, numberOfReviews=214947 
+[2025-09-27T18:20:23.383Z] DEBUG: ⚠️ Skipping antichrist: no shared genres (movie: Drama, Thriller, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.383Z] DEBUG: 🎨 Processing grave-of-the-fireflies: genres=3, year=1988, numberOfReviews=867975 
+[2025-09-27T18:20:23.384Z] DEBUG: ⚠️ Skipping grave-of-the-fireflies: no shared genres (movie: Drama, War, Animation vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎨 Processing whiplash-2014: genres=2, year=2014, numberOfReviews=3392783 
+[2025-09-27T18:20:23.384Z] DEBUG: ⚠️ Skipping whiplash-2014: no shared genres (movie: Drama, Music vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎨 Processing barb-star-go-to-vista-del-mar: genres=1, year=2021, numberOfReviews=88436 
+[2025-09-27T18:20:23.384Z] DEBUG: 🏷️ Genre boost for barb-star-go-to-vista-del-mar: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.384Z] DEBUG: 📅 Recency adjustment for barb-star-go-to-vista-del-mar: 4 years old, multiplier: 1.81 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎯 Final scoring for barb-star-go-to-vista-del-mar: 31.65 -> 344.53 -> 231.83 (Bayesian with 79 likes) 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎨 Processing the-silence-of-the-lambs: genres=4, year=1991, numberOfReviews=2286671 
+[2025-09-27T18:20:23.384Z] DEBUG: ⚠️ Skipping the-silence-of-the-lambs: no shared genres (movie: Horror, Thriller, Drama, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎨 Processing love-lies-bleeding-2024: genres=3, year=2024, numberOfReviews=579749 
+[2025-09-27T18:20:23.384Z] DEBUG: 🏷️ Genre boost for love-lies-bleeding-2024: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.384Z] DEBUG: 📅 Recency adjustment for love-lies-bleeding-2024: 1 years old, multiplier: 1.95 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎯 Final scoring for love-lies-bleeding-2024: 0.43 -> 5.04 -> 13.68 (Bayesian with 232 likes) 
+[2025-09-27T18:20:23.384Z] DEBUG: 🎨 Processing x-2022: genres=3, year=2022, numberOfReviews=1489159 
+[2025-09-27T18:20:23.384Z] DEBUG: ⚠️ Skipping x-2022: no shared genres (movie: Thriller, Horror, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎨 Processing schindlers-list: genres=3, year=1993, numberOfReviews=1125882 
+[2025-09-27T18:20:23.385Z] DEBUG: ⚠️ Skipping schindlers-list: no shared genres (movie: War, History, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎨 Processing lady-bird: genres=2, year=2017, numberOfReviews=2579345 
+[2025-09-27T18:20:23.385Z] DEBUG: 🏷️ Genre boost for lady-bird: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.385Z] DEBUG: 📅 Recency adjustment for lady-bird: 8 years old, multiplier: 1.66 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎯 Final scoring for lady-bird: 0.35 -> 3.50 -> 11.00 (Bayesian with 285 likes) 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎨 Processing coco-2017: genres=4, year=2017, numberOfReviews=2327732 
+[2025-09-27T18:20:23.385Z] DEBUG: ⚠️ Skipping coco-2017: no shared genres (movie: Animation, Music, Family, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎨 Processing persona: genres=1, year=1966, numberOfReviews=358990 
+[2025-09-27T18:20:23.385Z] DEBUG: ⚠️ Skipping persona: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.385Z] DEBUG: 🎨 Processing 10-things-i-hate-about-you: genres=3, year=1999, numberOfReviews=2778559 
+[2025-09-27T18:20:23.385Z] DEBUG: 🏷️ Genre boost for 10-things-i-hate-about-you: shared 2 genres (Comedy, Romance), multiplier: 11.00 
+[2025-09-27T18:20:23.385Z] DEBUG: 📅 Year similarity boost for 10-things-i-hate-about-you: 1 years difference, multiplier: 2.80 
+[2025-09-27T18:20:23.386Z] DEBUG: 📅 Recency adjustment for 10-things-i-hate-about-you: 26 years old, multiplier: 1.26 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎯 Final scoring for 10-things-i-hate-about-you: 0.41 -> 15.82 -> 22.23 (Bayesian with 246 likes) 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎨 Processing the-worst-person-in-the-world: genres=3, year=2021, numberOfReviews=742710 
+[2025-09-27T18:20:23.386Z] DEBUG: 🏷️ Genre boost for the-worst-person-in-the-world: shared 2 genres (Romance, Comedy), multiplier: 11.00 
+[2025-09-27T18:20:23.386Z] DEBUG: 📅 Recency adjustment for the-worst-person-in-the-world: 4 years old, multiplier: 1.81 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎯 Final scoring for the-worst-person-in-the-world: 0.36 -> 7.21 -> 14.33 (Bayesian with 277 likes) 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎨 Processing vagabond: genres=1, year=1985, numberOfReviews=70122 
+[2025-09-27T18:20:23.386Z] DEBUG: ⚠️ Skipping vagabond: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎨 Processing i-saw-the-tv-glow: genres=2, year=2024, numberOfReviews=660328 
+[2025-09-27T18:20:23.386Z] DEBUG: ⚠️ Skipping i-saw-the-tv-glow: no shared genres (movie: Drama, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.386Z] DEBUG: 🎨 Processing how-to-have-sex: genres=1, year=2023, numberOfReviews=195686 
+[2025-09-27T18:20:23.386Z] DEBUG: ⚠️ Skipping how-to-have-sex: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing wings-of-desire: genres=3, year=1987, numberOfReviews=156939 
+[2025-09-27T18:20:23.388Z] DEBUG: 🏷️ Genre boost for wings-of-desire: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.388Z] DEBUG: 📅 Recency adjustment for wings-of-desire: 38 years old, multiplier: 1.14 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎯 Final scoring for wings-of-desire: 0.66 -> 4.51 -> 16.70 (Bayesian with 152 likes) 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing avengers-infinity-war: genres=3, year=2018, numberOfReviews=2839709 
+[2025-09-27T18:20:23.388Z] DEBUG: ⚠️ Skipping avengers-infinity-war: no shared genres (movie: Action, Adventure, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing streets-of-fire: genres=0, year=1984, numberOfReviews=36175 
+[2025-09-27T18:20:23.388Z] DEBUG: ⚠️ Skipping streets-of-fire: genres=0, numberOfReviews=36175 < 45355.4 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing fox-and-his-friends: genres=0, year=1975, numberOfReviews=17183 
+[2025-09-27T18:20:23.388Z] DEBUG: ⚠️ Skipping fox-and-his-friends: genres=0, numberOfReviews=17183 < 45355.4 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing the-lord-of-the-rings-the-two-towers: genres=3, year=2002, numberOfReviews=1675905 
+[2025-09-27T18:20:23.388Z] DEBUG: ⚠️ Skipping the-lord-of-the-rings-the-two-towers: no shared genres (movie: Adventure, Fantasy, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.388Z] DEBUG: 🎨 Processing hard-boiled: genres=3, year=1992, numberOfReviews=82051 
+[2025-09-27T18:20:23.388Z] DEBUG: ⚠️ Skipping hard-boiled: no shared genres (movie: Thriller, Action, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing speed: genres=2, year=1994, numberOfReviews=368201 
+[2025-09-27T18:20:23.389Z] DEBUG: ⚠️ Skipping speed: no shared genres (movie: Thriller, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing marriage-story-2019: genres=1, year=2019, numberOfReviews=1239765 
+[2025-09-27T18:20:23.389Z] DEBUG: ⚠️ Skipping marriage-story-2019: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing the-apartment: genres=3, year=1960, numberOfReviews=289748 
+[2025-09-27T18:20:23.389Z] DEBUG: 🏷️ Genre boost for the-apartment: shared 2 genres (Comedy, Romance), multiplier: 11.00 
+[2025-09-27T18:20:23.389Z] DEBUG: 📅 Recency adjustment for the-apartment: 65 years old, multiplier: 1.04 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎯 Final scoring for the-apartment: 0.18 -> 2.00 -> 6.18 (Bayesian with 569 likes) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing paris-texas: genres=1, year=1984, numberOfReviews=545140 
+[2025-09-27T18:20:23.389Z] DEBUG: ⚠️ Skipping paris-texas: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing come-and-see: genres=2, year=1985, numberOfReviews=369409 
+[2025-09-27T18:20:23.389Z] DEBUG: ⚠️ Skipping come-and-see: no shared genres (movie: War, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing the-hunt-2012: genres=1, year=2012, numberOfReviews=459726 
+[2025-09-27T18:20:23.389Z] DEBUG: ⚠️ Skipping the-hunt-2012: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.389Z] DEBUG: 🎨 Processing point-break: genres=3, year=1991, numberOfReviews=314560 
+[2025-09-27T18:20:23.390Z] DEBUG: ⚠️ Skipping point-break: no shared genres (movie: Action, Crime, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing goodfellas: genres=2, year=1990, numberOfReviews=1684176 
+[2025-09-27T18:20:23.390Z] DEBUG: ⚠️ Skipping goodfellas: no shared genres (movie: Drama, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing perfect-blue: genres=3, year=1997, numberOfReviews=878147 
+[2025-09-27T18:20:23.390Z] DEBUG: ⚠️ Skipping perfect-blue: no shared genres (movie: Thriller, Horror, Animation vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing gremlins-2-the-new-batch: genres=3, year=1990, numberOfReviews=144225 
+[2025-09-27T18:20:23.390Z] DEBUG: 🏷️ Genre boost for gremlins-2-the-new-batch: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.390Z] DEBUG: 📅 Year similarity boost for gremlins-2-the-new-batch: 8 years difference, multiplier: 1.40 
+[2025-09-27T18:20:23.390Z] DEBUG: 📅 Recency adjustment for gremlins-2-the-new-batch: 35 years old, multiplier: 1.17 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎯 Final scoring for gremlins-2-the-new-batch: 1.45 -> 14.20 -> 30.82 (Bayesian with 69 likes) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing blue-beetle: genres=3, year=2023, numberOfReviews=323808 
+[2025-09-27T18:20:23.390Z] DEBUG: ⚠️ Skipping blue-beetle: no shared genres (movie: Action, Adventure, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing harakiri: genres=3, year=1962, numberOfReviews=174949 
+[2025-09-27T18:20:23.390Z] DEBUG: ⚠️ Skipping harakiri: no shared genres (movie: Drama, History, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.390Z] DEBUG: 🎨 Processing cast-away: genres=2, year=2000, numberOfReviews=678744 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping cast-away: no shared genres (movie: Drama, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing rebels-of-the-neon-god: genres=0, year=1992, numberOfReviews=33796 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping rebels-of-the-neon-god: genres=0, numberOfReviews=33796 < 45355.4 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing crash-2004: genres=1, year=2004, numberOfReviews=136943 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping crash-2004: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing to-live-and-die-in-la: genres=3, year=1985, numberOfReviews=84018 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping to-live-and-die-in-la: no shared genres (movie: Crime, Thriller, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing ran: genres=3, year=1985, numberOfReviews=197678 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping ran: no shared genres (movie: Drama, Action, History vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing sorcerer: genres=3, year=1977, numberOfReviews=114197 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping sorcerer: no shared genres (movie: Thriller, Drama, Adventure vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing godzilla-minus-one: genres=3, year=2023, numberOfReviews=769023 
+[2025-09-27T18:20:23.391Z] DEBUG: ⚠️ Skipping godzilla-minus-one: no shared genres (movie: Action, Science Fiction, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.391Z] DEBUG: 🎨 Processing jules-and-jim: genres=2, year=1962, numberOfReviews=80714 
+[2025-09-27T18:20:23.392Z] DEBUG: 🏷️ Genre boost for jules-and-jim: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.392Z] DEBUG: 📅 Recency adjustment for jules-and-jim: 63 years old, multiplier: 1.04 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎯 Final scoring for jules-and-jim: 4.17 -> 25.99 -> 44.76 (Bayesian with 24 likes) 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎨 Processing casablanca: genres=2, year=1942, numberOfReviews=651693 
+[2025-09-27T18:20:23.392Z] DEBUG: 🏷️ Genre boost for casablanca: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.392Z] DEBUG: 📅 Recency adjustment for casablanca: 83 years old, multiplier: 1.01 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎯 Final scoring for casablanca: 0.27 -> 1.65 -> 7.87 (Bayesian with 369 likes) 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎨 Processing nocturnal-animals: genres=2, year=2016, numberOfReviews=581813 
+[2025-09-27T18:20:23.392Z] DEBUG: ⚠️ Skipping nocturnal-animals: no shared genres (movie: Drama, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.392Z] INFO: 🎨 Processed 100/163 movies for content filtering 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎨 Processing taylor-swift-reputation-stadium-tour: genres=1, year=2018, numberOfReviews=111641 
+[2025-09-27T18:20:23.392Z] DEBUG: ⚠️ Skipping taylor-swift-reputation-stadium-tour: no shared genres (movie: Music vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎨 Processing z: genres=0, year=1969, numberOfReviews=42605 
+[2025-09-27T18:20:23.392Z] DEBUG: ⚠️ Skipping z: genres=0, numberOfReviews=42605 < 45355.4 
+[2025-09-27T18:20:23.392Z] DEBUG: 🎨 Processing charlie-wilsons-war: genres=0, year=2007, numberOfReviews=58564 
+[2025-09-27T18:20:23.392Z] DEBUG: ⚠️ Skipping charlie-wilsons-war: genres=0, numberOfReviews=58564 < 45355.4 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing night-moves: genres=0, year=1975, numberOfReviews=42375 
+[2025-09-27T18:20:23.393Z] DEBUG: ⚠️ Skipping night-moves: genres=0, numberOfReviews=42375 < 45355.4 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing roma-2018: genres=1, year=2018, numberOfReviews=432962 
+[2025-09-27T18:20:23.393Z] DEBUG: ⚠️ Skipping roma-2018: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing taste-of-cherry: genres=1, year=1997, numberOfReviews=157712 
+[2025-09-27T18:20:23.393Z] DEBUG: ⚠️ Skipping taste-of-cherry: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing se7en: genres=3, year=1995, numberOfReviews=2688328 
+[2025-09-27T18:20:23.393Z] DEBUG: ⚠️ Skipping se7en: no shared genres (movie: Thriller, Crime, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing the-iron-giant: genres=4, year=1999, numberOfReviews=559696 
+[2025-09-27T18:20:23.393Z] DEBUG: ⚠️ Skipping the-iron-giant: no shared genres (movie: Science Fiction, Adventure, Animation, Family vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing before-sunrise: genres=2, year=1995, numberOfReviews=1129076 
+[2025-09-27T18:20:23.393Z] DEBUG: 🏷️ Genre boost for before-sunrise: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.393Z] DEBUG: 📅 Year similarity boost for before-sunrise: 3 years difference, multiplier: 2.40 
+[2025-09-27T18:20:23.393Z] DEBUG: 📅 Recency adjustment for before-sunrise: 30 years old, multiplier: 1.21 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎯 Final scoring for before-sunrise: 0.15 -> 2.56 -> 6.05 (Bayesian with 683 likes) 
+[2025-09-27T18:20:23.393Z] DEBUG: 🎨 Processing star-wars: genres=3, year=1977, numberOfReviews=2074619 
+[2025-09-27T18:20:23.394Z] DEBUG: ⚠️ Skipping star-wars: no shared genres (movie: Science Fiction, Adventure, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎨 Processing the-straight-story: genres=1, year=1999, numberOfReviews=134368 
+[2025-09-27T18:20:23.394Z] DEBUG: ⚠️ Skipping the-straight-story: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎨 Processing millennium-mambo: genres=2, year=2001, numberOfReviews=60713 
+[2025-09-27T18:20:23.394Z] DEBUG: 🏷️ Genre boost for millennium-mambo: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.394Z] DEBUG: 📅 Year similarity boost for millennium-mambo: 3 years difference, multiplier: 2.40 
+[2025-09-27T18:20:23.394Z] DEBUG: 📅 Recency adjustment for millennium-mambo: 24 years old, multiplier: 1.29 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎯 Final scoring for millennium-mambo: 1.72 -> 32.08 -> 42.12 (Bayesian with 58 likes) 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎨 Processing django-unchained: genres=2, year=2012, numberOfReviews=2555931 
+[2025-09-27T18:20:23.394Z] DEBUG: ⚠️ Skipping django-unchained: no shared genres (movie: Western, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎨 Processing monty-python-and-the-holy-grail: genres=3, year=1975, numberOfReviews=576519 
+[2025-09-27T18:20:23.394Z] DEBUG: 🏷️ Genre boost for monty-python-and-the-holy-grail: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.394Z] DEBUG: 📅 Recency adjustment for monty-python-and-the-holy-grail: 50 years old, multiplier: 1.08 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎯 Final scoring for monty-python-and-the-holy-grail: 0.88 -> 5.72 -> 20.46 (Bayesian with 113 likes) 
+[2025-09-27T18:20:23.394Z] DEBUG: 🎨 Processing la-la-land: genres=4, year=2016, numberOfReviews=3657714 
+[2025-09-27T18:20:23.394Z] DEBUG: 🏷️ Genre boost for la-la-land: shared 2 genres (Comedy, Romance), multiplier: 11.00 
+[2025-09-27T18:20:23.394Z] DEBUG: 📅 Recency adjustment for la-la-land: 9 years old, multiplier: 1.63 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎯 Final scoring for la-la-land: 0.21 -> 3.81 -> 8.60 (Bayesian with 471 likes) 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎨 Processing rashomon: genres=3, year=1950, numberOfReviews=243135 
+[2025-09-27T18:20:23.395Z] DEBUG: ⚠️ Skipping rashomon: no shared genres (movie: Crime, Drama, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎨 Processing civil-war-2024: genres=3, year=2024, numberOfReviews=1002316 
+[2025-09-27T18:20:23.395Z] DEBUG: ⚠️ Skipping civil-war-2024: no shared genres (movie: War, Drama, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎨 Processing sonatine: genres=0, year=1993, numberOfReviews=52507 
+[2025-09-27T18:20:23.395Z] DEBUG: ⚠️ Skipping sonatine: genres=0, numberOfReviews=52507 < 45355.4 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎨 Processing ford-v-ferrari: genres=3, year=2019, numberOfReviews=840294 
+[2025-09-27T18:20:23.395Z] DEBUG: ⚠️ Skipping ford-v-ferrari: no shared genres (movie: Drama, Action, History vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎨 Processing little-women-1994: genres=2, year=1994, numberOfReviews=147948 
+[2025-09-27T18:20:23.395Z] DEBUG: 🏷️ Genre boost for little-women-1994: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.395Z] DEBUG: 📅 Year similarity boost for little-women-1994: 4 years difference, multiplier: 2.20 
+[2025-09-27T18:20:23.395Z] DEBUG: 📅 Recency adjustment for little-women-1994: 31 years old, multiplier: 1.20 
+[2025-09-27T18:20:23.395Z] DEBUG: 🎯 Final scoring for little-women-1994: 2.33 -> 36.96 -> 46.00 (Bayesian with 43 likes) 
+[2025-09-27T18:20:23.396Z] DEBUG: 🎨 Processing knock-at-the-cabin: genres=3, year=2023, numberOfReviews=444164 
+[2025-09-27T18:20:23.396Z] DEBUG: ⚠️ Skipping knock-at-the-cabin: no shared genres (movie: Horror, Thriller, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.396Z] DEBUG: 🎨 Processing no-country-for-old-men: genres=3, year=2007, numberOfReviews=1683117 
+[2025-09-27T18:20:23.396Z] DEBUG: ⚠️ Skipping no-country-for-old-men: no shared genres (movie: Thriller, Drama, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.396Z] DEBUG: 🎨 Processing battleship-potemkin: genres=3, year=1925, numberOfReviews=103947 
+[2025-09-27T18:20:23.397Z] DEBUG: ⚠️ Skipping battleship-potemkin: no shared genres (movie: War, Drama, History vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.397Z] DEBUG: 🎨 Processing gone-baby-gone: genres=3, year=2007, numberOfReviews=157228 
+[2025-09-27T18:20:23.397Z] DEBUG: ⚠️ Skipping gone-baby-gone: no shared genres (movie: Crime, Drama, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.397Z] DEBUG: 🎨 Processing john-mulaney-baby-j: genres=0, year=2023, numberOfReviews=68216 
+[2025-09-27T18:20:23.397Z] DEBUG: ⚠️ Skipping john-mulaney-baby-j: genres=0, numberOfReviews=68216 < 45355.4 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎨 Processing this-is-the-end: genres=2, year=2013, numberOfReviews=529626 
+[2025-09-27T18:20:23.398Z] DEBUG: 🏷️ Genre boost for this-is-the-end: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.398Z] DEBUG: 📅 Recency adjustment for this-is-the-end: 12 years old, multiplier: 1.54 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎯 Final scoring for this-is-the-end: 2.70 -> 24.98 -> 41.53 (Bayesian with 37 likes) 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎨 Processing the-shape-of-water: genres=3, year=2017, numberOfReviews=915421 
+[2025-09-27T18:20:23.398Z] DEBUG: 🏷️ Genre boost for the-shape-of-water: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.398Z] DEBUG: 📅 Recency adjustment for the-shape-of-water: 8 years old, multiplier: 1.66 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎯 Final scoring for the-shape-of-water: 0.75 -> 7.50 -> 20.15 (Bayesian with 133 likes) 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎨 Processing willy-wonka-the-chocolate-factory: genres=3, year=1971, numberOfReviews=513134 
+[2025-09-27T18:20:23.398Z] DEBUG: 🏷️ Genre boost for willy-wonka-the-chocolate-factory: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.398Z] DEBUG: 📅 Recency adjustment for willy-wonka-the-chocolate-factory: 54 years old, multiplier: 1.06 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎯 Final scoring for willy-wonka-the-chocolate-factory: 1.02 -> 6.51 -> 22.47 (Bayesian with 98 likes) 
+[2025-09-27T18:20:23.398Z] DEBUG: 🎨 Processing midsommar: genres=3, year=2019, numberOfReviews=3102312 
+[2025-09-27T18:20:23.399Z] DEBUG: ⚠️ Skipping midsommar: no shared genres (movie: Drama, Horror, Mystery vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎨 Processing mrs-doubtfire: genres=3, year=1993, numberOfReviews=411773 
+[2025-09-27T18:20:23.399Z] DEBUG: 🏷️ Genre boost for mrs-doubtfire: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.399Z] DEBUG: 📅 Year similarity boost for mrs-doubtfire: 5 years difference, multiplier: 2.00 
+[2025-09-27T18:20:23.399Z] DEBUG: 📅 Recency adjustment for mrs-doubtfire: 32 years old, multiplier: 1.19 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎯 Final scoring for mrs-doubtfire: 2.50 -> 35.81 -> 45.79 (Bayesian with 40 likes) 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎨 Processing sing-sing-2023: genres=1, year=2023, numberOfReviews=265104 
+[2025-09-27T18:20:23.399Z] DEBUG: ⚠️ Skipping sing-sing-2023: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎨 Processing love-streams: genres=0, year=1984, numberOfReviews=24091 
+[2025-09-27T18:20:23.399Z] DEBUG: ⚠️ Skipping love-streams: genres=0, numberOfReviews=24091 < 45355.4 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎨 Processing in-bruges: genres=3, year=2008, numberOfReviews=541449 
+[2025-09-27T18:20:23.399Z] DEBUG: 🏷️ Genre boost for in-bruges: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.399Z] DEBUG: 📅 Year similarity boost for in-bruges: 10 years difference, multiplier: 1.00 
+[2025-09-27T18:20:23.399Z] DEBUG: 📅 Recency adjustment for in-bruges: 17 years old, multiplier: 1.42 
+[2025-09-27T18:20:23.399Z] DEBUG: 🎯 Final scoring for in-bruges: 0.74 -> 6.26 -> 19.03 (Bayesian with 136 likes) 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎨 Processing speed-racer: genres=4, year=2008, numberOfReviews=202231 
+[2025-09-27T18:20:23.400Z] DEBUG: 🏷️ Genre boost for speed-racer: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.400Z] DEBUG: 📅 Year similarity boost for speed-racer: 10 years difference, multiplier: 1.00 
+[2025-09-27T18:20:23.400Z] DEBUG: 📅 Recency adjustment for speed-racer: 17 years old, multiplier: 1.42 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎯 Final scoring for speed-racer: 47.17 -> 401.35 -> 232.63 (Bayesian with 53 likes) 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎨 Processing moonrise-kingdom: genres=3, year=2012, numberOfReviews=938796 
+[2025-09-27T18:20:23.400Z] DEBUG: 🏷️ Genre boost for moonrise-kingdom: shared 2 genres (Romance, Comedy), multiplier: 11.00 
+[2025-09-27T18:20:23.400Z] DEBUG: 📅 Recency adjustment for moonrise-kingdom: 13 years old, multiplier: 1.51 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎯 Final scoring for moonrise-kingdom: 0.65 -> 10.81 -> 21.34 (Bayesian with 154 likes) 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎨 Processing the-player: genres=5, year=1992, numberOfReviews=113314 
+[2025-09-27T18:20:23.400Z] DEBUG: 🏷️ Genre boost for the-player: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.400Z] DEBUG: 📅 Year similarity boost for the-player: 6 years difference, multiplier: 1.80 
+[2025-09-27T18:20:23.400Z] DEBUG: 📅 Recency adjustment for the-player: 33 years old, multiplier: 1.18 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎯 Final scoring for the-player: 1.22 -> 15.59 -> 30.06 (Bayesian with 82 likes) 
+[2025-09-27T18:20:23.400Z] DEBUG: 🎨 Processing star-trek: genres=3, year=2009, numberOfReviews=311685 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping star-trek: no shared genres (movie: Adventure, Action, Science Fiction vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing baby-driver: genres=2, year=2017, numberOfReviews=2487358 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping baby-driver: no shared genres (movie: Crime, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing taxi-driver: genres=2, year=1976, numberOfReviews=1882205 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping taxi-driver: no shared genres (movie: Crime, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing the-lake-house: genres=0, year=2006, numberOfReviews=92626 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping the-lake-house: genres=0, numberOfReviews=92626 < 45355.4 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing doctor-sleep: genres=3, year=2019, numberOfReviews=420431 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping doctor-sleep: no shared genres (movie: Fantasy, Horror, Thriller vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing kill-bill-the-whole-bloody-affair: genres=0, year=2006, numberOfReviews=83998 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping kill-bill-the-whole-bloody-affair: genres=0, numberOfReviews=83998 < 45355.4 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing from-russia-with-love: genres=3, year=1963, numberOfReviews=139016 
+[2025-09-27T18:20:23.401Z] DEBUG: ⚠️ Skipping from-russia-with-love: no shared genres (movie: Thriller, Adventure, Action vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.401Z] DEBUG: 🎨 Processing back-to-the-future-part-iii: genres=3, year=1990, numberOfReviews=643727 
+[2025-09-27T18:20:23.401Z] DEBUG: 🏷️ Genre boost for back-to-the-future-part-iii: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.401Z] DEBUG: 📅 Year similarity boost for back-to-the-future-part-iii: 8 years difference, multiplier: 1.40 
+[2025-09-27T18:20:23.402Z] DEBUG: 📅 Recency adjustment for back-to-the-future-part-iii: 35 years old, multiplier: 1.17 
+[2025-09-27T18:20:23.402Z] DEBUG: 🎯 Final scoring for back-to-the-future-part-iii: 3.85 -> 37.67 -> 48.26 (Bayesian with 26 likes) 
+[2025-09-27T18:20:23.402Z] DEBUG: 🎨 Processing the-man-who-wasnt-there-2001: genres=2, year=2001, numberOfReviews=80360 
+[2025-09-27T18:20:23.402Z] DEBUG: ⚠️ Skipping the-man-who-wasnt-there-2001: no shared genres (movie: Drama, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.402Z] DEBUG: 🎨 Processing pulp-fiction: genres=2, year=1994, numberOfReviews=3342080 
+[2025-09-27T18:20:23.402Z] DEBUG: ⚠️ Skipping pulp-fiction: no shared genres (movie: Thriller, Crime vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.402Z] DEBUG: 🎨 Processing toy-story-4: genres=5, year=2019, numberOfReviews=1011896 
+[2025-09-27T18:20:23.402Z] DEBUG: 🏷️ Genre boost for toy-story-4: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.402Z] DEBUG: 📅 Recency adjustment for toy-story-4: 6 years old, multiplier: 1.74 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎯 Final scoring for toy-story-4: 1.16 -> 12.11 -> 27.42 (Bayesian with 86 likes) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing collateral: genres=3, year=2004, numberOfReviews=421035 
+[2025-09-27T18:20:23.403Z] DEBUG: ⚠️ Skipping collateral: no shared genres (movie: Crime, Thriller, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing room-2015: genres=2, year=2015, numberOfReviews=727489 
+[2025-09-27T18:20:23.403Z] DEBUG: ⚠️ Skipping room-2015: no shared genres (movie: Thriller, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing lost-in-translation: genres=2, year=2003, numberOfReviews=1198757 
+[2025-09-27T18:20:23.403Z] DEBUG: 🏷️ Genre boost for lost-in-translation: shared 1 genres (Romance), multiplier: 6.00 
+[2025-09-27T18:20:23.403Z] DEBUG: 📅 Year similarity boost for lost-in-translation: 5 years difference, multiplier: 2.00 
+[2025-09-27T18:20:23.403Z] DEBUG: 📅 Recency adjustment for lost-in-translation: 22 years old, multiplier: 1.32 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎯 Final scoring for lost-in-translation: 0.86 -> 13.69 -> 25.76 (Bayesian with 116 likes) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing the-truman-show: genres=2, year=1998, numberOfReviews=3564152 
+[2025-09-27T18:20:23.403Z] DEBUG: 🏷️ Genre boost for the-truman-show: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.403Z] DEBUG: 📅 Year similarity boost for the-truman-show: 0 years difference, multiplier: 3.00 
+[2025-09-27T18:20:23.403Z] DEBUG: 📅 Recency adjustment for the-truman-show: 27 years old, multiplier: 1.25 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎯 Final scoring for the-truman-show: 0.22 -> 5.06 -> 9.98 (Bayesian with 445 likes) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing the-shawshank-redemption: genres=2, year=1994, numberOfReviews=2126290 
+[2025-09-27T18:20:23.403Z] DEBUG: ⚠️ Skipping the-shawshank-redemption: no shared genres (movie: Crime, Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.403Z] DEBUG: 🎨 Processing aquaman-2018: genres=3, year=2018, numberOfReviews=751311 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping aquaman-2018: no shared genres (movie: Adventure, Action, Fantasy vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing robin-hood-prince-of-thieves: genres=0, year=1991, numberOfReviews=89531 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping robin-hood-prince-of-thieves: genres=0, numberOfReviews=89531 < 45355.4 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing life-of-brian: genres=1, year=1979, numberOfReviews=344529 
+[2025-09-27T18:20:23.404Z] DEBUG: 🏷️ Genre boost for life-of-brian: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.404Z] DEBUG: 📅 Recency adjustment for life-of-brian: 46 years old, multiplier: 1.09 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎯 Final scoring for life-of-brian: 1.52 -> 9.95 -> 28.84 (Bayesian with 66 likes) 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing the-brutalist: genres=0, year=2024, numberOfReviews=653197 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping the-brutalist: genres=0, numberOfReviews=653197 < 45355.4 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing marnie: genres=0, year=1964, numberOfReviews=57400 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping marnie: genres=0, numberOfReviews=57400 < 45355.4 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing im-still-here-2024: genres=2, year=2024, numberOfReviews=657144 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping im-still-here-2024: no shared genres (movie: Drama, History vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing funeral-parade-of-roses: genres=1, year=1969, numberOfReviews=61062 
+[2025-09-27T18:20:23.404Z] DEBUG: ⚠️ Skipping funeral-parade-of-roses: no shared genres (movie: Drama vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.404Z] DEBUG: 🎨 Processing glass-onion: genres=3, year=2022, numberOfReviews=2257828 
+[2025-09-27T18:20:23.404Z] DEBUG: 🏷️ Genre boost for glass-onion: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.405Z] DEBUG: 📅 Recency adjustment for glass-onion: 3 years old, multiplier: 1.86 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎯 Final scoring for glass-onion: 0.48 -> 5.38 -> 14.80 (Bayesian with 207 likes) 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎨 Processing bride-of-frankenstein: genres=2, year=1935, numberOfReviews=103564 
+[2025-09-27T18:20:23.405Z] DEBUG: ⚠️ Skipping bride-of-frankenstein: no shared genres (movie: Science Fiction, Horror vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎨 Processing pans-labyrinth: genres=3, year=2006, numberOfReviews=823044 
+[2025-09-27T18:20:23.405Z] DEBUG: ⚠️ Skipping pans-labyrinth: no shared genres (movie: Drama, Fantasy, War vs input: Romance, Comedy) 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎨 Processing the-velocipastor: genres=0, year=2017, numberOfReviews=56801 
+[2025-09-27T18:20:23.405Z] DEBUG: ⚠️ Skipping the-velocipastor: genres=0, numberOfReviews=56801 < 45355.4 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎨 Processing ghostbusters: genres=2, year=1984, numberOfReviews=773684 
+[2025-09-27T18:20:23.405Z] DEBUG: 🏷️ Genre boost for ghostbusters: shared 1 genres (Comedy), multiplier: 6.00 
+[2025-09-27T18:20:23.405Z] DEBUG: 📅 Recency adjustment for ghostbusters: 41 years old, multiplier: 1.12 
+[2025-09-27T18:20:23.405Z] DEBUG: 🎯 Final scoring for ghostbusters: 1.22 -> 8.21 -> 25.47 (Bayesian with 82 likes) 
+[2025-09-27T18:20:23.405Z] INFO: 🎨 Content filtering complete: processed 163 movies, skipped 118 
+[2025-09-27T18:20:23.405Z] INFO: 🎯 Final candidate count: 45 movies 
+[2025-09-27T18:20:23.405Z] INFO: 🎯 Enhanced Scores: {"playtime":145.30923645869328,"the-disaster-artist":31.24256151502913,"fallen-leaves-2023":37.94698412698413,"scott-pilgrim-vs-the-world":16.21958623839898,"sherlock-jr":8.55050571858595,"evil-dead-ii":94.4024100961696,"the-nice-guys":14.725781710179781,"bottoms":11.931682242990655,"wallace-gromit-vengeance-most-fowl":13.21428082191781,"in-the-mood-for-love":6.529006602608174,"an-american-in-paris":45.94317827812892,"portrait-of-a-lady-on-fire":4.455944007616488,"vertigo":8.844581163940317,"hunt-for-the-wilderpeople":19.927824162145463,"titanic-1997":292.6503396990283,"barb-star-go-to-vista-del-mar":231.83072674418605,"love-lies-bleeding-2024":13.682872340425533,"lady-bird":11.004842563502798,"10-things-i-hate-about-you":22.230445577548938,"the-worst-person-in-the-world":14.325770259938839,"wings-of-desire":16.703007152513983,"the-apartment":6.183817003999381,"gremlins-2-the-new-batch":30.82420203823185,"jules-and-jim":44.760398058700844,"casablanca":7.868892414004799,"before-sunrise":6.054092523980668,"millennium-mambo":42.12068699118363,"monty-python-and-the-holy-grail":20.458509111448024,"la-la-land":8.602388389053877,"little-women-1994":45.99706462348864,"this-is-the-end":41.526276466638876,"the-shape-of-water":20.145476823898566,"willy-wonka-the-chocolate-factory":22.47414390514451,"mrs-doubtfire":45.78915312611334,"in-bruges":19.029259145868313,"speed-racer":232.62500027463744,"moonrise-kingdom":21.3394426059189,"the-player":30.055439265563805,"back-to-the-future-part-iii":48.26421108617882,"toy-story-4":27.423714223345588,"lost-in-translation":25.763917192581033,"the-truman-show":9.9781603263362,"life-of-brian":28.838370228298643,"glass-onion":14.797645914396886,"ghostbusters":25.468347948803856} 
+[2025-09-27T18:20:23.405Z] INFO: 🏆 Generating final recommendations 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Top recommendation slugs: [
+  "titanic-1997",
+  "speed-racer",
+  "barb-star-go-to-vista-del-mar",
+  "playtime",
+  "evil-dead-ii"
+]
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Formatting 5 top recommendations 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Recommendation: Titanic (score: 292.65, genres: Drama, Romance) 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Recommendation: Speed Racer (score: 232.63, genres: Action, Family, Comedy, Adventure) 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Recommendation: Barb & Star Go to Vista Del Mar (score: 231.83, genres: Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Recommendation: PlayTime (score: 145.31, genres: Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Recommendation: Evil Dead II (score: 94.40, genres: Horror, Fantasy, Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: 🏆 Final ranked recommendations: 
+[2025-09-27T18:20:23.406Z] INFO: 1. Titanic (score: 292.65, year: 1997, genres: Drama, Romance) 
+[2025-09-27T18:20:23.406Z] INFO: 2. Speed Racer (score: 232.63, year: 2008, genres: Action, Family, Comedy, Adventure) 
+[2025-09-27T18:20:23.406Z] INFO: 3. Barb & Star Go to Vista Del Mar (score: 231.83, year: 2021, genres: Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: 4. PlayTime (score: 145.31, year: 1967, genres: Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: 5. Evil Dead II (score: 94.40, year: 1987, genres: Horror, Fantasy, Comedy) 
+[2025-09-27T18:20:23.406Z] INFO: ✅ generateRecommendations completed successfully 
+[2025-09-27T18:20:23.407Z] INFO: 📊 Final stats: 5 recommendations from 1 input movies 
