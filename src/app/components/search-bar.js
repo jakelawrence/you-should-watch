@@ -2,7 +2,6 @@ import { Search } from "lucide-react";
 import React from "react";
 
 export const SearchBar = ({ searchQuery, setSearchQuery }) => {
-  console.log("Rendering SearchBar with query: " + searchQuery);
   return (
     <form onSubmit={(e) => e.preventDefault()} className="relative">
       <input

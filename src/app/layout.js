@@ -1,8 +1,14 @@
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
 
 const inter = Inter({ weight: "200", subsets: ["latin"] });
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-poppins",
+});
 
 export const metadata = {
   title: "Youshouldwatch",
@@ -12,8 +18,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="">
-      <body className={`${inter.className} antialiased `}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <body className={`${inter.className} antialiased`}>
         <MovieCollectionProvider>{children}</MovieCollectionProvider>
       </body>
     </html>

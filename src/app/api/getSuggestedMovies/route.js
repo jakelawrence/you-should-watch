@@ -570,22 +570,19 @@ function diversifyRecommendations(recommendations, maxPerGenre = 3) {
 /**
  * Handles HTTP GET requests for movie recommendations
  */
-export async function GET(req) {
+export async function POST(req) {
   try {
     console.log("Processing enhanced recommendation request");
-    const searchParams = Object.fromEntries(new URL(req.url).searchParams);
+    const requestBody = await req.json();
+    console.log("Request body:", requestBody);
+    const inputSlugs = requestBody.inputSlugs || [];
+    console.log("Input slugs:", inputSlugs);
 
-    if (!searchParams.slugs) {
-      return Response.json({ error: "No movie slugs provided" }, { status: 400 });
-    }
-
-    const slugs = searchParams.slugs.split(",").filter((slug) => slug.trim());
-
-    if (slugs.length === 0) {
+    if (inputSlugs.length === 0) {
       return Response.json({ error: "No valid movie slugs provided" }, { status: 400 });
     }
 
-    const recommendations = await generateRecommendations(slugs);
+    const recommendations = await generateRecommendations(inputSlugs);
     console.log(`Generated ${recommendations.length} recommendations`);
 
     return Response.json(recommendations);

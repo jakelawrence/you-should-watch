@@ -27,6 +27,9 @@ export default function Home() {
   const { collectionItems } = useMovieCollection();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
   const defaultColors = {
     background: "#4ECDC4",
     accent: "#1a1919ff",
@@ -125,6 +128,29 @@ export default function Home() {
     setTimeout(() => setCarouselAnimating(false), 200);
   };
 
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+
+    if (distance > minSwipeDistance) {
+      nextCarouselSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevCarouselSlide();
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
   const handlePlaceholderClick = () => {
     if (searchInputRef.current) {
       const input = searchInputRef.current.querySelector("input");
@@ -135,12 +161,7 @@ export default function Home() {
   };
 
   return (
-    <div
-      className="min-h-screen p-4 md:p-8 transition-colors duration-300"
-      style={{
-        backgroundColor: defaultColors.background,
-      }}
-    >
+    <div className="min-h-screen p-4 md:p-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -150,7 +171,7 @@ export default function Home() {
             <div
               className="bg-pink-200 border-4 border-black p-6 space-y-4"
               style={{
-                boxShadow: "8px 8px 0px 0px #000000",
+                boxShadow: "6px 4px 0px 0px #000000",
               }}
             >
               <div className="relative" ref={searchInputRef}>
@@ -174,7 +195,7 @@ export default function Home() {
                 className="bg-lime-400 border-4 border-black p-6"
                 style={{
                   // backgroundColor: defaultColors.palette[0],
-                  boxShadow: "8px 8px 0px 0px #000000",
+                  boxShadow: "6px 4px 0px 0px #000000",
                 }}
               >
                 <h2 className="text-4xl lg:text-5xl font-black text-black mb-3 uppercase">Discover Movies</h2>
@@ -187,7 +208,7 @@ export default function Home() {
                 <div
                   className="bg-red-400 border-4 border-black px-4 py-3 text-black font-black uppercase"
                   style={{
-                    boxShadow: "4px 4px 0px 0px #000000",
+                    boxShadow: "6px 4px 0px 0px #000000",
                   }}
                 >
                   {searchError}
@@ -207,38 +228,52 @@ export default function Home() {
           </div>
 
           {/* Right Side - Movie Poster Display */}
-          <div className="order-1 grid grid-cols-1 gap-8 lg:gap-12 items-center relative min-h-[400px] flex justify-center">
+          <div
+            className="order-1 grid grid-cols-1 gap-3 lg:gap-12 items-center relative min-h-[400px] flex justify-center mt-8"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div className="relative group flex justify-center items-center">
               <div
-                className="bg-yellow-300 border-4 border-black p-6 w-64"
+                className="p-3"
                 style={{
-                  boxShadow: "8px 8px 0px 0px #000000",
+                  width: "329px",
+                  height: "59px",
+                  backgroundColor: "#00C0E8",
+                  boxShadow: "6px 4px 0px 0px #000000",
                 }}
               >
-                <h2 className="text-4xl lg:text-5xl font-black text-center text-black mb-3 lowercase font-mono">you should watch</h2>
+                <h2 className="text-3xl lg:text-5xl font-black text-center text-white mb-1 lowercase font-poppins">you should watch</h2>
               </div>
             </div>
-
+            <div className="relative group flex justify-center items-center">
+              {/* Swipe Indicator for mobile users */}
+              {collectionItems.length > 1 && (
+                <div
+                  className="lg:hidden flex items-center justify-center gap-2 text-black mb-2 bg-white border-4 border-black p-4"
+                  style={{
+                    width: "150px",
+                    height: "40px",
+                    boxShadow: "6px 4px 0px 0px #000000",
+                  }}
+                >
+                  <ChevronLeft size={20} strokeWidth={3} />
+                  <span className="text-md font-bold tracking-wider uppercase">Swipe</span>
+                  <ChevronRight size={20} strokeWidth={3} />
+                </div>
+              )}
+            </div>
             {collectionItems.length > 0 && currentMovie ? (
               <div className="relative group flex justify-center items-center">
                 {/* Movie Card */}
-                <div className="relative">
+                <div className="relative flex justify-center items-center">
                   <div className={`duration-200 ${carouselAnimating ? "opacity-0" : "opacity-100"}`}>
-                    {/* Title Card Above Poster */}
-                    <div
-                      className="mb-8 bg-white border-4 border-black p-4 text-center"
-                      style={{
-                        boxShadow: "8px 8px 0px 0px #000000",
-                        transform: "rotate(2deg)",
-                      }}
-                    >
-                      <h3 className="text-2xl font-black text-black uppercase">{currentMovie.title}</h3>
-                    </div>
                     {/* Poster Container */}
                     <div
-                      className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white mt-8"
+                      className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white mx-auto"
                       style={{
-                        boxShadow: "12px 12px 0px 0px #000000",
+                        boxShadow: "6px 4px 0px 0px #000000",
                       }}
                     >
                       <img
@@ -250,12 +285,22 @@ export default function Home() {
                         }}
                       />
                     </div>
+
+                    {/* Title Card Below Poster */}
+                    <div
+                      className="mt-8 bg-white border-4 border-black p-4 text-center"
+                      style={{
+                        boxShadow: "6px 4px 0px 0px #000000",
+                      }}
+                    >
+                      <h3 className="text-base font-black text-black uppercase">{currentMovie.title}</h3>
+                    </div>
                   </div>
                 </div>
 
                 {/* Navigation Buttons */}
                 {featuredMovies.length > 1 && (
-                  <>
+                  <div className="hidden lg:block">
                     <button
                       onClick={prevCarouselSlide}
                       className="absolute left-0 top-1/2 transform -translate-y-1/2 w-14 h-14 flex items-center justify-center transition-all duration-200 active:shadow-none"
@@ -283,7 +328,7 @@ export default function Home() {
                         }}
                       />
                     </button>
-                  </>
+                  </div>
                 )}
               </div>
             ) : (
@@ -292,14 +337,14 @@ export default function Home() {
                 <div
                   className="w-64 h-96 border-6 border-dashed border-black flex items-center justify-center bg-gray-100"
                   style={{
-                    boxShadow: "12px 12px 0px 0px #000000",
+                    boxShadow: "8px 7px 0px 0px #000000",
                   }}
                 >
                   <div className="text-center px-8">
                     <div
                       className="w-20 h-20 mx-auto mb-4 bg-yellow-300 border-4 border-black flex items-center justify-center transition-all duration-200"
                       style={{
-                        boxShadow: "6px 6px 0px 0px #000000",
+                        boxShadow: "4px 4px 0px 0px #000000",
                       }}
                     >
                       <Plus className="text-black" size={40} strokeWidth={3} />
