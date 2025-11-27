@@ -67,10 +67,12 @@ export async function GET(request) {
     // Add search by name (case-insensitive partial match)
     if (title) {
       console.log("Searching for title: " + title);
+
       filters.push(`contains(titleLower, :titleLower)`);
       params[":titleLower"] = title
         .toLocaleLowerCase()
         .replace(/\u00A0/g, " ")
+        .replace(/\s+/g, " ")
         .trim();
     }
 

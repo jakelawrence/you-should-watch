@@ -1,0 +1,606 @@
+[2025-11-27T04:21:49.028Z] Processing collaborative filtering recommendation request 
+[2025-11-27T04:21:49.032Z] Processing collaborative filtering recommendation request 
+[2025-11-27T04:21:49.034Z] 🚀 Pure collaborative filtering started 
+[2025-11-27T04:21:49.034Z] 📥 Input movie slugs: [
+  "little-women-2019"
+]
+[2025-11-27T04:21:49.037Z] ⚙️ Config: {
+  "numRecommendations": 5,
+  "likedBothMoviesBoost": 3,
+  "favoritedInputMovieBoost": 5,
+  "combinedBoost": 8,
+  "favoriteWeight": 2,
+  "obscurityBias": 1,
+  "minInteractionsThreshold": 2
+}
+[2025-11-27T04:21:49.040Z] INFO: 👥 STEP 1: Finding users who interacted with input movies 
+[2025-11-27T04:21:49.048Z] 🚀 Pure collaborative filtering started 
+[2025-11-27T04:21:49.048Z] 📥 Input movie slugs: [
+  "little-women-2019"
+]
+[2025-11-27T04:21:49.048Z] ⚙️ Config: {
+  "numRecommendations": 5,
+  "likedBothMoviesBoost": 3,
+  "favoritedInputMovieBoost": 5,
+  "combinedBoost": 8,
+  "favoriteWeight": 2,
+  "obscurityBias": 1,
+  "minInteractionsThreshold": 2
+}
+[2025-11-27T04:21:49.048Z] INFO: 👥 STEP 1: Finding users who interacted with input movies 
+[2025-11-27T04:21:49.341Z] INFO: 👍 200 users liked little-women-2019 
+[2025-11-27T04:21:49.356Z] INFO: 👍 200 users liked little-women-2019 
+[2025-11-27T04:21:49.432Z] INFO: ⭐ 200 users favorited little-women-2019 
+[2025-11-27T04:21:49.432Z] INFO: 👥 Total users who interacted: 400 
+[2025-11-27T04:21:49.432Z] INFO: 📊 STEP 2: Calculating user affinity scores 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 1098: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 10999189: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00067: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00103s: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00110101: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 004329: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 004selli: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 005cyl: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 0070can: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00_callie_00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00_chris: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00_jordan_00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00beanz00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00idk09: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00lace00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.433Z] DEBUG: 👤 00luvie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 00melu: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 00pauli: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 00reu: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 00skllua: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 011coccinelle: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 011francisca: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 011m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 0123matilda: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 012sher: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 018jpg: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01am: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01brat03: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01ciara: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01hannah04: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01iv1a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01lou12: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 01vaness: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 0206pm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.434Z] DEBUG: 👤 020808m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.435Z] DEBUG: 👤 0208o: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.435Z] DEBUG: 👤 02147e: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.435Z] DEBUG: 👤 026_eil: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.435Z] DEBUG: 👤 028alina: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02_msm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02agsu05: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02films: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02h09m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02julia: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02meaganlo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02nwdly4: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02snin: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 02zeezs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 0307ma: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.436Z] DEBUG: 👤 0309_movie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.438Z] DEBUG: 👤 030wed: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.438Z] DEBUG: 👤 0313beom: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 03hannahc: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 03rose_filmssss: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 03sdaisy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 03sle: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 0414res: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 042kqren: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 042mn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 04bridgeto: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.439Z] DEBUG: 👤 04feels: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 04gracel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 04naomi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 04tay: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 0518sunbeam: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05282004a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05_marysol: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05bi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05chloegardner: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05fil: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 05isabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 061: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 0613s: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 067555p: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 06ajames: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 06d40wn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 06danata: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 06dyn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 06lvr: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 07091a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 0709isabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.440Z] DEBUG: 👤 070zana: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 071395: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 07lilybeth: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 07lrs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 07maro: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 07sarha: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08010419: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 0805ers: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08279: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 0828library: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 083_lly: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08_nana_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08aihpos: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08gwenn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08jelen: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.441Z] DEBUG: 👤 08poema: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 08rubie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 09031993ak: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 09100707: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 09_vic: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0_emilie_0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0_icarus: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0_oemi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0_picture_it: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0_zoey: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0a1sy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0alisson: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.442Z] DEBUG: 👤 0anasouza0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0atmilkbby: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0ccidendum: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0ce4ne: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0ceaneclipz3: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0ceanna: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0celia0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0crackbaby: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.443Z] DEBUG: 👤 0ctopuss_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.444Z] DEBUG: 👤 0drea0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.444Z] DEBUG: 👤 0duorm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.445Z] DEBUG: 👤 0durinsbane0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.445Z] DEBUG: 👤 0estelle0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.445Z] DEBUG: 👤 0evie0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.445Z] DEBUG: 👤 0eyan0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.445Z] DEBUG: 👤 0eye_2_eye0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0films: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0graciela0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0h_h3ck: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0hcakes_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0hmyst4rs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0ho126: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.447Z] DEBUG: 👤 0hwillow: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0il7g: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0iovii: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0isabella0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0josiee0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0kash11: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0katierose0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0kenken1: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0kristin: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0kslibra: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0kyara: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0l39hku: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.448Z] DEBUG: 👤 0layy0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0lciaxoxo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0lessy0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0live: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0live33: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0livesfilms: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0livia0h: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.449Z] DEBUG: 👤 0livia35: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0livia_jjjjj: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0liviahowarth: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0liviakata: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0livianewman: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0liviarae: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0liviasmith: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.450Z] DEBUG: 👤 0liviatomba: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.451Z] DEBUG: 👤 0liviayardley: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.451Z] DEBUG: 👤 0liviuh: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.451Z] DEBUG: 👤 0livv1a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.451Z] DEBUG: 👤 0lk4wa: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.451Z] DEBUG: 👤 0lorin0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0luciole: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0lucyy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0mads_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0mar4_og: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0mayaaya: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0mee: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0mmackenziee: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0nfim: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0nics: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.453Z] DEBUG: 👤 0nlhymira: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0novaart0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0o0livia: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0p4lsfilms: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0pheliacure: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0piumcash: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0riana: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0riocampo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0roadhouseblues: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0sabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0smkimiie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0teenagedream: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0ut0ftime: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0x00tk: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.454Z] DEBUG: 👤 0xclaw_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 1000bluunts: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 1009highway: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 100acr3wood: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 10107_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 1010_k: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.455Z] DEBUG: 👤 1013zip: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 102may: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 107infj: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 10aliyah: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 10feb: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 _0ce_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 _0elisa_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 __00h59m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.456Z] DEBUG: 👤 __05gabi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.457Z] INFO: 🏆 Top affinity users: 
+[2025-11-27T04:21:49.457Z] INFO:   1098: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.457Z] INFO:   10999189: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.457Z] INFO:   00067: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.457Z] INFO:   00103s: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.457Z] INFO:   00110101: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.458Z] INFO: 🎬 STEP 3: Fetching other movies from these users 
+[2025-11-27T04:21:49.604Z] INFO: ⭐ 200 users favorited little-women-2019 
+[2025-11-27T04:21:49.605Z] INFO: 👥 Total users who interacted: 400 
+[2025-11-27T04:21:49.605Z] INFO: 📊 STEP 2: Calculating user affinity scores 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 1098: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 10999189: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00067: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00103s: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00110101: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 004329: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 004selli: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 005cyl: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 0070can: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00_callie_00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00_chris: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00_jordan_00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00beanz00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00idk09: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00lace00: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00luvie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00melu: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00pauli: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.605Z] DEBUG: 👤 00reu: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 00skllua: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 011coccinelle: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 011francisca: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 011m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 0123matilda: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 012sher: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 018jpg: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01am: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01brat03: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01ciara: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01hannah04: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01iv1a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01lou12: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 01vaness: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 0206pm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 020808m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 0208o: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02147e: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 026_eil: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 028alina: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02_msm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02agsu05: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02films: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02h09m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02julia: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02meaganlo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02nwdly4: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02snin: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.606Z] DEBUG: 👤 02zeezs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 0307ma: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 0309_movie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 030wed: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 0313beom: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 03hannahc: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 03rose_filmssss: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 03sdaisy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 03sle: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 0414res: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 042kqren: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 042mn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 04bridgeto: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 04feels: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 04gracel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 04naomi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 04tay: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 0518sunbeam: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05282004a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05_marysol: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05bi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05chloegardner: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05fil: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.607Z] DEBUG: 👤 05isabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 061: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 0613s: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 067555p: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 06ajames: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 06d40wn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 06danata: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 06dyn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 06lvr: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 07091a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 0709isabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 070zana: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 071395: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 07lilybeth: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 07lrs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 07maro: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 07sarha: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08010419: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 0805ers: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08279: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 0828library: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 083_lly: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08_nana_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08aihpos: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08gwenn: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.608Z] DEBUG: 👤 08jelen: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 08poema: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 08rubie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 09031993ak: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 09100707: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 09_vic: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0_emilie_0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0_icarus: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0_oemi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0_picture_it: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0_zoey: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0a1sy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0alisson: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0anasouza0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0atmilkbby: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0ccidendum: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0ce4ne: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0ceaneclipz3: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0ceanna: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0celia0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0crackbaby: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0ctopuss_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0drea0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0duorm: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0durinsbane0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.609Z] DEBUG: 👤 0estelle0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0evie0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0eyan0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0eye_2_eye0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0films: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0graciela0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0h_h3ck: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0hcakes_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0hmyst4rs: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0ho126: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0hwillow: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0il7g: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0iovii: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0isabella0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0josiee0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0kash11: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.610Z] DEBUG: 👤 0katierose0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0kenken1: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0kristin: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0kslibra: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0kyara: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0l39hku: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0layy0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0lciaxoxo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0lessy0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0live: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.612Z] DEBUG: 👤 0live33: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livesfilms: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livia0h: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livia35: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livia_jjjjj: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviahowarth: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviakata: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livianewman: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviarae: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviasmith: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviatomba: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviayardley: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0liviuh: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0livv1a: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0lk4wa: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0lorin0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0luciole: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.613Z] DEBUG: 👤 0lucyy: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0mads_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0mar4_og: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0mayaaya: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0mee: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0mmackenziee: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0nfim: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0nics: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0nlhymira: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0novaart0: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0o0livia: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0p4lsfilms: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0pheliacure: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0piumcash: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0riana: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0riocampo: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0roadhouseblues: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0sabel: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0smkimiie: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0teenagedream: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0ut0ftime: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0x00tk: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 0xclaw_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 1000bluunts: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.614Z] DEBUG: 👤 1009highway: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 100acr3wood: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 10107_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 1010_k: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 1013zip: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 102may: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 107infj: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 10aliyah: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 10feb: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 _0ce_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 _0elisa_: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 __00h59m: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] DEBUG: 👤 __05gabi: Favorited 1 inputs -> 5x boost 
+[2025-11-27T04:21:49.615Z] INFO: 🏆 Top affinity users: 
+[2025-11-27T04:21:49.615Z] INFO:   1098: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.615Z] INFO:   10999189: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.615Z] INFO:   00067: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.615Z] INFO:   00103s: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.615Z] INFO:   00110101: 5.00x (0 likes, 1 favorites) 
+[2025-11-27T04:21:49.615Z] INFO: 🎬 STEP 3: Fetching other movies from these users 
+[2025-11-27T04:21:52.187Z] INFO: 🎯 STEP 4: Scoring candidate movies 
+[2025-11-27T04:21:52.189Z] INFO: 🎯 Found 1716 candidate movies 
+[2025-11-27T04:21:52.190Z] INFO: ✅ 977 candidates after filtering (min 2 interactions) 
+[2025-11-27T04:21:52.190Z] INFO: 📈 STEP 5: Calculating popularity statistics 
+[2025-11-27T04:21:52.190Z] DEBUG: 🔍 Querying likes-by-movie - batch 1 
+[2025-11-27T04:21:52.253Z] INFO: 🎯 STEP 4: Scoring candidate movies 
+[2025-11-27T04:21:52.255Z] INFO: 🎯 Found 1716 candidate movies 
+[2025-11-27T04:21:52.256Z] INFO: ✅ 977 candidates after filtering (min 2 interactions) 
+[2025-11-27T04:21:52.256Z] INFO: 📈 STEP 5: Calculating popularity statistics 
+[2025-11-27T04:21:52.256Z] DEBUG: 🔍 Querying likes-by-movie - batch 1 
+[2025-11-27T04:21:53.125Z] DEBUG: 🔍 Querying likes-by-movie - batch 2 
+[2025-11-27T04:21:53.272Z] DEBUG: 🔍 Querying likes-by-movie - batch 2 
+[2025-11-27T04:21:53.769Z] DEBUG: 🔍 Querying likes-by-movie - batch 3 
+[2025-11-27T04:21:53.971Z] DEBUG: 🔍 Querying likes-by-movie - batch 3 
+[2025-11-27T04:21:54.506Z] DEBUG: 🔍 Querying likes-by-movie - batch 4 
+[2025-11-27T04:21:54.702Z] DEBUG: 🔍 Querying likes-by-movie - batch 4 
+[2025-11-27T04:21:55.192Z] DEBUG: 🔍 Querying likes-by-movie - batch 5 
+[2025-11-27T04:21:55.364Z] DEBUG: 🔍 Querying likes-by-movie - batch 5 
+[2025-11-27T04:21:55.875Z] DEBUG: 🔍 Querying likes-by-movie - batch 6 
+[2025-11-27T04:21:56.086Z] DEBUG: 🔍 Querying likes-by-movie - batch 6 
+[2025-11-27T04:21:56.601Z] DEBUG: 🔍 Querying likes-by-movie - batch 7 
+[2025-11-27T04:21:56.812Z] DEBUG: 🔍 Querying likes-by-movie - batch 7 
+[2025-11-27T04:21:57.338Z] DEBUG: 🔍 Querying likes-by-movie - batch 8 
+[2025-11-27T04:21:57.546Z] DEBUG: 🔍 Querying likes-by-movie - batch 8 
+[2025-11-27T04:21:58.533Z] DEBUG: 🔍 Querying likes-by-movie - batch 9 
+[2025-11-27T04:21:58.930Z] DEBUG: 🔍 Querying likes-by-movie - batch 9 
+[2025-11-27T04:21:59.311Z] DEBUG: 🔍 Querying likes-by-movie - batch 10 
+[2025-11-27T04:21:59.687Z] DEBUG: 🔍 Querying likes-by-movie - batch 10 
+[2025-11-27T04:22:00.037Z] INFO: 🔍 Progress: 175911 items from likes-by-movie so far... 
+[2025-11-27T04:22:00.037Z] DEBUG: 🔍 Querying likes-by-movie - batch 11 
+[2025-11-27T04:22:00.423Z] INFO: 🔍 Progress: 175911 items from likes-by-movie so far... 
+[2025-11-27T04:22:00.423Z] DEBUG: 🔍 Querying likes-by-movie - batch 11 
+[2025-11-27T04:22:00.862Z] DEBUG: 🔍 Querying likes-by-movie - batch 12 
+[2025-11-27T04:22:01.233Z] DEBUG: 🔍 Querying likes-by-movie - batch 12 
+[2025-11-27T04:22:01.640Z] DEBUG: 🔍 Querying likes-by-movie - batch 13 
+[2025-11-27T04:22:02.036Z] DEBUG: 🔍 Querying likes-by-movie - batch 13 
+[2025-11-27T04:22:02.400Z] DEBUG: 🔍 Querying likes-by-movie - batch 14 
+[2025-11-27T04:22:02.880Z] DEBUG: 🔍 Querying likes-by-movie - batch 14 
+[2025-11-27T04:22:03.371Z] DEBUG: 🔍 Querying likes-by-movie - batch 15 
+[2025-11-27T04:22:03.718Z] DEBUG: 🔍 Querying likes-by-movie - batch 15 
+[2025-11-27T04:22:04.136Z] DEBUG: 🔍 Querying likes-by-movie - batch 16 
+[2025-11-27T04:22:04.566Z] DEBUG: 🔍 Querying likes-by-movie - batch 16 
+[2025-11-27T04:22:04.928Z] DEBUG: 🔍 Querying likes-by-movie - batch 17 
+[2025-11-27T04:22:05.690Z] DEBUG: 🔍 Querying likes-by-movie - batch 17 
+[2025-11-27T04:22:05.946Z] DEBUG: 🔍 Querying likes-by-movie - batch 18 
+[2025-11-27T04:22:06.489Z] DEBUG: 🔍 Querying likes-by-movie - batch 18 
+[2025-11-27T04:22:06.720Z] DEBUG: 🔍 Querying likes-by-movie - batch 19 
+[2025-11-27T04:22:07.299Z] DEBUG: 🔍 Querying likes-by-movie - batch 19 
+[2025-11-27T04:22:07.437Z] DEBUG: 🔍 Querying likes-by-movie - batch 20 
+[2025-11-27T04:22:08.025Z] DEBUG: 🔍 Querying likes-by-movie - batch 20 
+[2025-11-27T04:22:08.315Z] INFO: 🔍 Progress: 350087 items from likes-by-movie so far... 
+[2025-11-27T04:22:08.315Z] DEBUG: 🔍 Querying likes-by-movie - batch 21 
+[2025-11-27T04:22:08.951Z] INFO: 🔍 Progress: 350087 items from likes-by-movie so far... 
+[2025-11-27T04:22:08.951Z] DEBUG: 🔍 Querying likes-by-movie - batch 21 
+[2025-11-27T04:22:09.174Z] DEBUG: 🔍 Querying likes-by-movie - batch 22 
+[2025-11-27T04:22:09.817Z] DEBUG: 🔍 Querying likes-by-movie - batch 22 
+[2025-11-27T04:22:09.985Z] DEBUG: 🔍 Querying likes-by-movie - batch 23 
+[2025-11-27T04:22:10.653Z] DEBUG: 🔍 Querying likes-by-movie - batch 23 
+[2025-11-27T04:22:10.879Z] DEBUG: 🔍 Querying likes-by-movie - batch 24 
+[2025-11-27T04:22:11.537Z] DEBUG: 🔍 Querying likes-by-movie - batch 24 
+[2025-11-27T04:22:11.711Z] DEBUG: 🔍 Querying likes-by-movie - batch 25 
+[2025-11-27T04:22:12.374Z] DEBUG: 🔍 Querying likes-by-movie - batch 25 
+[2025-11-27T04:22:12.547Z] DEBUG: 🔍 Querying likes-by-movie - batch 26 
+[2025-11-27T04:22:13.534Z] DEBUG: 🔍 Querying likes-by-movie - batch 26 
+[2025-11-27T04:22:14.695Z] DEBUG: 🔍 Querying likes-by-movie - batch 27 
+[2025-11-27T04:22:14.951Z] DEBUG: 🔍 Querying likes-by-movie - batch 27 
+[2025-11-27T04:22:15.761Z] DEBUG: 🔍 Querying likes-by-movie - batch 28 
+[2025-11-27T04:22:15.957Z] DEBUG: 🔍 Querying likes-by-movie - batch 28 
+[2025-11-27T04:22:16.739Z] DEBUG: 🔍 Querying likes-by-movie - batch 29 
+[2025-11-27T04:22:16.979Z] DEBUG: 🔍 Querying likes-by-movie - batch 29 
+[2025-11-27T04:22:17.645Z] DEBUG: 🔍 Querying likes-by-movie - batch 30 
+[2025-11-27T04:22:17.870Z] DEBUG: 🔍 Querying likes-by-movie - batch 30 
+[2025-11-27T04:22:18.568Z] INFO: 🔍 Progress: 526304 items from likes-by-movie so far... 
+[2025-11-27T04:22:18.569Z] DEBUG: 🔍 Querying likes-by-movie - batch 31 
+[2025-11-27T04:22:18.780Z] INFO: 🔍 Progress: 526304 items from likes-by-movie so far... 
+[2025-11-27T04:22:18.780Z] DEBUG: 🔍 Querying likes-by-movie - batch 31 
+[2025-11-27T04:22:19.362Z] DEBUG: 🔍 Querying likes-by-movie - batch 32 
+[2025-11-27T04:22:19.696Z] DEBUG: 🔍 Querying likes-by-movie - batch 32 
+[2025-11-27T04:22:20.277Z] DEBUG: 🔍 Querying likes-by-movie - batch 33 
+[2025-11-27T04:22:20.567Z] DEBUG: 🔍 Querying likes-by-movie - batch 33 
+[2025-11-27T04:22:21.082Z] DEBUG: 🔍 Querying likes-by-movie - batch 34 
+[2025-11-27T04:22:21.568Z] DEBUG: 🔍 Querying likes-by-movie - batch 34 
+[2025-11-27T04:22:22.056Z] DEBUG: 🔍 Querying likes-by-movie - batch 35 
+[2025-11-27T04:22:22.470Z] DEBUG: 🔍 Querying likes-by-movie - batch 35 
+[2025-11-27T04:22:23.827Z] DEBUG: 🔍 Querying likes-by-movie - batch 36 
+[2025-11-27T04:22:24.051Z] DEBUG: 🔍 Querying likes-by-movie - batch 36 
+[2025-11-27T04:22:25.370Z] DEBUG: 🔍 Querying likes-by-movie - batch 37 
+[2025-11-27T04:22:25.699Z] DEBUG: 🔍 Querying likes-by-movie - batch 37 
+[2025-11-27T04:22:26.396Z] DEBUG: 🔍 Querying likes-by-movie - batch 38 
+[2025-11-27T04:22:27.310Z] DEBUG: 🔍 Querying likes-by-movie - batch 38 
+[2025-11-27T04:22:28.064Z] DEBUG: 🔍 Querying likes-by-movie - batch 39 
+[2025-11-27T04:22:28.582Z] DEBUG: 🔍 Querying likes-by-movie - batch 39 
+[2025-11-27T04:22:28.875Z] DEBUG: 🔍 Querying likes-by-movie - batch 40 
+[2025-11-27T04:22:29.446Z] DEBUG: 🔍 Querying likes-by-movie - batch 40 
+[2025-11-27T04:22:30.024Z] INFO: 🔍 Progress: 700708 items from likes-by-movie so far... 
+[2025-11-27T04:22:30.024Z] DEBUG: 🔍 Querying likes-by-movie - batch 41 
+[2025-11-27T04:22:30.530Z] INFO: 🔍 Progress: 700708 items from likes-by-movie so far... 
+[2025-11-27T04:22:30.530Z] DEBUG: 🔍 Querying likes-by-movie - batch 41 
+[2025-11-27T04:22:30.907Z] DEBUG: 🔍 Querying likes-by-movie - batch 42 
+[2025-11-27T04:22:31.528Z] DEBUG: 🔍 Querying likes-by-movie - batch 42 
+[2025-11-27T04:22:31.901Z] DEBUG: 🔍 Querying likes-by-movie - batch 43 
+[2025-11-27T04:22:32.551Z] DEBUG: 🔍 Querying likes-by-movie - batch 43 
+[2025-11-27T04:22:32.861Z] DEBUG: 🔍 Querying likes-by-movie - batch 44 
+[2025-11-27T04:22:33.532Z] DEBUG: 🔍 Querying likes-by-movie - batch 44 
+[2025-11-27T04:22:34.115Z] DEBUG: 🔍 Querying likes-by-movie - batch 45 
+[2025-11-27T04:22:34.825Z] DEBUG: 🔍 Querying likes-by-movie - batch 45 
+[2025-11-27T04:22:35.356Z] DEBUG: 🔍 Querying likes-by-movie - batch 46 
+[2025-11-27T04:22:35.887Z] DEBUG: 🔍 Querying likes-by-movie - batch 46 
+[2025-11-27T04:22:36.235Z] DEBUG: 🔍 Querying likes-by-movie - batch 47 
+[2025-11-27T04:22:36.794Z] DEBUG: 🔍 Querying likes-by-movie - batch 47 
+[2025-11-27T04:22:37.223Z] DEBUG: 🔍 Querying likes-by-movie - batch 48 
+[2025-11-27T04:22:38.690Z] DEBUG: 🔍 Querying likes-by-movie - batch 49 
+[2025-11-27T04:22:38.976Z] DEBUG: 🔍 Querying likes-by-movie - batch 48 
+[2025-11-27T04:22:39.973Z] DEBUG: 🔍 Querying likes-by-movie - batch 50 
+[2025-11-27T04:22:40.298Z] DEBUG: 🔍 Querying likes-by-movie - batch 49 
+[2025-11-27T04:22:41.007Z] INFO: 🔍 Progress: 875046 items from likes-by-movie so far... 
+[2025-11-27T04:22:41.008Z] DEBUG: 🔍 Querying likes-by-movie - batch 51 
+[2025-11-27T04:22:41.333Z] DEBUG: 🔍 Querying likes-by-movie - batch 50 
+[2025-11-27T04:22:41.985Z] DEBUG: 🔍 Querying likes-by-movie - batch 52 
+[2025-11-27T04:22:42.398Z] INFO: 🔍 Progress: 875046 items from likes-by-movie so far... 
+[2025-11-27T04:22:42.399Z] DEBUG: 🔍 Querying likes-by-movie - batch 51 
+[2025-11-27T04:22:42.927Z] DEBUG: 🔍 Querying likes-by-movie - batch 53 
+[2025-11-27T04:22:43.440Z] DEBUG: 🔍 Querying likes-by-movie - batch 52 
+[2025-11-27T04:22:44.469Z] DEBUG: 🔍 Querying likes-by-movie - batch 54 
+[2025-11-27T04:22:44.950Z] DEBUG: 🔍 Querying likes-by-movie - batch 53 
+[2025-11-27T04:22:45.458Z] DEBUG: 🔍 Querying likes-by-movie - batch 55 
+[2025-11-27T04:22:45.990Z] DEBUG: 🔍 Querying likes-by-movie - batch 54 
+[2025-11-27T04:22:46.402Z] DEBUG: 🔍 Querying likes-by-movie - batch 56 
+[2025-11-27T04:22:47.023Z] DEBUG: 🔍 Querying likes-by-movie - batch 55 
+[2025-11-27T04:22:47.494Z] DEBUG: 🔍 Querying likes-by-movie - batch 57 
+[2025-11-27T04:22:48.106Z] DEBUG: 🔍 Querying likes-by-movie - batch 56 
+[2025-11-27T04:22:48.597Z] DEBUG: 🔍 Querying likes-by-movie - batch 58 
+[2025-11-27T04:22:49.232Z] INFO: 🔍 Retrieved 1000257 total items from likes-by-movie in 58 batches 
+[2025-11-27T04:22:49.635Z] INFO: 📈 Avg likes per movie: 200.1 
+[2025-11-27T04:22:49.636Z] INFO: 🎨 STEP 6: Applying obscurity bias and ranking 
+[2025-11-27T04:22:49.638Z] INFO: 📚 STEP 7: Fetching movie details 
+[2025-11-27T04:22:50.285Z] DEBUG: 🔍 Querying likes-by-movie - batch 57 
+[2025-11-27T04:22:50.324Z] INFO: 🏆 Final recommendations: 
+[2025-11-27T04:22:50.325Z] INFO: 1. 10 Things I Hate About You (score: 175.00, popularity: 200) 
+[2025-11-27T04:22:50.325Z] INFO: 2. Pride & Prejudice (score: 160.00, popularity: 200) 
+[2025-11-27T04:22:50.325Z] INFO: 3. Dead Poets Society (score: 145.00, popularity: 200) 
+[2025-11-27T04:22:50.325Z] INFO: 4. Call Me by Your Name (score: 125.00, popularity: 200) 
+[2025-11-27T04:22:50.325Z] INFO: 5. The Devil Wears Prada (score: 118.00, popularity: 200) 
+[2025-11-27T04:22:52.385Z] DEBUG: 🔍 Querying likes-by-movie - batch 58 
+[2025-11-27T04:22:53.095Z] INFO: 🔍 Retrieved 1000257 total items from likes-by-movie in 58 batches 
+[2025-11-27T04:22:53.587Z] INFO: 📈 Avg likes per movie: 200.1 
+[2025-11-27T04:22:53.587Z] INFO: 🎨 STEP 6: Applying obscurity bias and ranking 
+[2025-11-27T04:22:53.589Z] INFO: 📚 STEP 7: Fetching movie details 
+[2025-11-27T04:22:53.796Z] INFO: 🏆 Final recommendations: 
+[2025-11-27T04:22:53.796Z] INFO: 1. 10 Things I Hate About You (score: 175.00, popularity: 200) 
+[2025-11-27T04:22:53.796Z] INFO: 2. Pride & Prejudice (score: 160.00, popularity: 200) 
+[2025-11-27T04:22:53.796Z] INFO: 3. Dead Poets Society (score: 145.00, popularity: 200) 
+[2025-11-27T04:22:53.796Z] INFO: 4. Call Me by Your Name (score: 125.00, popularity: 200) 
+[2025-11-27T04:22:53.796Z] INFO: 5. The Devil Wears Prada (score: 118.00, popularity: 200) 

@@ -10,9 +10,6 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search for movies..."
         className="w-full px-6 py-4 border-4 border-black text-black placeholder-gray-600 font-bold text-lg outline-none transition-all"
-        style={{
-          boxShadow: "6px 6px 0px 0px #000000",
-        }}
       />
       <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-black" size={24} strokeWidth={3} />
     </form>
