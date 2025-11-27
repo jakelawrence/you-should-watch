@@ -1,0 +1,6864 @@
+[2025-11-17T01:36:25.191Z] Processing weighted recommendation request 
+[2025-11-17T01:36:25.193Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-17T01:36:25.193Z] 📥 Input movie slugs: [
+  "hereditary"
+]
+[2025-11-17T01:36:25.194Z] ⚙️ Active weights: {
+  "collaborative": 0.4,
+  "favorite_bonus": 0.15,
+  "genre": 0.25,
+  "nanogenre": 0,
+  "director": 0.1,
+  "actor": 0.05,
+  "temporal": 0.05
+}
+[2025-11-17T01:36:25.194Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-17T01:36:25.727Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-17T01:36:25.727Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-17T01:36:25.879Z] INFO: 👥 Movie hereditary liked by users: [
+  "14ltobias",
+  "_66tl_",
+  "adrianam",
+  "adrianmoviez",
+  "ajasmine",
+  "alaynaviolet",
+  "alexroy656",
+  "always8323",
+  "amyja89",
+  "andredenervaux",
+  "andregps",
+  "andrerseits",
+  "andrez15",
+  "andylevy",
+  "anjyfox",
+  "anniewoj",
+  "annijaas",
+  "ashonfilm",
+  "austinelkins",
+  "b1mb1m",
+  "badeboom",
+  "bajonasmekas",
+  "beegproductions",
+  "beenalee",
+  "behaind",
+  "belial_carboni",
+  "belrodrigues",
+  "bengrimm",
+  "bethbecomesher",
+  "blakemower",
+  "bongjoonho",
+  "brat",
+  "carygrcnt",
+  "cassie",
+  "cdgray",
+  "cernanmari",
+  "chatterb0xd",
+  "cherrygloss",
+  "cherryz",
+  "chickenmaster",
+  "chloe1",
+  "christianbales",
+  "cilliansheart",
+  "cinefan27",
+  "cinemaexcelsior",
+  "clockworkking",
+  "codymonster91",
+  "codypphoto",
+  "coreypierce",
+  "dakotajoaquin",
+  "dallasfrance",
+  "damdaaamm",
+  "danielle41515",
+  "danielzalez",
+  "denduffy",
+  "dialnfornick",
+  "digitalpress",
+  "djdoublem3",
+  "donnieddarko",
+  "dorseyhorsey",
+  "draper_",
+  "dreadfuls",
+  "drumdums",
+  "ducournau",
+  "dulcetnicole",
+  "dylanmeetze",
+  "ed_w00d",
+  "edithwharton",
+  "edunne125",
+  "elaurapictures",
+  "elisavetkei",
+  "elliebean",
+  "elsergiomunoz",
+  "emforce",
+  "emilybabyy",
+  "emperorcupcake",
+  "entlauber",
+  "erinlindsayy",
+  "evasive",
+  "everista",
+  "eviibag",
+  "evilbjork",
+  "fake_shemp",
+  "fakerobhunter",
+  "fallnfairy",
+  "faretheewell",
+  "feliomestre",
+  "femvp",
+  "filmlinds",
+  "flanmovieman",
+  "flyawayhome",
+  "freyainthcities",
+  "g_emi",
+  "georgecarmi",
+  "gorybmovie",
+  "hail_freyr",
+  "halliehalliday",
+  "hanxine",
+  "hauntedhippie",
+  "henryspencerirl",
+  "hereditary",
+  "herman2181",
+  "horizonframed",
+  "hotdad23",
+  "ianjonas",
+  "ifising",
+  "imamesscraven18",
+  "incomingmail",
+  "innerash",
+  "irathethird",
+  "jacobalenciaga",
+  "jay",
+  "jc13",
+  "jeaba",
+  "jessedixon",
+  "jesstra24",
+  "jewbo23",
+  "joakocritica",
+  "jocey",
+  "joereid",
+  "jonathanfujii",
+  "josiahmorgan11",
+  "jozhster",
+  "karmanoodle",
+  "kasarin",
+  "katkowalski314",
+  "kendallwalsh",
+  "khoi97",
+  "kingofgondor",
+  "ksenijab",
+  "kun",
+  "kwight01",
+  "kyledunne",
+  "leeannremiker",
+  "lenn_art",
+  "lileyy",
+  "lmr",
+  "lovrfilms",
+  "lucaselordi",
+  "luciacoronado_",
+  "luckydoll",
+  "lucyskeet",
+  "lukelivermore",
+  "m__ollymac",
+  "macfilms",
+  "madeons",
+  "mardarrius",
+  "margielatabi",
+  "markmooney",
+  "martaluvi",
+  "mattluvsmovies",
+  "maxivanov",
+  "maxthemovieguy",
+  "mayhemkvlt",
+  "mbf231",
+  "mcufilm",
+  "medicalmovieman",
+  "meggss",
+  "miketorchic",
+  "milanabor",
+  "millenniummambo",
+  "modish",
+  "mook",
+  "moviemaestro",
+  "movieswithdes",
+  "mulaney",
+  "mumbles",
+  "nibiru_truth",
+  "nickyd",
+  "notviking",
+  "nycsubwayrat",
+  "olilovesfilm",
+  "pauloveshorror",
+  "pinkmcflurry",
+  "pjenkins",
+  "prezoh",
+  "prolelol",
+  "qmoviereviews",
+  "reservoirdvgs",
+  "reviewsbybrooks",
+  "rhesusnegative",
+  "ricfranco",
+  "rickd",
+  "ricomcpato",
+  "riverjphoenix",
+  "robertdavid",
+  "rodstar",
+  "rudimh",
+  "russman",
+  "rybrentmannftw",
+  "sadik_khan_",
+  "samherbst",
+  "samiser",
+  "sarahlovett",
+  "scissorluvs",
+  "seenandnotseen",
+  "sehnzeleid",
+  "simplecinema",
+  "skipper_schutt",
+  "sloany_",
+  "smallclone",
+  "smarmyjerkface",
+  "sonnywortzikk",
+  "sprudelheinz",
+  "starr",
+  "sunset99",
+  "superpulse",
+  "taylorfilmguy",
+  "taz",
+  "tdm5003",
+  "teamgal",
+  "teamshaikha",
+  "tentaclatron",
+  "theblackphillip",
+  "thediegoandaluz",
+  "thejacko",
+  "theresahole",
+  "toddhaynes",
+  "tommysyk",
+  "tonyterror",
+  "tototoro",
+  "tracedthurman",
+  "truman",
+  "truong78",
+  "tummyache",
+  "tylerdoiron",
+  "unawarewolf",
+  "unclestan",
+  "v6446v",
+  "vampireweekend",
+  "vascomunoz",
+  "vontrapp",
+  "wesandrson",
+  "whateverokay",
+  "worldwideweb",
+  "ximenaribs",
+  "yogilovesfilm",
+  "yorel1976",
+  "zanderific",
+  "zizyy",
+  "zoesf"
+]
+[2025-11-17T01:36:25.880Z] INFO: 👥 Found 241 users who interacted with input movies 
+[2025-11-17T01:36:25.880Z] INFO: Userineractions: {
+  "adrianam": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "tylerdoiron": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "14ltobias": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "_66tl_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "adrianmoviez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ajasmine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alaynaviolet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alexroy656": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "always8323": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "amyja89": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andredenervaux": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andregps": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrerseits": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrez15": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andylevy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anjyfox": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anniewoj": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "annijaas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ashonfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "austinelkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "b1mb1m": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "badeboom": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bajonasmekas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beegproductions": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beenalee": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "behaind": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belial_carboni": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belrodrigues": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bengrimm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bethbecomesher": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "blakemower": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bongjoonho": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "brat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "carygrcnt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cassie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cdgray": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cernanmari": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chatterb0xd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherrygloss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherryz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chickenmaster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chloe1": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "christianbales": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cilliansheart": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinefan27": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinemaexcelsior": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "clockworkking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codymonster91": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codypphoto": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "coreypierce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dakotajoaquin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dallasfrance": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "damdaaamm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielle41515": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielzalez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "denduffy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dialnfornick": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "digitalpress": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "djdoublem3": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "donnieddarko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dorseyhorsey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "draper_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dreadfuls": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "drumdums": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ducournau": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dulcetnicole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dylanmeetze": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ed_w00d": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edithwharton": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edunne125": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elaurapictures": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elisavetkei": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elliebean": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elsergiomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emforce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emilybabyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emperorcupcake": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "entlauber": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "erinlindsayy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evasive": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "everista": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "eviibag": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evilbjork": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fake_shemp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fakerobhunter": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fallnfairy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "faretheewell": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "feliomestre": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "femvp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "filmlinds": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flanmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flyawayhome": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "freyainthcities": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "g_emi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "georgecarmi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "gorybmovie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hail_freyr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "halliehalliday": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hanxine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hauntedhippie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "henryspencerirl": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hereditary": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "herman2181": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "horizonframed": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hotdad23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ianjonas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ifising": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "imamesscraven18": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "incomingmail": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "innerash": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "irathethird": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jacobalenciaga": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jc13": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jeaba": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jessedixon": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jesstra24": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jewbo23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joakocritica": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jocey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joereid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jonathanfujii": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "josiahmorgan11": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jozhster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "karmanoodle": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kasarin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "katkowalski314": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kendallwalsh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "khoi97": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kingofgondor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ksenijab": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kun": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kwight01": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kyledunne": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "leeannremiker": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lenn_art": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lileyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lmr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lovrfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucaselordi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luciacoronado_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luckydoll": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucyskeet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lukelivermore": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "m__ollymac": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "macfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "madeons": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mardarrius": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "margielatabi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "markmooney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "martaluvi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mattluvsmovies": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxivanov": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxthemovieguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mayhemkvlt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mbf231": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mcufilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "medicalmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "meggss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "miketorchic": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "milanabor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "millenniummambo": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "modish": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mook": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "moviemaestro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "movieswithdes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mulaney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mumbles": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nibiru_truth": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nickyd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "notviking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nycsubwayrat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "olilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pauloveshorror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pinkmcflurry": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pjenkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prezoh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prolelol": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "qmoviereviews": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reservoirdvgs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reviewsbybrooks": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rhesusnegative": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricfranco": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rickd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricomcpato": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "riverjphoenix": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "robertdavid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rodstar": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rudimh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "russman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rybrentmannftw": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sadik_khan_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samherbst": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samiser": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sarahlovett": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "scissorluvs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "seenandnotseen": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sehnzeleid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "simplecinema": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "skipper_schutt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sloany_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smallclone": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smarmyjerkface": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sonnywortzikk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sprudelheinz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "starr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sunset99": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "superpulse": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taylorfilmguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tdm5003": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamgal": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamshaikha": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tentaclatron": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theblackphillip": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thediegoandaluz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thejacko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theresahole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "toddhaynes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tommysyk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tonyterror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tototoro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tracedthurman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truong78": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tummyache": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unawarewolf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unclestan": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "v6446v": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vampireweekend": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vascomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vontrapp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "wesandrson": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "whateverokay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "worldwideweb": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ximenaribs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yogilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yorel1976": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zanderific": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zizyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zoesf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  }
+}
+[2025-11-17T01:36:27.473Z] INFO: 🎯 STEP 3: Building candidate movie set 
+[2025-11-17T01:36:27.474Z] INFO: User interactions for candidates: {
+  "adrianam": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "tylerdoiron": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "14ltobias": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "_66tl_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "adrianmoviez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ajasmine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alaynaviolet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alexroy656": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "always8323": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "amyja89": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andredenervaux": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andregps": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrerseits": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrez15": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andylevy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anjyfox": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anniewoj": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "annijaas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ashonfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "austinelkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "b1mb1m": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "badeboom": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bajonasmekas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beegproductions": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beenalee": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "behaind": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belial_carboni": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belrodrigues": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bengrimm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bethbecomesher": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "blakemower": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bongjoonho": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "brat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "carygrcnt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cassie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cdgray": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cernanmari": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chatterb0xd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherrygloss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherryz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chickenmaster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chloe1": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "christianbales": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cilliansheart": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinefan27": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinemaexcelsior": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "clockworkking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codymonster91": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codypphoto": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "coreypierce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dakotajoaquin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dallasfrance": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "damdaaamm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielle41515": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielzalez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "denduffy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dialnfornick": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "digitalpress": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "djdoublem3": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "donnieddarko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dorseyhorsey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "draper_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dreadfuls": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "drumdums": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ducournau": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dulcetnicole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dylanmeetze": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ed_w00d": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edithwharton": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edunne125": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elaurapictures": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elisavetkei": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elliebean": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elsergiomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emforce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emilybabyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emperorcupcake": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "entlauber": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "erinlindsayy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evasive": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "everista": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "eviibag": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evilbjork": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fake_shemp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fakerobhunter": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fallnfairy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "faretheewell": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "feliomestre": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "femvp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "filmlinds": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flanmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flyawayhome": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "freyainthcities": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "g_emi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "georgecarmi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "gorybmovie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hail_freyr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "halliehalliday": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hanxine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hauntedhippie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "henryspencerirl": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hereditary": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "herman2181": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "horizonframed": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hotdad23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ianjonas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ifising": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "imamesscraven18": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "incomingmail": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "innerash": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "irathethird": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jacobalenciaga": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jc13": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jeaba": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jessedixon": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jesstra24": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jewbo23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joakocritica": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jocey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joereid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jonathanfujii": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "josiahmorgan11": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jozhster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "karmanoodle": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kasarin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "katkowalski314": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kendallwalsh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "khoi97": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kingofgondor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ksenijab": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kun": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kwight01": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kyledunne": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "leeannremiker": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lenn_art": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lileyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lmr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lovrfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucaselordi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luciacoronado_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luckydoll": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucyskeet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lukelivermore": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "m__ollymac": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "macfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "madeons": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mardarrius": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "margielatabi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "markmooney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "martaluvi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mattluvsmovies": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxivanov": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxthemovieguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mayhemkvlt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mbf231": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mcufilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "medicalmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "meggss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "miketorchic": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "milanabor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "millenniummambo": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "modish": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mook": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "moviemaestro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "movieswithdes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mulaney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mumbles": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nibiru_truth": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nickyd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "notviking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nycsubwayrat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "olilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pauloveshorror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pinkmcflurry": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pjenkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prezoh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prolelol": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "qmoviereviews": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reservoirdvgs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reviewsbybrooks": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rhesusnegative": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricfranco": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rickd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricomcpato": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "riverjphoenix": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "robertdavid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rodstar": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rudimh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "russman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rybrentmannftw": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sadik_khan_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samherbst": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samiser": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sarahlovett": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "scissorluvs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "seenandnotseen": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sehnzeleid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "simplecinema": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "skipper_schutt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sloany_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smallclone": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smarmyjerkface": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sonnywortzikk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sprudelheinz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "starr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sunset99": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "superpulse": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taylorfilmguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tdm5003": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamgal": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamshaikha": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tentaclatron": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theblackphillip": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thediegoandaluz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thejacko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theresahole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "toddhaynes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tommysyk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tonyterror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tototoro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tracedthurman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truong78": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tummyache": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unawarewolf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unclestan": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "v6446v": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vampireweekend": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vascomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vontrapp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "wesandrson": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "whateverokay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "worldwideweb": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ximenaribs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yogilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yorel1976": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zanderific": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zizyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zoesf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  }
+}
+[2025-11-17T01:36:27.689Z] INFO: 🎯 Found 4122 candidate movies 
+[2025-11-17T01:36:27.690Z] INFO: 📈 STEP 4: Calculating global statistics 
+[2025-11-17T01:36:27.690Z] DEBUG: 🔍 Querying likes - batch 1 
+[2025-11-17T01:36:28.606Z] DEBUG: 🔍 Querying likes - batch 2 
+[2025-11-17T01:36:29.334Z] DEBUG: 🔍 Querying likes - batch 3 
+[2025-11-17T01:36:29.842Z] DEBUG: 🔍 Querying likes - batch 4 
+[2025-11-17T01:36:30.541Z] DEBUG: 🔍 Querying likes - batch 5 
+[2025-11-17T01:36:31.227Z] DEBUG: 🔍 Querying likes - batch 6 
+[2025-11-17T01:36:31.756Z] DEBUG: 🔍 Querying likes - batch 7 
+[2025-11-17T01:36:32.139Z] DEBUG: 🔍 Querying likes - batch 8 
+[2025-11-17T01:36:32.851Z] DEBUG: 🔍 Querying likes - batch 9 
+[2025-11-17T01:36:33.408Z] DEBUG: 🔍 Querying likes - batch 10 
+[2025-11-17T01:36:34.170Z] INFO: 🔍 Progress: 175229 items from likes so far... 
+[2025-11-17T01:36:34.171Z] DEBUG: 🔍 Querying likes - batch 11 
+[2025-11-17T01:36:34.828Z] DEBUG: 🔍 Querying likes - batch 12 
+[2025-11-17T01:36:35.661Z] DEBUG: 🔍 Querying likes - batch 13 
+[2025-11-17T01:36:36.407Z] DEBUG: 🔍 Querying likes - batch 14 
+[2025-11-17T01:36:37.067Z] DEBUG: 🔍 Querying likes - batch 15 
+[2025-11-17T01:36:37.662Z] DEBUG: 🔍 Querying likes - batch 16 
+[2025-11-17T01:36:38.064Z] INFO: 🔍 Retrieved 268857 total items from likes in 16 batches 
+[2025-11-17T01:36:38.171Z] INFO: 📈 Global stats: 5000 movies, avg 53.8 likes/movie 
+[2025-11-17T01:36:38.172Z] INFO: 🎨 STEP 5: Scoring candidate movies 
+[2025-11-17T01:37:05.441Z] DEBUG: Score breakdown for 1917: {
+  "collaborative": "0.234",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.320"
+}
+[2025-11-17T01:37:05.448Z] DEBUG: Score breakdown for black-mirror-san-junipero: {
+  "collaborative": "0.273",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.355"
+}
+[2025-11-17T01:37:05.448Z] DEBUG: Score breakdown for gone-girl: {
+  "collaborative": "0.196",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.357"
+}
+[2025-11-17T01:37:05.449Z] DEBUG: Score breakdown for midsommar: {
+  "collaborative": "0.239",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.408"
+}
+[2025-11-17T01:37:05.449Z] DEBUG: Score breakdown for mother-2017: {
+  "collaborative": "0.294",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.462"
+}
+[2025-11-17T01:37:05.449Z] DEBUG: Score breakdown for nocturnal-animals: {
+  "collaborative": "0.312",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.416"
+}
+[2025-11-17T01:37:05.450Z] DEBUG: Score breakdown for parasite-2019: {
+  "collaborative": "0.140",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.235"
+}
+[2025-11-17T01:37:05.450Z] DEBUG: Score breakdown for room-2015: {
+  "collaborative": "0.262",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.363"
+}
+[2025-11-17T01:37:05.450Z] DEBUG: Score breakdown for thelma-2017: {
+  "collaborative": "0.353",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.522"
+}
+[2025-11-17T01:37:05.451Z] DEBUG: Score breakdown for wind-river-2017: {
+  "collaborative": "0.344",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.487"
+}
+[2025-11-17T01:37:05.451Z] DEBUG: Score breakdown for black-bear: {
+  "collaborative": "0.353",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.459"
+}
+[2025-11-17T01:37:05.451Z] DEBUG: Score breakdown for bodies-bodies-bodies: {
+  "collaborative": "0.260",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.426"
+}
+[2025-11-17T01:37:05.451Z] DEBUG: Score breakdown for bones-and-all: {
+  "collaborative": "0.235",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.326"
+}
+[2025-11-17T01:37:05.451Z] DEBUG: Score breakdown for coherence: {
+  "collaborative": "0.330",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.427"
+}
+[2025-11-17T01:37:05.452Z] DEBUG: Score breakdown for final-destination-3: {
+  "collaborative": "0.345",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.532"
+}
+[2025-11-17T01:37:05.452Z] DEBUG: Score breakdown for fresh-2022: {
+  "collaborative": "0.309",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.516"
+}
+[2025-11-17T01:37:05.452Z] DEBUG: Score breakdown for game-night: {
+  "collaborative": "0.268",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.363"
+}
+[2025-11-17T01:37:05.452Z] DEBUG: Score breakdown for good-time: {
+  "collaborative": "0.246",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.352"
+}
+[2025-11-17T01:37:05.452Z] DEBUG: Score breakdown for infinity-pool: {
+  "collaborative": "0.306",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.409"
+}
+[2025-11-17T01:37:05.453Z] DEBUG: Score breakdown for inglourious-basterds: {
+  "collaborative": "0.156",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.232"
+}
+[2025-11-17T01:37:05.454Z] DEBUG: Score breakdown for knives-out-2019: {
+  "collaborative": "0.204",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.298"
+}
+[2025-11-17T01:37:05.454Z] DEBUG: Score breakdown for krampus: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.489"
+}
+[2025-11-17T01:37:05.454Z] DEBUG: Score breakdown for longlegs: {
+  "collaborative": "0.215",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.379"
+}
+[2025-11-17T01:37:05.455Z] DEBUG: Score breakdown for memento: {
+  "collaborative": "0.219",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.394"
+}
+[2025-11-17T01:37:05.455Z] DEBUG: Score breakdown for mulholland-drive: {
+  "collaborative": "0.177",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.010",
+  "final": "0.312"
+}
+[2025-11-17T01:37:05.455Z] DEBUG: Score breakdown for nightcrawler: {
+  "collaborative": "0.233",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.320"
+}
+[2025-11-17T01:37:05.455Z] DEBUG: Score breakdown for saltburn: {
+  "collaborative": "0.250",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.340"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for scream: {
+  "collaborative": "0.203",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.331"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for scream-4: {
+  "collaborative": "0.296",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for scream-vi: {
+  "collaborative": "0.281",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.446"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for speak-no-evil-2022: {
+  "collaborative": "0.362",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.528"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for strange-darling: {
+  "collaborative": "0.263",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.428"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for the-blair-witch-project: {
+  "collaborative": "0.290",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.462"
+}
+[2025-11-17T01:37:05.456Z] DEBUG: Score breakdown for the-menu-2022: {
+  "collaborative": "0.241",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.407"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for the-prestige: {
+  "collaborative": "0.194",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.264"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for the-shining: {
+  "collaborative": "0.170",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.338"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for the-substance: {
+  "collaborative": "0.169",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.271"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for twin-peaks: {
+  "collaborative": "0.193",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.296"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for american-psycho: {
+  "collaborative": "0.233",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.340"
+}
+[2025-11-17T01:37:05.457Z] DEBUG: Score breakdown for children-of-men: {
+  "collaborative": "0.189",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.250"
+}
+[2025-11-17T01:37:05.458Z] DEBUG: Score breakdown for death-becomes-her: {
+  "collaborative": "0.282",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.335"
+}
+[2025-11-17T01:37:05.458Z] DEBUG: Score breakdown for el-camino-a-breaking-bad-movie: {
+  "collaborative": "0.345",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.440"
+}
+[2025-11-17T01:37:05.458Z] DEBUG: Score breakdown for evil-dead-rise: {
+  "collaborative": "0.289",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.458Z] DEBUG: Score breakdown for joker-2019: {
+  "collaborative": "0.282",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.376"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for phenomena: {
+  "collaborative": "0.335",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.504"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for rise-of-the-planet-of-the-apes: {
+  "collaborative": "0.303",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.375"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for see-how-they-run-2022: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for shaun-of-the-dead: {
+  "collaborative": "0.248",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.326"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for the-batman: {
+  "collaborative": "0.203",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.368"
+}
+[2025-11-17T01:37:05.459Z] DEBUG: Score breakdown for the-dark-knight: {
+  "collaborative": "0.156",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.222"
+}
+[2025-11-17T01:37:05.460Z] DEBUG: Score breakdown for the-texas-chain-saw-massacre: {
+  "collaborative": "0.250",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.334"
+}
+[2025-11-17T01:37:05.460Z] DEBUG: Score breakdown for what-we-do-in-the-shadows: {
+  "collaborative": "0.220",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.319"
+}
+[2025-11-17T01:37:05.460Z] DEBUG: Score breakdown for 2001-a-space-odyssey: {
+  "collaborative": "0.183",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.234"
+}
+[2025-11-17T01:37:05.460Z] DEBUG: Score breakdown for a-tale-of-two-sisters: {
+  "collaborative": "0.399",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.538"
+}
+[2025-11-17T01:37:05.461Z] DEBUG: Score breakdown for after-hours: {
+  "collaborative": "0.225",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.277"
+}
+[2025-11-17T01:37:05.461Z] DEBUG: Score breakdown for blow-out: {
+  "collaborative": "0.249",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.375"
+}
+[2025-11-17T01:37:05.464Z] DEBUG: Score breakdown for casino-royale-2006: {
+  "collaborative": "0.271",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.341"
+}
+[2025-11-17T01:37:05.465Z] DEBUG: Score breakdown for cure: {
+  "collaborative": "0.221",
+  "genre": "0.188",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.412"
+}
+[2025-11-17T01:37:05.465Z] DEBUG: Score breakdown for event-horizon: {
+  "collaborative": "0.399",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.528"
+}
+[2025-11-17T01:37:05.465Z] DEBUG: Score breakdown for evil-dead-ii: {
+  "collaborative": "0.253",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.305"
+}
+[2025-11-17T01:37:05.465Z] DEBUG: Score breakdown for funny-games: {
+  "collaborative": "0.314",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.442"
+}
+[2025-11-17T01:37:05.465Z] DEBUG: Score breakdown for john-wick-chapter-2: {
+  "collaborative": "0.273",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.366"
+}
+[2025-11-17T01:37:05.466Z] DEBUG: Score breakdown for minority-report: {
+  "collaborative": "0.330",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.392"
+}
+[2025-11-17T01:37:05.466Z] DEBUG: Score breakdown for no-time-to-die-2021: {
+  "collaborative": "0.289",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.381"
+}
+[2025-11-17T01:37:05.466Z] DEBUG: Score breakdown for oblivion-2013: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.476"
+}
+[2025-11-17T01:37:05.467Z] DEBUG: Score breakdown for oldboy: {
+  "collaborative": "0.171",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.285"
+}
+[2025-11-17T01:37:05.468Z] DEBUG: Score breakdown for red-rooms: {
+  "collaborative": "0.241",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.406"
+}
+[2025-11-17T01:37:05.469Z] DEBUG: Score breakdown for skyfall: {
+  "collaborative": "0.289",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.371"
+}
+[2025-11-17T01:37:05.471Z] DEBUG: Score breakdown for spectre-2015: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.489"
+}
+[2025-11-17T01:37:05.472Z] DEBUG: Score breakdown for the-evil-dead: {
+  "collaborative": "0.283",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.368"
+}
+[2025-11-17T01:37:05.472Z] DEBUG: Score breakdown for the-lighthouse-2019: {
+  "collaborative": "0.229",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.373"
+}
+[2025-11-17T01:37:05.473Z] DEBUG: Score breakdown for the-silence-of-the-lambs: {
+  "collaborative": "0.157",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.260"
+}
+[2025-11-17T01:37:05.474Z] DEBUG: Score breakdown for titane: {
+  "collaborative": "0.245",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.412"
+}
+[2025-11-17T01:37:05.475Z] DEBUG: Score breakdown for under-the-skin-2013: {
+  "collaborative": "0.286",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.421"
+}
+[2025-11-17T01:37:05.475Z] DEBUG: Score breakdown for amsterdam-2022: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.475Z] DEBUG: Score breakdown for blink-twice: {
+  "collaborative": "0.303",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.592"
+}
+[2025-11-17T01:37:05.476Z] DEBUG: Score breakdown for carry-on-2024: {
+  "collaborative": "0.324",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.425"
+}
+[2025-11-17T01:37:05.476Z] DEBUG: Score breakdown for chinatown: {
+  "collaborative": "0.215",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.316"
+}
+[2025-11-17T01:37:05.476Z] DEBUG: Score breakdown for dont-worry-darling: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.608"
+}
+[2025-11-17T01:37:05.476Z] DEBUG: Score breakdown for enemy: {
+  "collaborative": "0.299",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.500"
+}
+[2025-11-17T01:37:05.477Z] DEBUG: Score breakdown for goldfinger: {
+  "collaborative": "0.396",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.446"
+}
+[2025-11-17T01:37:05.477Z] DEBUG: Score breakdown for gravity-2013: {
+  "collaborative": "0.340",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.424"
+}
+[2025-11-17T01:37:05.477Z] DEBUG: Score breakdown for it-2017: {
+  "collaborative": "0.290",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.499"
+}
+[2025-11-17T01:37:05.477Z] DEBUG: Score breakdown for its-whats-inside: {
+  "collaborative": "0.270",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.359"
+}
+[2025-11-17T01:37:05.478Z] DEBUG: Score breakdown for memoria-2021: {
+  "collaborative": "0.306",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.398"
+}
+[2025-11-17T01:37:05.478Z] DEBUG: Score breakdown for prometheus: {
+  "collaborative": "0.323",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.455"
+}
+[2025-11-17T01:37:05.480Z] DEBUG: Score breakdown for se7en: {
+  "collaborative": "0.158",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.286"
+}
+[2025-11-17T01:37:05.480Z] DEBUG: Score breakdown for smile-2-2024: {
+  "collaborative": "0.242",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.448"
+}
+[2025-11-17T01:37:05.481Z] DEBUG: Score breakdown for speak-no-evil-2024: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.605"
+}
+[2025-11-17T01:37:05.481Z] DEBUG: Score breakdown for the-crow-2024: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.489"
+}
+[2025-11-17T01:37:05.482Z] DEBUG: Score breakdown for the-killing-of-a-sacred-deer: {
+  "collaborative": "0.260",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.429"
+}
+[2025-11-17T01:37:05.482Z] DEBUG: Score breakdown for the-lodge-2019: {
+  "collaborative": "0.400",
+  "genre": "0.188",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.632"
+}
+[2025-11-17T01:37:05.484Z] DEBUG: Score breakdown for the-raid-2011: {
+  "collaborative": "0.324",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.404"
+}
+[2025-11-17T01:37:05.484Z] DEBUG: Score breakdown for us-2019: {
+  "collaborative": "0.247",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.458"
+}
+[2025-11-17T01:37:05.484Z] DEBUG: Score breakdown for videodrome: {
+  "collaborative": "0.266",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.393"
+}
+[2025-11-17T01:37:05.484Z] DEBUG: Score breakdown for a-quiet-place-2018: {
+  "collaborative": "0.262",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.357"
+}
+[2025-11-17T01:37:05.485Z] DEBUG: Score breakdown for black-mirror-white-christmas: {
+  "collaborative": "0.285",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.363"
+}
+[2025-11-17T01:37:05.485Z] DEBUG: Score breakdown for exhuma: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.689"
+}
+[2025-11-17T01:37:05.486Z] DEBUG: Score breakdown for lady-vengeance: {
+  "collaborative": "0.308",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.388"
+}
+[2025-11-17T01:37:05.486Z] DEBUG: Score breakdown for monkey-man: {
+  "collaborative": "0.254",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.355"
+}
+[2025-11-17T01:37:05.487Z] DEBUG: Score breakdown for shoplifters: {
+  "collaborative": "0.214",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.310"
+}
+[2025-11-17T01:37:05.487Z] DEBUG: Score breakdown for stoker: {
+  "collaborative": "0.310",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.469"
+}
+[2025-11-17T01:37:05.487Z] DEBUG: Score breakdown for sympathy-for-mr-vengeance: {
+  "collaborative": "0.345",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.407"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for thoroughbreds-2017: {
+  "collaborative": "0.299",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.405"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for totally-killer: {
+  "collaborative": "0.367",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.457"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for you-were-never-really-here: {
+  "collaborative": "0.296",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.389"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for zodiac: {
+  "collaborative": "0.227",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.349"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for black-swan: {
+  "collaborative": "0.196",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.349"
+}
+[2025-11-17T01:37:05.488Z] DEBUG: Score breakdown for boiling-point-2021: {
+  "collaborative": "0.311",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.416"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for coraline: {
+  "collaborative": "0.200",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.268"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for friday-the-13th: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for i-saw-the-tv-glow: {
+  "collaborative": "0.203",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.304"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for the-babadook: {
+  "collaborative": "0.316",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.415"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for alien-covenant: {
+  "collaborative": "0.355",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.524"
+}
+[2025-11-17T01:37:05.489Z] DEBUG: Score breakdown for cat-people: {
+  "collaborative": "0.372",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for diabolique-1955: {
+  "collaborative": "0.289",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.539"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for dog-day-afternoon: {
+  "collaborative": "0.183",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.234"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for fanny-and-alexander: {
+  "collaborative": "0.241",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.293"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for free-fire: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for guy-ritchies-the-covenant: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for invasion-of-the-body-snatchers: {
+  "collaborative": "0.358",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.483"
+}
+[2025-11-17T01:37:05.490Z] DEBUG: Score breakdown for irreversible: {
+  "collaborative": "0.392",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for paprika-2006: {
+  "collaborative": "0.289",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.358"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for prey-2022: {
+  "collaborative": "0.275",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.366"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for raw-2016: {
+  "collaborative": "0.272",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.375"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for run-lola-run: {
+  "collaborative": "0.311",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.365"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for strangers-on-a-train: {
+  "collaborative": "0.300",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.363"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for terminator-2-judgment-day: {
+  "collaborative": "0.188",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.240"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for terrifier-2016: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.608"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for the-descent: {
+  "collaborative": "0.298",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.378"
+}
+[2025-11-17T01:37:05.491Z] DEBUG: Score breakdown for the-killer-2023: {
+  "collaborative": "0.249",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.352"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for the-wailing: {
+  "collaborative": "0.315",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.522"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for twelve-monkeys: {
+  "collaborative": "0.340",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for 10-cloverfield-lane: {
+  "collaborative": "0.299",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.440"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for aliens: {
+  "collaborative": "0.222",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.324"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for annabelle-comes-home: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.528"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for climax-2018: {
+  "collaborative": "0.301",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.409"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for dawn-of-the-dead: {
+  "collaborative": "0.304",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.388"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for day-of-the-dead: {
+  "collaborative": "0.342",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.469"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for doctor-sleep: {
+  "collaborative": "0.320",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.489"
+}
+[2025-11-17T01:37:05.492Z] DEBUG: Score breakdown for eraserhead: {
+  "collaborative": "0.269",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.353"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for haunt-2019: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.611"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for hour-of-the-wolf: {
+  "collaborative": "0.377",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.441"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for invasion-of-the-body-snatchers-1978: {
+  "collaborative": "0.286",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.350"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for it-follows: {
+  "collaborative": "0.268",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.471"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for misery: {
+  "collaborative": "0.267",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.394"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for nosferatu-2024: {
+  "collaborative": "0.175",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.263"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for oculus: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.518"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for onibaba: {
+  "collaborative": "0.340",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.424"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for rec: {
+  "collaborative": "0.326",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.514"
+}
+[2025-11-17T01:37:05.493Z] DEBUG: Score breakdown for seconds: {
+  "collaborative": "0.329",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for shutter-island: {
+  "collaborative": "0.232",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.385"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-craft: {
+  "collaborative": "0.342",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.395"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-cremator: {
+  "collaborative": "0.314",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.364"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-exorcist-iii: {
+  "collaborative": "0.337",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.422"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-innocents: {
+  "collaborative": "0.306",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.474"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-ritual-2017: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.693"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for the-wolf-house: {
+  "collaborative": "0.349",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.445"
+}
+[2025-11-17T01:37:05.494Z] DEBUG: Score breakdown for jackie-brown: {
+  "collaborative": "0.269",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.323"
+}
+[2025-11-17T01:37:05.495Z] DEBUG: Score breakdown for sicario-2015: {
+  "collaborative": "0.276",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.365"
+}
+[2025-11-17T01:37:05.495Z] DEBUG: Score breakdown for thelma-louise: {
+  "collaborative": "0.225",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.269"
+}
+[2025-11-17T01:37:05.495Z] DEBUG: Score breakdown for mothers-instinct-2024: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.501"
+}
+[2025-11-17T01:37:05.496Z] DEBUG: Score breakdown for burning-2018: {
+  "collaborative": "0.285",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.455"
+}
+[2025-11-17T01:37:05.496Z] DEBUG: Score breakdown for crank: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.470"
+}
+[2025-11-17T01:37:05.497Z] DEBUG: Score breakdown for dogville: {
+  "collaborative": "0.312",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.376"
+}
+[2025-11-17T01:37:05.497Z] DEBUG: Score breakdown for inside-man: {
+  "collaborative": "0.358",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.427"
+}
+[2025-11-17T01:37:05.497Z] DEBUG: Score breakdown for mandy-2018: {
+  "collaborative": "0.308",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.404"
+}
+[2025-11-17T01:37:05.497Z] DEBUG: Score breakdown for phone-booth: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.474"
+}
+[2025-11-17T01:37:05.498Z] DEBUG: Score breakdown for possession: {
+  "collaborative": "0.233",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.318"
+}
+[2025-11-17T01:37:05.498Z] DEBUG: Score breakdown for primer: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.498Z] DEBUG: Score breakdown for salo-or-the-120-days-of-sodom: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.451"
+}
+[2025-11-17T01:37:05.498Z] DEBUG: Score breakdown for sanctuary-2022: {
+  "collaborative": "0.358",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.461"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for searching-2018: {
+  "collaborative": "0.310",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for suspiria-2018: {
+  "collaborative": "0.264",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.435"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for the-house-that-jack-built-2018: {
+  "collaborative": "0.311",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.457"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for tucker-and-dale-vs-evil: {
+  "collaborative": "0.399",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for battle-royale: {
+  "collaborative": "0.311",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.369"
+}
+[2025-11-17T01:37:05.499Z] DEBUG: Score breakdown for cape-fear-1991: {
+  "collaborative": "0.353",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.406"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for citizen-kane: {
+  "collaborative": "0.247",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.310"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for drive-2011: {
+  "collaborative": "0.242",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.322"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for freaks: {
+  "collaborative": "0.329",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.391"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for high-and-low: {
+  "collaborative": "0.197",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.247"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for im-thinking-of-ending-things: {
+  "collaborative": "0.288",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.431"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for jaws: {
+  "collaborative": "0.231",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.357"
+}
+[2025-11-17T01:37:05.500Z] DEBUG: Score breakdown for once-upon-a-time-in-hollywood: {
+  "collaborative": "0.246",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.340"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for sherlock-jr: {
+  "collaborative": "0.201",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.251"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for the-invisible-man-2020: {
+  "collaborative": "0.271",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.439"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for the-seed-of-the-sacred-fig: {
+  "collaborative": "0.293",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.382"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for the-terminator: {
+  "collaborative": "0.278",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.329"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for three-colours-white: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for watchmen: {
+  "collaborative": "0.360",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.436"
+}
+[2025-11-17T01:37:05.501Z] DEBUG: Score breakdown for witness-for-the-prosecution-1957: {
+  "collaborative": "0.222",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.273"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for angst: {
+  "collaborative": "0.389",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.516"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for audition: {
+  "collaborative": "0.296",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.364"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for blade: {
+  "collaborative": "0.384",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.451"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for blade-ii: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.512"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for blue-ruin: {
+  "collaborative": "0.396",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for bullet-train: {
+  "collaborative": "0.308",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.398"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for decision-to-leave: {
+  "collaborative": "0.248",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.413"
+}
+[2025-11-17T01:37:05.502Z] DEBUG: Score breakdown for dont-look-now: {
+  "collaborative": "0.321",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.447"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for eden-lake: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.590"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for final-destination-2: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.580"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for gremlins: {
+  "collaborative": "0.304",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.356"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for hush-2016: {
+  "collaborative": "0.396",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.603"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for in-the-mouth-of-madness: {
+  "collaborative": "0.315",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for m: {
+  "collaborative": "0.235",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.285"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for malignant-2021: {
+  "collaborative": "0.280",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.488"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for man-on-fire-2004: {
+  "collaborative": "0.365",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.430"
+}
+[2025-11-17T01:37:05.503Z] DEBUG: Score breakdown for martyrs: {
+  "collaborative": "0.342",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for missing-2023: {
+  "collaborative": "0.347",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.512"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for predator-2: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.452"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for suspiria: {
+  "collaborative": "0.254",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.338"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for the-blob-1988: {
+  "collaborative": "0.330",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.395"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for the-hills-have-eyes-2006: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.586"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for the-invitation-2015: {
+  "collaborative": "0.375",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.580"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for from-dusk-till-dawn: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.504Z] DEBUG: Score breakdown for ginger-snaps: {
+  "collaborative": "0.309",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.417"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for do-revenge: {
+  "collaborative": "0.365",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.455"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for enola-holmes-2: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for ghostland: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.695"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for orphan: {
+  "collaborative": "0.355",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.548"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for saw-x: {
+  "collaborative": "0.320",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.610"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for scooby-doo: {
+  "collaborative": "0.319",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.381"
+}
+[2025-11-17T01:37:05.505Z] DEBUG: Score breakdown for thesis: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.506Z] DEBUG: Score breakdown for we-need-to-talk-about-kevin: {
+  "collaborative": "0.321",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.414"
+}
+[2025-11-17T01:37:05.506Z] DEBUG: Score breakdown for when-evil-lurks: {
+  "collaborative": "0.329",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.535"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for fast-five: {
+  "collaborative": "0.351",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.431"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for fast-x: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.523"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for furious-7: {
+  "collaborative": "0.386",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.475"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for knock-at-the-cabin: {
+  "collaborative": "0.338",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.628"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for munich: {
+  "collaborative": "0.377",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.437"
+}
+[2025-11-17T01:37:05.509Z] DEBUG: Score breakdown for the-fast-and-the-furious-2001: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.010",
+  "final": "0.460"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for the-fast-and-the-furious-tokyo-drift: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.461"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for the-popes-exorcist: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.606"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for the-talented-mr-ripley: {
+  "collaborative": "0.282",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.338"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for house: {
+  "collaborative": "0.256",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.307"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for birth-2004: {
+  "collaborative": "0.316",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.394"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for collateral: {
+  "collaborative": "0.271",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.337"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for a-most-violent-year: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.487"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for bound: {
+  "collaborative": "0.264",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.318"
+}
+[2025-11-17T01:37:05.510Z] DEBUG: Score breakdown for cobweb-2023: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.523"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for cocaine-bear: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for it-chapter-two: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.569"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for jurassic-world: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for jurassic-world-fallen-kingdom: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.487"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for kill-bill-vol-2: {
+  "collaborative": "0.253",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.318"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for mama-2013: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.518"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for may: {
+  "collaborative": "0.327",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.389"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for promising-young-woman: {
+  "collaborative": "0.278",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.371"
+}
+[2025-11-17T01:37:05.511Z] DEBUG: Score breakdown for sunshine-2007: {
+  "collaborative": "0.317",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.389"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for batman-mask-of-the-phantasm: {
+  "collaborative": "0.327",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.366"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for gattaca: {
+  "collaborative": "0.389",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for personal-shopper: {
+  "collaborative": "0.347",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.513"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for the-abyss: {
+  "collaborative": "0.343",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.387"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for the-third-man: {
+  "collaborative": "0.262",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.429"
+}
+[2025-11-17T01:37:05.512Z] DEBUG: Score breakdown for widows-2018: {
+  "collaborative": "0.309",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.404"
+}
+[2025-11-17T01:37:05.513Z] DEBUG: Score breakdown for prince-of-darkness: {
+  "collaborative": "0.369",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.513Z] DEBUG: Score breakdown for altered-states: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.526"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for duel: {
+  "collaborative": "0.338",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.389"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for i-am-legend: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.472"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for panic-room: {
+  "collaborative": "0.327",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.389"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for scream-2: {
+  "collaborative": "0.298",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for super-dark-times: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.506"
+}
+[2025-11-17T01:37:05.514Z] DEBUG: Score breakdown for touch-of-evil: {
+  "collaborative": "0.333",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.396"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for dawn-of-the-planet-of-the-apes: {
+  "collaborative": "0.283",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.361"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for black-mirror-loch-henry: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.540"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for black-mirror-shut-up-and-dance: {
+  "collaborative": "0.335",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.418"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for deliverance: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.451"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for eastern-promises: {
+  "collaborative": "0.351",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.498"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for king-kong: {
+  "collaborative": "0.386",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.436"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for natural-born-killers: {
+  "collaborative": "0.369",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.422"
+}
+[2025-11-17T01:37:05.515Z] DEBUG: Score breakdown for road-to-perdition: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.462"
+}
+[2025-11-17T01:37:05.516Z] DEBUG: Score breakdown for the-blackcoats-daughter: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.605"
+}
+[2025-11-17T01:37:05.516Z] DEBUG: Score breakdown for bad-times-at-the-el-royale: {
+  "collaborative": "0.323",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.516Z] DEBUG: Score breakdown for skinamarink: {
+  "collaborative": "0.344",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.516Z] DEBUG: Score breakdown for the-house-2022-1: {
+  "collaborative": "0.400",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.477"
+}
+[2025-11-17T01:37:05.517Z] DEBUG: Score breakdown for army-of-darkness: {
+  "collaborative": "0.308",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.360"
+}
+[2025-11-17T01:37:05.517Z] DEBUG: Score breakdown for bad-boys-for-life: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.517Z] DEBUG: Score breakdown for candyman-2021: {
+  "collaborative": "0.375",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.667"
+}
+[2025-11-17T01:37:05.517Z] DEBUG: Score breakdown for color-out-of-space: {
+  "collaborative": "0.400",
+  "genre": "0.188",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.632"
+}
+[2025-11-17T01:37:05.518Z] DEBUG: Score breakdown for the-crow: {
+  "collaborative": "0.304",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.357"
+}
+[2025-11-17T01:37:05.518Z] DEBUG: Score breakdown for the-fly-1986: {
+  "collaborative": "0.248",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.312"
+}
+[2025-11-17T01:37:05.518Z] DEBUG: Score breakdown for trap-2024: {
+  "collaborative": "0.247",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.348"
+}
+[2025-11-17T01:37:05.518Z] DEBUG: Score breakdown for tremors: {
+  "collaborative": "0.355",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.400"
+}
+[2025-11-17T01:37:05.519Z] DEBUG: Score breakdown for the-wonder: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.519Z] DEBUG: Score breakdown for wicked-little-letters: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.519Z] DEBUG: Score breakdown for woman-of-the-hour: {
+  "collaborative": "0.327",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.417"
+}
+[2025-11-17T01:37:05.519Z] DEBUG: Score breakdown for a-history-of-violence: {
+  "collaborative": "0.319",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.386"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for mission-impossible-ghost-protocol: {
+  "collaborative": "0.305",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.385"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for predator: {
+  "collaborative": "0.301",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.345"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for take-shelter: {
+  "collaborative": "0.367",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.459"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for the-art-of-self-defense-2019: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.544"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for the-game: {
+  "collaborative": "0.353",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.482"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for an-american-werewolf-in-london: {
+  "collaborative": "0.273",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.337"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for assault-on-precinct-13: {
+  "collaborative": "0.358",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.409"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for christine-1983: {
+  "collaborative": "0.338",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.423"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for dead-ringers: {
+  "collaborative": "0.317",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.486"
+}
+[2025-11-17T01:37:05.520Z] DEBUG: Score breakdown for friday-the-13th-the-final-chapter: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for gremlins-2-the-new-batch: {
+  "collaborative": "0.335",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.387"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for halloween-ii-1981: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for king-of-new-york: {
+  "collaborative": "0.342",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.407"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for pet-sematary: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.502"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for tenebre: {
+  "collaborative": "0.330",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.582"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for thanksgiving-2023: {
+  "collaborative": "0.312",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.602"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for thief: {
+  "collaborative": "0.282",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.333"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for to-live-and-die-in-la: {
+  "collaborative": "0.311",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.363"
+}
+[2025-11-17T01:37:05.521Z] DEBUG: Score breakdown for bacurau: {
+  "collaborative": "0.375",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.544"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for black-mirror-bandersnatch: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.529"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for bram-stokers-dracula: {
+  "collaborative": "0.289",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.354"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for halloween-4-the-return-of-michael-myers: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.569"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for house-of-1000-corpses: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for terrifier-2: {
+  "collaborative": "0.330",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.538"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for the-birds: {
+  "collaborative": "0.323",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for the-cabinet-of-dr-caligari-1920: {
+  "collaborative": "0.291",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.391"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for the-shallows: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.566"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for the-witches-of-eastwick: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.452"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for unbreakable: {
+  "collaborative": "0.297",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.430"
+}
+[2025-11-17T01:37:05.522Z] DEBUG: Score breakdown for anatomy-of-a-murder: {
+  "collaborative": "0.285",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.336"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for charlies-angels: {
+  "collaborative": "0.386",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.429"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for clue: {
+  "collaborative": "0.269",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.371"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for dark-waters-2019: {
+  "collaborative": "0.369",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.476"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for lisa-frankenstein: {
+  "collaborative": "0.292",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.381"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for sweeney-todd-the-demon-barber-of-fleet-street-2007: {
+  "collaborative": "0.377",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.462"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for the-girl-with-the-dragon-tattoo-2011: {
+  "collaborative": "0.267",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.422"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for north-by-northwest: {
+  "collaborative": "0.256",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.381"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for world-war-z: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.534"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for 9: {
+  "collaborative": "0.400",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.462"
+}
+[2025-11-17T01:37:05.523Z] DEBUG: Score breakdown for rashomon: {
+  "collaborative": "0.270",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.320"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for zombieland: {
+  "collaborative": "0.317",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.406"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for cruising: {
+  "collaborative": "0.360",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.486"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for hanna: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for nosferatu: {
+  "collaborative": "0.270",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.353"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for existenz: {
+  "collaborative": "0.335",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.390"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for double-indemnity: {
+  "collaborative": "0.219",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.281"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for in-a-lonely-place: {
+  "collaborative": "0.281",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.332"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for shadow-of-a-doubt: {
+  "collaborative": "0.345",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.512"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for the-maltese-falcon-1941: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.525"
+}
+[2025-11-17T01:37:05.524Z] DEBUG: Score breakdown for when-marnie-was-there: {
+  "collaborative": "0.369",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.448"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for a-nightmare-on-elm-street-3-dream-warriors: {
+  "collaborative": "0.311",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.438"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for crash: {
+  "collaborative": "0.291",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.357"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for notorious: {
+  "collaborative": "0.329",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for the-night-of-the-hunter: {
+  "collaborative": "0.219",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.269"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for insidious: {
+  "collaborative": "0.396",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.590"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for the-impossible: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.482"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for midnight-run: {
+  "collaborative": "0.358",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.402"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for nobody-2021: {
+  "collaborative": "0.295",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.400"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for abigail-2024: {
+  "collaborative": "0.297",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.502"
+}
+[2025-11-17T01:37:05.525Z] DEBUG: Score breakdown for black-mirror-beyond-the-sea: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.540"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for childs-play-2: {
+  "collaborative": "0.377",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.546"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for eyes-without-a-face: {
+  "collaborative": "0.340",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for helter-skelter-2012: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for in-the-tall-grass-2019: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.569"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for insidious-the-last-key: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.612"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for overlord-2018: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for saint-maud: {
+  "collaborative": "0.316",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.610"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for scream-3: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.574"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for signs: {
+  "collaborative": "0.310",
+  "genre": "0.150",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.472"
+}
+[2025-11-17T01:37:05.526Z] DEBUG: Score breakdown for suicide-club: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.010",
+  "final": "0.535"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for the-boy-2016: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.691"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for the-brood: {
+  "collaborative": "0.367",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.431"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for the-hunt-2020: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for the-invisible-man: {
+  "collaborative": "0.316",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.379"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for the-raid-2: {
+  "collaborative": "0.377",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.464"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for as-above-so-below-2014: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.603"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for creep-2014: {
+  "collaborative": "0.392",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.512"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for dracula: {
+  "collaborative": "0.386",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.469"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for house-of-wax-2005: {
+  "collaborative": "0.389",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.657"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for ring-1998: {
+  "collaborative": "0.389",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.560"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for army-of-shadows: {
+  "collaborative": "0.266",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.317"
+}
+[2025-11-17T01:37:05.527Z] DEBUG: Score breakdown for bride-of-frankenstein: {
+  "collaborative": "0.291",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.354"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for elevator-to-the-gallows: {
+  "collaborative": "0.399",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.450"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for in-the-heat-of-the-night: {
+  "collaborative": "0.383",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.484"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for le-samourai: {
+  "collaborative": "0.257",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.308"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for chronicle: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.482"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for saw-ii: {
+  "collaborative": "0.369",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.470"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for in-time: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for nerve-2016: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.528Z] DEBUG: Score breakdown for road-house: {
+  "collaborative": "0.392",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.457"
+}
+[2025-11-17T01:37:05.529Z] DEBUG: Score breakdown for charade: {
+  "collaborative": "0.298",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.349"
+}
+[2025-11-17T01:37:05.529Z] DEBUG: Score breakdown for from-russia-with-love: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.451"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for goldeneye: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for halloween-iii-season-of-the-witch: {
+  "collaborative": "0.345",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.410"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for scooby-doo-2-monsters-unleashed: {
+  "collaborative": "0.389",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.446"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for the-dead-zone: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.527"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for the-guest-2014: {
+  "collaborative": "0.365",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.526"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for the-player: {
+  "collaborative": "0.306",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.393"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for the-texas-chainsaw-massacre: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.530Z] DEBUG: Score breakdown for the-vast-of-night: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.544"
+}
+[2025-11-17T01:37:05.531Z] DEBUG: Score breakdown for the-wages-of-fear: {
+  "collaborative": "0.261",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.311"
+}
+[2025-11-17T01:37:05.531Z] DEBUG: Score breakdown for nightmare-alley-2021: {
+  "collaborative": "0.305",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.397"
+}
+[2025-11-17T01:37:05.531Z] DEBUG: Score breakdown for the-hurt-locker: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.474"
+}
+[2025-11-17T01:37:05.531Z] DEBUG: Score breakdown for yojimbo: {
+  "collaborative": "0.257",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.320"
+}
+[2025-11-17T01:37:05.532Z] DEBUG: Score breakdown for fatal-attraction: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.452"
+}
+[2025-11-17T01:37:05.532Z] DEBUG: Score breakdown for joint-security-area: {
+  "collaborative": "0.349",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.440"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for mystic-river: {
+  "collaborative": "0.392",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.506"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for the-usual-suspects: {
+  "collaborative": "0.347",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.401"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for traffic: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.458"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for assassination-nation: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for carnival-of-souls: {
+  "collaborative": "0.335",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.461"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for el-conde: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for halloween-kills: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.609"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for the-slumber-party-massacre: {
+  "collaborative": "0.386",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.450"
+}
+[2025-11-17T01:37:05.533Z] DEBUG: Score breakdown for vampyr: {
+  "collaborative": "0.399",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.524"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for batman-under-the-red-hood: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.478"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for primal-fear: {
+  "collaborative": "0.369",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.473"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for a-man-escaped: {
+  "collaborative": "0.251",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.314"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for before-the-devil-knows-youre-dead: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.472"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for hail-caesar-2016: {
+  "collaborative": "0.392",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.475"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for near-dark: {
+  "collaborative": "0.383",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for the-quick-and-the-dead-1995: {
+  "collaborative": "0.383",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.422"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for halloween-2018: {
+  "collaborative": "0.353",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.566"
+}
+[2025-11-17T01:37:05.534Z] DEBUG: Score breakdown for constantine: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for donnie-brasco: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for geralds-game: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.610"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for halloween: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.505"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for mission-impossible-iii: {
+  "collaborative": "0.380",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.450"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for ouija-origin-of-evil: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.524"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for the-cable-guy: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for the-orphanage: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.547"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for the-platform: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.494"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for lake-mungo: {
+  "collaborative": "0.342",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.532"
+}
+[2025-11-17T01:37:05.535Z] DEBUG: Score breakdown for red-sparrow: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.612"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for basic-instinct: {
+  "collaborative": "0.312",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.482"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for die-hard-2: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.465"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for new-nightmare: {
+  "collaborative": "0.380",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.508"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for old-2021: {
+  "collaborative": "0.360",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.652"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for elle: {
+  "collaborative": "0.399",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for klute: {
+  "collaborative": "0.344",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.470"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for sleepaway-camp: {
+  "collaborative": "0.392",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.477"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for the-others: {
+  "collaborative": "0.337",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.010",
+  "final": "0.596"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for 30-days-of-night: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.588"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for caddo-lake: {
+  "collaborative": "0.400",
+  "genre": "0.150",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.589"
+}
+[2025-11-17T01:37:05.536Z] DEBUG: Score breakdown for planet-terror: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.547"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for the-matrix-reloaded: {
+  "collaborative": "0.380",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.435"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for the-sadness-2021: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.609"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for the-texas-chainsaw-massacre-2: {
+  "collaborative": "0.361",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.425"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for unfriended: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.687"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for shallow-grave: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for a-nightmare-on-elm-street-part-2-freddys-revenge: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for dawn-of-the-dead-2004: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.478"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for how-to-blow-up-a-pipeline: {
+  "collaborative": "0.316",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.407"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for the-perfection: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for a-quiet-place-day-one: {
+  "collaborative": "0.285",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.449"
+}
+[2025-11-17T01:37:05.537Z] DEBUG: Score breakdown for mississippi-burning: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.502"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for escape-room-2019: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.694"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for escape-room-tournament-of-champions: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.692"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for fear-street-1978: {
+  "collaborative": "0.375",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.583"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for fear-street-1994: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.609"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for final-destination: {
+  "collaborative": "0.383",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.474"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for the-faculty: {
+  "collaborative": "0.389",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.455"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for children-of-the-corn: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for i-know-what-you-did-last-summer: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.654"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for immaculate-2024: {
+  "collaborative": "0.377",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.666"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for the-bourne-identity-2002: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.512"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for the-bourne-ultimatum: {
+  "collaborative": "0.399",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.521"
+}
+[2025-11-17T01:37:05.538Z] DEBUG: Score breakdown for the-girl-on-the-train-2016: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.541"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for the-last-voyage-of-the-demeter: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.565"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for wolf-man-2025: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.038",
+  "final": "0.604"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for the-skin-i-live-in: {
+  "collaborative": "0.387",
+  "genre": "0.188",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.604"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for eileen-2023: {
+  "collaborative": "0.380",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for the-godfather-part-iii: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.452"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for laura: {
+  "collaborative": "0.344",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.406"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for 21-grams: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.464"
+}
+[2025-11-17T01:37:05.539Z] DEBUG: Score breakdown for the-big-sleep: {
+  "collaborative": "0.396",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.521"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for ugetsu: {
+  "collaborative": "0.311",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.361"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for chip-n-dale-rescue-rangers: {
+  "collaborative": "0.400",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.477"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for freddy-vs-jason: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for creep-2: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.610"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for sleepy-hollow: {
+  "collaborative": "0.383",
+  "genre": "0.150",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.539"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for first-blood: {
+  "collaborative": "0.360",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.403"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for happy-death-day: {
+  "collaborative": "0.375",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.543"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for happy-death-day-2u: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.494"
+}
+[2025-11-17T01:37:05.540Z] DEBUG: Score breakdown for wendell-wild: {
+  "collaborative": "0.396",
+  "genre": "0.036",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.472"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for killing-them-softly: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for purple-noon: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.451"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for the-white-ribbon: {
+  "collaborative": "0.375",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.463"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for halloween-ends: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.608"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for terminator-dark-fate: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.486"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for con-air: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for i-care-a-lot: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for the-babysitter-2017: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.506"
+}
+[2025-11-17T01:37:05.541Z] DEBUG: Score breakdown for foxcatcher: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.499"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for identity: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.580"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for sinister: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.032",
+  "final": "0.682"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for taken: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.486"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for jason-bourne: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for murder-on-the-orient-express-2017: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for sicario-day-of-the-soldado: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for the-bourne-supremacy: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for the-hunger-games-mockingjay-part-1: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.037",
+  "final": "0.487"
+}
+[2025-11-17T01:37:05.542Z] DEBUG: Score breakdown for wrath-of-man: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.492"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for halloween-h20-20-years-later: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for host-2020: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.526"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for paranormal-activity-2: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.595"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for the-poughkeepsie-tapes: {
+  "collaborative": "0.400",
+  "genre": "0.188",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.609"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for society: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.002",
+  "final": "0.527"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for terminator-3-rise-of-the-machines: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.464"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for terminator-genisys: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.543Z] DEBUG: Score breakdown for the-call-2020-3: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for apostle-2018: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.545"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for the-invisible-guest: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.566"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for the-killing: {
+  "collaborative": "0.347",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.000",
+  "final": "0.410"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for the-machinist: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.478"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for the-town: {
+  "collaborative": "0.392",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.470"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for mission-impossible-ii: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.008",
+  "final": "0.458"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for bird-box: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for alien-resurrection: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.454"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for saw-vi: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.593"
+}
+[2025-11-17T01:37:05.544Z] DEBUG: Score breakdown for the-purge: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.559"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for war-of-the-worlds: {
+  "collaborative": "0.365",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.432"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for wild-things: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.529"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for cam: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.612"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for saw-iv: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.547"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for the-exorcist-believer: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.606"
+}
+[2025-11-17T01:37:05.545Z] DEBUG: Score breakdown for the-first-purge: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.546Z] DEBUG: Score breakdown for following: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.546Z] DEBUG: Score breakdown for locke: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.547Z] DEBUG: Score breakdown for the-boondock-saints: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.006",
+  "final": "0.456"
+}
+[2025-11-17T01:37:05.547Z] DEBUG: Score breakdown for the-accountant-2016: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.547Z] DEBUG: Score breakdown for paper-towns: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.489"
+}
+[2025-11-17T01:37:05.547Z] DEBUG: Score breakdown for saw-iii: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.545"
+}
+[2025-11-17T01:37:05.548Z] DEBUG: Score breakdown for saw-v: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.549"
+}
+[2025-11-17T01:37:05.548Z] DEBUG: Score breakdown for under-paris: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.501"
+}
+[2025-11-17T01:37:05.548Z] DEBUG: Score breakdown for i-see-you-2019: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.694"
+}
+[2025-11-17T01:37:05.548Z] DEBUG: Score breakdown for pi: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.004",
+  "final": "0.529"
+}
+[2025-11-17T01:37:05.548Z] DEBUG: Score breakdown for the-secret-in-their-eyes: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.551"
+}
+[2025-11-17T01:37:05.549Z] DEBUG: Score breakdown for now-you-see-me: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.034",
+  "final": "0.497"
+}
+[2025-11-17T01:37:05.549Z] DEBUG: Score breakdown for lavventura: {
+  "collaborative": "0.383",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.434"
+}
+[2025-11-17T01:37:05.549Z] DEBUG: Score breakdown for demon-slayer-kimetsu-no-yaiba-the-movie-mugen: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.549Z] DEBUG: Score breakdown for knock-knock-2015: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.564"
+}
+[2025-11-17T01:37:05.549Z] DEBUG: Score breakdown for a-scanner-darkly: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.020",
+  "final": "0.470"
+}
+[2025-11-17T01:37:05.550Z] DEBUG: Score breakdown for the-strangers: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.024",
+  "final": "0.674"
+}
+[2025-11-17T01:37:05.550Z] DEBUG: Score breakdown for final-destination-5: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.597"
+}
+[2025-11-17T01:37:05.551Z] DEBUG: Score breakdown for triple-frontier: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.486"
+}
+[2025-11-17T01:37:05.551Z] DEBUG: Score breakdown for the-rock: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.552Z] DEBUG: Score breakdown for run-2020: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.568"
+}
+[2025-11-17T01:37:05.552Z] DEBUG: Score breakdown for the-adventures-of-tintin: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.480"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for infernal-affairs: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.012",
+  "final": "0.495"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for the-blackening: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.503"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for wrong-turn: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.014",
+  "final": "0.580"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for incantation-2022: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.524"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for seed-of-chucky: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.478"
+}
+[2025-11-17T01:37:05.553Z] DEBUG: Score breakdown for haunted-mansion-2023: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.481"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for hell-house-llc: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.689"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for possum: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for the-conjuring-the-devil-made-me-do-it: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.692"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for the-book-of-eli: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.478"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for the-equalizer-3: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for censor-2021: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.042",
+  "final": "0.609"
+}
+[2025-11-17T01:37:05.554Z] DEBUG: Score breakdown for ma-2019: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.611"
+}
+[2025-11-17T01:37:05.556Z] DEBUG: Score breakdown for vengeance-2022: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.566"
+}
+[2025-11-17T01:37:05.557Z] DEBUG: Score breakdown for glass-2019: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.494"
+}
+[2025-11-17T01:37:05.557Z] DEBUG: Score breakdown for sherlock-holmes-2009: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.026",
+  "final": "0.468"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for winters-bone: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.490"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for avp-alien-vs-predator: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.457"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for michael-clayton: {
+  "collaborative": "0.372",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.444"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for layer-cake: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.016",
+  "final": "0.466"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for sleepers: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for valerie-and-her-week-of-wonders: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.443"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for crawl-2019: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.611"
+}
+[2025-11-17T01:37:05.558Z] DEBUG: Score breakdown for the-devil-all-the-time: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for greenland: {
+  "collaborative": "0.400",
+  "genre": "0.042",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for a-nightmare-on-elm-street-2010: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.028",
+  "final": "0.678"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for gonjiam-haunted-asylum: {
+  "collaborative": "0.400",
+  "genre": "0.167",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.612"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for cannibal-holocaust: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.001",
+  "final": "0.485"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for murder-mystery: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.494"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for holy-spider: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.491"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for the-cloverfield-paradox: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.045",
+  "final": "0.570"
+}
+[2025-11-17T01:37:05.559Z] DEBUG: Score breakdown for circle-2015: {
+  "collaborative": "0.400",
+  "genre": "0.150",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.589"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for scary-stories-to-tell-in-the-dark-2019: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.044",
+  "final": "0.569"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for self-reliance: {
+  "collaborative": "0.400",
+  "genre": "0.063",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.040",
+  "final": "0.502"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for 28-weeks-later: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.547"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for national-treasure-book-of-secrets: {
+  "collaborative": "0.400",
+  "genre": "0.100",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.022",
+  "final": "0.522"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for limitless: {
+  "collaborative": "0.400",
+  "genre": "0.125",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.030",
+  "final": "0.555"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for fall-2022: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.041",
+  "final": "0.524"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for noroi-the-curse: {
+  "collaborative": "0.400",
+  "genre": "0.250",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.018",
+  "final": "0.668"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for salems-lot-2024: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.039",
+  "final": "0.522"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for a-time-to-kill-1996: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.003",
+  "final": "0.453"
+}
+[2025-11-17T01:37:05.560Z] DEBUG: Score breakdown for death-note-2017: {
+  "collaborative": "0.400",
+  "genre": "0.050",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.493"
+}
+[2025-11-17T01:37:05.561Z] DEBUG: Score breakdown for the-mummy-2017: {
+  "collaborative": "0.400",
+  "genre": "0.083",
+  "director": "0.000",
+  "actor": "0.000",
+  "temporal": "0.043",
+  "final": "0.527"
+}
+[2025-11-17T01:37:05.561Z] INFO: 🎨 Scored 580 candidates 
+[2025-11-17T01:37:05.561Z] INFO: 🏆 STEP 6: Ranking and diversifying results 
+[2025-11-17T01:37:05.561Z] INFO: 🏆 Final recommendations: 
+[2025-11-17T01:37:05.562Z] INFO: 1. Ghostland (score: 0.695) 
+[2025-11-17T01:37:05.562Z] INFO: 2. Escape Room (score: 0.694) 
+[2025-11-17T01:37:05.562Z] INFO: 3. I See You (score: 0.694) 
+[2025-11-17T01:37:05.562Z] INFO: 4. The Ritual (score: 0.693) 
+[2025-11-17T01:37:05.562Z] INFO: 5. Escape Room: Tournament of Champions (score: 0.692) 

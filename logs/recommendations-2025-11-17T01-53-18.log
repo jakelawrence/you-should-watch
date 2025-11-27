@@ -1,0 +1,2216 @@
+[2025-11-17T01:53:18.493Z] Processing weighted recommendation request 
+[2025-11-17T01:53:18.501Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-17T01:53:18.502Z] 📥 Input movie slugs: [
+  "hereditary"
+]
+[2025-11-17T01:53:18.503Z] ⚙️ Active weights: {
+  "collaborative": 0.4,
+  "favorite_bonus": 0.15,
+  "genre": 0.25,
+  "nanogenre": 0,
+  "director": 0.1,
+  "actor": 0.05,
+  "temporal": 0.05
+}
+[2025-11-17T01:53:18.503Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-17T01:53:19.117Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-17T01:53:19.118Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-17T01:53:19.275Z] INFO: 👥 Movie hereditary liked by users: [
+  "14ltobias",
+  "_66tl_",
+  "adrianam",
+  "adrianmoviez",
+  "ajasmine",
+  "alaynaviolet",
+  "alexroy656",
+  "always8323",
+  "amyja89",
+  "andredenervaux",
+  "andregps",
+  "andrerseits",
+  "andrez15",
+  "andylevy",
+  "anjyfox",
+  "anniewoj",
+  "annijaas",
+  "ashonfilm",
+  "austinelkins",
+  "b1mb1m",
+  "badeboom",
+  "bajonasmekas",
+  "beegproductions",
+  "beenalee",
+  "behaind",
+  "belial_carboni",
+  "belrodrigues",
+  "bengrimm",
+  "bethbecomesher",
+  "blakemower",
+  "bongjoonho",
+  "brat",
+  "carygrcnt",
+  "cassie",
+  "cdgray",
+  "cernanmari",
+  "chatterb0xd",
+  "cherrygloss",
+  "cherryz",
+  "chickenmaster",
+  "chloe1",
+  "christianbales",
+  "cilliansheart",
+  "cinefan27",
+  "cinemaexcelsior",
+  "clockworkking",
+  "codymonster91",
+  "codypphoto",
+  "coreypierce",
+  "dakotajoaquin",
+  "dallasfrance",
+  "damdaaamm",
+  "danielle41515",
+  "danielzalez",
+  "denduffy",
+  "dialnfornick",
+  "digitalpress",
+  "djdoublem3",
+  "donnieddarko",
+  "dorseyhorsey",
+  "draper_",
+  "dreadfuls",
+  "drumdums",
+  "ducournau",
+  "dulcetnicole",
+  "dylanmeetze",
+  "ed_w00d",
+  "edithwharton",
+  "edunne125",
+  "elaurapictures",
+  "elisavetkei",
+  "elliebean",
+  "elsergiomunoz",
+  "emforce",
+  "emilybabyy",
+  "emperorcupcake",
+  "entlauber",
+  "erinlindsayy",
+  "evasive",
+  "everista",
+  "eviibag",
+  "evilbjork",
+  "fake_shemp",
+  "fakerobhunter",
+  "fallnfairy",
+  "faretheewell",
+  "feliomestre",
+  "femvp",
+  "filmlinds",
+  "flanmovieman",
+  "flyawayhome",
+  "freyainthcities",
+  "g_emi",
+  "georgecarmi",
+  "gorybmovie",
+  "hail_freyr",
+  "halliehalliday",
+  "hanxine",
+  "hauntedhippie",
+  "henryspencerirl",
+  "hereditary",
+  "herman2181",
+  "horizonframed",
+  "hotdad23",
+  "ianjonas",
+  "ifising",
+  "imamesscraven18",
+  "incomingmail",
+  "innerash",
+  "irathethird",
+  "jacobalenciaga",
+  "jay",
+  "jc13",
+  "jeaba",
+  "jessedixon",
+  "jesstra24",
+  "jewbo23",
+  "joakocritica",
+  "jocey",
+  "joereid",
+  "jonathanfujii",
+  "josiahmorgan11",
+  "jozhster",
+  "karmanoodle",
+  "kasarin",
+  "katkowalski314",
+  "kendallwalsh",
+  "khoi97",
+  "kingofgondor",
+  "ksenijab",
+  "kun",
+  "kwight01",
+  "kyledunne",
+  "leeannremiker",
+  "lenn_art",
+  "lileyy",
+  "lmr",
+  "lovrfilms",
+  "lucaselordi",
+  "luciacoronado_",
+  "luckydoll",
+  "lucyskeet",
+  "lukelivermore",
+  "m__ollymac",
+  "macfilms",
+  "madeons",
+  "mardarrius",
+  "margielatabi",
+  "markmooney",
+  "martaluvi",
+  "mattluvsmovies",
+  "maxivanov",
+  "maxthemovieguy",
+  "mayhemkvlt",
+  "mbf231",
+  "mcufilm",
+  "medicalmovieman",
+  "meggss",
+  "miketorchic",
+  "milanabor",
+  "millenniummambo",
+  "modish",
+  "mook",
+  "moviemaestro",
+  "movieswithdes",
+  "mulaney",
+  "mumbles",
+  "nibiru_truth",
+  "nickyd",
+  "notviking",
+  "nycsubwayrat",
+  "olilovesfilm",
+  "pauloveshorror",
+  "pinkmcflurry",
+  "pjenkins",
+  "prezoh",
+  "prolelol",
+  "qmoviereviews",
+  "reservoirdvgs",
+  "reviewsbybrooks",
+  "rhesusnegative",
+  "ricfranco",
+  "rickd",
+  "ricomcpato",
+  "riverjphoenix",
+  "robertdavid",
+  "rodstar",
+  "rudimh",
+  "russman",
+  "rybrentmannftw",
+  "sadik_khan_",
+  "samherbst",
+  "samiser",
+  "sarahlovett",
+  "scissorluvs",
+  "seenandnotseen",
+  "sehnzeleid",
+  "simplecinema",
+  "skipper_schutt",
+  "sloany_",
+  "smallclone",
+  "smarmyjerkface",
+  "sonnywortzikk",
+  "sprudelheinz",
+  "starr",
+  "sunset99",
+  "superpulse",
+  "taylorfilmguy",
+  "taz",
+  "tdm5003",
+  "teamgal",
+  "teamshaikha",
+  "tentaclatron",
+  "theblackphillip",
+  "thediegoandaluz",
+  "thejacko",
+  "theresahole",
+  "toddhaynes",
+  "tommysyk",
+  "tonyterror",
+  "tototoro",
+  "tracedthurman",
+  "truman",
+  "truong78",
+  "tummyache",
+  "tylerdoiron",
+  "unawarewolf",
+  "unclestan",
+  "v6446v",
+  "vampireweekend",
+  "vascomunoz",
+  "vontrapp",
+  "wesandrson",
+  "whateverokay",
+  "worldwideweb",
+  "ximenaribs",
+  "yogilovesfilm",
+  "yorel1976",
+  "zanderific",
+  "zizyy",
+  "zoesf"
+]
+[2025-11-17T01:53:19.277Z] INFO: 👥 Found 241 users who interacted with input movies 
+[2025-11-17T01:53:19.277Z] INFO: Userineractions: {
+  "adrianam": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "tylerdoiron": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "14ltobias": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "_66tl_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "adrianmoviez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ajasmine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alaynaviolet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alexroy656": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "always8323": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "amyja89": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andredenervaux": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andregps": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrerseits": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrez15": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andylevy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anjyfox": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anniewoj": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "annijaas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ashonfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "austinelkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "b1mb1m": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "badeboom": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bajonasmekas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beegproductions": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beenalee": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "behaind": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belial_carboni": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belrodrigues": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bengrimm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bethbecomesher": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "blakemower": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bongjoonho": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "brat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "carygrcnt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cassie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cdgray": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cernanmari": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chatterb0xd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherrygloss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherryz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chickenmaster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chloe1": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "christianbales": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cilliansheart": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinefan27": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinemaexcelsior": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "clockworkking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codymonster91": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codypphoto": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "coreypierce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dakotajoaquin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dallasfrance": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "damdaaamm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielle41515": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielzalez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "denduffy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dialnfornick": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "digitalpress": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "djdoublem3": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "donnieddarko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dorseyhorsey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "draper_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dreadfuls": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "drumdums": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ducournau": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dulcetnicole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dylanmeetze": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ed_w00d": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edithwharton": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edunne125": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elaurapictures": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elisavetkei": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elliebean": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elsergiomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emforce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emilybabyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emperorcupcake": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "entlauber": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "erinlindsayy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evasive": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "everista": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "eviibag": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evilbjork": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fake_shemp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fakerobhunter": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fallnfairy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "faretheewell": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "feliomestre": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "femvp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "filmlinds": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flanmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flyawayhome": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "freyainthcities": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "g_emi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "georgecarmi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "gorybmovie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hail_freyr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "halliehalliday": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hanxine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hauntedhippie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "henryspencerirl": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hereditary": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "herman2181": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "horizonframed": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hotdad23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ianjonas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ifising": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "imamesscraven18": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "incomingmail": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "innerash": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "irathethird": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jacobalenciaga": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jc13": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jeaba": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jessedixon": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jesstra24": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jewbo23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joakocritica": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jocey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joereid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jonathanfujii": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "josiahmorgan11": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jozhster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "karmanoodle": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kasarin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "katkowalski314": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kendallwalsh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "khoi97": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kingofgondor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ksenijab": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kun": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kwight01": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kyledunne": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "leeannremiker": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lenn_art": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lileyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lmr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lovrfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucaselordi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luciacoronado_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luckydoll": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucyskeet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lukelivermore": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "m__ollymac": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "macfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "madeons": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mardarrius": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "margielatabi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "markmooney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "martaluvi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mattluvsmovies": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxivanov": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxthemovieguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mayhemkvlt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mbf231": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mcufilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "medicalmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "meggss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "miketorchic": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "milanabor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "millenniummambo": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "modish": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mook": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "moviemaestro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "movieswithdes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mulaney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mumbles": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nibiru_truth": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nickyd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "notviking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nycsubwayrat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "olilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pauloveshorror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pinkmcflurry": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pjenkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prezoh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prolelol": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "qmoviereviews": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reservoirdvgs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reviewsbybrooks": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rhesusnegative": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricfranco": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rickd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricomcpato": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "riverjphoenix": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "robertdavid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rodstar": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rudimh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "russman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rybrentmannftw": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sadik_khan_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samherbst": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samiser": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sarahlovett": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "scissorluvs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "seenandnotseen": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sehnzeleid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "simplecinema": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "skipper_schutt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sloany_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smallclone": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smarmyjerkface": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sonnywortzikk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sprudelheinz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "starr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sunset99": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "superpulse": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taylorfilmguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tdm5003": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamgal": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamshaikha": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tentaclatron": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theblackphillip": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thediegoandaluz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thejacko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theresahole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "toddhaynes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tommysyk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tonyterror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tototoro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tracedthurman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truong78": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tummyache": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unawarewolf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unclestan": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "v6446v": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vampireweekend": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vascomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vontrapp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "wesandrson": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "whateverokay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "worldwideweb": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ximenaribs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yogilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yorel1976": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zanderific": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zizyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zoesf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  }
+}
+[2025-11-17T01:53:21.058Z] INFO: 🎯 STEP 3: Building candidate movie set 
+[2025-11-17T01:53:21.058Z] INFO: User interactions for candidates: {
+  "adrianam": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "tylerdoiron": {
+    "inputMovieCount": 2,
+    "otherMovies": {}
+  },
+  "14ltobias": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "_66tl_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "adrianmoviez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ajasmine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alaynaviolet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "alexroy656": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "always8323": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "amyja89": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andredenervaux": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andregps": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrerseits": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andrez15": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "andylevy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anjyfox": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "anniewoj": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "annijaas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ashonfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "austinelkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "b1mb1m": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "badeboom": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bajonasmekas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beegproductions": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "beenalee": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "behaind": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belial_carboni": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "belrodrigues": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bengrimm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bethbecomesher": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "blakemower": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "bongjoonho": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "brat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "carygrcnt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cassie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cdgray": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cernanmari": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chatterb0xd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherrygloss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cherryz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chickenmaster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "chloe1": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "christianbales": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cilliansheart": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinefan27": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "cinemaexcelsior": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "clockworkking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codymonster91": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "codypphoto": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "coreypierce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dakotajoaquin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dallasfrance": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "damdaaamm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielle41515": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "danielzalez": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "denduffy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dialnfornick": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "digitalpress": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "djdoublem3": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "donnieddarko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dorseyhorsey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "draper_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dreadfuls": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "drumdums": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ducournau": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dulcetnicole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "dylanmeetze": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ed_w00d": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edithwharton": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "edunne125": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elaurapictures": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elisavetkei": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elliebean": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "elsergiomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emforce": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emilybabyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "emperorcupcake": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "entlauber": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "erinlindsayy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evasive": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "everista": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "eviibag": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "evilbjork": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fake_shemp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fakerobhunter": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "fallnfairy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "faretheewell": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "feliomestre": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "femvp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "filmlinds": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flanmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "flyawayhome": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "freyainthcities": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "g_emi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "georgecarmi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "gorybmovie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hail_freyr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "halliehalliday": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hanxine": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hauntedhippie": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "henryspencerirl": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hereditary": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "herman2181": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "horizonframed": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "hotdad23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ianjonas": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ifising": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "imamesscraven18": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "incomingmail": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "innerash": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "irathethird": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jacobalenciaga": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jc13": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jeaba": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jessedixon": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jesstra24": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jewbo23": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joakocritica": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jocey": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "joereid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jonathanfujii": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "josiahmorgan11": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "jozhster": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "karmanoodle": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kasarin": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "katkowalski314": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kendallwalsh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "khoi97": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kingofgondor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ksenijab": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kun": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kwight01": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "kyledunne": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "leeannremiker": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lenn_art": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lileyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lmr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lovrfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucaselordi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luciacoronado_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "luckydoll": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lucyskeet": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "lukelivermore": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "m__ollymac": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "macfilms": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "madeons": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mardarrius": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "margielatabi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "markmooney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "martaluvi": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mattluvsmovies": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxivanov": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "maxthemovieguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mayhemkvlt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mbf231": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mcufilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "medicalmovieman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "meggss": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "miketorchic": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "milanabor": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "millenniummambo": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "modish": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mook": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "moviemaestro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "movieswithdes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mulaney": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "mumbles": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nibiru_truth": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nickyd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "notviking": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "nycsubwayrat": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "olilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pauloveshorror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pinkmcflurry": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "pjenkins": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prezoh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "prolelol": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "qmoviereviews": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reservoirdvgs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "reviewsbybrooks": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rhesusnegative": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricfranco": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rickd": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ricomcpato": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "riverjphoenix": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "robertdavid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rodstar": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rudimh": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "russman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "rybrentmannftw": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sadik_khan_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samherbst": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "samiser": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sarahlovett": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "scissorluvs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "seenandnotseen": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sehnzeleid": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "simplecinema": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "skipper_schutt": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sloany_": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smallclone": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "smarmyjerkface": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sonnywortzikk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sprudelheinz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "starr": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "sunset99": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "superpulse": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taylorfilmguy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "taz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tdm5003": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamgal": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "teamshaikha": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tentaclatron": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theblackphillip": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thediegoandaluz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "thejacko": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "theresahole": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "toddhaynes": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tommysyk": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tonyterror": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tototoro": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tracedthurman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truman": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "truong78": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "tummyache": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unawarewolf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "unclestan": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "v6446v": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vampireweekend": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vascomunoz": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "vontrapp": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "wesandrson": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "whateverokay": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "worldwideweb": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "ximenaribs": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yogilovesfilm": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "yorel1976": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zanderific": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zizyy": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  },
+  "zoesf": {
+    "inputMovieCount": 1,
+    "otherMovies": {}
+  }
+}
+[2025-11-17T01:53:21.312Z] INFO: 🎯 Found 4122 candidate movies 
+[2025-11-17T01:53:21.312Z] INFO: 📈 STEP 4: Calculating global statistics 
+[2025-11-17T01:53:21.313Z] DEBUG: 🔍 Querying likes - batch 1 
+[2025-11-17T01:53:22.068Z] DEBUG: 🔍 Querying likes - batch 2 
+[2025-11-17T01:53:22.487Z] DEBUG: 🔍 Querying likes - batch 3 
+[2025-11-17T01:53:23.070Z] DEBUG: 🔍 Querying likes - batch 4 
+[2025-11-17T01:53:23.610Z] DEBUG: 🔍 Querying likes - batch 5 
+[2025-11-17T01:53:24.237Z] DEBUG: 🔍 Querying likes - batch 6 
+[2025-11-17T01:53:24.709Z] DEBUG: 🔍 Querying likes - batch 7 
+[2025-11-17T01:53:25.221Z] DEBUG: 🔍 Querying likes - batch 8 
+[2025-11-17T01:53:25.679Z] DEBUG: 🔍 Querying likes - batch 9 
+[2025-11-17T01:53:26.138Z] DEBUG: 🔍 Querying likes - batch 10 
+[2025-11-17T01:53:26.598Z] INFO: 🔍 Progress: 175229 items from likes so far... 
+[2025-11-17T01:53:26.598Z] DEBUG: 🔍 Querying likes - batch 11 
+[2025-11-17T01:53:27.276Z] DEBUG: 🔍 Querying likes - batch 12 
+[2025-11-17T01:53:27.753Z] DEBUG: 🔍 Querying likes - batch 13 
+[2025-11-17T01:53:28.216Z] DEBUG: 🔍 Querying likes - batch 14 
+[2025-11-17T01:53:28.793Z] DEBUG: 🔍 Querying likes - batch 15 
+[2025-11-17T01:53:29.408Z] DEBUG: 🔍 Querying likes - batch 16 
+[2025-11-17T01:53:29.584Z] INFO: 🔍 Retrieved 268857 total items from likes in 16 batches 
+[2025-11-17T01:53:29.652Z] INFO: 📈 Global stats: 5000 movies, avg 53.8 likes/movie 
+[2025-11-17T01:53:29.652Z] INFO: 🎨 STEP 5: Scoring candidate movies 

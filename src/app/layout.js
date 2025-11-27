@@ -1,8 +1,8 @@
-import { Inter, Poppins } from "next/font/google";
+import { Outfit, Poppins } from "next/font/google";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
 
-const inter = Inter({ weight: "200", subsets: ["latin"] });
+const outfit = Outfit({ weight: "200", subsets: ["latin"] });
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,8 +18,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className={`${inter.className} antialiased`}>
+    <html lang="en" className={`${outfit.variable} ${poppins.variable}`}>
+      <body className={`${outfit.className} antialiased`}>
         <MovieCollectionProvider>{children}</MovieCollectionProvider>
       </body>
     </html>

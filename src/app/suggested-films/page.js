@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Star, Clock, Calendar, Loader2 } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
+import { Logo } from "../components/logo";
+import Footer from "../components/footer";
 
 const MovieSlider = () => {
   const { collectionItems } = useMovieCollection();
@@ -46,15 +48,15 @@ const MovieSlider = () => {
         }
         const moviesData = await moviesResponse.json();
         console.log("Suggested movies data:", moviesData);
-        if (!moviesData || moviesData.length === 0) {
+        if (!moviesData || !moviesData.recommendations || moviesData.length === 0) {
           throw new Error("No suggested movies found");
         }
 
-        setMovies(moviesData);
-        setCurrentMovie(moviesData[0]);
+        setMovies(moviesData.recommendations);
+        setCurrentMovie(moviesData.recommendations[0]);
 
         // Extract colors from all movie posters
-        const imageRequests = moviesData.map((movie) => ({
+        const imageRequests = moviesData.recommendations.map((movie) => ({
           slug: movie.slug,
           url: movie.posterUrl,
         }));
@@ -68,6 +70,7 @@ const MovieSlider = () => {
         });
 
         if (!colorsResponse.ok) {
+          console.error("Colors response not ok:", colorsResponse);
           throw new Error("Failed to extract colors");
         }
 
@@ -75,11 +78,11 @@ const MovieSlider = () => {
 
         if (colorsData.results) {
           setExtractedColors(colorsData.results);
-          setCurrentColors(colorsData.results[moviesData[0].slug]);
+          setCurrentColors(colorsData.results[moviesData.recommendations[0].slug]);
         } else {
           // Fallback to default colors if extraction fails
           const fallbackColors = {};
-          moviesData.forEach((movie) => {
+          moviesData.recommendations.forEach((movie) => {
             fallbackColors[movie.slug] = defaultColors;
           });
           setExtractedColors(fallbackColors);
@@ -165,14 +168,10 @@ const MovieSlider = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="max-w-md text-center bg-red-100 border-4 border-black p-8" style={{ boxShadow: "8px 8px 0px 0px #000000" }}>
+        <div className="max-w-md text-center bg-red-100 border-4 border-black p-8">
           <h2 className="text-2xl font-black text-black mb-4">ERROR</h2>
           <p className="text-black font-bold mb-6">{error}</p>
-          <a
-            href="/"
-            className="inline-block bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform"
-            style={{ boxShadow: "4px 4px 0px 0px #000000" }}
-          >
+          <a href="/" className="inline-block bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider">
             ← BACK TO HOME
           </a>
         </div>
@@ -184,14 +183,10 @@ const MovieSlider = () => {
   if (!movies || movies.length === 0) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="max-w-md text-center bg-yellow-100 border-4 border-black p-8" style={{ boxShadow: "8px 8px 0px 0px #000000" }}>
+        <div className="max-w-md text-center bg-yellow-100 border-4 border-black p-8">
           <h2 className="text-2xl font-black text-black mb-4">NO MOVIES FOUND</h2>
           <p className="text-black font-bold mb-6">Add some movies to your collection first!</p>
-          <a
-            href="/"
-            className="inline-block bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform"
-            style={{ boxShadow: "4px 4px 0px 0px #000000" }}
-          >
+          <a href="/" className="inline-block bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider">
             ← BACK TO HOME
           </a>
         </div>
@@ -200,14 +195,11 @@ const MovieSlider = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-8">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Main Card Container */}
         <div
-          className="relative border-8 border-black p-6 md:p-12 transition-all duration-300 shadow-none md:shadow-[12px_12px_0px_0px_#000000]"
-          style={{
-            backgroundColor: currentColors?.dominant || defaultColors.dominant,
-          }}
+          className="relative md:p-12 transition-all duration-300"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -215,39 +207,45 @@ const MovieSlider = () => {
           {/* Back Button */}
           <a
             href="/"
-            className="inline-block mb-6 bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform"
-            style={{ boxShadow: "4px 4px 0px 0px #000000" }}
+            className="inline-block m-6 bg-white border-4 border-black px-6 py-3 text-black font-black text-sm uppercase tracking-wider hover:underline"
           >
             ← BACK
           </a>
           {/* Swipe Indicator for mobile users */}
-          <div className="lg:hidden flex items-center justify-center gap-2 text-white mb-5 -rotate-2 drop-shadow-[0_4px_0px_rgba(0,0,0,1)]">
-            <ChevronLeft size={28} strokeWidth={3} />
-            <span className="text-lg font-bold tracking-wider uppercase italic">Swipe</span>
-            <ChevronRight size={28} strokeWidth={3} />
+          <div
+            className="lg:hidden flex items-center justify-center gap-2 text-black mb-3 bg-white p-4"
+            style={{
+              height: "40px",
+            }}
+          >
+            <ChevronLeft size={20} strokeWidth={3} />
+            <span className="text-md font-bold tracking-wider uppercase">Swipe</span>
+            <ChevronRight size={20} strokeWidth={3} />
           </div>
           {/* Content Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[600px]">
             {/* Movie Info Section */}
-            <div className="order-2 md:order-1 space-y-6">
+            <div className="order-2 md:order-1 space-y-6 p-8 border-t-4 border-black bg-blue-200">
               <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                 {/* Title Card */}
-                <div className="bg-white border-4 border-black p-6 mb-6" style={{ boxShadow: "6px 6px 0px 0px #000000" }}>
-                  <h1 className="text-4xl md:text-6xl font-black text-black mb-3 uppercase tracking-tight">{currentMovie.title}</h1>
+                <div className="bg-white border-4 border-black p-6 mb-6 ">
+                  <h1 className="text-3xl md:text-6xl font-black text-black mb-3 uppercase tracking-tight">
+                    {currentMovie.title.replace(/\u00A0/g, " ")}
+                  </h1>
                   <p className="text-black text-lg font-bold leading-relaxed">{currentMovie.tagline || "No tagline available"}</p>
                 </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-yellow-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                  <div className="bg-white border-4 border-black p-4 text-center">
                     <Calendar className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.year || "N/A"}</p>
                   </div>
-                  <div className="bg-cyan-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                  <div className="bg-white border-4 border-black p-4 text-center">
                     <Clock className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.length ? currentMovie.length + "m" : "N/A"}</p>
                   </div>
-                  <div className="bg-pink-300 border-4 border-black p-4 text-center" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                  <div className="bg-white border-4 border-black p-4 text-center">
                     <Star className="mx-auto mb-2 text-black fill-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.averageRating ? currentMovie.averageRating + "/5" : "N/A"}</p>
                   </div>
@@ -255,11 +253,11 @@ const MovieSlider = () => {
 
                 {/* Info Cards */}
                 <div className="space-y-4">
-                  <div className="bg-white border-4 border-black p-4" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                  <div className="bg-white border-4 border-black p-4">
                     <span className="text-black text-sm font-black uppercase">Genre: </span>
                     <span className="text-black font-bold">{currentMovie.genres?.join(", ") || "N/A"}</span>
                   </div>
-                  <div className="bg-white border-4 border-black p-4" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
+                  <div className="bg-white border-4 border-black p-4">
                     <span className="text-black text-sm font-black uppercase">Director: </span>
                     <span className="text-black font-bold">{currentMovie.director || "N/A"}</span>
                   </div>
@@ -272,21 +270,21 @@ const MovieSlider = () => {
               <button
                 onClick={prevSlide}
                 disabled={isAnimating}
-                className="hidden lg:block bg-white border-4 border-black w-16 h-16 flex items-center justify-center mr-8 disabled:opacity-50"
-                style={{ boxShadow: "6px 6px 0px 0px #000000" }}
+                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-200"
               >
-                <ChevronLeft className="text-black" size={32} strokeWidth={3} />
+                <ChevronLeft
+                  className="text-white"
+                  size={28}
+                  strokeWidth={3}
+                  style={{
+                    filter: "drop-shadow(2px 2px 0px rgba(0, 0, 0))",
+                  }}
+                />
               </button>
 
               <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                 {/* Poster Container */}
-                <div
-                  className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white"
-                  style={{
-                    boxShadow: "12px 12px 0px 0px #000000",
-                    transform: "rotate(-2deg)",
-                  }}
-                >
+                <div className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white border-4 border-black">
                   <img
                     src={currentMovie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || currentMovie.posterUrl}
                     alt={`${currentMovie.title} poster`}
@@ -299,32 +297,36 @@ const MovieSlider = () => {
                 </div>
               </div>
               <button
-                onClick={nextSlide}
+                onClick={prevSlide}
                 disabled={isAnimating}
-                className="hidden lg:block bg-white border-4 border-black w-16 h-16 flex items-center justify-center ml-8 disabled:opacity-50"
-                style={{
-                  boxShadow: "6px 6px 0px 0px #000000",
-                }}
+                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-200"
               >
-                <ChevronRight className="text-black" size={32} strokeWidth={3} />
+                <ChevronRight
+                  className="text-white"
+                  size={28}
+                  strokeWidth={3}
+                  style={{
+                    filter: "drop-shadow(2px 2px 0px rgba(0, 0, 0))",
+                  }}
+                />
               </button>
             </div>
           </div>
         </div>
 
         {/* Slide Indicators */}
-        <div className="flex justify-center gap-3 mt-8">
+        <div className="flex justify-center gap-3 py-8 bg-blue-200">
           {movies.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               disabled={isAnimating}
-              className={`w-4 h-4 border-2 border-black transition-all disabled:opacity-50 ${index === currentSlide ? "bg-black" : "bg-white"}`}
-              style={{ boxShadow: "2px 2px 0px 0px #000000" }}
+              className={`w-4 h-4 border-2 border-black transition-all disabled:opacity-50 ${index === currentSlide ? "bg-blue-400" : "bg-white"}`}
             />
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
