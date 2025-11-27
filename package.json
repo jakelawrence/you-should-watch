@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p 3000",
     "setup-db": "node scripts/setup-db.js",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:likes": "node scripts/migrate-likes-tables.mjs",
+    "migrate:test": "node scripts/test-migration.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.806.0",
@@ -17,6 +19,7 @@
     "aws-sdk": "^2.1692.0",
     "canvas": "^3.2.0",
     "colorthief": "^2.6.0",
+    "dotenv": "^17.2.3",
     "flickity": "^3.0.0",
     "lucide-react": "^0.474.0",
     "next": "^15.2.4",

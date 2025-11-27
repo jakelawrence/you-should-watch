@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { Loader2, ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { useMovieCollection } from "./context/MovieCollectionContext";
+import { Loader2, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+import { useMovieCollection, removeFromCollection } from "./context/MovieCollectionContext";
 import { SearchBar } from "./components/search-bar";
 import { Dropdown } from "./components/dropdown";
+import { Logo } from "./components/logo";
+import Footer from "./components/footer";
 import { GetSuggestedMovieButton } from "./components/get-suggested-movies-button";
 
 const useDebounce = (value, delay) => {
@@ -29,12 +31,6 @@ export default function Home() {
 
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-
-  const defaultColors = {
-    background: "#4ECDC4",
-    accent: "#1a1919ff",
-    palette: ["#FF6B6B", "#4ECDC4", "#FFE66D", "#A8E6CF"],
-  };
 
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -97,6 +93,8 @@ export default function Home() {
     setSearchQuery("");
     setShowDropdown(false);
     setSearchResults([]);
+    console.log("Collection Items after add:", collectionItems);
+    setCurrentCarouselSlide(collectionItems.length);
   };
 
   const nextCarouselSlide = useCallback(() => {
@@ -118,15 +116,6 @@ export default function Home() {
 
     setTimeout(() => setCarouselAnimating(false), 200);
   }, [currentCarouselSlide, featuredMovies.length, carouselAnimating, collectionItems]);
-
-  const goToCarouselSlide = (index) => {
-    if (carouselAnimating || index === currentCarouselSlide || !collectionItems || collectionItems.length === 0) return;
-
-    setCarouselAnimating(true);
-    setCurrentCarouselSlide(index);
-
-    setTimeout(() => setCarouselAnimating(false), 200);
-  };
 
   const handleTouchStart = (e) => {
     setTouchStart(e.targetTouches[0].clientX);
@@ -161,70 +150,42 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen p-4 md:p-8 transition-colors duration-300">
+    <div className="min-h-screen md:p-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Side - Search and Actions */}
-          <div className="order-2 lg:order-1 space-y-6">
+          <div className="order-2 lg:order-1 space-y-6 bg-blue-200 p-8 border-t-4 border-black">
             {/* Search Card */}
-            <div
-              className="bg-pink-200 border-4 border-black p-6 space-y-4"
-              style={{
-                boxShadow: "6px 4px 0px 0px #000000",
-              }}
-            >
-              <div className="relative" ref={searchInputRef}>
-                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-                {/* Search Loading */}
-                {isSearching && (
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <Loader2 className="animate-spin text-black" size={24} strokeWidth={3} />
-                  </div>
-                )}
+            <div className="relative" ref={searchInputRef}>
+              <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-                {/* Dropdown */}
-                {showDropdown && searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-4 z-50">
-                    <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} onMovieAdded={handleMovieAdded} />
-                  </div>
-                )}
-              </div>
-              <div
-                className="bg-lime-400 border-4 border-black p-6"
-                style={{
-                  // backgroundColor: defaultColors.palette[0],
-                  boxShadow: "6px 4px 0px 0px #000000",
-                }}
-              >
-                <h2 className="text-4xl lg:text-5xl font-black text-black mb-3 uppercase">Discover Movies</h2>
-                <p className="text-black font-bold text-lg leading-relaxed">
-                  Search and add movies to your collection to get personalized recommendations.
-                </p>
-              </div>
-              {/* Search Error */}
-              {searchError && (
-                <div
-                  className="bg-red-400 border-4 border-black px-4 py-3 text-black font-black uppercase"
-                  style={{
-                    boxShadow: "6px 4px 0px 0px #000000",
-                  }}
-                >
-                  {searchError}
+              {/* Dropdown */}
+              {showDropdown && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-4 z-50">
+                  <Dropdown dropdownRef={dropdownRef} searchResults={searchResults} onMovieAdded={handleMovieAdded} />
                 </div>
               )}
             </div>
-
-            {/* Actions Card */}
-            <div
-              className="bg-white border-4 border-black p-6 space-y-4"
-              style={{
-                boxShadow: "8px 8px 0px 0px #000000",
-              }}
-            >
-              <GetSuggestedMovieButton />
+            <GetSuggestedMovieButton />
+            <div className="bg-white border-4 border-black p-6">
+              <h2 className="text-4xl lg:text-5xl font-black text-black mb-3 uppercase">Discover Movies</h2>
+              <p className="text-black font-bold text-lg leading-relaxed">
+                Search and add movies to your collection to get personalized recommendations.
+              </p>
             </div>
+            {/* Search Error */}
+            {searchError && (
+              <div
+                className="bg-red-400 border-4 border-black px-4 py-3 text-black font-black uppercase"
+                style={{
+                  boxShadow: "6px 4px 0px 0px #000000",
+                }}
+              >
+                {searchError}
+              </div>
+            )}
           </div>
 
           {/* Right Side - Movie Poster Display */}
@@ -234,28 +195,15 @@ export default function Home() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="relative group flex justify-center items-center">
-              <div
-                className="p-3"
-                style={{
-                  width: "329px",
-                  height: "59px",
-                  backgroundColor: "#00C0E8",
-                  boxShadow: "6px 4px 0px 0px #000000",
-                }}
-              >
-                <h2 className="text-3xl lg:text-5xl font-black text-center text-white mb-1 lowercase font-poppins">you should watch</h2>
-              </div>
-            </div>
+            <Logo />
             <div className="relative group flex justify-center items-center">
               {/* Swipe Indicator for mobile users */}
               {collectionItems.length > 1 && (
                 <div
-                  className="lg:hidden flex items-center justify-center gap-2 text-black mb-2 bg-white border-4 border-black p-4"
+                  className="lg:hidden flex items-center justify-center gap-2 text-black mb-2 bg-white p-4"
                   style={{
                     width: "150px",
                     height: "40px",
-                    boxShadow: "6px 4px 0px 0px #000000",
                   }}
                 >
                   <ChevronLeft size={20} strokeWidth={3} />
@@ -270,12 +218,11 @@ export default function Home() {
                 <div className="relative flex justify-center items-center">
                   <div className={`duration-200 ${carouselAnimating ? "opacity-0" : "opacity-100"}`}>
                     {/* Poster Container */}
-                    <div
-                      className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white mx-auto"
-                      style={{
-                        boxShadow: "6px 4px 0px 0px #000000",
-                      }}
-                    >
+                    <div className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white mx-auto border-4 border-black">
+                      <div onClick={removeFromCollection} className="absolute top-0 left-0 bg-red-500">
+                        <X color="black" size={24} />
+                      </div>
+
                       <img
                         src={currentMovie.posterUrl.replace("-0-140-0-210-", "-0-1000-0-1500-")}
                         alt={`${currentMovie.title} poster`}
@@ -287,12 +234,7 @@ export default function Home() {
                     </div>
 
                     {/* Title Card Below Poster */}
-                    <div
-                      className="mt-8 bg-white border-4 border-black p-4 text-center"
-                      style={{
-                        boxShadow: "6px 4px 0px 0px #000000",
-                      }}
-                    >
+                    <div className="mt-8 bg-white border-4 border-black p-4 text-center">
                       <h3 className="text-base font-black text-black uppercase">{currentMovie.title}</h3>
                     </div>
                   </div>
@@ -334,19 +276,9 @@ export default function Home() {
             ) : (
               /* Placeholder when no movies */
               <button onClick={handlePlaceholderClick} className="relative group flex justify-center items-center">
-                <div
-                  className="w-64 h-96 border-6 border-dashed border-black flex items-center justify-center bg-gray-100"
-                  style={{
-                    boxShadow: "8px 7px 0px 0px #000000",
-                  }}
-                >
+                <div className="w-64 h-96 border-6 border-dashed border-black flex items-center justify-center bg-gray-100 border-4 border-black">
                   <div className="text-center px-8">
-                    <div
-                      className="w-20 h-20 mx-auto mb-4 bg-yellow-300 border-4 border-black flex items-center justify-center transition-all duration-200"
-                      style={{
-                        boxShadow: "4px 4px 0px 0px #000000",
-                      }}
-                    >
+                    <div className="w-20 h-20 mx-auto mb-4 bg-yellow-300 border-4 border-black flex items-center justify-center transition-all duration-200">
                       <Plus className="text-black" size={40} strokeWidth={3} />
                     </div>
                     <p className="text-black text-xl font-black uppercase mx-2">Add Movie</p>
@@ -358,6 +290,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

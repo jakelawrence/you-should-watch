@@ -1,6 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand, QueryCommand, ScanCommand, BatchGetCommand } from "@aws-sdk/lib-dynamodb";
 import { logger } from "../lib/logger";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION,
@@ -201,6 +205,7 @@ export async function getMovieGenres(movieSlug) {
 }
 
 export async function getGenresOfMovies(movieSlugs) {
+  console.log("getGenresOfMovies called with:", movieSlugs);
   if (!movieSlugs || movieSlugs.length === 0) {
     return [];
   }
@@ -354,17 +359,33 @@ export async function getMovieActors(movieSlug) {
 
 export async function getMovieFavoritedUsers(movieSlug) {
   try {
-    const command = new ScanCommand({
-      TableName: "favorites",
-      FilterExpression: "movieSlug = :movieSlug",
-      ExpressionAttributeValues: {
-        ":movieSlug": movieSlug,
-      },
-    });
-    const result = await dynamodb.send(command);
-    return result.Items.map((row) => row.username) || [];
+    let allUsers = [];
+    let lastEvaluatedKey = null;
+
+    do {
+      const command = new QueryCommand({
+        TableName: "favorites-by-movie",
+        KeyConditionExpression: "movieSlug = :movieSlug",
+        ExpressionAttributeValues: {
+          ":movieSlug": movieSlug,
+        },
+        ProjectionExpression: "username",
+        ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
+      });
+
+      const result = await dynamodb.send(command);
+
+      if (result.Items && result.Items.length > 0) {
+        const users = result.Items.map((item) => item.username).filter(Boolean);
+        allUsers.push(...users);
+      }
+
+      lastEvaluatedKey = result.LastEvaluatedKey;
+    } while (lastEvaluatedKey);
+
+    return allUsers;
   } catch (error) {
-    console.error("DynamoDB scan error:", error);
+    console.error("DynamoDB getMovieFavoritesUsers error:", error);
     throw error;
   }
 }
@@ -376,127 +397,159 @@ export async function getMovieLikedUsers(movieSlug) {
 
     do {
       const command = new QueryCommand({
-        TableName: "likes",
-        IndexName: "movieSlug-index", // Replace with your actual GSI name
+        TableName: "likes-by-movie",
         KeyConditionExpression: "movieSlug = :movieSlug",
         ExpressionAttributeValues: {
           ":movieSlug": movieSlug,
         },
+        ProjectionExpression: "username",
         ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
       });
 
       const result = await dynamodb.send(command);
 
-      // Add users from this page to our collection
       if (result.Items && result.Items.length > 0) {
-        const users = result.Items.map((row) => row.username).filter(Boolean);
+        const users = result.Items.map((item) => item.username).filter(Boolean);
         allUsers.push(...users);
       }
 
-      // Check if there are more pages
       lastEvaluatedKey = result.LastEvaluatedKey;
     } while (lastEvaluatedKey);
 
-    //console.log(`Found ${allUsers.length} users who liked ${movieSlug}`);
     return allUsers;
   } catch (error) {
-    console.error("DynamoDB query error:", error);
+    console.error("DynamoDB getMovieLikedUsers error:", error);
     throw error;
   }
 }
 
-export async function getUserFavorites(username) {
-  try {
-    const command = new ScanCommand({
-      TableName: "favorites",
-      FilterExpression: "username = :username",
-      ExpressionAttributeValues: {
-        ":username": username,
-      },
-    });
-    const result = await dynamodb.send(command);
-    return result.Items.map((row) => row.movieSlug) || [];
-  } catch (error) {
-    console.error("DynamoDB scan error:", error);
-    throw error;
-  }
-}
-
-export async function getUsersLikes(usernames, options = {}) {
-  // Input validation
-  if (!Array.isArray(usernames)) {
-    throw new Error("usernames must be an array");
-  }
-
-  if (usernames.length === 0) {
+export async function getUsersLikes(usernames) {
+  if (!usernames || usernames.length === 0) {
     return new Map();
   }
 
-  // Validate and deduplicate usernames
-  const validUsernames = [...new Set(usernames.filter((username) => username && typeof username === "string"))];
+  const results = new Map();
 
-  if (validUsernames.length === 0) {
-    throw new Error("No valid usernames provided");
-  }
+  // Process users in parallel (DynamoDB can handle concurrent queries)
+  const chunkSize = 50; // Process 50 users at a time
+  for (let i = 0; i < usernames.length; i += chunkSize) {
+    const chunk = usernames.slice(i, i + chunkSize);
 
-  if (validUsernames.length !== usernames.length) {
-    console.warn("Some invalid or duplicate usernames were filtered out");
-  }
+    const promises = chunk.map(async (username) => {
+      try {
+        let allMovies = [];
+        let lastEvaluatedKey = null;
 
-  const {
-    limit = 1000,
-    consistentRead = false,
-    batchSize = 50, // Maximum usernames per scan to avoid expression size limit
-  } = options;
+        do {
+          const command = new QueryCommand({
+            TableName: "likes-by-user",
+            KeyConditionExpression: "username = :username",
+            ExpressionAttributeValues: {
+              ":username": username,
+            },
+            ProjectionExpression: "movieSlug",
+            ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
+          });
 
-  try {
-    const userLikesMap = new Map();
+          const result = await dynamodb.send(command);
 
-    // Initialize map with empty arrays for all requested users
-    validUsernames.forEach((username) => {
-      userLikesMap.set(username, []);
+          if (result.Items && result.Items.length > 0) {
+            const movies = result.Items.map((item) => item.movieSlug).filter(Boolean);
+            allMovies.push(...movies);
+          }
+
+          lastEvaluatedKey = result.LastEvaluatedKey;
+        } while (lastEvaluatedKey);
+
+        return [username, allMovies];
+      } catch (error) {
+        console.error(`Error getting likes for ${username}:`, error);
+        return [username, []];
+      }
     });
 
-    let totalMovies = 0;
-    let totalScanned = 0;
+    const responses = await Promise.all(promises);
 
-    // Process usernames in batches to avoid FilterExpression size limit
-    for (let i = 0; i < validUsernames.length; i += batchSize) {
-      const usernameBatch = validUsernames.slice(i, i + batchSize);
-
-      // console.log(
-      //   `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(validUsernames.length / batchSize)} (${usernameBatch.length} users)`
-      // );
-
-      const batchResults = await scanUsersBatch(usernameBatch, "likes", { limit, consistentRead });
-
-      // Merge results from this batch
-      batchResults.results.forEach((item) => {
-        const { username, movieSlug } = item;
-        if (username && movieSlug && typeof movieSlug === "string") {
-          if (userLikesMap.has(username)) {
-            userLikesMap.get(username).push(movieSlug);
-          }
-        }
-      });
-
-      totalScanned += batchResults.scannedCount;
-
-      // Optional: Add small delay between batches to be nice to DynamoDB
-      if (i + batchSize < validUsernames.length) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-      }
-    }
-
-    totalMovies = Array.from(userLikesMap.values()).reduce((sum, movies) => sum + movies.length, 0);
-
-    //console.log(`Found ${totalMovies} total movies across ${validUsernames.length} users (scanned ${totalScanned} items)`);
-
-    return userLikesMap;
-  } catch (error) {
-    console.error("DynamoDB scan error:", error);
-    throw new Error(`Failed to get likes for users: ${error.message}`);
+    responses.forEach(([username, likes]) => {
+      results.set(username, likes);
+    });
   }
+
+  return results;
+}
+
+export async function getUsersFavorites(usernames) {
+  if (!usernames || usernames.length === 0) {
+    return new Map();
+  }
+
+  const results = new Map();
+
+  // Process users in parallel (DynamoDB can handle concurrent queries)
+  const chunkSize = 50; // Process 50 users at a time
+  for (let i = 0; i < usernames.length; i += chunkSize) {
+    const chunk = usernames.slice(i, i + chunkSize);
+
+    const promises = chunk.map(async (username) => {
+      try {
+        let allMovies = [];
+        let lastEvaluatedKey = null;
+
+        do {
+          const command = new QueryCommand({
+            TableName: "favorites-by-user",
+            KeyConditionExpression: "username = :username",
+            ExpressionAttributeValues: {
+              ":username": username,
+            },
+            ProjectionExpression: "movieSlug",
+            ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
+          });
+
+          const result = await dynamodb.send(command);
+
+          if (result.Items && result.Items.length > 0) {
+            const movies = result.Items.map((item) => item.movieSlug).filter(Boolean);
+            allMovies.push(...movies);
+          }
+
+          lastEvaluatedKey = result.LastEvaluatedKey;
+        } while (lastEvaluatedKey);
+
+        return [username, allMovies];
+      } catch (error) {
+        console.error(`Error getting likes for ${username}:`, error);
+        return [username, []];
+      }
+    });
+
+    const responses = await Promise.all(promises);
+
+    responses.forEach(([username, likes]) => {
+      results.set(username, likes);
+    });
+  }
+
+  return results;
+}
+
+export async function getUserLikes(username) {
+  const command = new QueryCommand({
+    TableName: "likes-by-user",
+    KeyConditionExpression: "username = :username",
+    ExpressionAttributeValues: marshall({
+      ":username": username,
+    }),
+    ProjectionExpression: "movieSlug, movieTitle, createdAt",
+  });
+
+  const result = await dynamodb.send(command);
+
+  if (!result.Items || result.Items.length === 0) {
+    return [];
+  }
+
+  return result.Items.map((item) => unmarshall(item));
 }
 
 // Helper function to scan a batch of users
@@ -547,83 +600,6 @@ async function scanUsersBatch(usernames, tableName, options = {}) {
     results: allResults,
     scannedCount: totalScanned,
   };
-}
-
-export async function getUsersFavorites(usernames, options = {}) {
-  // Input validation
-  if (!Array.isArray(usernames)) {
-    throw new Error("usernames must be an array");
-  }
-
-  if (usernames.length === 0) {
-    return new Map();
-  }
-
-  // Validate and deduplicate usernames
-  const validUsernames = [...new Set(usernames.filter((username) => username && typeof username === "string"))];
-
-  if (validUsernames.length === 0) {
-    throw new Error("No valid usernames provided");
-  }
-
-  if (validUsernames.length !== usernames.length) {
-    console.warn("Some invalid or duplicate usernames were filtered out");
-  }
-
-  const {
-    limit = 1000,
-    consistentRead = false,
-    batchSize = 50, // Maximum usernames per scan to avoid expression size limit
-  } = options;
-
-  try {
-    const userFavoritesMap = new Map();
-
-    // Initialize map with empty arrays for all requested users
-    validUsernames.forEach((username) => {
-      userFavoritesMap.set(username, []);
-    });
-
-    let totalMovies = 0;
-    let totalScanned = 0;
-
-    // Process usernames in batches to avoid FilterExpression size limit
-    for (let i = 0; i < validUsernames.length; i += batchSize) {
-      const usernameBatch = validUsernames.slice(i, i + batchSize);
-
-      // console.log(
-      //   `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(validUsernames.length / batchSize)} (${usernameBatch.length} users)`
-      // );
-
-      const batchResults = await scanUsersBatch(usernameBatch, "favorites", { limit, consistentRead });
-
-      // Merge results from this batch
-      batchResults.results.forEach((item) => {
-        const { username, movieSlug } = item;
-        if (username && movieSlug && typeof movieSlug === "string") {
-          if (userFavoritesMap.has(username)) {
-            userFavoritesMap.get(username).push(movieSlug);
-          }
-        }
-      });
-
-      totalScanned += batchResults.scannedCount;
-
-      // Optional: Add small delay between batches to be nice to DynamoDB
-      if (i + batchSize < validUsernames.length) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-      }
-    }
-
-    totalMovies = Array.from(userFavoritesMap.values()).reduce((sum, movies) => sum + movies.length, 0);
-
-    //console.log(`Found ${totalMovies} total movies across ${validUsernames.length} users (scanned ${totalScanned} items)`);
-
-    return userFavoritesMap;
-  } catch (error) {
-    console.error("DynamoDB scan error:", error);
-    throw new Error(`Failed to get likes for users: ${error.message}`);
-  }
 }
 
 export async function getDirectorsOfMovies(movieSlugs) {

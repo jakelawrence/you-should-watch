@@ -1,0 +1,33 @@
+[2025-11-16T20:24:09.347Z] Processing weighted recommendation request 
+[2025-11-16T20:24:09.350Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-16T20:24:09.351Z] 📥 Input movie slugs: [
+  "hereditary"
+]
+[2025-11-16T20:24:09.352Z] ⚙️ Active weights: {
+  "collaborative": 0.35,
+  "favorite_bonus": 0.1,
+  "genre": 0.2,
+  "nanogenre": 0.15,
+  "director": 0.1,
+  "actor": 0.05,
+  "temporal": 0.05
+}
+[2025-11-16T20:24:09.352Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-16T20:24:09.968Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-16T20:24:09.968Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-16T20:24:10.219Z] ERROR: ❌ Error in generateRecommendations: {
+  "name": "ValidationException",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 400,
+    "requestId": "3J5ONFF27FP7HTI834M3FHRRIJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: Condition parameter type does not match schema type"
+}
+[2025-11-16T20:24:10.272Z] ERROR: Recommendation error: {
+  "code": "RECOMMENDATION_ERROR",
+  "name": "DatabaseError"
+}

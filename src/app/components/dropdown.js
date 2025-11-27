@@ -19,7 +19,7 @@ export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
         boxShadow: "8px 8px 0px 0px #000000",
       }}
     >
-      <div className="max-h-96 overflow-y-auto">
+      <div className="max-h-96 overflow-y-auto ">
         {searchResults.map((movie, idx) => (
           <button
             key={idx}

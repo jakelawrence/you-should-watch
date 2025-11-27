@@ -1,0 +1,5 @@
+[2025-11-16T20:17:12.598Z] ERROR: ❌ Error in generateRecommendations: {}
+[2025-11-16T20:17:12.708Z] ERROR: Recommendation error: {
+  "code": "RECOMMENDATION_ERROR",
+  "name": "DatabaseError"
+}

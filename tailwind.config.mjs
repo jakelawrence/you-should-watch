@@ -8,7 +8,7 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        sans: ["var(--font-outft)"],
         poppins: ["var(--font-poppins)"],
       },
     },

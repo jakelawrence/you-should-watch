@@ -1,0 +1,22 @@
+[2025-11-17T01:16:00.643Z] Processing weighted recommendation request 
+[2025-11-17T01:16:00.644Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-17T01:16:00.644Z] 📥 Input movie slugs: [
+  "hereditary"
+]
+[2025-11-17T01:16:00.644Z] ⚙️ Active weights: {
+  "collaborative": 0.35,
+  "favorite_bonus": 0.1,
+  "genre": 0.2,
+  "nanogenre": 0.15,
+  "director": 0.1,
+  "actor": 0.05,
+  "temporal": 0.05
+}
+[2025-11-17T01:16:00.644Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-17T01:16:01.311Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-17T01:16:01.311Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-17T01:16:01.559Z] ERROR: ❌ Error in generateRecommendations: {}
+[2025-11-17T01:16:01.604Z] ERROR: Recommendation error: {
+  "code": "RECOMMENDATION_ERROR",
+  "name": "DatabaseError"
+}

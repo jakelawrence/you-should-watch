@@ -1,0 +1,16 @@
+[2025-11-16T21:15:44.334Z] ERROR: ❌ Error in generateRecommendations: {
+  "name": "ValidationException",
+  "$fault": "client",
+  "$metadata": {
+    "httpStatusCode": 400,
+    "requestId": "RRG81JASA1LA8LKKJMSJHL59F7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+    "attempts": 1,
+    "totalRetryDelay": 0
+  },
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: Condition parameter type does not match schema type"
+}
+[2025-11-16T21:15:44.383Z] ERROR: Recommendation error: {
+  "code": "RECOMMENDATION_ERROR",
+  "name": "DatabaseError"
+}

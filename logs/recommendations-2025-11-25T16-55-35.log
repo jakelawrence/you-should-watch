@@ -1,0 +1,100 @@
+[2025-11-25T16:55:35.711Z] Processing weighted recommendation request 
+[2025-11-25T16:55:35.713Z] Processing weighted recommendation request 
+[2025-11-25T16:55:35.713Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-25T16:55:35.713Z] 📥 Input movie slugs: [
+  "sinners-2025"
+]
+[2025-11-25T16:55:35.713Z] ⚙️ Active weights: {
+  "collaborative": 0.5,
+  "favorite_bonus": 0.15,
+  "genre": 0.25,
+  "nanogenre": 1,
+  "director": 0.05,
+  "actor": 0.03,
+  "temporal": 0.02
+}
+[2025-11-25T16:55:35.713Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-25T16:55:35.715Z] 🚀 generateRecommendations started with weighted algorithm 
+[2025-11-25T16:55:35.715Z] 📥 Input movie slugs: [
+  "sinners-2025"
+]
+[2025-11-25T16:55:35.715Z] ⚙️ Active weights: {
+  "collaborative": 0.5,
+  "favorite_bonus": 0.15,
+  "genre": 0.25,
+  "nanogenre": 1,
+  "director": 0.05,
+  "actor": 0.03,
+  "temporal": 0.02
+}
+[2025-11-25T16:55:35.715Z] INFO: 📊 STEP 1: Gathering input movie data 
+[2025-11-25T16:55:36.143Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-25T16:55:36.143Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-25T16:55:36.147Z] INFO: 📊 Loaded 1 input movies 
+[2025-11-25T16:55:36.148Z] INFO: 👥 STEP 2: Building user interaction map 
+[2025-11-25T16:55:36.300Z] INFO: 👥 Movie sinners-2025 liked by users: []
+[2025-11-25T16:55:36.301Z] INFO: 
+🔍 DEBUG: User Interaction Analysis 
+[2025-11-25T16:55:36.301Z] INFO: Total users who interacted: 0 
+[2025-11-25T16:55:36.301Z] INFO: 👥 Found 0 users who interacted with input movies 
+[2025-11-25T16:55:36.301Z] INFO: Userineractions: {}
+[2025-11-25T16:55:36.302Z] INFO: 🎯 STEP 3: Building candidate movie set 
+[2025-11-25T16:55:36.302Z] INFO: User interactions for candidates: {}
+[2025-11-25T16:55:36.302Z] INFO: 🎯 Found 0 candidate movies 
+[2025-11-25T16:55:36.302Z] INFO: 📈 STEP 4: Calculating global statistics 
+[2025-11-25T16:55:36.302Z] DEBUG: 🔍 Querying likes - batch 1 
+[2025-11-25T16:55:36.305Z] INFO: 👥 Movie sinners-2025 liked by users: []
+[2025-11-25T16:55:36.305Z] INFO: 
+🔍 DEBUG: User Interaction Analysis 
+[2025-11-25T16:55:36.305Z] INFO: Total users who interacted: 0 
+[2025-11-25T16:55:36.305Z] INFO: 👥 Found 0 users who interacted with input movies 
+[2025-11-25T16:55:36.305Z] INFO: Userineractions: {}
+[2025-11-25T16:55:36.305Z] INFO: 🎯 STEP 3: Building candidate movie set 
+[2025-11-25T16:55:36.305Z] INFO: User interactions for candidates: {}
+[2025-11-25T16:55:36.305Z] INFO: 🎯 Found 0 candidate movies 
+[2025-11-25T16:55:36.305Z] INFO: 📈 STEP 4: Calculating global statistics 
+[2025-11-25T16:55:36.305Z] DEBUG: 🔍 Querying likes - batch 1 
+[2025-11-25T16:55:37.080Z] DEBUG: 🔍 Querying likes - batch 2 
+[2025-11-25T16:55:37.617Z] DEBUG: 🔍 Querying likes - batch 3 
+[2025-11-25T16:55:38.162Z] DEBUG: 🔍 Querying likes - batch 4 
+[2025-11-25T16:55:38.834Z] DEBUG: 🔍 Querying likes - batch 5 
+[2025-11-25T16:55:39.439Z] DEBUG: 🔍 Querying likes - batch 6 
+[2025-11-25T16:55:40.047Z] DEBUG: 🔍 Querying likes - batch 7 
+[2025-11-25T16:55:40.598Z] DEBUG: 🔍 Querying likes - batch 8 
+[2025-11-25T16:55:41.229Z] DEBUG: 🔍 Querying likes - batch 9 
+[2025-11-25T16:55:41.770Z] DEBUG: 🔍 Querying likes - batch 10 
+[2025-11-25T16:55:42.343Z] INFO: 🔍 Progress: 175229 items from likes so far... 
+[2025-11-25T16:55:42.343Z] DEBUG: 🔍 Querying likes - batch 11 
+[2025-11-25T16:55:42.890Z] DEBUG: 🔍 Querying likes - batch 12 
+[2025-11-25T16:55:43.495Z] DEBUG: 🔍 Querying likes - batch 13 
+[2025-11-25T16:55:44.094Z] DEBUG: 🔍 Querying likes - batch 14 
+[2025-11-25T16:55:44.681Z] DEBUG: 🔍 Querying likes - batch 15 
+[2025-11-25T16:55:45.331Z] DEBUG: 🔍 Querying likes - batch 16 
+[2025-11-25T16:55:45.634Z] INFO: 🔍 Retrieved 268857 total items from likes in 16 batches 
+[2025-11-25T16:55:45.702Z] INFO: 📈 Global stats: 5000 movies, avg 53.8 likes/movie 
+[2025-11-25T16:55:45.702Z] INFO: 🎨 STEP 5: Scoring candidate movies 
+[2025-11-25T16:55:45.703Z] INFO: 🎨 Scored 0 candidates 
+[2025-11-25T16:55:45.703Z] INFO: 🏆 STEP 6: Ranking and diversifying results 
+[2025-11-25T16:55:45.703Z] INFO: 🏆 Final recommendations: 
+[2025-11-25T16:55:52.382Z] DEBUG: 🔍 Querying likes - batch 2 
+[2025-11-25T16:56:04.982Z] DEBUG: 🔍 Querying likes - batch 3 
+[2025-11-25T16:56:22.453Z] DEBUG: 🔍 Querying likes - batch 4 
+[2025-11-25T16:56:39.056Z] DEBUG: 🔍 Querying likes - batch 5 
+[2025-11-25T16:56:51.829Z] DEBUG: 🔍 Querying likes - batch 6 
+[2025-11-25T16:57:07.546Z] DEBUG: 🔍 Querying likes - batch 7 
+[2025-11-25T16:57:22.532Z] DEBUG: 🔍 Querying likes - batch 8 
+[2025-11-25T16:57:38.876Z] DEBUG: 🔍 Querying likes - batch 9 
+[2025-11-25T16:57:54.155Z] DEBUG: 🔍 Querying likes - batch 10 
+[2025-11-25T16:58:06.599Z] INFO: 🔍 Progress: 175229 items from likes so far... 
+[2025-11-25T16:58:06.603Z] DEBUG: 🔍 Querying likes - batch 11 
+[2025-11-25T16:58:22.787Z] DEBUG: 🔍 Querying likes - batch 12 
+[2025-11-25T16:58:40.208Z] DEBUG: 🔍 Querying likes - batch 13 
+[2025-11-25T16:58:54.163Z] DEBUG: 🔍 Querying likes - batch 14 
+[2025-11-25T16:59:10.158Z] DEBUG: 🔍 Querying likes - batch 15 
+[2025-11-25T16:59:24.790Z] DEBUG: 🔍 Querying likes - batch 16 
+[2025-11-25T16:59:30.868Z] INFO: 🔍 Retrieved 268857 total items from likes in 16 batches 
+[2025-11-25T16:59:30.962Z] INFO: 📈 Global stats: 5000 movies, avg 53.8 likes/movie 
+[2025-11-25T16:59:30.962Z] INFO: 🎨 STEP 5: Scoring candidate movies 
+[2025-11-25T16:59:30.970Z] INFO: 🎨 Scored 0 candidates 
+[2025-11-25T16:59:30.971Z] INFO: 🏆 STEP 6: Ranking and diversifying results 
+[2025-11-25T16:59:30.971Z] INFO: 🏆 Final recommendations: 
