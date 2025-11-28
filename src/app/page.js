@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Loader2, ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
-import { useMovieCollection, removeFromCollection } from "./context/MovieCollectionContext";
+import { useMovieCollection } from "./context/MovieCollectionContext";
 import { SearchBar } from "./components/search-bar";
 import { Dropdown } from "./components/dropdown";
 import { Logo } from "./components/logo";
@@ -26,7 +26,7 @@ export default function Home() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentCarouselSlide, setCurrentCarouselSlide] = useState(0);
   const [carouselAnimating, setCarouselAnimating] = useState(false);
-  const { collectionItems } = useMovieCollection();
+  const { collectionItems, removeFromCollection } = useMovieCollection();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const [touchStart, setTouchStart] = useState(0);
@@ -95,6 +95,14 @@ export default function Home() {
     setSearchResults([]);
     console.log("Collection Items after add:", collectionItems);
     setCurrentCarouselSlide(collectionItems.length);
+  };
+
+  const handleMovieRemoved = () => {
+    console.log(currentMovie);
+    removeFromCollection(currentMovie.slug);
+    if (featuredMovies.length > 1) {
+      currentMovie = featuredMovies[currentCarouselSlide % featuredMovies.length];
+    }
   };
 
   const nextCarouselSlide = useCallback(() => {
@@ -219,8 +227,8 @@ export default function Home() {
                   <div className={`duration-200 ${carouselAnimating ? "opacity-0" : "opacity-100"}`}>
                     {/* Poster Container */}
                     <div className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white mx-auto border-4 border-black">
-                      <div onClick={removeFromCollection} className="absolute top-0 left-0 bg-red-500">
-                        <X color="black" size={24} />
+                      <div onClick={handleMovieRemoved} className="absolute top-0 left-0 bg-red-500 border-b-4 border-r-4 border-black">
+                        <X color="black" strokeWidth={3} size={24} />
                       </div>
 
                       <img
