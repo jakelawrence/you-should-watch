@@ -30,7 +30,7 @@ export default function Home() {
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  const [touchStartY, setTouchStartY] = useState(null);
 
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -126,26 +126,45 @@ export default function Home() {
   }, [currentCarouselSlide, featuredMovies.length, carouselAnimating, collectionItems]);
 
   const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    setTouchStart(e.touches[0].clientX);
+    setTouchStartY(e.touches[0].clientY); // Capture Y position
   };
 
   const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    if (!touchStart || !touchStartY) return;
+
+    const touchEnd = e.touches[0].clientX;
+    const touchEndY = e.touches[0].clientY;
+    const diffX = Math.abs(touchStart - touchEnd);
+    const diffY = Math.abs(touchStartY - touchEndY);
+
+    // Much stricter: require horizontal movement to be 2x greater than vertical
+    // AND require at least 5px of horizontal movement before preventing scroll
+    if (diffX > diffY * 2 && diffX > 5) {
+      e.preventDefault(); // Stop page scroll
+      e.stopPropagation(); // Stop event bubbling
+    }
   };
 
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const minSwipeDistance = 50;
+  const handleTouchEnd = (e) => {
+    if (!touchStart || !touchStartY) return;
 
-    if (distance > minSwipeDistance) {
-      nextCarouselSlide();
-    } else if (distance < -minSwipeDistance) {
-      prevCarouselSlide();
+    const touchEnd = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchStart - touchEnd;
+    const diffY = Math.abs(touchStartY - touchEndY);
+
+    // Only trigger swipe if horizontal movement dominates
+    if (Math.abs(diffX) > diffY && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        nextCarouselSlide(); // Swipe left
+      } else {
+        prevCarouselSlide(); // Swipe right
+      }
     }
 
-    setTouchStart(0);
-    setTouchEnd(0);
+    setTouchStart(null);
+    setTouchStartY(null);
   };
 
   const handlePlaceholderClick = () => {
@@ -198,7 +217,7 @@ export default function Home() {
 
           {/* Right Side - Movie Poster Display */}
           <div
-            className="order-1 grid grid-cols-1 gap-3 lg:gap-12 items-center relative min-h-[400px] flex justify-center mt-8"
+            className="order-1 grid grid-cols-1 gap-3 lg:gap-12 items-center relative min-h-[400px] flex justify-center mt-8 touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}

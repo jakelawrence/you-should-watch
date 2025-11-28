@@ -10,6 +10,7 @@ const MovieSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
+  const [touchStartY, setTouchStartY] = useState(null);
   const [touchEnd, setTouchEnd] = useState(0);
   const [movies, setMovies] = useState(null);
   const [extractedColors, setExtractedColors] = useState(null);
@@ -130,26 +131,45 @@ const MovieSlider = () => {
   };
 
   const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    setTouchStart(e.touches[0].clientX);
+    setTouchStartY(e.touches[0].clientY); // Capture Y position
   };
 
   const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    if (!touchStart || !touchStartY) return;
+
+    const touchEnd = e.touches[0].clientX;
+    const touchEndY = e.touches[0].clientY;
+    const diffX = Math.abs(touchStart - touchEnd);
+    const diffY = Math.abs(touchStartY - touchEndY);
+
+    // Much stricter: require horizontal movement to be 2x greater than vertical
+    // AND require at least 5px of horizontal movement before preventing scroll
+    if (diffX > diffY * 2 && diffX > 5) {
+      e.preventDefault(); // Stop page scroll
+      e.stopPropagation(); // Stop event bubbling
+    }
   };
 
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const minSwipeDistance = 50;
+  const handleTouchEnd = (e) => {
+    if (!touchStart || !touchStartY) return;
 
-    if (distance > minSwipeDistance) {
-      nextSlide();
-    } else if (distance < -minSwipeDistance) {
-      prevSlide();
+    const touchEnd = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchStart - touchEnd;
+    const diffY = Math.abs(touchStartY - touchEndY);
+
+    // Only trigger swipe if horizontal movement dominates
+    if (Math.abs(diffX) > diffY && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        nextSlide(); // Swipe left
+      } else {
+        prevSlide(); // Swipe right
+      }
     }
 
-    setTouchStart(0);
-    setTouchEnd(0);
+    setTouchStart(null);
+    setTouchStartY(null);
   };
 
   // Loading state
@@ -199,7 +219,7 @@ const MovieSlider = () => {
       <div className="max-w-7xl mx-auto">
         {/* Main Card Container */}
         <div
-          className="relative md:p-12 transition-all duration-300"
+          className="relative md:p-12 transition-all duration-300 touch-pan-y"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

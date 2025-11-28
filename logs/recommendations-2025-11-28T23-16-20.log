@@ -1,0 +1,480 @@
+[2025-11-28T23:16:20.681Z] Processing collaborative filtering recommendation request 
+[2025-11-28T23:16:20.682Z] Processing collaborative filtering recommendation request 
+[2025-11-28T23:16:20.682Z] 🚀 Pure collaborative filtering started 
+[2025-11-28T23:16:20.682Z] 📥 Input movie slugs: [
+  "beau-is-afraid"
+]
+[2025-11-28T23:16:20.682Z] ⚙️ Config: {
+  "numRecommendations": 5,
+  "likedBothMoviesBoost": 3,
+  "favoritedInputMovieBoost": 5,
+  "combinedBoost": 8,
+  "favoriteWeight": 2,
+  "obscurityBias": 1.5,
+  "minInteractionsThreshold": 2
+}
+[2025-11-28T23:16:20.682Z] INFO: 👥 STEP 1: Finding users who interacted with input movies 
+[2025-11-28T23:16:20.684Z] 🚀 Pure collaborative filtering started 
+[2025-11-28T23:16:20.684Z] 📥 Input movie slugs: [
+  "beau-is-afraid"
+]
+[2025-11-28T23:16:20.684Z] ⚙️ Config: {
+  "numRecommendations": 5,
+  "likedBothMoviesBoost": 3,
+  "favoritedInputMovieBoost": 5,
+  "combinedBoost": 8,
+  "favoriteWeight": 2,
+  "obscurityBias": 1.5,
+  "minInteractionsThreshold": 2
+}
+[2025-11-28T23:16:20.684Z] INFO: 👥 STEP 1: Finding users who interacted with input movies 
+[2025-11-28T23:16:20.903Z] INFO: 👍 200 users liked beau-is-afraid 
+[2025-11-28T23:16:20.906Z] INFO: 👍 200 users liked beau-is-afraid 
+[2025-11-28T23:16:20.971Z] INFO: ⭐ 200 users favorited beau-is-afraid 
+[2025-11-28T23:16:20.972Z] INFO: 👥 Total users who interacted: 400 
+[2025-11-28T23:16:20.972Z] INFO: 📊 STEP 2: Calculating user affinity scores 
+[2025-11-28T23:16:20.972Z] DEBUG: 👤 01magid: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.972Z] DEBUG: 👤 0atly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.972Z] DEBUG: 👤 0ct0bergirl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 0f_tuna: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 0pavel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 100naziscalps: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 11coll: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 11estroud: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 123urawesome: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 12horses: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 12thvenus: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 1b1faces: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 1imir: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 1mateoz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 1spunlobster: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2003skohei: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 20teethinaglass: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 28njwhite: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2chelly2belly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2cool4schoolz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2kibb: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2smallchildren: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 2tall2fall: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 35t4v1d4: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 3leo3: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 3llie_bells: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 4riete: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 4rmadio: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 5ftoblerone: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.973Z] DEBUG: 👤 5ifth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 666bemma: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 66jupiter: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 6ak: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 7c8: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 8bian: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 8uckl3y: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 90s4ngel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 999yak0b999: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 99percentsilk: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 _2ccx: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 _absolutely_: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 _ahmetemin: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a166443df: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a1emily: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a1exdur0: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a1onsoar3a11o: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a24goth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a24wh0reee: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a_borrellj: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 a_damn_uno: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaaaaverey: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaaarrrss: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaadrain: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaburto: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaliyahp: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.974Z] DEBUG: 👤 aaphill18: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aaron_gumboy: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aaronrugg: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abbeju: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abbyandersonsbf: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abcdent: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abigail1100: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abii2022: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 abril7312: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 ace6g: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 acehrs: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aceynth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 achilles24: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 achter_de_boom: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 acylchloride: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adamfisher321: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adamkaaa: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adammahfr: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adampolanik: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adamrara: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adamrusso22: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adclown: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 addijane: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 addytayy: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adetoni626: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adrianth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adribadillo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adriftmoon: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 adrnisnt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aducnhan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aeywon: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.975Z] DEBUG: 👤 aggylar: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 agrad1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 agusinvestiga: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 ahmed92kira: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 ahmedhatemhelal: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 aidancarter35: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 aidanpine: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 aieterox: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 airasterfan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 aiyae: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 aizenssword: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 ajbakes1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 ajciv: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 akatlong: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.976Z] DEBUG: 👤 akishajj: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 akrobitaille: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 alan_nilsen: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 alanbinyasan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 alanmtzm06: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 alanxdiaz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.977Z] DEBUG: 👤 albaniansans: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 albertirijillo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 albiiiiiin: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 albinisterrific: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 albionn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 alcachofra: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 alcasys: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 aldiniqesad: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 aldo2323: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 ale66cl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 ale9000: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 ale_perra: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 aledymeww: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 alekk_: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 alekonvm: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 aleksisv: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.978Z] DEBUG: 👤 alelelli25: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alelunch5: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alenkadoyle: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alessiomusi: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alex2323p: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alex33: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alex6_eats: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexaarmas: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexander839: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexanderhat: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexandriabitch: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexapolette: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexei666: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexfilmz04: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexisluvsa24: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexl5: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexled: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexmustgo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexo_tan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexscouch: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexxkister: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alexxx_zl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alfred_bttnr: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alice985: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 aliceeee33: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alicemerturk: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alicerowden: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 aliens3tiddies: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alienshampoo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.979Z] DEBUG: 👤 alijah_blue: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alisabusu: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alissaxw: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alixcrist: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 allie008: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 allwhitecastle: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 almiraslley: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 almostshankara: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alofn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alphrose: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alpt4: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alskom: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alth_ea: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 altijdhardt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alvarligt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alwayswithwater: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alyssabmays: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alyssajos: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 alyxalyxandria: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amalaise: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amandatenz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amaranthh: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amari3527: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amarisou: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 ambiguous_evan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 ambivalence6: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 ambre_lysz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 ambrioche: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amehdaly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.980Z] DEBUG: 👤 amirmayko: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 amluga: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 ammajononsense: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 amparhoe: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 amplesso: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 amplessso: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 anakind_yt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 analogjosh: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 analyzer: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 anaminhoca16: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 anat0mie: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 anatomyofapaul: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andershahn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andersoneli: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andre_knechtel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andreabjorseth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andreapeghi: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andrewaka: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andrewhu93: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] DEBUG: 👤 andrewlborne1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:20.981Z] INFO: 🏆 Top affinity users: 
+[2025-11-28T23:16:20.981Z] INFO:   01magid: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:20.982Z] INFO:   0atly: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:20.982Z] INFO:   0ct0bergirl: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:20.982Z] INFO:   0f_tuna: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:20.982Z] INFO:   0pavel: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:20.982Z] INFO: 🎬 STEP 3: Fetching other movies from these users 
+[2025-11-28T23:16:21.011Z] INFO: ⭐ 200 users favorited beau-is-afraid 
+[2025-11-28T23:16:21.011Z] INFO: 👥 Total users who interacted: 400 
+[2025-11-28T23:16:21.011Z] INFO: 📊 STEP 2: Calculating user affinity scores 
+[2025-11-28T23:16:21.011Z] DEBUG: 👤 01magid: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 0atly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 0ct0bergirl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 0f_tuna: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 0pavel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 100naziscalps: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 11coll: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 11estroud: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 123urawesome: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 12horses: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 12thvenus: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 1b1faces: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 1imir: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 1mateoz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 1spunlobster: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2003skohei: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 20teethinaglass: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 28njwhite: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2chelly2belly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2cool4schoolz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2kibb: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2smallchildren: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 2tall2fall: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.012Z] DEBUG: 👤 35t4v1d4: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 3leo3: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 3llie_bells: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 4riete: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 4rmadio: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 5ftoblerone: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 5ifth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 666bemma: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 66jupiter: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 6ak: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 7c8: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 8bian: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 8uckl3y: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 90s4ngel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 999yak0b999: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 99percentsilk: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 _2ccx: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 _absolutely_: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 _ahmetemin: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a166443df: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a1emily: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a1exdur0: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a1onsoar3a11o: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a24goth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a24wh0reee: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a_borrellj: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 a_damn_uno: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.013Z] DEBUG: 👤 aaaaaverey: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaaarrrss: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaadrain: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaburto: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaliyahp: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaphill18: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaron_gumboy: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aaronrugg: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abbeju: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abbyandersonsbf: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abcdent: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abigail1100: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abii2022: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 abril7312: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 ace6g: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 acehrs: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 aceynth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 achilles24: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 achter_de_boom: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 acylchloride: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 adamfisher321: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 adamkaaa: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 adammahfr: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 adampolanik: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.014Z] DEBUG: 👤 adamrara: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adamrusso22: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adclown: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 addijane: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 addytayy: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adetoni626: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adrianth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adribadillo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adriftmoon: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 adrnisnt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aducnhan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aeywon: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aggylar: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 agrad1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 agusinvestiga: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 ahmed92kira: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 ahmedhatemhelal: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aidancarter35: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aidanpine: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aieterox: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 airasterfan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aiyae: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 aizenssword: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 ajbakes1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 ajciv: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 akatlong: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 akishajj: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 akrobitaille: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 alan_nilsen: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.015Z] DEBUG: 👤 alanbinyasan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alanmtzm06: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alanxdiaz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 albaniansans: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 albertirijillo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 albiiiiiin: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 albinisterrific: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 albionn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alcachofra: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alcasys: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 aldiniqesad: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 aldo2323: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 ale66cl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 ale9000: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 ale_perra: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 aledymeww: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alekk_: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alekonvm: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 aleksisv: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alelelli25: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.016Z] DEBUG: 👤 alelunch5: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alenkadoyle: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alessiomusi: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alex2323p: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alex33: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alex6_eats: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexaarmas: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexander839: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexanderhat: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexandriabitch: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexapolette: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexei666: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexfilmz04: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexisluvsa24: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexl5: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexled: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexmustgo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexo_tan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexscouch: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexxkister: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alexxx_zl: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alfred_bttnr: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.017Z] DEBUG: 👤 alice985: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 aliceeee33: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alicemerturk: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alicerowden: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 aliens3tiddies: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alienshampoo: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alijah_blue: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alisabusu: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alissaxw: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alixcrist: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 allie008: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 allwhitecastle: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 almiraslley: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 almostshankara: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alofn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alphrose: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alpt4: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alskom: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alth_ea: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 altijdhardt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alvarligt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alwayswithwater: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alyssabmays: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alyssajos: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 alyxalyxandria: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 amalaise: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 amandatenz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.018Z] DEBUG: 👤 amaranthh: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amari3527: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amarisou: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 ambiguous_evan: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 ambivalence6: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 ambre_lysz: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 ambrioche: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amehdaly: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amirmayko: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amluga: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 ammajononsense: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amparhoe: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amplesso: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 amplessso: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 anakind_yt: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 analogjosh: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 analyzer: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 anaminhoca16: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 anat0mie: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 anatomyofapaul: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andershahn: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andersoneli: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andre_knechtel: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andreabjorseth: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andreapeghi: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andrewaka: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andrewhu93: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.019Z] DEBUG: 👤 andrewlborne1: Favorited 1 inputs -> 5x boost 
+[2025-11-28T23:16:21.020Z] INFO: 🏆 Top affinity users: 
+[2025-11-28T23:16:21.020Z] INFO:   01magid: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:21.020Z] INFO:   0atly: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:21.020Z] INFO:   0ct0bergirl: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:21.020Z] INFO:   0f_tuna: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:21.020Z] INFO:   0pavel: 5.00x (0 likes, 1 favorites) 
+[2025-11-28T23:16:21.020Z] INFO: 🎬 STEP 3: Fetching other movies from these users 
+[2025-11-28T23:16:23.377Z] INFO: 🎯 STEP 4: Scoring candidate movies 
+[2025-11-28T23:16:23.378Z] INFO: 🎯 Found 2442 candidate movies 
+[2025-11-28T23:16:23.379Z] INFO: ✅ 1058 candidates after filtering (min 2 interactions) 
+[2025-11-28T23:16:23.379Z] INFO: 📈 STEP 5: Fetching movie details for popularity rankings 
+[2025-11-28T23:16:23.443Z] INFO: 🎯 STEP 4: Scoring candidate movies 
+[2025-11-28T23:16:23.444Z] INFO: 🎯 Found 2442 candidate movies 
+[2025-11-28T23:16:23.444Z] INFO: ✅ 1058 candidates after filtering (min 2 interactions) 
+[2025-11-28T23:16:23.444Z] INFO: 📈 STEP 5: Fetching movie details for popularity rankings 
+[2025-11-28T23:16:25.513Z] INFO: 📈 Avg popularity rank: 1886.9 (lower = more popular) 
+[2025-11-28T23:16:25.514Z] INFO: 🎨 STEP 6: Applying obscurity bias and ranking 
+[2025-11-28T23:16:25.514Z] WARN: ⚠️ Movie not found: delicatessen 
+[2025-11-28T23:16:25.515Z] INFO: 📚 STEP 7: Formatting final recommendations 
+[2025-11-28T23:16:25.515Z] INFO: 🏆 Final recommendations: 
+[2025-11-28T23:16:25.515Z] INFO: 1. Skinamarink (score: 35.21, popularity rank: 1326) 
+[2025-11-28T23:16:25.515Z] INFO: 2. Nosferatu the Vampyre (score: 31.87, popularity rank: 1760) 
+[2025-11-28T23:16:25.515Z] INFO: 3. The Muppet Movie (score: 23.79, popularity rank: 2669) 
+[2025-11-28T23:16:25.515Z] INFO: 4. Barton Fink (score: 23.38, popularity rank: 1791) 
+[2025-11-28T23:16:25.515Z] INFO: 5. The House That Jack Built (score: 19.18, popularity rank: 885) 
+[2025-11-28T23:16:25.626Z] INFO: 📈 Avg popularity rank: 1886.9 (lower = more popular) 
+[2025-11-28T23:16:25.626Z] INFO: 🎨 STEP 6: Applying obscurity bias and ranking 
+[2025-11-28T23:16:25.627Z] WARN: ⚠️ Movie not found: delicatessen 
+[2025-11-28T23:16:25.628Z] INFO: 📚 STEP 7: Formatting final recommendations 
+[2025-11-28T23:16:25.628Z] INFO: 🏆 Final recommendations: 
+[2025-11-28T23:16:25.628Z] INFO: 1. Skinamarink (score: 35.21, popularity rank: 1326) 
+[2025-11-28T23:16:25.628Z] INFO: 2. Nosferatu the Vampyre (score: 31.87, popularity rank: 1760) 
+[2025-11-28T23:16:25.628Z] INFO: 3. The Muppet Movie (score: 23.79, popularity rank: 2669) 
+[2025-11-28T23:16:25.628Z] INFO: 4. Barton Fink (score: 23.38, popularity rank: 1791) 
+[2025-11-28T23:16:25.629Z] INFO: 5. The House That Jack Built (score: 19.18, popularity rank: 885) 
