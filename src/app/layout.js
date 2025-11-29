@@ -20,9 +20,9 @@ export const metadata = {
     siteName: "You Should Watch",
     images: [
       {
-        url: "https://yourdomain.com/og-image.jpg", // Must be absolute URL
-        width: 1200,
-        height: 630,
+        url: "https://raw.githubusercontent.com/jakelawrence/you-should-watch/refs/heads/main/public/images/you-should-watch-meta-image.png", // Must be absolute URL
+        width: 1748,
+        height: 2480,
         alt: "You Should Watch",
       },
     ],
