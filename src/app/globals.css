@@ -185,26 +185,3 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-/* Precise positioning with percentages */
-.image-you-to-should {
-  background-image: url("../../public/images/you-to-should.png");
-  background-size: cover;
-  background-position: 48.5% center; /* 25% from left, centered vertically */
-  background-size: 220%;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.image-should-to-watch {
-  background-image: url("../../public/images/should-to-watch.png");
-  background-size: cover;
-  background-position: 60% center; /* 25% from left, centered vertically */
-  background-size: 220%;
-  background-repeat: no-repeat;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
