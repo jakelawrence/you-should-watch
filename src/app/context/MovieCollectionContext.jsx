@@ -36,7 +36,7 @@ export function MovieCollectionProvider({ children }) {
   };
 
   const removeFromCollection = (movie) => {
-    console.log("Removing movie from collection: " + movie.title);
+    console.log("Removing movie from collection: " + movie);
     console.log(collectionItems);
     let movieIdx = collectionItems.findIndex((item) => item.slug === movie.slug);
     console.log("movieIdx=" + movieIdx);

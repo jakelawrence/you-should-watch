@@ -246,43 +246,55 @@ const MovieSlider = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center min-h-[600px]">
             {/* Movie Info Section */}
             <div className="order-2 md:order-1 space-y-6 p-8 border-t-4 border-black bg-blue-200">
-              <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
-                {/* Title Card */}
-                <div className="bg-white border-4 border-black p-6 mb-6 ">
+              {/* <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}> */}
+              {/* Title Card */}
+              <div className="bg-white border-4 border-black p-6 mb-6 ">
+                <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                   <h1 className="text-3xl md:text-6xl font-black text-black mb-3 uppercase tracking-tight">
                     {currentMovie.title.replace(/\u00A0/g, " ")}
                   </h1>
                   <p className="text-black text-lg font-bold leading-relaxed">{currentMovie.tagline || "No tagline available"}</p>
                 </div>
+              </div>
 
-                {/* Stats Cards */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-white border-4 border-black p-4 text-center">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-white border-4 border-black p-4 text-center">
+                  <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                     <Calendar className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.year || "N/A"}</p>
                   </div>
-                  <div className="bg-white border-4 border-black p-4 text-center">
+                </div>
+                <div className="bg-white border-4 border-black p-4 text-center">
+                  <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                     <Clock className="mx-auto mb-2 text-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.length ? currentMovie.length + "m" : "N/A"}</p>
                   </div>
-                  <div className="bg-white border-4 border-black p-4 text-center">
+                </div>
+                <div className="bg-white border-4 border-black p-4 text-center">
+                  <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                     <Star className="mx-auto mb-2 text-black fill-black" size={24} strokeWidth={3} />
                     <p className="text-black font-black text-lg">{currentMovie.averageRating ? currentMovie.averageRating + "/5" : "N/A"}</p>
                   </div>
                 </div>
+              </div>
 
-                {/* Info Cards */}
-                <div className="space-y-4">
-                  <div className="bg-white border-4 border-black p-4">
+              {/* Info Cards */}
+              <div className="space-y-4">
+                <div className="bg-white border-4 border-black p-4">
+                  <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                     <span className="text-black text-sm font-black uppercase">Genre: </span>
                     <span className="text-black font-bold">{currentMovie.genres?.join(", ") || "N/A"}</span>
                   </div>
-                  <div className="bg-white border-4 border-black p-4">
+                </div>
+                <div className="bg-white border-4 border-black p-4">
+                  <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                     <span className="text-black text-sm font-black uppercase">Director: </span>
                     <span className="text-black font-bold">{currentMovie.director || "N/A"}</span>
                   </div>
                 </div>
               </div>
+              {/* </div> */}
             </div>
 
             {/* Poster Section */}
@@ -290,7 +302,7 @@ const MovieSlider = () => {
               <button
                 onClick={prevSlide}
                 disabled={isAnimating}
-                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-200"
+                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-300"
               >
                 <ChevronLeft
                   className="text-white"
@@ -302,7 +314,7 @@ const MovieSlider = () => {
                 />
               </button>
 
-              <div className={`transition-all duration-200 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
+              <div className={`transition-all duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
                 {/* Poster Container */}
                 <div className="relative w-64 h-96 border-6 border-black overflow-hidden bg-white border-4 border-black">
                   <img
@@ -319,7 +331,7 @@ const MovieSlider = () => {
               <button
                 onClick={prevSlide}
                 disabled={isAnimating}
-                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-200"
+                className="hidden lg:block w-14 h-14 flex items-center justify-center transition-all duration-300"
               >
                 <ChevronRight
                   className="text-white"

@@ -36,28 +36,7 @@ export default function Home() {
   const dropdownRef = useRef(null);
 
   const featuredMovies = collectionItems;
-  const currentMovie = featuredMovies.length > 0 ? featuredMovies[currentCarouselSlide] : null;
-
-  useEffect(() => {
-    const updateDropdownMaxHeight = () => {
-      if (dropdownRef.current) {
-        const rect = dropdownRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        const spaceBelow = viewportHeight - rect.top;
-        const maxHeight = Math.min(spaceBelow - 20, 400);
-        dropdownRef.current.style.maxHeight = `${maxHeight}px`;
-      }
-    };
-
-    if (showDropdown) {
-      updateDropdownMaxHeight();
-      window.addEventListener("resize", updateDropdownMaxHeight);
-    }
-
-    return () => {
-      window.removeEventListener("resize", updateDropdownMaxHeight);
-    };
-  }, [showDropdown]);
+  let currentMovie = featuredMovies.length > 0 ? featuredMovies[currentCarouselSlide] : null;
 
   useEffect(() => {
     const searchMovies = async () => {
@@ -98,9 +77,11 @@ export default function Home() {
   };
 
   const handleMovieRemoved = () => {
-    console.log(currentMovie);
-    removeFromCollection(currentMovie.slug);
+    console.log("Removing movie: ");
+    console.log(currentMovie.slug);
+    removeFromCollection(currentMovie);
     if (featuredMovies.length > 1) {
+      console.log(currentCarouselSlide % featuredMovies.length);
       currentMovie = featuredMovies[currentCarouselSlide % featuredMovies.length];
     }
   };
@@ -261,7 +242,7 @@ export default function Home() {
                     </div>
 
                     {/* Title Card Below Poster */}
-                    <div className="mt-8 bg-white border-4 border-black p-4 text-center">
+                    <div className="mt-8 bg-white border-4 border-black p-4 text-center w-64">
                       <h3 className="text-base font-black text-black uppercase">{currentMovie.title}</h3>
                     </div>
                   </div>

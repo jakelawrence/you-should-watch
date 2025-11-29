@@ -1,12 +1,25 @@
 import { Search } from "lucide-react";
-import React from "react";
+import { React, useRef } from "react";
 
 export const SearchBar = ({ searchQuery, setSearchQuery }) => {
+  const searchInputRef = useRef(null);
+
+  const handleFocus = () => {
+    setTimeout(() => {
+      searchInputRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center", // Changed from 'start'
+      });
+    }, 300);
+  };
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="relative">
       <input
         type="text"
         value={searchQuery}
+        ref={searchInputRef}
+        onFocus={handleFocus}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search for movies..."
         className="w-full px-6 py-4 border-4 border-black text-black placeholder-gray-600 font-bold text-lg outline-none transition-all"
