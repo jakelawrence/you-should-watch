@@ -1,5 +1,0 @@
-[2025-11-17T01:16:40.977Z] ERROR: ❌ Error in generateRecommendations: {}
-[2025-11-17T01:16:41.032Z] ERROR: Recommendation error: {
-  "code": "RECOMMENDATION_ERROR",
-  "name": "DatabaseError"
-}
