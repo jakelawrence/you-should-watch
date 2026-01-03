@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Star, Clock, Calendar, Loader2 } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const MovieSuggestions = () => {
+function MovieSuggestionsContent() {
   const { collectionItems } = useMovieCollection();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -295,6 +295,12 @@ const MovieSuggestions = () => {
       </button>
     </div>
   );
-};
+}
 
-export default MovieSuggestions;
+export default function MovieSuggestionsPage() {
+  return (
+    <Suspense fallback={null}>
+      <MovieSuggestionsContent />
+    </Suspense>
+  );
+}

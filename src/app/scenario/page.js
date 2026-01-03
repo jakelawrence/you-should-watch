@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Heart, Sparkles, Smile } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
 
-export default function ChooseScenarioPage() {
+function ChooseScenarioContent() {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const { resetCollection } = useMovieCollection();
@@ -108,5 +108,13 @@ export default function ChooseScenarioPage() {
         ← Back to Home
       </button>
     </div>
+  );
+}
+
+export default function ChooseScenarioPage() {
+  return (
+    <Suspense fallback={null}>
+      <ChooseScenarioContent />
+    </Suspense>
   );
 }
