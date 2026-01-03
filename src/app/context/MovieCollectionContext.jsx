@@ -6,12 +6,8 @@ const MovieCollectionContext = createContext(null);
 
 export function MovieCollectionProvider({ children }) {
   const router = useRouter();
-  const [isCollectionOpen, setIsCollectionOpen] = useState(false);
-  const [isCollectionMinimized, setIsCollectionMinimized] = useState(false);
   const [collectionItems, setCollectionItems] = useState([]);
-  const [isGettingSuggestions, setIsGettingSuggestions] = useState(false);
 
-  console.log("isCollectionOpen=" + isCollectionOpen);
   const handleGetSuggestedMovies = async () => {
     try {
       router.push("/suggested-films");
@@ -28,15 +24,11 @@ export function MovieCollectionProvider({ children }) {
     console.log("Adding movie to collection: " + movie.title);
     if (!collectionItems.find((item) => item.slug === movie.slug)) {
       setCollectionItems([...collectionItems, movie]);
-      setIsCollectionOpen(true);
-      if (isCollectionMinimized) {
-        setIsCollectionMinimized(false);
-      }
     }
   };
 
   const removeFromCollection = (movie) => {
-    console.log("Removing movie from collection: " + movie);
+    console.log("Removing movie from collection: " + movie.title);
     console.log(collectionItems);
     let movieIdx = collectionItems.findIndex((item) => item.slug === movie.slug);
     console.log("movieIdx=" + movieIdx);
@@ -48,17 +40,16 @@ export function MovieCollectionProvider({ children }) {
     }
   };
 
+  const resetCollection = () => {
+    setCollectionItems([]);
+  };
+
   const value = {
     collectionItems,
     setCollectionItems,
-    isCollectionOpen,
-    setIsCollectionOpen,
-    isCollectionMinimized,
-    setIsCollectionMinimized,
     addToCollection,
     removeFromCollection,
-    handleGetSuggestedMovies,
-    isGettingSuggestions,
+    resetCollection,
   };
 
   return <MovieCollectionContext.Provider value={value}>{children}</MovieCollectionContext.Provider>;

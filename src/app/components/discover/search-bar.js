@@ -14,7 +14,7 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="relative">
+    <form onSubmit={(e) => e.preventDefault()} className="relative w-[270px] lg:w-[320px]">
       <input
         type="text"
         value={searchQuery}

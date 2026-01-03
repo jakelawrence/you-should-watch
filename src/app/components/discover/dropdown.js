@@ -1,5 +1,5 @@
 import React from "react";
-import { useMovieCollection } from "../context/MovieCollectionContext";
+import { useMovieCollection } from "../../context/MovieCollectionContext";
 
 export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
   const { addToCollection } = useMovieCollection();
@@ -12,7 +12,7 @@ export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
   };
 
   return (
-    <div ref={dropdownRef} className="border-4 border-black bg-white overflow-y-auto max-h-[343px]">
+    <div ref={dropdownRef} className="border-4 border-black bg-white overflow-y-auto max-h-[420px] w-[270px] lg:w-[320px]">
       {searchResults.map((movie, idx) => (
         <button
           key={idx}

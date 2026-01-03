@@ -10,7 +10,9 @@
     "setup-db": "node scripts/setup-db.js",
     "lint": "next lint",
     "migrate:likes": "node scripts/migrate-likes-tables.mjs",
-    "migrate:test": "node scripts/test-migration.mjs"
+    "migrate:test": "node scripts/test-migration.mjs",
+    "add-darkness": "node scripts/add-darkness-levels.mjs",
+    "add-darkness:dry-run": "node scripts/add-darkness-levels.mjs --dry-run"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.806.0",

@@ -187,6 +187,98 @@ export async function getMovies(movieSlugs) {
   }
 }
 
+export async function getMoviesByFilter(filters = {}, options = {}) {
+  const { limit = null, ttl = 5 * 60 * 1000, forceRefresh = true } = options;
+
+  try {
+    const filterExpressions = [];
+    const expressionAttributeValues = {};
+    const expressionAttributeNames = {};
+
+    // Reserved words in DynamoDB that need attribute name mapping
+    const reservedWords = ["year", "duration", "name", "date", "timestamp", "status"];
+
+    // Build filter expressions dynamically
+    Object.entries(filters).forEach(([field, condition]) => {
+      const attributeName = reservedWords.includes(field.toLowerCase()) ? `#${field}` : field;
+
+      if (reservedWords.includes(field.toLowerCase())) {
+        expressionAttributeNames[`#${field}`] = field;
+      }
+
+      if (typeof condition === "object" && !Array.isArray(condition)) {
+        // Handle operators: { operator: '<', value: 100 }
+        const { operator, value } = condition;
+        const paramKey = `:${field}`;
+
+        if (operator === "BETWEEN" && Array.isArray(value)) {
+          const paramKey1 = `:${field}1`;
+          const paramKey2 = `:${field}2`;
+          filterExpressions.push(`${attributeName} BETWEEN ${paramKey1} AND ${paramKey2}`);
+          expressionAttributeValues[paramKey1] = value[0];
+          expressionAttributeValues[paramKey2] = value[1];
+        } else {
+          filterExpressions.push(`${attributeName} ${operator} ${paramKey}`);
+          expressionAttributeValues[paramKey] = value;
+        }
+      } else if (Array.isArray(condition)) {
+        // Handle IN operator: ['action', 'comedy']
+        const paramKeys = condition.map((_, idx) => `:${field}${idx}`);
+        filterExpressions.push(`${attributeName} IN (${paramKeys.join(", ")})`);
+        condition.forEach((val, idx) => {
+          expressionAttributeValues[`:${field}${idx}`] = val;
+        });
+      } else {
+        // Handle equality: { year: 2020 }
+        const paramKey = `:${field}`;
+        filterExpressions.push(`${attributeName} = ${paramKey}`);
+        expressionAttributeValues[paramKey] = condition;
+      }
+    });
+
+    const allMovies = [];
+    let lastEvaluatedKey = null;
+
+    // Scan with pagination
+    do {
+      const scanParams = {
+        TableName: "movies",
+        ...(lastEvaluatedKey && { ExclusiveStartKey: lastEvaluatedKey }),
+      };
+
+      // Only add filter expressions if we have filters
+      if (filterExpressions.length > 0) {
+        scanParams.FilterExpression = filterExpressions.join(" AND ");
+        scanParams.ExpressionAttributeValues = expressionAttributeValues;
+
+        if (Object.keys(expressionAttributeNames).length > 0) {
+          scanParams.ExpressionAttributeNames = expressionAttributeNames;
+        }
+      }
+
+      const { ScanCommand } = await import("@aws-sdk/lib-dynamodb");
+      const command = new ScanCommand(scanParams);
+      const result = await dynamodb.send(command);
+
+      allMovies.push(...(result.Items || []));
+      lastEvaluatedKey = result.LastEvaluatedKey;
+
+      // Early exit if we've hit the limit
+      if (limit && allMovies.length >= limit) {
+        break;
+      }
+    } while (lastEvaluatedKey);
+
+    // Apply limit if specified
+    const results = limit ? allMovies.slice(0, limit) : allMovies;
+
+    return results;
+  } catch (error) {
+    console.error("DynamoDB filter query error:", error);
+    throw error;
+  }
+}
+
 export async function getMovieGenres(movieSlug) {
   try {
     const command = new ScanCommand({
