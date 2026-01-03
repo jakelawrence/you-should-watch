@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Suspense } from "react";
 import { X, One } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
 import { SearchBar } from "../components/discover/search-bar";
@@ -31,7 +31,7 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
-export default function DiscoverPage() {
+function AddMoviesContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -236,5 +236,13 @@ export default function DiscoverPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AddMoviesPage() {
+  return (
+    <Suspense fallback={null}>
+      <AddMoviesContent />
+    </Suspense>
   );
 }
