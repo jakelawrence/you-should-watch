@@ -14,7 +14,7 @@ const tmdbOptions = {
   headers: {
     accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjQ1ODQxOTBhNzEzODFkMjQ1OTc1NjkzYmM2YjkyYSIsIm5iZiI6MTc2ODM0OTI5MC44MDMsInN1YiI6IjY5NjZkZTZhYmZiNDM0Mjk0Mjg2NWY5MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._enGem0sXW37dI3NcJ4qvpmPJgwp5U3jFzdUpyXw9e8",
+      `Bearer ${process.env.TMDB_AUTH_TOKEN}`,
   },
 };
 
