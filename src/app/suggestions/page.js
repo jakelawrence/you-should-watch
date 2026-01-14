@@ -15,23 +15,28 @@ function MovieSuggestionsContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [rateLimitInfo, setRateLimitInfo] = useState(null);
+  const [showSignUpPrompt, setShowSignUpPrompt] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-
+  console.log("Component rendered");
   // Fetch suggested movies
   useEffect(() => {
+    console.log("useEffect running");
     const fetchSuggestedMovies = async () => {
       try {
         setIsLoading(true);
         setError(null);
         console.log("Fetching suggested movies for scenario:", scenarioId);
 
+        let response;
+
         // Handle surprise-me scenario
         if (scenarioId === "surprise-me") {
           console.log("Fetching surprise me movies");
-          const surpriseResponse = await fetch("/api/suggestions", {
+          response = await fetch("/api/suggestions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -40,25 +45,9 @@ function MovieSuggestionsContent() {
               mode: "surprise",
             }),
           });
-
-          if (!surpriseResponse.ok) {
-            console.error(surpriseResponse);
-            throw new Error("Failed to fetch popular movies");
-          }
-
-          const surpriseData = await surpriseResponse.json();
-          console.log("Surprise movies data:", surpriseData);
-          if (!surpriseData || !surpriseData.recommendations || surpriseData.recommendations.length === 0) {
-            throw new Error("No popular movies found");
-          }
-          console.log("Surprise movies:", surpriseData.recommendations);
-          setMovies(surpriseData.recommendations);
-          setSelectedMovie(surpriseData.recommendations[0]);
-          return;
         }
-
         // Handle mood-match scenario
-        if (scenarioId === "mood-match") {
+        else if (scenarioId === "mood-match") {
           console.log("Fetching mood-based movies");
 
           // Extract mood parameters from URL
@@ -73,7 +62,7 @@ function MovieSuggestionsContent() {
 
           console.log("Mood parameters:", moodParams);
 
-          const moodResponse = await fetch("/api/suggestions", {
+          response = await fetch("/api/suggestions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -83,47 +72,67 @@ function MovieSuggestionsContent() {
               moodParams,
             }),
           });
+        }
+        // Default: collaborative filtering with collection items
+        else {
+          response = await fetch("/api/suggestions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              mode: "collaborative",
+              inputSlugs: collectionItems.map((movie) => movie.slug),
+            }),
+          });
+        }
 
-          if (!moodResponse.ok) {
-            console.error(moodResponse);
-            throw new Error("Failed to fetch mood-based movies");
+        // Extract rate limit headers
+        const remaining = response.headers.get("X-RateLimit-Remaining");
+        const limit = response.headers.get("X-RateLimit-Limit");
+        const resetAt = response.headers.get("X-RateLimit-Reset");
+
+        // Update rate limit info state
+        if (remaining !== null && limit !== null) {
+          setRateLimitInfo({
+            remaining: parseInt(remaining),
+            total: parseInt(limit),
+            resetAt: resetAt,
+          });
+        }
+
+        // Handle rate limit exceeded (429)
+        if (response.status === 429) {
+          const errorData = await response.json();
+
+          setError(errorData.message || "You've reached your daily limit. Create an account for more suggestions!");
+
+          // If user needs to authenticate, show sign-up prompt
+          if (errorData.requiresAuth) {
+            // You can add a modal or redirect here
+            setShowSignUpPrompt(true);
           }
 
-          const moodData = await moodResponse.json();
-          console.log("Mood movies data:", moodData);
-          if (!moodData || !moodData.recommendations || moodData.recommendations.length === 0) {
-            throw new Error("No mood-based movies found");
-          }
-          console.log("Mood movies:", moodData.recommendations);
-          setMovies(moodData.recommendations);
-          setSelectedMovie(moodData.recommendations[0]);
           return;
         }
 
-        // Default: collaborative filtering with collection items
-        const moviesResponse = await fetch("/api/suggestions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            mode: "collaborative",
-            inputSlugs: collectionItems.map((movie) => movie.slug),
-          }),
-        });
-
-        if (!moviesResponse.ok) {
-          throw new Error("Failed to fetch suggested movies");
+        // Handle other errors
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to fetch suggested movies");
         }
 
-        const moviesData = await moviesResponse.json();
+        // Parse successful response
+        const data = await response.json();
+        console.log("Fetched movies data:", data);
 
-        if (!moviesData || !moviesData.recommendations || moviesData.recommendations.length === 0) {
-          throw new Error("No suggested movies found");
+        if (!data || !data.recommendations || data.recommendations.length === 0) {
+          throw new Error("No movies found matching your criteria");
         }
 
-        setMovies(moviesData.recommendations);
-        setSelectedMovie(moviesData.recommendations[0]);
+        console.log("Movies:", data.recommendations);
+        setMovies(data.recommendations);
+        setSelectedMovie(data.recommendations[0]);
       } catch (err) {
         console.error("Error fetching suggested movies:", err);
         setError(err.message);
@@ -293,6 +302,39 @@ function MovieSuggestionsContent() {
       >
         Back to Scenarios
       </button>
+
+      {/* Rate Limit Warning */}
+      {rateLimitInfo && (
+        <RateLimitWarning
+          remaining={rateLimitInfo.remaining}
+          total={rateLimitInfo.total}
+          resetAt={rateLimitInfo.resetAt}
+          onCreateAccount={() => router.push("/signup")}
+        />
+      )}
+
+      {showSignUpPrompt && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white border-4 border-black p-8 max-w-md">
+            <h2 className="text-3xl font-black uppercase mb-4">Limit Reached</h2>
+            <p className="text-lg font-bold mb-6">Create a free account to get 50 suggestions per day!</p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => router.push("/signup")}
+                className="flex-1 bg-black text-white px-6 py-3 font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-colors"
+              >
+                Sign Up
+              </button>
+              <button
+                onClick={() => setShowSignUpPrompt(false)}
+                className="flex-1 bg-white text-black px-6 py-3 font-black uppercase border-4 border-black hover:bg-gray-100 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

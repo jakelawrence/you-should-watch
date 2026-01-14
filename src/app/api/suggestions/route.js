@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { DatabaseError } from "../../api/lib/db";
 import { logger } from "../lib/logger";
 import { getMovies, getMovieFavoritedUsers, getMovieLikedUsers, getUsersFavorites, getUsersLikes, getMoviesByFilter } from "../lib/dynamodb";
+import { checkRateLimit, getRateLimitKey } from "../lib/rate-limiting";
+import { getClientIp } from "../lib/utils";
 
 // ============================================================================
 // CONFIGURATIONS
@@ -177,6 +179,40 @@ async function runSurprise() {
 
 export async function POST(req) {
   try {
+    const ip = getClientIp(req);
+
+    // Check if user is authenticated (you'll implement this with your auth system)
+    const userId = req.headers.get("x-user-id"); // Or get from session/JWT
+    const isAuthenticated = !!userId;
+
+    // Rate limit check
+    const rateLimitKey = getRateLimitKey(ip, userId);
+    const rateLimit = checkRateLimit(rateLimitKey, isAuthenticated);
+
+    console.log(`Rate limit check for ${isAuthenticated ? "user " + userId : "IP " + ip}:`, rateLimit);
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          error: "Rate limit exceeded",
+          message: `You've reached your ${isAuthenticated ? "daily" : "free"} limit. ${
+            isAuthenticated ? "Try again later." : "Create an account for more suggestions!"
+          }`,
+          retryAfter: rateLimit.retryAfter,
+          requiresAuth: !isAuthenticated,
+        },
+        {
+          status: 429,
+          headers: {
+            "X-RateLimit-Limit": isAuthenticated ? "50" : "3",
+            "X-RateLimit-Remaining": rateLimit.remaining.toString(),
+            "X-RateLimit-Reset": new Date(rateLimit.resetAt).toISOString(),
+            "Retry-After": rateLimit.retryAfter.toString(),
+          },
+        }
+      );
+    }
+
     const body = await req.json();
     const { mode, inputSlugs, moodParams, configOverrides } = body;
 
