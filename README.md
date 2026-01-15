@@ -1,4 +1,4 @@
-# YouShouldWatch 🎬
+# You Should Watch 🎬
 
 A modern web application that helps users discover their next favorite movie through AI-powered recommendations and mood-based filtering.
 
@@ -35,21 +35,25 @@ YouShouldWatch provides personalized movie recommendations based on multiple dis
 ## Tech Stack
 
 ### Frontend
+
 - **Next.js 14** - React framework with App Router
 - **React** - UI component library
 - **TailwindCSS** - Utility-first CSS framework
 - **Lucide React** - Icon library
 
 ### Backend
+
 - **Next.js API Routes** - Serverless API endpoints
 - **AWS DynamoDB** - NoSQL database for movie data
 - **AWS SDK** - DynamoDB client integration
 
 ### Data Processing
+
 - **Puppeteer** - Web scraping for movie data collection
 - **Custom algorithms** - Collaborative filtering and mood analysis
 
 ### Deployment
+
 - **Vercel** - Hosting and deployment platform
 - **AWS** - Database infrastructure
 
@@ -58,7 +62,7 @@ YouShouldWatch provides personalized movie recommendations based on multiple dis
 ### Data Flow
 
 ```
-User Input → Scenario Selection → Movie Collection → API Request → 
+User Input → Scenario Selection → Movie Collection → API Request →
 DynamoDB Query → Recommendation Algorithm → AI Enhancement → Results Display
 ```
 
@@ -88,25 +92,31 @@ DynamoDB Query → Recommendation Algorithm → AI Enhancement → Results Displ
 ## Recommendation Algorithm
 
 ### Collaborative Filtering
+
 1. Identifies users who liked the input movies
 2. Calculates overlap scores between user lists
 3. Finds movies with high overlap but not in original set
 4. Ranks by weighted popularity and rating
 
 ### Mood-Based Filtering
+
 Movies are scored on four metrics (0-10 scale):
+
 - **Darkness Level** - Light/wholesome to dark/disturbing
 - **Funniness Level** - Serious to comedic
 - **Slowness Level** - Fast-paced to contemplative
 - **Intensity Level** - Relaxed to intense/stressful
 
 Each metric is calculated from:
+
 - Genre-based base scores
 - Keyword modifiers from title/description
 - User-selected mood preferences
 
 ### Surprise Me Algorithm
+
 Provides diversity by selecting one movie from each popularity tier:
+
 - 0-200 (Ultra Popular)
 - 200-400 (Very Popular)
 - 400-600 (Popular)
@@ -117,6 +127,7 @@ Provides diversity by selecting one movie from each popularity tier:
 ## Setup & Installation
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 - AWS Account (for DynamoDB)
@@ -156,6 +167,7 @@ npm run dev
 
 1. Create a DynamoDB table named `movies` with primary key `slug` (String)
 2. Run the mood metrics calculation script:
+
 ```bash
 node scripts/add-mood-levels.js
 ```
@@ -164,7 +176,6 @@ node scripts/add-mood-levels.js
 
 Movie data is scraped from Letterboxd using Puppeteer:
 
-
 ## API Endpoints
 
 ### POST `/api/suggestions`
@@ -172,6 +183,7 @@ Movie data is scraped from Letterboxd using Puppeteer:
 Unified endpoint for all recommendation types.
 
 **Request Body:**
+
 ```json
 {
   "mode": "collaborative" | "surprise" | "mood",
@@ -188,6 +200,7 @@ Unified endpoint for all recommendation types.
 ```
 
 **Response:**
+
 ```json
 {
   "recommendations": [
