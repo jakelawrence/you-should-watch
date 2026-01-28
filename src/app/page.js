@@ -13,7 +13,7 @@ export default function LandingPage() {
   }, []);
 
   const handleGetStarted = () => {
-    router.push("/scenario");
+    router.push("/streaming-service");
   };
 
   return (
@@ -71,14 +71,23 @@ export default function LandingPage() {
       {/* Get Started Button */}
       <button
         onClick={handleGetStarted}
-        className={`bg-black text-white px-12 py-6 text-2xl font-black uppercase border-4 border-black transition-all duration-200 ${
+        className={`group relative bg-transparent border-none p-0 cursor-pointer outline-offset-4 select-none touch-manipulation hover:brightness-110 transition-all duration-700 ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        } `}
+        }`}
         style={{
           transitionDelay: isLoaded ? "600ms" : "0ms",
         }}
       >
-        Get Started
+        {/* Shadow */}
+        <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-black/25 will-change-transform translate-y-[2px] transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.3,0.7,0.4,1)] group-hover:translate-y-1 group-hover:duration-250 group-hover:[transition-timing-function:cubic-bezier(0.3,0.7,0.4,1.5)] group-active:translate-y-[1px] group-active:duration-[34ms]"></span>
+
+        {/* Edge */}
+        <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-gradient-to-l from-[hsl(340,100%,16%)] via-[hsl(340,100%,32%)] to-[hsl(340,100%,16%)]"></span>
+
+        {/* Front */}
+        <span className="block relative px-12 py-6 rounded-xl text-2xl font-black uppercase text-white bg-[hsl(345,100%,47%)] will-change-transform -translate-y-1 transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-[6px] group-hover:duration-250 group-hover:[transition-timing-function:cubic-bezier(0.3,0.7,0.4,1.5)] group-active:-translate-y-[2px] group-active:duration-[34ms]">
+          Get Started
+        </span>
       </button>
 
       {/* Optional tagline */}

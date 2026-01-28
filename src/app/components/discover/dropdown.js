@@ -1,10 +1,11 @@
 import React from "react";
 import { useMovieCollection } from "../../context/MovieCollectionContext";
 
-export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
+export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded, disabled }) => {
   const { addToCollection } = useMovieCollection();
-
+  console.log("Dropdown disabled:", disabled);
   const handleAddMovie = (movie) => {
+    console.log("Adding movie to collection:", movie);
     addToCollection(movie);
     if (onMovieAdded) {
       onMovieAdded(); // This will clear the search
@@ -12,7 +13,13 @@ export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded }) => {
   };
 
   return (
-    <div ref={dropdownRef} className="border-4 border-black bg-white overflow-y-auto max-h-[420px] w-[270px] lg:w-[320px]">
+    <div
+      ref={dropdownRef}
+      disabled={disabled}
+      className={`border-4 border-black bg-white overflow-y-auto max-h-[420px] w-[270px] lg:w-[320px] ${
+        disabled ? "opacity-50 pointer-events-none" : ""
+      }`}
+    >
       {searchResults.map((movie, idx) => (
         <button
           key={idx}

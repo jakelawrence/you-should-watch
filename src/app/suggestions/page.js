@@ -3,9 +3,11 @@ import React, { useState, useEffect, Suspense } from "react";
 import { Star, Clock, Calendar, Loader2 } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../hooks/useAuth";
 
 function MovieSuggestionsContent() {
   const { collectionItems } = useMovieCollection();
+  const { user, isAuthenticated } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const scenarioId = searchParams.get("scenario");
@@ -17,14 +19,31 @@ function MovieSuggestionsContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [rateLimitInfo, setRateLimitInfo] = useState(null);
   const [showSignUpPrompt, setShowSignUpPrompt] = useState(false);
+  const [providers, setProviders] = useState(null);
+  const [userStreamingServices, setUserStreamingServices] = useState(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-  console.log("Component rendered");
+
+  // Fetch providers from database for display
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const response = await fetch("/api/providers");
+        if (response.ok) {
+          const data = await response.json();
+          setProviders(data.providers || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch providers:", error);
+      }
+    };
+    fetchProviders();
+  }, []);
+
   // Fetch suggested movies
   useEffect(() => {
-    console.log("useEffect running");
     const fetchSuggestedMovies = async () => {
       try {
         setIsLoading(true);
@@ -32,6 +51,7 @@ function MovieSuggestionsContent() {
         console.log("Fetching suggested movies for scenario:", scenarioId);
 
         let response;
+        let streamingServices = [];
 
         // Handle surprise-me scenario
         if (scenarioId === "surprise-me") {
@@ -43,6 +63,7 @@ function MovieSuggestionsContent() {
             },
             body: JSON.stringify({
               mode: "surprise",
+              streamingServices,
             }),
           });
         }
@@ -70,6 +91,7 @@ function MovieSuggestionsContent() {
             body: JSON.stringify({
               mode: "mood",
               moodParams,
+              streamingServices,
             }),
           });
         }
@@ -83,6 +105,7 @@ function MovieSuggestionsContent() {
             body: JSON.stringify({
               mode: "collaborative",
               inputSlugs: collectionItems.map((movie) => movie.slug),
+              streamingServices,
             }),
           });
         }
@@ -133,6 +156,7 @@ function MovieSuggestionsContent() {
         console.log("Movies:", data.recommendations);
         setMovies(data.recommendations);
         setSelectedMovie(data.recommendations[0]);
+        setUserStreamingServices(data.userStreamingServices || []);
       } catch (err) {
         console.error("Error fetching suggested movies:", err);
         setError(err.message);
@@ -142,7 +166,7 @@ function MovieSuggestionsContent() {
     };
 
     fetchSuggestedMovies();
-  }, [collectionItems, scenarioId, searchParams]);
+  }, [collectionItems, scenarioId, searchParams, user, isAuthenticated]);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -204,7 +228,7 @@ function MovieSuggestionsContent() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center px-4 py-8 lg:py-16">
       {/* Large Title */}
-      <div className="text-center mb-8 lg:mb-12">
+      <div className="text-center mb-12">
         <h1
           className={`text-7xl sm:text-8xl lg:text-6xl font-black text-black leading-none transition-all duration-1000 ${
             isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
@@ -284,6 +308,30 @@ function MovieSuggestionsContent() {
               <div className="bg-white border-4 border-black p-6">
                 <span className="text-black text-sm font-black uppercase">Director: </span>
                 <span className="text-black font-bold text-lg">{selectedMovie.director}</span>
+              </div>
+            )}
+            {selectedMovie.streamingProviders && selectedMovie.streamingProviders.length > 0 && (
+              <div className="bg-white border-4 border-black p-6">
+                <span className="text-black text-sm font-black uppercase mb-4 block">Available On: </span>
+                <div className="flex flex-wrap gap-4">
+                  {selectedMovie.streamingProviders
+                    .filter((provider) => {
+                      // Only show providers that exist in our database
+                      if (!providers) return true;
+                      return providers.some((dbProvider) => dbProvider.provider_id === provider.provider_id);
+                    })
+                    .filter((provider) => {
+                      // If user selected specific services, only show those
+                      const streamingServices = userStreamingServices;
+                      return streamingServices.length === 0 || streamingServices.includes(provider.provider_id);
+                    })
+                    .map((provider) => (
+                      <div key={provider.provider_id} className="flex flex-col items-center gap-2">
+                        <img src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} className="h-12 w-auto" />
+                        <span className="text-black text-xs font-bold text-center">{provider.provider_name}</span>
+                      </div>
+                    ))}
+                </div>
               </div>
             )}
           </div>

@@ -27,6 +27,7 @@ const queryCache = new Map();
  * @param {object} names - ExpressionAttributeNames
  * @param {object} options - Extra options { ttl: number in ms, forceRefresh: boolean }
  */
+
 export async function queryAllItems(tableName, filters = [], params = {}, names = {}, options = {}) {
   const { ttl = 5 * 60 * 1000, forceRefresh = false } = options; // default: 5 min cache
   const cacheKey = JSON.stringify({ tableName, filters, params, names });
@@ -802,6 +803,188 @@ export async function getActorsOfMovies(movieSlugs) {
     }
 
     return actors;
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function getTableCount(tableName) {
+  let count = 0;
+  let lastEvaluatedKey = undefined;
+
+  do {
+    const params = {
+      TableName: tableName,
+      Select: "COUNT",
+      ExclusiveStartKey: lastEvaluatedKey,
+    };
+
+    const command = new ScanCommand(params);
+    const data = await dynamodb.send(command);
+    console.log(`Scanned ${data.Count} items from ${tableName}`);
+    count += data.Count;
+    lastEvaluatedKey = data.LastEvaluatedKey;
+  } while (lastEvaluatedKey); // Continue scanning if there are more results
+
+  return count;
+}
+
+export async function getProviderCount() {
+  try {
+    const command = new ScanCommand({
+      TableName: "providers",
+      Select: "COUNT",
+    });
+
+    const result = await dynamodb.send(command);
+    return result.Count;
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function getUserCount() {
+  try {
+    const command = new ScanCommand({
+      TableName: "users",
+      Select: "COUNT",
+    });
+
+    const result = await dynamodb.send(command);
+    return result.Count;
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function getUserByEmail(email) {
+  try {
+    const command = new ScanCommand({
+      TableName: "users",
+      FilterExpression: "email = :email",
+      ExpressionAttributeValues: {
+        ":email": email,
+      },
+    });
+
+    const result = await dynamodb.send(command);
+    return result.Items[0];
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function saveProvider(provider) {
+  try {
+    const { PutCommand } = await import("@aws-sdk/lib-dynamodb");
+    const command = new PutCommand({
+      TableName: "providers",
+      Item: provider,
+    });
+    await dynamodb.send(command);
+  } catch (error) {
+    console.error("DynamoDB put error:", error);
+    throw error;
+  }
+}
+
+export async function getProviders({ type, limit } = {}) {
+  try {
+    const command = new ScanCommand({
+      TableName: "providers",
+    });
+
+    const result = await dynamodb.send(command);
+    return result.Items || [];
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function updateProvider(providerId, updates) {
+  try {
+    const { UpdateCommand } = await import("@aws-sdk/lib-dynamodb");
+
+    const updateExpressions = [];
+    const expressionAttributeValues = {};
+    const expressionAttributeNames = {};
+
+    Object.entries(updates).forEach(([key, value], index) => {
+      if (key === "provider_id") {
+        // Skip updating the primary key
+        return;
+      }
+      const attributeName = `#attr${index}`;
+      const attributeValue = `:val${index}`;
+      updateExpressions.push(`${attributeName} = ${attributeValue}`);
+      expressionAttributeNames[attributeName] = key;
+      expressionAttributeValues[attributeValue] = value;
+    });
+
+    //Convert providerId and updated providerId to integer if they are numeric strings
+    if (!isNaN(providerId)) {
+      providerId = parseInt(providerId, 10);
+    }
+    if (updates.provider_id && !isNaN(updates.provider_id)) {
+      updates.provider_id = parseInt(updates.provider_id, 10);
+    }
+    console.log("Updating providerId:", providerId, "with updates:", updateExpressions);
+    const command = new UpdateCommand({
+      TableName: "providers",
+      Key: { provider_id: providerId },
+      UpdateExpression: `SET ${updateExpressions.join(", ")}`,
+      ExpressionAttributeNames: expressionAttributeNames,
+      ExpressionAttributeValues: expressionAttributeValues,
+    });
+    console.log("providerId:", typeof providerId, "updates:", updates);
+
+    await dynamodb.send(command);
+  } catch (error) {
+    console.error("DynamoDB update error:", error);
+    throw error;
+  }
+}
+
+export async function deleteProvider(provider_id) {
+  try {
+    const { DeleteCommand } = await import("@aws-sdk/lib-dynamodb");
+
+    //Convert provider_id to integer if it's a numeric string
+    if (!isNaN(provider_id)) {
+      provider_id = parseInt(provider_id, 10);
+    }
+
+    console.log("Deleting provider_id:", provider_id);
+    const command = new DeleteCommand({
+      TableName: "providers",
+      Key: { provider_id: provider_id },
+    });
+
+    await dynamodb.send(command);
+  } catch (error) {
+    console.error("DynamoDB delete error:", error);
+    throw error;
+  }
+}
+
+export async function getUserSelectedStreamingServces(email) {
+  try {
+    const command = new ScanCommand({
+      TableName: "users",
+      FilterExpression: "email = :email",
+      ExpressionAttributeValues: {
+        ":email": email,
+      },
+    });
+
+    const result = await dynamodb.send(command);
+    console.log("DynamoDB scan result:", result.Items[0]?.streamingServices);
+    return result.Items[0]?.streamingServices || [];
   } catch (error) {
     console.error("DynamoDB scan error:", error);
     throw error;

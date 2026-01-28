@@ -1,6 +1,7 @@
 import { Outfit, Poppins } from "next/font/google";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
+import Navbar from "./components/Navbar";
 
 const outfit = Outfit({ weight: "200", subsets: ["latin"] });
 
@@ -35,7 +36,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${poppins.variable}`}>
       <body className={`${outfit.className} antialiased`}>
-        <MovieCollectionProvider>{children}</MovieCollectionProvider>
+        <MovieCollectionProvider>
+          <Navbar />
+          {/* Add padding-top to account for fixed navbar */}
+          <div className="pt-16">{children}</div>
+        </MovieCollectionProvider>
       </body>
     </html>
   );

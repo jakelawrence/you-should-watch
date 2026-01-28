@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 import { React, useRef } from "react";
 
-export const SearchBar = ({ searchQuery, setSearchQuery }) => {
+export const SearchBar = ({ searchQuery, setSearchQuery, disabled }) => {
   const searchInputRef = useRef(null);
 
   const handleFocus = () => {
@@ -22,9 +22,15 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
         onFocus={handleFocus}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search for movies..."
-        className="w-full px-6 py-4 border-4 border-black text-black placeholder-gray-600 font-bold text-lg outline-none transition-all"
+        className={`w-full px-6 py-4 border-4 border-black text-black placeholder-gray-600 font-bold text-lg outline-none transition-all ${
+          disabled ? "opacity-50 pointer-events-none" : ""
+        }`}
       />
-      <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-black" size={24} strokeWidth={3} />
+      <Search
+        className={`absolute right-4 top-1/2 -translate-y-1/2 text-black ${disabled ? "opacity-50 pointer-events-none" : ""}`}
+        size={24}
+        strokeWidth={3}
+      />
     </form>
   );
 };

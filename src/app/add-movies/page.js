@@ -6,6 +6,7 @@ import { useMovieCollection } from "../context/MovieCollectionContext";
 import { SearchBar } from "../components/discover/search-bar";
 import { Dropdown } from "../components/discover/dropdown";
 import { useRouter, useSearchParams } from "next/navigation";
+import FiltersModal from "../components/FiltersModal";
 
 const SCENARIO_CONFIG = {
   "find-similar": {
@@ -38,6 +39,19 @@ function AddMoviesContent() {
   const [searchError, setSearchError] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({
+    popularity: "any",
+    duration: "any",
+    rating: "any",
+    tone: "any",
+    style: "any",
+    pace: "any",
+    intensity: "any",
+    releaseDecade: "any",
+    genres: [],
+  });
+
   const { collectionItems, removeFromCollection } = useMovieCollection();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const router = useRouter();
@@ -186,7 +200,7 @@ function AddMoviesContent() {
         style={{ transitionDelay: "200ms" }}
       >
         <div className="relative" ref={searchInputRef}>
-          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} disabled={collectionItems.length >= maxMovies} />
 
           {/* Dropdown */}
           {showDropdown && searchResults.length > 0 && (
@@ -204,18 +218,61 @@ function AddMoviesContent() {
       >
         {renderAddedMovies()}
       </div>
-
+      {/* Add Filters Button */}
+      <button
+        onClick={() => setShowFiltersModal(true)}
+        className={`group relative bg-transparent border-none p-0 cursor-pointer outline-offset-4 select-none touch-manipulation hover:brightness-110 transition-all duration-700 ${
+          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        } mt-10`}
+        style={{ transitionDelay: "450ms" }}
+      >
+        <span className="absolute top-0 left-0 w-full h-full rounded-lg bg-black/25 will-change-transform translate-y-[1px] transition-transform duration-[600ms] group-hover:translate-y-1 group-active:translate-y-[1px]"></span>
+        <span className="absolute top-0 left-0 w-full h-full rounded-lg bg-gradient-to-l from-[hsl(220,100%,16%)] via-[hsl(220,100%,32%)] to-[hsl(220,100%,16%)]"></span>
+        <span className="block relative px-6 py-3 rounded-lg text-lg font-black uppercase text-white bg-[hsl(220,100%,47%)] will-change-transform -translate-y-1 transition-transform duration-[600ms] group-hover:-translate-y-1.5 group-active:-translate-y-0.5">
+          add filters
+        </span>
+      </button>
       {/* Get Suggestions Button */}
       {collectionItems.length >= maxMovies && (
-        <button
-          onClick={handleGetSuggestions}
-          className={`mt-12 bg-black text-white px-12 py-6 text-2xl font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-all duration-200 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          Get Suggestions
-        </button>
+        <>
+          <style>
+            {`
+      @keyframes shimmer {
+        0% { transform: translateX(-200%) skewX(-30deg); }
+        20% { transform: translateX(200%) skewX(-30deg); }
+        100% { transform: translateX(200%) skewX(-30deg); }
+      }
+      .animate-shimmer {
+        /* 2.5s cycle: the sweep happens in the first 20% of the time, 
+           then it 'rests' for the remaining 80% to look natural */
+        animation: shimmer 4.5s infinite ease-in-out;
+      }
+    `}
+          </style>
+
+          <button
+            onClick={handleGetSuggestions}
+            className={`group relative bg-transparent border-none p-0 cursor-pointer outline-offset-4 select-none touch-manipulation hover:brightness-110 transition-all duration-700 ${
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            } mt-10`}
+          >
+            {/* Shadow */}
+            <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-black/25 will-change-transform translate-y-[2px] transition-transform duration-[600ms] group-hover:translate-y-1 group-active:translate-y-[1px]"></span>
+
+            {/* Edge */}
+            <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-gradient-to-l from-[hsl(45,100%,20%)] via-[hsl(45,100%,35%)] to-[hsl(45,100%,20%)]"></span>
+
+            {/* Front Face */}
+            <span className="block relative px-12 py-6 rounded-xl text-2xl font-black uppercase text-white bg-[hsl(45,100%,50%)] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)] overflow-hidden will-change-transform -translate-y-1 transition-transform duration-[600ms] group-hover:-translate-y-[6px] group-active:-translate-y-[2px]">
+              {/* Improved Shimmer Layer */}
+              <span className="absolute inset-0 block animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent w-[100%] h-full" />
+
+              <span className="relative z-10">Get Suggestions</span>
+            </span>
+          </button>
+        </>
       )}
+
       {/* Back to Scenario Link */}
       <button
         onClick={() => router.push("/scenario")}
@@ -235,6 +292,14 @@ function AddMoviesContent() {
           {searchError}
         </div>
       )}
+
+      {/* Filters Modal */}
+      <FiltersModal
+        currentFilters={activeFilters}
+        onApplyFilters={setActiveFilters}
+        isOpen={showFiltersModal}
+        onClose={() => setShowFiltersModal(false)}
+      />
     </div>
   );
 }

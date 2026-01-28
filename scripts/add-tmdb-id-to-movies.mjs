@@ -13,8 +13,7 @@ const tmdbOptions = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      `Bearer ${process.env.TMDB_AUTH_TOKEN}`,
+    Authorization: `Bearer ${process.env.TMDB_AUTH_TOKEN}`,
   },
 };
 
