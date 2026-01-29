@@ -23,6 +23,7 @@ async function createAdminUser() {
   console.log("\n🔐 Create Admin User\n");
   console.log("=".repeat(50));
 
+  const username = await question("Enter admin username: ");
   const email = await question("Enter admin email: ");
   const password = await question("Enter admin password: ");
   const confirmPassword = await question("Confirm password: ");
@@ -45,7 +46,7 @@ async function createAdminUser() {
 
     // Create admin user object
     const adminUser = {
-      userId: `user_${Date.now()}`,
+      username: username,
       email: email.toLowerCase().trim(),
       passwordHash,
       isAdmin: true,
@@ -57,7 +58,7 @@ async function createAdminUser() {
     const command = new PutCommand({
       TableName: "users", // Change to your users table name
       Item: adminUser,
-      ConditionExpression: "attribute_not_exists(email)", // Prevent duplicates
+      ConditionExpression: "attribute_not_exists(username)", // Prevent duplicates
     });
 
     await dynamodb.send(command);
@@ -65,12 +66,12 @@ async function createAdminUser() {
     console.log("\n✅ Admin user created successfully!");
     console.log("\nUser Details:");
     console.log(`  Email: ${email}`);
-    console.log(`  User ID: ${adminUser.userId}`);
+    console.log(`  Username: ${username}`);
     console.log(`  Admin: Yes`);
     console.log("\n⚠️  Keep your credentials safe!");
   } catch (error) {
     if (error.name === "ConditionalCheckFailedException") {
-      console.error("\n❌ User with this email already exists!");
+      console.error("\n❌ User with this username already exists!");
     } else {
       console.error("\n❌ Error creating admin user:", error.message);
     }

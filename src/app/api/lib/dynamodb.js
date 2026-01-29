@@ -860,13 +860,13 @@ export async function getUserCount() {
   }
 }
 
-export async function getUserByEmail(email) {
+export async function getUserByUsername(username) {
   try {
     const command = new ScanCommand({
       TableName: "users",
-      FilterExpression: "email = :email",
+      FilterExpression: "username = :username",
       ExpressionAttributeValues: {
-        ":email": email,
+        ":username": username,
       },
     });
 

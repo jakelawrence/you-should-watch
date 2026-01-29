@@ -42,9 +42,9 @@ export default function SignUpPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          username: formData.username,
           email: formData.email,
           password: formData.password,
-          name: formData.name,
         }),
       });
 
@@ -84,14 +84,14 @@ export default function SignUpPage() {
           )}
 
           <div>
-            <label className="block text-black font-black uppercase mb-2">Name</label>
+            <label className="block text-black font-black uppercase mb-2">Username</label>
             <input
               type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               required
               className="w-full border-4 border-black p-4 text-lg font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
-              placeholder="Your name"
+              placeholder="beauisafraid123"
             />
           </div>
 
@@ -103,7 +103,7 @@ export default function SignUpPage() {
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
               className="w-full border-4 border-black p-4 text-lg font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
-              placeholder="your@email.com"
+              placeholder="rickdalton1969@gmail.com"
             />
           </div>
 

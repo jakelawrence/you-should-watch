@@ -7,7 +7,7 @@ export function middleware(request) {
   const path = request.nextUrl.pathname;
 
   // Routes that require authentication
-  const protectedRoutes = ["/scenario", "/profile"];
+  const protectedRoutes = ["/profile", "/profile/saved-movies", "/profile/settings", "/scenario", "/profile"];
 
   if (protectedRoutes.some((route) => path.startsWith(route))) {
     if (!token) {
@@ -32,5 +32,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/scenario/:path*", "/profile/:path*"],
+  matcher: ["/profile/:path*", "/scenario/:path*", "/profile/:path*"],
 };

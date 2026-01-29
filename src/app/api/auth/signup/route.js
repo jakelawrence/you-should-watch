@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { getUserByEmail } from "../../lib/dynamodb";
+import { getUserByUsername } from "../../lib/dynamodb";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
@@ -18,11 +18,17 @@ const dynamodb = DynamoDBDocumentClient.from(client);
 
 export async function POST(req) {
   try {
-    const { email, password, name } = await req.json();
+    const { username, email, password } = await req.json();
+    console.log("Sign up attempt for:", username, email);
 
-    // Check if user already exists
-    const existingUser = await getUserByEmail(email);
+    // Check if user already exists for username
+    const existingUserByUsername = await getUserByUsername(username);
     if (existingUser) {
+      return NextResponse.json({ error: "Username already registered" }, { status: 400 });
+    }
+
+    const existingUserByEmail = await getUserByEmail(email);
+    if (existingUserByEmail) {
       return NextResponse.json({ error: "Email already registered" }, { status: 400 });
     }
 
@@ -30,11 +36,9 @@ export async function POST(req) {
     const passwordHash = await bcrypt.hash(password, 10);
 
     // Create user in DynamoDB
-    const userId = uuidv4();
     const user = {
-      userId,
+      username,
       email,
-      name,
       passwordHash,
       isAdmin: false,
       createdAt: new Date().toISOString(),
