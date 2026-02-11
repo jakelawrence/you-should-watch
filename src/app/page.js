@@ -15,15 +15,14 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pt-[50px]">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto">
         <Navbar isLoaded={isLoaded} />
 
         {/* Header */}
         <div
-          className={`text-center text-background bg-fadedBlue border-4 border-fadedBlack m-8 mt-16 md:p-12 p-6 transition-all duration-1000 relative z-50 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
-          }`}
+          className={`text-center text-background bg-fadedBlue border-4 border-fadedBlack m-8 mt-16 md:p-12 p-6 transition-all duration-1000 relative z-50 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
+            }`}
         >
           <Image src="/images/eye-black-and-white.png" alt="Logo" width={100} height={100} className="mx-auto mb-4" />
           <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black leading-none mb-4">you should</h1>
@@ -40,9 +39,8 @@ export default function HomePage() {
 
         {/* Main CTA */}
         <div
-          className={`px-8 text-center mb-8 transition-all duration-700 relative z-10 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`px-8 text-center mb-8 transition-all duration-700 relative z-10 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
           style={{ transitionDelay: "300ms" }}
         >
           <p className="text-lg font-bold text-black max-w-2xl mx-auto pb-2">or...</p>
