@@ -1,27 +1,26 @@
-// middleware.js (root directory)
+// middleware.js
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-export function middleware(request) {
+const secret = new TextEncoder().encode(process.env.JWT_SECRET || "your-secret-key");
+
+export async function middleware(request) {
   const token = request.cookies.get("auth_token")?.value;
   const path = request.nextUrl.pathname;
 
-  // Routes that require authentication
-  const protectedRoutes = ["/profile", "/profile/saved-movies", "/profile/settings", "/scenario", "/profile"];
+  const protectedRoutes = ["/home", "/profile", "/profile/saved-movies", "/profile/settings", "/scenario", "/streaming-service"];
 
   if (protectedRoutes.some((route) => path.startsWith(route))) {
     if (!token) {
-      // Redirect to login with a return URL
       const url = new URL("/login", request.url);
       url.searchParams.set("returnTo", path);
       return NextResponse.redirect(url);
     }
 
     try {
-      jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
+      await jwtVerify(token, secret);
       return NextResponse.next();
-    } catch (error) {
-      // Invalid token - redirect to login
+    } catch (err) {
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("auth_token");
       return response;
@@ -32,5 +31,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/scenario/:path*", "/profile/:path*"],
+  matcher: ["/home/:path*", "/profile/:path*", "/scenario/:path*", "/streaming-service/:path*"],
 };

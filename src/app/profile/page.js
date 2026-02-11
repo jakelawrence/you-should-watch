@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, Mail, Calendar, Tv, Heart, ThumbsUp, LogOut, Settings } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -19,9 +20,10 @@ export default function ProfilePage() {
   const loadProfile = async () => {
     try {
       const response = await fetch("/api/user/profile");
-
+      console.log("Profile fetch response status:", response.status);
       if (!response.ok) {
         if (response.status === 401) {
+          console.log("User not authenticated, redirecting to login");
           router.push("/login");
           return;
         }
@@ -85,6 +87,7 @@ export default function ProfilePage() {
   };
 
   const getInitials = () => {
+    console.log("Generating initials for user:", user);
     if (!user) return "U";
     if (user.name) {
       const names = user.name.trim().split(" ");
@@ -124,40 +127,30 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white px-4 py-8 lg:py-16">
+    <div className="min-h-screen bg-background px-4 py-[100px]">
       <div className="max-w-6xl mx-auto">
+        <Navbar isLoaded={isLoaded} />
         {/* Header */}
         <div className="flex justify-between items-start mb-12">
           <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-black leading-none">your</h1>
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-black leading-none">profile</h2>
           </div>
-
-          <button
-            onClick={handleLogout}
-            className="bg-white border-4 border-black px-6 py-3 font-black uppercase hover:bg-black hover:text-white transition-all duration-200"
-            style={{
-              boxShadow: "4px 4px 0px 0px #000000",
-            }}
-          >
-            <LogOut className="inline mr-2" size={20} strokeWidth={3} />
-            Logout
-          </button>
         </div>
 
         {/* Profile Overview */}
         <div
-          className={`bg-white border-4 border-black p-8 mb-12 transition-all duration-700 ${
+          className={`bg-fadedBlue border-4 border-black p-8 mb-12 transition-all duration-700 text-white ${
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
           style={{ transitionDelay: "200ms" }}
         >
-          <h3 className="text-2xl font-black text-black uppercase mb-6">Profile Overview</h3>
+          <h3 className="text-2xl font-black uppercase mb-6">Profile Overview</h3>
 
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
             {/* Avatar */}
             <div
-              className="w-24 h-24 rounded-full border-4 border-black flex items-center justify-center text-white font-black text-3xl flex-shrink-0"
+              className="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center text-white font-black text-3xl flex-shrink-0"
               style={{ backgroundColor: getAvatarColor() }}
             >
               {getInitials()}
@@ -165,42 +158,42 @@ export default function ProfilePage() {
 
             {/* User Info */}
             <div className="flex-1">
-              <h4 className="text-3xl font-black text-black mb-2">{user.name || "User"}</h4>
-              <p className="text-lg font-bold text-gray-600">{user.email}</p>
+              <h4 className="text-3xl font-black mb-2">{user.username || "User"}</h4>
+              <p className="text-lg font-bold">{user.email}</p>
             </div>
           </div>
 
           {/* User Details Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-start gap-4 pb-6 border-b-4 border-black">
+            <div className="flex items-start gap-4 pb-6 border-b-4 border-white">
               <User size={32} strokeWidth={3} className="flex-shrink-0" />
               <div>
-                <p className="text-sm font-black text-gray-600 uppercase">Name</p>
-                <p className="text-xl font-bold text-black">{user.name || "Not set"}</p>
+                <p className="text-sm font-black uppercase">Name</p>
+                <p className="text-xl font-bold">{user.name || "Not set"}</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 pb-6 border-b-4 border-black">
+            <div className="flex items-start gap-4 pb-6 border-b-4 border-white">
               <Mail size={32} strokeWidth={3} className="flex-shrink-0" />
               <div>
-                <p className="text-sm font-black text-gray-600 uppercase">Email</p>
-                <p className="text-xl font-bold text-black break-all">{user.email}</p>
+                <p className="text-sm font-black uppercase">Email</p>
+                <p className="text-xl font-bold break-all">{user.email}</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 pb-6 border-b-4 border-black">
+            <div className="flex items-start gap-4 pb-6 border-b-4 border-white">
               <Calendar size={32} strokeWidth={3} className="flex-shrink-0" />
               <div>
-                <p className="text-sm font-black text-gray-600 uppercase">Member Since</p>
-                <p className="text-xl font-bold text-black">{stats.memberSince}</p>
+                <p className="text-sm font-black uppercase">Member Since</p>
+                <p className="text-xl font-bold">{stats.memberSince}</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 pb-6 border-b-4 border-black">
+            <div className="flex items-start gap-4 pb-6 border-b-4 border-white">
               <Tv size={32} strokeWidth={3} className="flex-shrink-0" />
               <div>
-                <p className="text-sm font-black text-gray-600 uppercase">Streaming Services</p>
-                <p className="text-xl font-bold text-black">{stats.totalStreamingServices} selected</p>
+                <p className="text-sm font-black uppercase">Streaming Services</p>
+                <p className="text-xl font-bold">{stats.totalStreamingServices} selected</p>
               </div>
             </div>
           </div>
@@ -249,9 +242,6 @@ export default function ProfilePage() {
                 className={`bg-white border-4 border-black p-8 text-left transition-all duration-300 group relative ${
                   action.disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-black hover:text-white"
                 }`}
-                style={{
-                  boxShadow: "6px 6px 0px 0px #000000",
-                }}
               >
                 <Icon className="mb-4 text-black group-hover:text-white transition-colors" size={40} strokeWidth={3} />
                 <h3 className="text-2xl font-black uppercase mb-3 text-black group-hover:text-white transition-colors">{action.title}</h3>

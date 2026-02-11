@@ -63,7 +63,7 @@ export async function POST(req) {
 
     const command = new UpdateCommand({
       TableName: "users",
-      Key: { email: user.email },
+      Key: { username: user.username },
       UpdateExpression: "SET streamingServices = :services, updatedAt = :updatedAt",
       ExpressionAttributeValues: {
         ":services": streamingServices,

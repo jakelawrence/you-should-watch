@@ -35,11 +35,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${poppins.variable}`}>
-      <body className={`${outfit.className} antialiased`}>
+      <body className={`${outfit.className} antialiased bg-background`}>
         <MovieCollectionProvider>
-          <Navbar />
-          {/* Add padding-top to account for fixed navbar */}
-          <div className="pt-16">{children}</div>
+          <div>{children}</div>
         </MovieCollectionProvider>
       </body>
     </html>

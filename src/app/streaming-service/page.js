@@ -116,7 +116,11 @@ export default function StreamingServicesPage() {
       });
 
       if (response.ok) {
-        router.push("/scenario");
+        // Get return URL from query params, default to profile
+        const params = new URLSearchParams(window.location.search);
+        const returnTo = params.get("returnTo") || "/";
+        console.log("Redirecting to:", returnTo);
+        router.push(returnTo);
       } else {
         console.error("Failed to save preferences");
         alert("Failed to save preferences. Please try again.");
@@ -147,7 +151,7 @@ export default function StreamingServicesPage() {
   // Show loading state while checking auth or loading providers
   if (authLoading || isLoadingProviders) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="animate-spin mx-auto mb-4" size={48} />
           <p className="text-black font-bold text-xl">Loading...</p>
@@ -158,18 +162,18 @@ export default function StreamingServicesPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-white flex flex-col items-center px-4 py-8 lg:py-16">
+      <div className="min-h-screen bg-background flex flex-col items-center font-background text-background">
         {/* Large Title */}
-        <div className="text-center mb-12 lg:mb-16">
+        <div className="text-center mb-12 lg:mb-16 bg-fadedBlack p-8">
           <h1
-            className={`text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black text-black leading-none transition-all duration-1000 ${
+            className={`text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-none transition-all duration-1000 ${
               isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
             choose your
           </h1>
           <h1
-            className={`text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black text-black leading-none transition-all duration-1000 ${
+            className={`text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-none transition-all duration-1000 ${
               isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
             style={{ transitionDelay: "100ms" }}
@@ -177,7 +181,7 @@ export default function StreamingServicesPage() {
             streaming services
           </h1>
           <p
-            className={`text-lg lg:text-xl font-bold text-black mt-6 max-w-2xl mx-auto transition-all duration-700 ${
+            className={`text-lg lg:text-xl font-bold mt-6 max-w-2xl mx-auto transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
             style={{ transitionDelay: "200ms" }}
@@ -197,7 +201,7 @@ export default function StreamingServicesPage() {
         </div>
 
         {/* Services Grid */}
-        <div className="w-full max-w-5xl space-y-12 mb-12">
+        <div className="w-full max-w-5xl space-y-12 mb-12 px-4">
           {/* Paid/Subscription Services */}
           <div
             className={`transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
@@ -211,11 +215,11 @@ export default function StreamingServicesPage() {
                   const isSelected = selectedServices.includes(service.id);
                   return (
                     <div key={service.id} className="flex flex-col items-center gap-3">
+                      <span className="text-xs font-bold text-black text-center">{service.name}</span>
                       <button onClick={() => toggleService(service.id)} className="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                        <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-32 w-auto" />
+                        <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-24 w-auto" />
                       </button>
                       <div className="flex flex-col items-center gap-2 w-full">
-                        <span className="text-xs font-bold text-black text-center">{service.name}</span>
                         <label className="flex items-center cursor-pointer gap-2">
                           <div
                             className={`w-5 h-5 border-3 border-black rounded-full flex items-center justify-center transition-all duration-200 ${
@@ -262,7 +266,7 @@ export default function StreamingServicesPage() {
                   return (
                     <div key={service.id} className="flex flex-col items-center gap-3">
                       <button onClick={() => toggleService(service.id)} className="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                        <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-32 w-auto" />
+                        <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-24 w-auto" />
                       </button>
                       <div className="flex flex-col items-center gap-2 w-full">
                         <span className="text-xs font-bold text-black text-center">{service.name}</span>

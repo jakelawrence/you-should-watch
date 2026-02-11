@@ -16,9 +16,7 @@ export const Dropdown = ({ dropdownRef, searchResults, onMovieAdded, disabled })
     <div
       ref={dropdownRef}
       disabled={disabled}
-      className={`border-4 border-black bg-white overflow-y-auto max-h-[420px] w-[270px] lg:w-[320px] ${
-        disabled ? "opacity-50 pointer-events-none" : ""
-      }`}
+      className={`w-full border-4 border-black bg-white overflow-y-auto max-h-[420px] ${disabled ? "opacity-50 pointer-events-none" : ""}`}
     >
       {searchResults.map((movie, idx) => (
         <button

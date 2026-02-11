@@ -878,6 +878,24 @@ export async function getUserByUsername(username) {
   }
 }
 
+export async function getUserByEmail(email) {
+  try {
+    const command = new ScanCommand({
+      TableName: "users",
+      FilterExpression: "email = :email",
+      ExpressionAttributeValues: {
+        ":email": email,
+      },
+    });
+
+    const result = await dynamodb.send(command);
+    return result.Items[0];
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
 export async function saveProvider(provider) {
   try {
     const { PutCommand } = await import("@aws-sdk/lib-dynamodb");

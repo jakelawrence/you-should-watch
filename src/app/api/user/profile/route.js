@@ -33,7 +33,7 @@ async function getUserFromToken() {
 export async function GET() {
   try {
     const user = await getUserFromToken();
-
+    console.log("Authenticated user:", user);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -41,7 +41,7 @@ export async function GET() {
     // Fetch full user data from DynamoDB
     const command = new GetCommand({
       TableName: "users",
-      Key: { email: user.email },
+      Key: { username: user.username },
     });
 
     const result = await dynamodb.send(command);
@@ -55,7 +55,7 @@ export async function GET() {
     // Return user profile data
     return NextResponse.json({
       user: {
-        userId: userData.userId,
+        username: userData.username,
         email: userData.email,
         name: userData.name,
         createdAt: userData.createdAt,

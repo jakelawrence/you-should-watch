@@ -12,10 +12,10 @@ export async function GET() {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-
+    console.log("Decoded token in /auth/me:", decoded);
     return NextResponse.json({
       user: {
-        userId: decoded.userId,
+        username: decoded.username,
         email: decoded.email,
         isAdmin: decoded.isAdmin || false,
       },

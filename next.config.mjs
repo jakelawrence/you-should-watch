@@ -4,8 +4,8 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     unoptimized: true,
-    domains: ["a.ltrbxd.com"], // Add the hostname here
+    domains: ["a.ltrbxd.com"],
+    // Add the hostname here
   },
 };
-
 export default nextConfig;

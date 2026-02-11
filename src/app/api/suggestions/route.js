@@ -344,9 +344,9 @@ export async function POST(req) {
     const user = await getUserFromToken();
     console.log("Authenticated user for filtering:", user);
     let streamingServices = [];
-    // if (user) {
-    //   streamingServices = await getUserSelectedStreamingServces(user.email);
-    // }
+    if (user) {
+      streamingServices = await getUserSelectedStreamingServces(user.email);
+    }
     console.log("User streaming services for filtering:", streamingServices);
     if (streamingServices && streamingServices.length > 0) {
       console.log("Applying streaming services filter:", streamingServices);

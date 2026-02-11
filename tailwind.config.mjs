@@ -4,7 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
+        background: "#ebe7e2",
+        fadedBlack: "#171717ff",
+        fadedBlue: "#05479b",
+        fadedGreen: "#65fb44",
         foreground: "var(--foreground)",
       },
       fontFamily: {

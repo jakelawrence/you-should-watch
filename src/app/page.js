@@ -1,102 +1,60 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useRef } from "react";
+import Navbar from "./components/Navbar";
+import { SearchBar } from "./components/SearchBar";
+import Scenarios from "./components/Scenarios";
+import Image from "next/image";
 
-export default function LandingPage() {
-  const router = useRouter();
+export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
-    // Trigger animation after component mounts
     setIsLoaded(true);
   }, []);
 
-  const handleGetStarted = () => {
-    router.push("/streaming-service");
-  };
-
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 overflow-hidden">
-      {/* Main Title */}
-      <div className="text-center mb-12">
-        {/* Mobile: 3 lines */}
-        <div className="lg:hidden">
-          <h1
-            className={`text-8xl sm:text-9xl font-black text-black leading-none transition-all duration-700 ${
-              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-            }`}
-            style={{ transitionDelay: "0ms" }}
-          >
-            you
+    <div className="min-h-screen bg-background pt-[50px]">
+      <div className="mx-auto">
+        <Navbar isLoaded={isLoaded} />
+
+        {/* Header */}
+        <div
+          className={`text-center text-background bg-fadedBlue border-4 border-fadedBlack m-8 mt-16 md:p-12 p-6 transition-all duration-1000 relative z-50 ${
+            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
+          }`}
+        >
+          <Image src="/images/eye-black-and-white.png" alt="Logo" width={100} height={100} className="mx-auto mb-4" />
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black leading-none mb-4">you should</h1>
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black leading-none mb-6">watch</h1>
+          <h1 className="text-xl font-bold mb-6 w-full max-w-lg mx-auto text-center">
+            Search movies you like and let us recommend the perfect film for you to watch next!
           </h1>
-          <h1
-            className={`text-8xl sm:text-9xl font-black text-black leading-none transition-all duration-700 ${
-              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-            }`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            should
-          </h1>
-          <h1
-            className={`text-8xl sm:text-9xl font-black text-black leading-none transition-all duration-700 ${
-              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-            }`}
-            style={{ transitionDelay: "400ms" }}
-          >
-            watch
+          <div className="flex justify-center">
+            <div ref={searchInputRef} className="w-full max-w-md">
+              <SearchBar />
+            </div>
+          </div>
+        </div>
+
+        {/* Main CTA */}
+        <div
+          className={`px-8 text-center mb-8 transition-all duration-700 relative z-10 ${
+            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+          style={{ transitionDelay: "300ms" }}
+        >
+          <p className="text-lg font-bold text-black max-w-2xl mx-auto pb-2">or...</p>
+          <h2 className="text-3xl lg:text-4xl font-black text-black uppercase mb-6">Choose Your Scenario</h2>
+          <h1 className="text-xl font-bold mb-6 w-full max-w-lg mx-auto text-center">
+            Pick a movie watching scenario below to get personalized movie recommendations
           </h1>
         </div>
 
-        {/* Desktop: 2 lines */}
-        <div className="hidden lg:block">
-          <h1
-            className={`text-[10rem] xl:text-[14rem] 2xl:text-[16rem] font-black text-black leading-none transition-all duration-1000 ${
-              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-            }`}
-          >
-            youshould
-          </h1>
-          <h1
-            className={`text-[10rem] xl:text-[14rem] 2xl:text-[16rem] font-black text-black leading-none transition-all duration-1000 ${
-              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-            }`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            watch
-          </h1>
-        </div>
+        {/* Scenario Cards - CAROUSEL ON MOBILE */}
+        <Scenarios isLoaded={isLoaded} />
       </div>
-
-      {/* Get Started Button */}
-      <button
-        onClick={handleGetStarted}
-        className={`group relative bg-transparent border-none p-0 cursor-pointer outline-offset-4 select-none touch-manipulation hover:brightness-110 transition-all duration-700 ${
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-        style={{
-          transitionDelay: isLoaded ? "600ms" : "0ms",
-        }}
-      >
-        {/* Shadow */}
-        <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-black/25 will-change-transform translate-y-[2px] transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.3,0.7,0.4,1)] group-hover:translate-y-1 group-hover:duration-250 group-hover:[transition-timing-function:cubic-bezier(0.3,0.7,0.4,1.5)] group-active:translate-y-[1px] group-active:duration-[34ms]"></span>
-
-        {/* Edge */}
-        <span className="absolute top-0 left-0 w-full h-full rounded-xl bg-gradient-to-l from-[hsl(340,100%,16%)] via-[hsl(340,100%,32%)] to-[hsl(340,100%,16%)]"></span>
-
-        {/* Front */}
-        <span className="block relative px-12 py-6 rounded-xl text-2xl font-black uppercase text-white bg-[hsl(345,100%,47%)] will-change-transform -translate-y-1 transition-transform duration-[600ms] [transition-timing-function:cubic-bezier(0.3,0.7,0.4,1)] group-hover:-translate-y-[6px] group-hover:duration-250 group-hover:[transition-timing-function:cubic-bezier(0.3,0.7,0.4,1.5)] group-active:-translate-y-[2px] group-active:duration-[34ms]">
-          Get Started
-        </span>
-      </button>
-
-      {/* Optional tagline */}
-      <p
-        className={`mt-8 text-black text-lg font-bold max-w-md text-center transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
-        style={{ transitionDelay: "800ms" }}
-      >
-        Discover your next favorite movie with personalized recommendations
-      </p>
     </div>
   );
 }

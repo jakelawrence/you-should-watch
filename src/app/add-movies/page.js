@@ -61,7 +61,7 @@ function AddMoviesContent() {
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
 
-  const config = scenarioId ? SCENARIO_CONFIG[scenarioId] : { maxMovies: 4, title: "add movies", description: "" };
+  const config = scenarioId ? SCENARIO_CONFIG[scenarioId] : SCENARIO_CONFIG["find-similar"];
   const maxMovies = config.maxMovies;
 
   useEffect(() => {
@@ -109,6 +109,7 @@ function AddMoviesContent() {
   };
 
   const handleGetSuggestions = () => {
+    console.log("Filters applied:", activeFilters);
     router.push(`/suggestions?scenario=${scenarioId}`);
   };
 

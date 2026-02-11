@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 export async function POST(req) {
   try {
     const { email, password } = await req.json();
-
+    console.log("Login attempt for email:", email);
     // Fetch user from DynamoDB
     const user = await getUserByEmail(email);
     if (!user) {
@@ -20,9 +20,13 @@ export async function POST(req) {
     }
 
     // Create JWT token
-    const token = jwt.sign({ userId: user.userId, email: user.email, isAdmin: user.isAdmin || false }, process.env.JWT_SECRET || "your-secret-key", {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { username: user.username, email: user.email, isAdmin: user.isAdmin || false },
+      process.env.JWT_SECRET || "your-secret-key",
+      {
+        expiresIn: "7d",
+      }
+    );
 
     const response = NextResponse.json({ success: true });
     response.cookies.set("auth_token", token, {
