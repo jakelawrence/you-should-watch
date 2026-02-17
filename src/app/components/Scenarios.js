@@ -24,7 +24,7 @@ export default function Scenarios({ isLoaded }) {
   ];
   return (
     <div
-      className={`px-6 pb-10 transition-all duration-700 relative z-10 ${isLoaded ? "opacity-500 translate-y-0" : "opacity-0 translate-y-10"}`}
+      className={`px-6 pb-10 transition-all duration-700 relative z-1 ${isLoaded ? "opacity-500 translate-y-0" : "opacity-0 translate-y-10"}`}
       style={{ transitionDelay: "400ms" }}
     >
       {/* Mobile Carousel */}

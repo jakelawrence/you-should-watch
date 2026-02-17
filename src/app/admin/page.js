@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Film, Tv, Users, Database, LogOut } from "lucide-react";
+import Loading from "../components/Loading";
+import Navbar from "../components/Navbar";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -63,10 +65,14 @@ export default function AdminDashboard() {
     router.push("/admin/login");
   };
 
+  // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-black font-bold text-xl">Loading...</p>
+      <div className="min-h-screen bg-fadedBlack flex flex-col">
+        <Navbar isLoaded={isLoaded} />
+        <div className="flex-1 flex items-center justify-center">
+          <Loading />
+        </div>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { openDb, DatabaseError } from "../lib/db";
 import { validateQueryParams } from "../lib/validation";
 import { query, getMoviesOfGenres, getMovies } from "../lib/dynamodb";
 import { cache } from "../lib/cache";
+import { normalizeString, rankMovies } from "../lib/fuzzySearch";
 
 const SORT_OPTIONS = ["popularity", "alphabetical", "rating", "year", "releaseDate", "popularityRanking", "views"];
 const VALID_RATINGS = ["G", "PG", "PG-13", "R", "NC-17"];
@@ -64,24 +65,40 @@ export async function GET(request) {
       names["#slug"] = "slug"; // needed if 'slug' is a reserved word
     }
 
-    // Add search by name (case-insensitive partial match)
+    // Add search by title
+    // NEW: We'll do broad search first, then apply fuzzy matching
     if (title) {
       console.log("Searching for title: " + title);
 
-      filters.push(`contains(titleLower, :titleLower)`);
-      params[":titleLower"] = title
-        .toLocaleLowerCase()
-        .replace(/\u00A0/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
+      // Normalize the search query
+      const normalizedTitle = normalizeString(title);
+
+      // Extract key words from the search (for broader initial search)
+      const searchWords = normalizedTitle.split(" ").filter((word) => word.length > 2);
+
+      if (searchWords.length > 0) {
+        // Build a filter that checks if title contains ANY of the key words
+        // This casts a wide net, then we'll use fuzzy matching to rank results
+        const wordFilters = searchWords.map((word, idx) => {
+          params[`:word${idx}`] = word;
+          return `contains(titleLower, :word${idx})`;
+        });
+
+        // Use OR logic to be more permissive in initial filter
+        filters.push(`(${wordFilters.join(" OR ")})`);
+      } else {
+        // Fallback for very short queries
+        filters.push(`contains(titleLower, :titleLower)`);
+        params[":titleLower"] = normalizedTitle;
+      }
     }
 
     // Improved decade search
     if (decade) {
-      filters.push(`year >= :fromYear AND year < :toYear`);
-      params.push(decade, decade + 10);
+      filters.push(`#year >= :fromYear AND #year < :toYear`);
       params[":fromYear"] = decade;
       params[":toYear"] = decade + 10;
+      names["#year"] = "year";
     }
 
     if (minRating) {
@@ -93,8 +110,10 @@ export async function GET(request) {
       filters.push(`rating = :rating`);
       params[":rating"] = rating;
     }
+
     let movies;
     console.log("filters=" + filters);
+
     if (genre) {
       let movieSlugs = await getMoviesOfGenres([genre]);
       movies = await getMovies(movieSlugs);
@@ -102,11 +121,31 @@ export async function GET(request) {
     } else {
       movies = await query("movies", filters, params, names);
     }
-    movies.sort((a, b) => a.popularity - b.popularity);
+
+    // NEW: Apply fuzzy search ranking if title search is being performed
+    if (title) {
+      console.log(`Before fuzzy search: ${movies.length} movies`);
+      movies = rankMovies(movies, title, 0.65); // 0.65 threshold allows for typos
+      console.log(`After fuzzy search: ${movies.length} movies`);
+    } else {
+      // Default sorting by popularity if no title search
+      movies.sort((a, b) => (a.popularity || 999999) - (b.popularity || 999999));
+    }
+
+    // Apply pagination after fuzzy filtering
+    const paginatedMovies = movies.slice(offset, offset + limit);
 
     const result = {
-      movies: movies,
+      movies: paginatedMovies,
+      total: movies.length,
+      page,
+      limit,
+      hasMore: offset + limit < movies.length,
     };
+
+    // Cache the result
+    cache.set(cacheKey, result);
+
     return NextResponse.json(result);
   } catch (error) {
     console.error("Database error:", error);

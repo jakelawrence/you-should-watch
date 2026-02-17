@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function useAuth() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     checkAuth();
@@ -30,6 +32,7 @@ export function useAuth() {
     try {
       await fetch("/api/auth/logout", { method: "POST" });
       setUser(null);
+      router.push("/");
     } catch (error) {
       console.error("Logout error:", error);
     }

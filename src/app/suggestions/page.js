@@ -1,11 +1,12 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
-import { Star, Clock, Calendar, Loader2 } from "lucide-react";
+import { Star, Clock, Calendar, Loader2, Bookmark, X } from "lucide-react";
 import { useMovieCollection } from "../context/MovieCollectionContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import Navbar from "../components/Navbar";
 import Image from "next/image";
+import Loading from "../components/Loading";
 
 function MovieSuggestionsContent() {
   const { collectionItems } = useMovieCollection();
@@ -16,6 +17,7 @@ function MovieSuggestionsContent() {
 
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [movies, setMovies] = useState(null);
+  const [inputMovie, setInputMovie] = useState(null); // NEW: Store the input movie
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -134,7 +136,6 @@ function MovieSuggestionsContent() {
 
           // If user needs to authenticate, show sign-up prompt
           if (errorData.requiresAuth) {
-            // You can add a modal or redirect here
             setShowSignUpPrompt(true);
           }
 
@@ -157,8 +158,12 @@ function MovieSuggestionsContent() {
 
         console.log("Movies:", data.recommendations);
         setMovies(data.recommendations);
-        setSelectedMovie(data.recommendations[0]);
         setUserStreamingServices(data.userStreamingServices || []);
+
+        // NEW: Set the input movie (first collection item if available)
+        if (collectionItems && collectionItems.length > 0) {
+          setInputMovie(collectionItems[0]);
+        }
       } catch (err) {
         console.error("Error fetching suggested movies:", err);
         setError(err.message);
@@ -175,17 +180,45 @@ function MovieSuggestionsContent() {
   };
 
   const handleBackToHomepage = () => {
-    // Pass the scenario back to add-movies page
     router.push(`/`);
+  };
+
+  const handleSaveMovie = async (movieSlug, isSaved) => {
+    if (!user || !user.username) {
+      alert("You need to be logged in to save movies.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/user/saved-movies", {
+        method: isSaved ? "DELETE" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: user.username,
+          movieSlug: movieSlug,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save the movie.");
+      }
+
+      alert("Movie saved successfully!");
+    } catch (error) {
+      console.error("Error saving movie:", error);
+      alert(error.message);
+    }
   };
 
   // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="animate-spin mx-auto mb-4" size={48} />
-          <p className="text-black font-bold text-xl">Loading your matches...</p>
+      <div className="min-h-screen bg-fadedBlack flex flex-col">
+        <Navbar isLoaded={isLoaded} />
+        <div className="flex-1 flex items-center justify-center">
+          <Loading />
         </div>
       </div>
     );
@@ -228,15 +261,26 @@ function MovieSuggestionsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-fadedBlack">
       <Navbar isLoaded={isLoaded} />
 
       {/* Desktop Layout - Side by Side */}
-      <div className="hidden lg:flex min-h-screen pt-[70px]">
+      <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Your Matches & Movie Grid */}
-        <div className="w-1/2 bg-fadedBlue border-4 border-fadedBlack flex flex-col items-center justify-start m-12 p-12 overflow-y-auto">
-          <div className={`text-center mb-12 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
-            <h1 className="text-6xl xl:text-7xl font-black text-white leading-none">your matches</h1>
+        <div className="w-1/2 bg-fadedBlack flex flex-col p-12 overflow-y-auto">
+          {/* Title and Input Movie - Now aligned with grid */}
+          <div className="mb-8">
+            <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
+              <h1 className="text-6xl lg:text-7xl font-black leading-none text-background font-specialGothicExpandedOne">your</h1>
+              <h2 className="text-6xl lg:text-7xl font-black leading-none text-background font-specialGothicExpandedOne">matches</h2>
+
+              {/* NEW: Showing suggestions based on input movie */}
+              {inputMovie && (
+                <p className="text-background text-sm font-bold mt-4 opacity-70">
+                  showing suggestions based on <span className="font-black">{inputMovie.title}</span>
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Movie Grid */}
@@ -244,80 +288,86 @@ function MovieSuggestionsContent() {
             className={`grid grid-cols-3 gap-6 transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             style={{ transitionDelay: "200ms" }}
           >
-            {movies.slice(0, movies.length).map((movie) => (
-              <button
-                key={movie.slug}
-                onClick={() => handleMovieClick(movie)}
-                className={`relative w-40 aspect-[2/3] border-4 overflow-hidden bg-white transition-all duration-300 hover:scale-105 ${
-                  selectedMovie?.slug === movie.slug ? "border-fadedGreen" : "border-white"
-                }`}
-              >
-                <img
-                  src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
-                  alt={`${movie.title} poster`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = "none";
+            {movies.map((movie) => (
+              <div key={movie.slug} className="relative">
+                <button
+                  onClick={() => handleMovieClick(movie)}
+                  className={`relative w-full aspect-[2/3] border-4 overflow-hidden bg-white transition-all duration-300 hover:scale-105 ${
+                    selectedMovie?.slug === movie.slug ? "border-fadedGreen" : "border-white"
+                  }`}
+                >
+                  <img
+                    src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
+                    alt={`${movie.title} poster`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
+                  />
+                  {selectedMovie?.slug === movie.slug && <div className="absolute inset-0 border-4 border-fadedGreen pointer-events-none"></div>}
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSaveMovie(movie.slug);
                   }}
-                />
-                {selectedMovie?.slug === movie.slug && <div className="absolute inset-0 border-4 border-fadedGreen pointer-events-none"></div>}
-              </button>
+                  className="absolute top-2 right-2 bg-white p-1.5 border-2 border-black shadow-lg hover:bg-gray-200 transition"
+                >
+                  <Bookmark className="text-black" fill={movie.isBookmarkedByUser ? "yellow" : "none"} size={20} strokeWidth={3} />
+                </button>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Right Side - Selected Movie Details */}
-        <div className="w-1/2 flex items-center justify-center p-12 overflow-y-auto">
-          {selectedMovie && (
-            <div
-              className={`w-full max-w-2xl space-y-6 transition-all duration-1000 ${
-                isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"
-              }`}
-              style={{ transitionDelay: "200ms" }}
-            >
+        {/* Right Side - Movie Details */}
+        <div className="w-1/2 overflow-y-auto border-l-4 border-black">
+          {selectedMovie ? (
+            <div className="p-12">
               {/* Movie Title */}
-              <div className="bg-white border-4 border-fadedBlack p-6">
-                <h2 className="text-4xl xl:text-5xl font-black text-fadedBlack uppercase leading-tight">
-                  {selectedMovie.title.replace(/\u00A0/g, " ")}
-                </h2>
-                {selectedMovie.tagline && <p className="text-fadedBlack text-lg font-bold mt-4">{selectedMovie.tagline}</p>}
+              <div className="mb-8">
+                <h2 className="text-5xl font-poppins text-background uppercase leading-tight mb-4">{selectedMovie.title.replace(/\u00A0/g, " ")}</h2>
+                {selectedMovie.tagline && <p className="text-black text-xl font-bold border-l-4 border-black pl-4">{selectedMovie.tagline}</p>}
               </div>
 
               {/* Stats Row */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="bg-white border-4 border-fadedBlack p-6 text-center">
-                  <Calendar className="mx-auto mb-2 text-fadedBlack" size={28} strokeWidth={3} />
-                  <p className="text-fadedBlack font-black text-xl">{selectedMovie.year || "N/A"}</p>
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="bg-background border-4 border-black p-6 text-center">
+                  <Calendar className="mx-auto mb-2 text-black" size={32} strokeWidth={3} />
+                  <p className="text-black font-black text-2xl">{selectedMovie.year || "N/A"}</p>
+                  <p className="text-black text-xs font-bold uppercase mt-1">Year</p>
                 </div>
-                <div className="bg-white border-4 border-fadedBlack p-6 text-center">
-                  <Clock className="mx-auto mb-2 text-fadedBlack" size={28} strokeWidth={3} />
-                  <p className="text-fadedBlack font-black text-xl">{selectedMovie.duration ? selectedMovie.duration + "m" : "N/A"}</p>
+                <div className="bg-background border-4 border-black p-6 text-center">
+                  <Clock className="mx-auto mb-2 text-black" size={32} strokeWidth={3} />
+                  <p className="text-black font-black text-2xl">{selectedMovie.duration ? selectedMovie.duration + "m" : "N/A"}</p>
+                  <p className="text-black text-xs font-bold uppercase mt-1">Runtime</p>
                 </div>
-                <div className="bg-white border-4 border-fadedBlack p-6 text-center">
-                  <Star className="mx-auto mb-2 text-fadedBlack fill-fadedBlack" size={28} strokeWidth={3} />
-                  <p className="text-fadedBlack font-black text-xl">
-                    {selectedMovie.averageRating ? selectedMovie.averageRating.toFixed(1) + "/5" : "N/A"}
-                  </p>
+                <div className="bg-background border-4 border-black p-6 text-center">
+                  <Star className="mx-auto mb-2 text-black fill-black" size={32} strokeWidth={3} />
+                  <p className="text-black font-black text-2xl">{selectedMovie.averageRating ? selectedMovie.averageRating.toFixed(1) : "N/A"}</p>
+                  <p className="text-black text-xs font-bold uppercase mt-1">Rating</p>
                 </div>
               </div>
 
               {/* Details */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {selectedMovie.genres && selectedMovie.genres.length > 0 && (
-                  <div className="bg-white border-4 border-fadedBlack p-6">
-                    <span className="text-fadedBlack text-sm font-black uppercase">Genre: </span>
-                    <span className="text-fadedBlack font-bold text-lg">{selectedMovie.genres.join(", ")}</span>
+                  <div className="border-4 border-black p-6 bg-white">
+                    <p className="text-black text-sm font-black uppercase mb-2">Genre</p>
+                    <p className="text-black font-bold text-xl">{selectedMovie.genres.join(", ")}</p>
                   </div>
                 )}
+
                 {selectedMovie.director && (
-                  <div className="bg-white border-4 border-fadedBlack p-6">
-                    <span className="text-fadedBlack text-sm font-black uppercase">Director: </span>
-                    <span className="text-fadedBlack font-bold text-lg">{selectedMovie.director}</span>
+                  <div className="border-4 border-black p-6 bg-white">
+                    <p className="text-black text-sm font-black uppercase mb-2">Director</p>
+                    <p className="text-black font-bold text-xl">{selectedMovie.director}</p>
                   </div>
                 )}
+
                 {selectedMovie.streamingProviders && selectedMovie.streamingProviders.length > 0 && (
-                  <div className="bg-white border-4 border-fadedBlack p-6">
-                    <span className="text-fadedBlack text-sm font-black uppercase mb-4 block">Available On: </span>
+                  <div className="border-4 border-black p-6 bg-white">
+                    <p className="text-black text-sm font-black uppercase mb-4">Available On</p>
                     <div className="flex flex-wrap gap-4">
                       {selectedMovie.streamingProviders
                         .filter((provider) => {
@@ -333,32 +383,64 @@ function MovieSuggestionsContent() {
                             <img
                               src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
                               alt={provider.provider_name}
-                              className="h-12 w-auto"
+                              className="h-12 w-auto border-2 border-black"
                             />
-                            <span className="text-fadedBlack text-xs font-bold text-center">{provider.provider_name}</span>
+                            <span className="text-black text-xs font-bold text-center">{provider.provider_name}</span>
                           </div>
                         ))}
                     </div>
                   </div>
                 )}
               </div>
+
+              {/* Save Button */}
+              <button
+                onClick={() => handleSaveMovie(selectedMovie.slug)}
+                className="w-full bg-black text-white px-6 py-4 font-black text-xl uppercase border-4 border-black hover:bg-white hover:text-black transition-colors mt-8"
+              >
+                Save Movie
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full p-12 text-center">
+              <div>
+                <div className="text-black text-6xl mb-4">👈</div>
+                <p className="text-black text-2xl font-black uppercase">Select a movie</p>
+                <p className="text-black text-lg font-bold mt-2">Click on any poster to see details</p>
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Mobile Layout - Original Design */}
-      <div className="lg:hidden flex flex-col items-center pt-[70px] pb-[50px] bg-background">
+      {/* Mobile Layout - Redesigned Modal */}
+      <div className="lg:hidden flex flex-col items-center pb-[50px]">
         {/* Large Title */}
-        <div className="text-center bg-fadedBlue border-4 border-fadedBlack m-8 p-8">
+        <div className="text-center m-8 pb-2">
           <Image src="/images/eye-white.png" alt="Logo" width={50} height={50} className="mx-auto" />
-          <h1
-            className={`text-7xl sm:text-8xl text-white leading-none transition-all duration-1000 ${
+          <p
+            className={`font-specialGothicExpandedOne text-3xl sm:text-5xl text-white leading-none transition-all duration-1000 ${
               isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
             }`}
           >
-            your matches
-          </h1>
+            your
+          </p>
+          <p
+            className={`font-specialGothicExpandedOne text-3xl sm:text-5xl text-white leading-none transition-all duration-1000 ${
+              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+            }`}
+          >
+            matches
+          </p>
+
+          {/* NEW: Showing suggestions based on input movie */}
+          {inputMovie && (
+            <p className="text-white text-sm font-bold mt-4 opacity-70">
+              showing suggestions based on <span className="font-black">{inputMovie.title}</span>
+            </p>
+          )}
+
+          <p className="text-white text-lg mt-4">Tap on a movie to see details</p>
         </div>
 
         {/* Movie Grid */}
@@ -369,98 +451,137 @@ function MovieSuggestionsContent() {
           style={{ transitionDelay: "200ms" }}
         >
           <div className="grid grid-cols-2 gap-6 mx-8">
-            {movies.slice(0, movies.length).map((movie) => (
-              <button
-                key={movie.slug}
-                onClick={() => handleMovieClick(movie)}
-                className={`relative w-48 aspect-[2/3] border-1 overflow-hidden bg-white transition-all duration-300 hover:scale-105 ${
-                  selectedMovie?.slug === movie.slug ? "border-red" : "border-red-400"
-                }`}
-              >
-                <img
-                  src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
-                  alt={`${movie.title} poster`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = "none";
+            {movies.map((movie) => (
+              <div key={movie.slug} className="relative">
+                <button
+                  onClick={() => handleMovieClick(movie)}
+                  className={`relative w-full aspect-[2/3] border-4 overflow-hidden bg-white transition-all duration-300 ${
+                    selectedMovie?.slug === movie.slug ? "border-fadedGreen" : "border-white"
+                  }`}
+                >
+                  <img
+                    src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
+                    alt={`${movie.title} poster`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
+                  />
+                  {selectedMovie?.slug === movie.slug && <div className="absolute inset-0 border-4 border-fadedGreen pointer-events-none"></div>}
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSaveMovie(movie.slug);
                   }}
-                />
-                {selectedMovie?.slug === movie.slug && <div className="absolute inset-0 border-2 border-fadedGreen pointer-events-none"></div>}
-              </button>
+                  className="absolute top-2 right-2 bg-white p-1 border-2 border-black shadow-lg hover:bg-gray-200 transition"
+                >
+                  <Bookmark className="text-black" fill={movie.isBookmarkedByUser ? "yellow" : "none"} size={20} strokeWidth={3} />
+                </button>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Selected Movie Details */}
+        {/* NEW: Redesigned Mobile Modal - Bottom Sheet Style */}
         {selectedMovie && (
-          <div
-            className={`w-full px-8 max-w-4xl space-y-6 transition-all duration-700 ${
-              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-            style={{ transitionDelay: "400ms" }}
-          >
-            {/* Movie Title */}
-            <div className="bg-white border-4 border-black p-6">
-              <h2 className="text-4xl font-black text-black uppercase leading-tight">{selectedMovie.title.replace(/\u00A0/g, " ")}</h2>
-              {selectedMovie.tagline && <p className="text-black text-lg font-bold mt-4">{selectedMovie.tagline}</p>}
-            </div>
+          <div className="fixed inset-0 bg-black/70 flex items-end z-50 backdrop-blur-sm" onClick={() => setSelectedMovie(null)}>
+            <div
+              className="bg-background w-full max-h-[85vh] overflow-y-auto border-t-4 border-black animate-slide-up"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Drag Indicator & Close */}
+              <div className="sticky top-0 bg-background border-b-4 border-black p-4 flex items-center justify-between">
+                <div className="w-12 h-1 bg-black/30 rounded-full"></div>
+                <h3 className="text-xl font-black text-black uppercase flex-1 text-center">Movie Details</h3>
+                <button
+                  onClick={() => setSelectedMovie(null)}
+                  className="bg-black text-white p-2 border-2 border-black hover:bg-white hover:text-black transition"
+                >
+                  <X size={20} strokeWidth={3} />
+                </button>
+              </div>
 
-            {/* Stats Row */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white border-4 border-black p-6 text-center">
-                <Calendar className="mx-auto mb-2 text-black" size={28} strokeWidth={3} />
-                <p className="text-black font-black text-xl">{selectedMovie.year || "N/A"}</p>
-              </div>
-              <div className="bg-white border-4 border-black p-6 text-center">
-                <Clock className="mx-auto mb-2 text-black" size={28} strokeWidth={3} />
-                <p className="text-black font-black text-xl">{selectedMovie.duration ? selectedMovie.duration + "m" : "N/A"}</p>
-              </div>
-              <div className="bg-white border-4 border-black p-6 text-center">
-                <Star className="mx-auto mb-2 text-black fill-black" size={28} strokeWidth={3} />
-                <p className="text-black font-black text-xl">{selectedMovie.averageRating ? selectedMovie.averageRating.toFixed(1) + "/5" : "N/A"}</p>
-              </div>
-            </div>
+              {/* Modal Content - Compact Design */}
+              <div className="p-6 space-y-4">
+                {/* Movie Title */}
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-black text-black uppercase leading-tight">
+                    {selectedMovie.title.replace(/\u00A0/g, " ")}
+                  </h2>
+                  {selectedMovie.tagline && (
+                    <p className="text-black text-base font-bold mt-2 border-l-4 border-black pl-3">{selectedMovie.tagline}</p>
+                  )}
+                </div>
 
-            {/* Details */}
-            <div className="space-y-4">
-              {selectedMovie.genres && selectedMovie.genres.length > 0 && (
-                <div className="bg-white border-4 border-black p-6">
-                  <span className="text-black text-sm font-black uppercase">Genre: </span>
-                  <span className="text-black font-bold text-lg">{selectedMovie.genres.join(", ")}</span>
-                </div>
-              )}
-              {selectedMovie.director && (
-                <div className="bg-white border-4 border-black p-6">
-                  <span className="text-black text-sm font-black uppercase">Director: </span>
-                  <span className="text-black font-bold text-lg">{selectedMovie.director}</span>
-                </div>
-              )}
-              {selectedMovie.streamingProviders && selectedMovie.streamingProviders.length > 0 && (
-                <div className="bg-white border-4 border-black p-6">
-                  <span className="text-black text-sm font-black uppercase mb-4 block">Available On: </span>
-                  <div className="flex flex-wrap gap-4">
-                    {selectedMovie.streamingProviders
-                      .filter((provider) => {
-                        if (!providers) return true;
-                        return providers.some((dbProvider) => dbProvider.provider_id === provider.provider_id);
-                      })
-                      .filter((provider) => {
-                        const streamingServices = userStreamingServices;
-                        return streamingServices.length === 0 || streamingServices.includes(provider.provider_id);
-                      })
-                      .map((provider) => (
-                        <div key={provider.provider_id} className="flex flex-col items-center gap-2">
-                          <img
-                            src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                            alt={provider.provider_name}
-                            className="h-12 w-auto"
-                          />
-                          <span className="text-black text-xs font-bold text-center">{provider.provider_name}</span>
-                        </div>
-                      ))}
+                {/* Compact Stats Row */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white border-4 border-black p-3 text-center">
+                    <Calendar className="mx-auto mb-1 text-black" size={20} strokeWidth={3} />
+                    <p className="text-black font-black text-base">{selectedMovie.year || "N/A"}</p>
+                  </div>
+                  <div className="bg-white border-4 border-black p-3 text-center">
+                    <Clock className="mx-auto mb-1 text-black" size={20} strokeWidth={3} />
+                    <p className="text-black font-black text-base">{selectedMovie.duration ? selectedMovie.duration + "m" : "N/A"}</p>
+                  </div>
+                  <div className="bg-white border-4 border-black p-3 text-center">
+                    <Star className="mx-auto mb-1 text-black fill-black" size={20} strokeWidth={3} />
+                    <p className="text-black font-black text-base">{selectedMovie.averageRating ? selectedMovie.averageRating.toFixed(1) : "N/A"}</p>
                   </div>
                 </div>
-              )}
+
+                {/* Compact Details */}
+                <div className="space-y-3">
+                  {selectedMovie.genres && selectedMovie.genres.length > 0 && (
+                    <div className="border-4 border-black p-3 bg-white">
+                      <p className="text-black text-xs font-black uppercase mb-1">Genre</p>
+                      <p className="text-black font-bold text-base">{selectedMovie.genres.join(", ")}</p>
+                    </div>
+                  )}
+
+                  {selectedMovie.director && (
+                    <div className="border-4 border-black p-3 bg-white">
+                      <p className="text-black text-xs font-black uppercase mb-1">Director</p>
+                      <p className="text-black font-bold text-base">{selectedMovie.director}</p>
+                    </div>
+                  )}
+
+                  {selectedMovie.streamingProviders && selectedMovie.streamingProviders.length > 0 && (
+                    <div className="border-4 border-black p-3 bg-white">
+                      <p className="text-black text-xs font-black uppercase mb-2">Available On</p>
+                      <div className="flex flex-wrap gap-3">
+                        {selectedMovie.streamingProviders
+                          .filter((provider) => {
+                            if (!providers) return true;
+                            return providers.some((dbProvider) => dbProvider.provider_id === provider.provider_id);
+                          })
+                          .filter((provider) => {
+                            const streamingServices = userStreamingServices;
+                            return streamingServices.length === 0 || streamingServices.includes(provider.provider_id);
+                          })
+                          .map((provider) => (
+                            <div key={provider.provider_id} className="flex flex-col items-center gap-1">
+                              <img
+                                src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                                alt={provider.provider_name}
+                                className="h-10 w-auto border-2 border-black"
+                              />
+                              <span className="text-black text-xs font-bold text-center">{provider.provider_name}</span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Save Button */}
+                <button
+                  onClick={() => handleSaveMovie(selectedMovie.slug)}
+                  className="w-full bg-black text-white px-4 py-3 font-black text-lg uppercase border-4 border-black hover:bg-white hover:text-black transition-colors"
+                >
+                  Save Movie
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -497,6 +618,28 @@ function MovieSuggestionsContent() {
             </div>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+// Placeholder for RateLimitWarning component if it doesn't exist
+function RateLimitWarning({ remaining, total, resetAt, onCreateAccount }) {
+  if (remaining > 5) return null;
+
+  return (
+    <div className="fixed bottom-4 right-4 bg-white border-4 border-black p-4 max-w-sm z-40">
+      <p className="text-black font-black text-sm uppercase mb-2">Suggestions Remaining</p>
+      <p className="text-black font-bold text-lg">
+        {remaining} / {total}
+      </p>
+      {remaining === 0 && (
+        <button
+          onClick={onCreateAccount}
+          className="mt-3 w-full bg-black text-white px-4 py-2 text-sm font-black uppercase border-2 border-black hover:bg-white hover:text-black transition"
+        >
+          Create Account
+        </button>
       )}
     </div>
   );

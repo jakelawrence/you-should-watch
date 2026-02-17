@@ -1008,3 +1008,59 @@ export async function getUserSelectedStreamingServces(email) {
     throw error;
   }
 }
+
+export async function getUserSavedMovies(username) {
+  try {
+    const command = new ScanCommand({
+      TableName: "user-saved-movies",
+      FilterExpression: "username = :username",
+      ExpressionAttributeValues: {
+        ":username": username,
+      },
+    });
+
+    const result = await dynamodb.send(command);
+    console.log("DynamoDB scan result:", result.Items);
+    let savedMovieSlugs = result.Items.map((item) => item.movieSlug);
+    return { savedMovies: savedMovieSlugs };
+  } catch (error) {
+    console.error("DynamoDB scan error:", error);
+    throw error;
+  }
+}
+
+export async function saveUserSavedMovie(username, movieSlug) {
+  try {
+    const { PutCommand } = await import("@aws-sdk/lib-dynamodb");
+    const command = new PutCommand({
+      TableName: "user-saved-movies",
+      Item: {
+        username,
+        movieSlug,
+        savedAt: new Date().toISOString(),
+      },
+    });
+    await dynamodb.send(command);
+  } catch (error) {
+    console.error("DynamoDB put error:", error);
+    throw error;
+  }
+}
+
+export async function deleteUserSavedMovie(username, movieSlug) {
+  console.log("Deleting saved movie for user:", username, "movieSlug:", movieSlug);
+  try {
+    const { DeleteCommand } = await import("@aws-sdk/lib-dynamodb");
+    const command = new DeleteCommand({
+      TableName: "user-saved-movies",
+      Key: {
+        username,
+        movieSlug,
+      },
+    });
+    await dynamodb.send(command);
+  } catch (error) {
+    console.error("DynamoDB delete error:", error);
+    throw error;
+  }
+}
