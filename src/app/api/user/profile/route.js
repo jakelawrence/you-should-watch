@@ -3,6 +3,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { getUserSavedMovies } from "../../lib/dynamodb";
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || "us-east-1",
@@ -51,7 +52,8 @@ export async function GET() {
     }
 
     const userData = result.Item;
-
+    const userSavedMoviesRes = await getUserSavedMovies(userData.username);
+    const userSavedMovies = userSavedMoviesRes?.savedMovies || [];
     // Return user profile data
     return NextResponse.json({
       user: {
@@ -60,14 +62,12 @@ export async function GET() {
         name: userData.name,
         createdAt: userData.createdAt,
         streamingServices: userData.streamingServices || [],
-        favoriteMovies: userData.favoriteMovies || [],
-        likedMovies: userData.likedMovies || [],
+        savedMovies: userSavedMovies || [],
         isAdmin: userData.isAdmin || false,
       },
       stats: {
         totalStreamingServices: (userData.streamingServices || []).length,
-        totalFavorites: (userData.favoriteMovies || []).length,
-        totalLikes: (userData.likedMovies || []).length,
+        totalSavedMovies: userSavedMovies ? userSavedMovies.length : 0,
         memberSince: userData.createdAt
           ? new Date(userData.createdAt).toLocaleDateString("en-US", {
               year: "numeric",

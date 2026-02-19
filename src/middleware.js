@@ -8,7 +8,7 @@ export async function middleware(request) {
   const token = request.cookies.get("auth_token")?.value;
   const path = request.nextUrl.pathname;
 
-  const protectedRoutes = ["/home", "/profile", "/profile/saved-movies", "/profile/settings", "/scenario", "/streaming-service"];
+  const protectedRoutes = ["/home", "/profile", "/profile/saved-movies", "/profile/settings", "/scenario", "/profile/streaming-service"];
 
   if (protectedRoutes.some((route) => path.startsWith(route))) {
     if (!token) {
@@ -31,5 +31,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/home/:path*", "/profile/:path*", "/scenario/:path*", "/streaming-service/:path*"],
+  matcher: ["/home/:path*", "/profile/:path*", "/scenario/:path*", "/profile/streaming-service/:path*"],
 };

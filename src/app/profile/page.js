@@ -79,7 +79,7 @@ export default function ProfilePage() {
   }
 
   const { user, stats } = profileData;
-
+  console.log("Profile data loaded:", profileData);
   // Generate avatar color based on email
   const getAvatarColor = () => {
     if (!user?.email) return "hsl(0, 0%, 40%)";
@@ -111,14 +111,14 @@ export default function ProfilePage() {
       description: "View your favorite and liked movies",
       icon: Heart,
       route: "/profile/saved-movies",
-      count: stats.totalFavorites + stats.totalLikes,
+      count: stats.totalSavedMovies,
     },
     {
       id: "streaming-services",
       title: "Streaming Services",
       description: "Manage your streaming platforms",
       icon: Tv,
-      route: "/streaming-service",
+      route: "/profile/streaming-service",
       count: stats.totalStreamingServices,
     },
     {

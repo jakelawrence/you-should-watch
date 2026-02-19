@@ -523,12 +523,12 @@ export async function POST(req) {
     console.log("User streaming services for filtering:", streamingServices);
 
     let afterCount = recommendations.length;
-    if (streamingServices && streamingServices.length > 0) {
-      console.log("Applying streaming services filter:", streamingServices);
-      recommendations = filterByStreamingServices(recommendations, streamingServices);
-      afterCount = recommendations.length;
-      console.log(`Filtered from ${beforeCount} to ${afterCount} movies by streaming services`);
-    }
+    // if (streamingServices && streamingServices.length > 0) {
+    //   console.log("Applying streaming services filter:", streamingServices);
+    //   recommendations = filterByStreamingServices(recommendations, streamingServices);
+    //   afterCount = recommendations.length;
+    //   console.log(`Filtered from ${beforeCount} to ${afterCount} movies by streaming services`);
+    // }
 
     recommendations = recommendations.slice(0, 50); // Return more for /search page
 

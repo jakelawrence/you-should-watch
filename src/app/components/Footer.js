@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Suggestions", href: "/suggestions" },
+  { label: "Search", href: "/search" },
   { label: "Saved Movies", href: "/profile/saved-movies" },
-  { label: "Sign Up", href: "/signup" },
-  { label: "Log In", href: "/login" },
+  { label: "Sign In/Up", href: "/login" },
 ];
 
 const SOCIAL_LINKS = [
@@ -78,7 +77,7 @@ export default function Footer() {
             <p className="text-white text-xs font-black uppercase tracking-widest mb-4 opacity-50">Get Started</p>
             <p className="text-white font-black text-xl uppercase leading-snug mb-6">Ready to find your next watch?</p>
             <button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/search")}
               className="w-full bg-white text-black border-4 border-white py-3 px-6 font-black text-sm uppercase tracking-widest hover:bg-yellow-300 hover:border-yellow-300 transition-colors duration-150"
             >
               Start Matching →
@@ -86,7 +85,7 @@ export default function Footer() {
           </div>
 
           {/* Social links */}
-          <div>
+          {/* <div>
             <p className="text-white text-xs font-black uppercase tracking-widest mb-4 opacity-50">Follow Us</p>
             <div className="flex gap-3">
               {SOCIAL_LINKS.map((s) => (
@@ -101,7 +100,7 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
