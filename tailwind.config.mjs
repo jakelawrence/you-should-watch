@@ -4,12 +4,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
+        background: "#ebe7e2",
+        fadedBlack: "#171717ff",
+        fadedBlue: "#05479b",
+        fadedGreen: "#65fb44",
         foreground: "var(--foreground)",
       },
       fontFamily: {
         sans: ["var(--font-outft)"],
         poppins: ["var(--font-poppins)"],
+        specialGothicExpandedOne: ["var(--font-special-gothic-expanded-one)"],
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 18s linear infinite",
       },
     },
   },

@@ -1,13 +1,19 @@
-import { Outfit, Poppins } from "next/font/google";
+import { Outfit, Poppins, Special_Gothic_Expanded_One } from "next/font/google";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
-
+import Footer from "./components/Footer";
 const outfit = Outfit({ weight: "200", subsets: ["latin"] });
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "700", "900"],
   variable: "--font-poppins",
+});
+
+const specialGothicExpandedOne = Special_Gothic_Expanded_One({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-special-gothic-expanded-one",
 });
 
 export const metadata = {
@@ -33,9 +39,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${poppins.variable}`}>
-      <body className={`${outfit.className} antialiased`}>
-        <MovieCollectionProvider>{children}</MovieCollectionProvider>
+    <html lang="en" className={`${outfit.variable} ${poppins.variable} ${specialGothicExpandedOne.variable}`}>
+      <body className={`${outfit.className} antialiased bg-fadedBlack`}>
+        <MovieCollectionProvider>
+          <div>{children}</div>
+          <Footer />
+        </MovieCollectionProvider>
       </body>
     </html>
   );
