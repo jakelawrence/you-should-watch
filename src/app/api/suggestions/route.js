@@ -178,7 +178,7 @@ function calculateGenreSimilarity(inputGenreIds, candidateGenreIds) {
 
 async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = {}) {
   const config = { ...COLLAB_CONFIG, ...overrides };
-  if (!inputMovieSlugs?.length) return [];
+  if (!inputMovieSlugs?.length) return { recommendations: [], userInteractions: {} };
 
   const userInteractions = {};
   const excludeUserInteractions = {};
@@ -194,12 +194,14 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
       userInteractions[u] = userInteractions[u] || {
         inputLikeCount: 0,
         inputFavoriteCount: 0,
+        interactedInputMovies: new Set(),
         affinityScore: 1.0,
         otherMovies: new Map(),
         likedExcluded: false,
         excludedScore: 0,
       };
       userInteractions[u].inputLikeCount++;
+      userInteractions[u].interactedInputMovies.add(slug);
     });
 
     favorites.forEach((u) => {
@@ -207,11 +209,13 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
         inputLikeCount: 0,
         inputFavoriteCount: 0,
         affinityScore: 1.0,
+        interactedInputMovies: new Set(),
         otherMovies: new Map(),
         likedExcluded: false,
         excludedScore: 0,
       };
       userInteractions[u].inputFavoriteCount++;
+      userInteractions[u].interactedInputMovies.add(slug);
     });
   }
 
@@ -253,7 +257,7 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
 
   // Step 2 & 3: Affinity & Fetch other movies
   const usernames = Object.keys(userInteractions);
-  if (!usernames.length) return [];
+  if (!usernames.length) return { recommendations: [], userInteractions: {} };
 
   const [allLikes, allFavorites] = await Promise.all([getUsersLikes(usernames), getUsersFavorites(usernames)]);
 
@@ -262,9 +266,14 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
 
     const boostMultiplier = data.likedExcluded ? 0.5 : 1.0;
 
-    if (data.inputLikeCount >= 2) data.affinityScore *= Math.pow(config.likedBothMoviesBoost, boostMultiplier);
-    if (data.inputFavoriteCount >= 1) data.affinityScore *= Math.pow(config.favoritedInputMovieBoost, boostMultiplier);
-    if (data.inputFavoriteCount >= 1 && data.inputLikeCount >= 2) {
+    const distinctInputMovieCount = data.interactedInputMovies?.size || 0;
+    if (distinctInputMovieCount >= 2) {
+      data.affinityScore *= Math.pow(config.likedBothMoviesBoost, boostMultiplier);
+    }
+    if (data.inputFavoriteCount >= 1) {
+      data.affinityScore *= Math.pow(config.favoritedInputMovieBoost, data.inputFavoriteCount * boostMultiplier);
+    }
+    if (data.inputFavoriteCount >= 1 && distinctInputMovieCount >= 2) {
       data.affinityScore *= Math.pow(config.combinedBoost, boostMultiplier);
     }
 
@@ -318,7 +327,7 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
   const inputGenres = inputMovies.flatMap((m) => m.genreIds || []);
   const uniqueInputGenres = [...new Set(inputGenres)];
 
-  return filtered
+  const recommendations = filtered
     .map(([slug, data]) => {
       const m = details.get(slug);
 
@@ -349,6 +358,24 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
       };
     })
     .sort((a, b) => b.recommendationScore - a.recommendationScore);
+
+  const serializedUserInteractions = Object.fromEntries(
+    Object.entries(userInteractions).map(([username, data]) => [
+      username,
+      {
+        inputLikeCount: data.inputLikeCount,
+        inputFavoriteCount: data.inputFavoriteCount,
+        distinctInputMovieCount: data.interactedInputMovies?.size || 0,
+        interactedInputMovies: Array.from(data.interactedInputMovies || []),
+        affinityScore: data.affinityScore,
+        likedExcluded: data.likedExcluded,
+        excludedScore: data.excludedScore,
+        otherMoviesCount: data.otherMovies?.size || 0,
+      },
+    ]),
+  );
+
+  return { recommendations, userInteractions: serializedUserInteractions };
 }
 
 async function runMood(moodParams) {
@@ -416,10 +443,15 @@ export async function POST(req) {
     } = body;
 
     let recommendations = [];
+    let userInteractions = {};
 
     switch (mode) {
       case "collaborative":
-        recommendations = await runCollaborative(inputSlugs, excludeSlugs || [], configOverrides);
+        {
+          const collaborativeResult = await runCollaborative(inputSlugs, excludeSlugs || [], configOverrides);
+          recommendations = collaborativeResult.recommendations;
+          userInteractions = collaborativeResult.userInteractions;
+        }
         break;
       case "mood":
         recommendations = await runMood(moodParams);
@@ -523,15 +555,15 @@ export async function POST(req) {
     console.log("User streaming services for filtering:", streamingServices);
 
     let afterCount = recommendations.length;
-    // if (streamingServices && streamingServices.length > 0) {
-    //   console.log("Applying streaming services filter:", streamingServices);
-    //   recommendations = filterByStreamingServices(recommendations, streamingServices);
-    //   afterCount = recommendations.length;
-    //   console.log(`Filtered from ${beforeCount} to ${afterCount} movies by streaming services`);
-    // }
+    if (streamingServices && streamingServices.length > 0) {
+      console.log("Applying streaming services filter:", streamingServices);
+      recommendations = filterByStreamingServices(recommendations, streamingServices);
+      afterCount = recommendations.length;
+      console.log(`Filtered from ${beforeCount} to ${afterCount} movies by streaming services`);
+    }
 
     recommendations = recommendations.slice(0, 50); // Return more for /search page
-
+    console.log(`Final recommendation count after all filters: ${recommendations.length}`);
     return Response.json({
       recommendations,
       filteredByStreaming: streamingServices?.length > 0,
@@ -540,6 +572,7 @@ export async function POST(req) {
       userStreamingServices: streamingServices,
       excludedMoviesCount: excludeSlugs?.length || 0,
       userBookmarksCount: userBookmarkedSlugs.length,
+      userInteractions,
       filtersApplied: {
         genres: genres.length,
         vibes: vibes.length,

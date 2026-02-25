@@ -330,9 +330,9 @@ function EmptyState({ hasInputMovies }) {
         </>
       ) : (
         <>
-          <div className="text-5xl mb-4">👈</div>
+          {/* if mobible view, point up */}
           <p className="font-specialGothicExpandedOne text-white text-2xl uppercase leading-tight mb-2">add a movie</p>
-          <p className="text-white/40 font-bold text-sm max-w-xs">Search for a film you love on the left to get started</p>
+          <p className="text-white/40 font-bold text-sm max-w-xs">Selct filters and search for a film you love to get started</p>
         </>
       )}
     </div>
@@ -421,11 +421,13 @@ export default function SearchPage() {
   // ── Search ─────────────────────────────────────────────────────────────────
 
   const handleSearch = async () => {
+    console.log("Search initiated with input movies:", inputMovies, "and exclude movies:", excludeMovies);
     if (inputMovies.length === 0) return;
 
     setIsSearching(true);
     setSearchError(null);
     setHasSearched(true);
+    setFiltersVisible(false);
 
     try {
       // Build the request body with all filters
@@ -449,7 +451,7 @@ export default function SearchPage() {
 
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
-
+      console.log("Search results:", data);
       // All filtering now happens server-side!
       setResults(data.recommendations || []);
 
@@ -614,17 +616,6 @@ export default function SearchPage() {
               </p>
             )}
           </div>
-          {results.length > 0 && inputMovies.length > 0 && (
-            <button
-              onClick={() => {
-                inputMovies.forEach((m) => addToCollection(m));
-                router.push("/suggestions?scenario=find-similar");
-              }}
-              className="flex items-center gap-1.5 bg-white text-black border-4 border-white px-4 py-2 font-black text-xs uppercase hover:bg-yellow-300 hover:border-yellow-300 transition-colors"
-            >
-              Open in Suggestions <ArrowRight size={14} strokeWidth={3} />
-            </button>
-          )}
         </div>
       )}
 

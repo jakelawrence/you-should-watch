@@ -19,32 +19,11 @@ export default function Scenarios() {
 
   const scenarios = [
     {
-      id: "find-similar",
-      title: "find similar",
-      description: "Discover movies like one you love",
-      icon: Search,
-      route: "/add-movies?scenario=find-similar",
-    },
-    {
       id: "date-night",
       title: "date night",
       description: "Find the perfect compromise",
       icon: Heart,
       route: "/add-movies?scenario=date-night",
-    },
-    {
-      id: "surprise-me",
-      title: "surprise me",
-      description: "Let AI pick something unexpected",
-      icon: Sparkles,
-      route: "/suggestions?scenario=surprise-me",
-    },
-    {
-      id: "mood-match",
-      title: "mood match",
-      description: "Choose based on how you feel",
-      icon: Smile,
-      route: "/movie-mood?scenario=mood-match",
     },
   ];
 
