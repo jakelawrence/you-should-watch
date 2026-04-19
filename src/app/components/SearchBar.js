@@ -1,13 +1,13 @@
 import { Search, Loader2 } from "lucide-react";
-import { React, useRef, useState, useEffect } from "react";
-import { useMovieCollection } from "../context/MovieCollectionContext";
+import { React, useRef, useState, useEffect, useId } from "react";
 import { useRouter } from "next/navigation";
 
-export const SearchBar = ({ disabled, onMovieAdded }) => {
+export const SearchBar = ({ disabled }) => {
   const router = useRouter();
   const searchInputRef = useRef(null);
   const dropdownRef = useRef(null);
-  const { addToCollection } = useMovieCollection();
+  const listboxId = useId();
+  const inputId = useId();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -22,7 +22,7 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchQuery(searchQuery);
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(handler);
   }, [searchQuery]);
@@ -56,7 +56,6 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
         setShowDropdown(true);
       } catch (err) {
         setSearchError("Failed to search movies");
-        console.error("Error searching movies:", err);
       } finally {
         setIsSearching(false);
       }
@@ -66,22 +65,19 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
   }, [debouncedSearchQuery]);
 
   const handleFocus = () => {
-    setTimeout(() => {
-      searchInputRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }, 300);
+    searchInputRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   };
 
   const handleSearchMovie = (movie) => {
-    console.log("Adding movie to collection:", movie);
-    addToCollection(movie);
-    router.push("/suggestions?scenario=find-similar");
+    // Route to search results page with movie query parameter and fromSearch flag
+    router.push(`/search?movie=${encodeURIComponent(movie.slug)}&fromSearch=true`);
   };
 
   const handlePosterLoad = (movieSlug) => {
-    setLoadedPosters((prev) => new Set([...prev, movieSlug]));
+    setLoadedPosters((prev) => new Set(prev).add(movieSlug));
   };
 
   const handlePosterError = (e) => {
@@ -91,6 +87,9 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
   return (
     <div className="relative w-full z-50">
       <form onSubmit={(e) => e.preventDefault()} className="relative">
+        <label htmlFor={inputId} className="sr-only">
+          Search for movies
+        </label>
         <input
           type="text"
           value={searchQuery}
@@ -98,18 +97,27 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
           onFocus={handleFocus}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for movies..."
-          className={`w-full px-6 py-4 border-4 border-black text-black placeholder-gray-600 font-bold text-lg outline-none transition-all ${
+          id={inputId}
+          aria-controls={listboxId}
+          aria-expanded={showDropdown && searchResults.length > 0}
+          aria-autocomplete="list"
+          aria-describedby={searchError ? `${inputId}-error` : undefined}
+          className={`w-full px-4 sm:px-6 py-3 sm:py-4 border-2 border-fadedBlack/30 bg-background text-fadedBlack placeholder-fadedBlack/40 font-bold text-base sm:text-lg outline-none focus:border-fadedBlack/60 transition-all ${
             disabled ? "opacity-50 pointer-events-none" : ""
           }`}
         />
         {isSearching ? (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
-            <Loader2 className={`text-black animate-spin ${disabled ? "opacity-50 pointer-events-none" : ""}`} size={24} strokeWidth={3} />
+            <Loader2
+              className={`text-fadedBlack animate-spin w-5 h-5 sm:w-6 sm:h-6 ${disabled ? "opacity-50 pointer-events-none" : ""}`}
+              strokeWidth={3}
+            />
           </div>
         ) : (
           <Search
-            className={`absolute right-4 top-1/2 -translate-y-1/2 text-black ${disabled ? "opacity-50 pointer-events-none" : ""}`}
-            size={24}
+            className={`absolute right-4 top-1/2 -translate-y-1/2 text-fadedBlack w-5 h-5 sm:w-6 sm:h-6 ${
+              disabled ? "opacity-50 pointer-events-none" : ""
+            }`}
             strokeWidth={3}
           />
         )}
@@ -119,7 +127,10 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
       {showDropdown && searchResults.length > 0 && (
         <div
           ref={dropdownRef}
-          className={`absolute top-full left-0 w-full border-4 border-black bg-white overflow-y-auto max-h-[420px] z-50 ${
+          id={listboxId}
+          role="listbox"
+          aria-label="Movie search results"
+          className={`absolute top-full left-0 w-full border-2 border-t-0 border-fadedBlack/30 bg-background overflow-y-auto max-h-[420px] z-50 ${
             disabled ? "opacity-50 pointer-events-none" : ""
           }`}
         >
@@ -127,29 +138,34 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
             <button
               key={`${searchId}-${movie.slug || movie.title}`} // Include searchId to force remount on new search
               onClick={() => handleSearchMovie(movie)}
-              className="w-full p-4 text-left border-b-4 border-black last:border-b-0 hover:bg-yellow-200 transition-colors duration-100 flex items-center gap-3"
+              role="option"
+              aria-label={`Select ${movie.title}`}
+              className="w-full p-4 text-left border-b border-fadedBlack/10 last:border-b-0 hover:bg-backgroundSecondary transition-colors duration-100 flex items-center gap-3"
             >
               <div className="relative w-12 h-16 flex-shrink-0">
                 {/* Loading placeholder */}
-                {!loadedPosters.has(movie.slug) && <div className="absolute inset-0 bg-gray-200 border-2 border-black animate-pulse" />}
+                {!loadedPosters.has(movie.slug) && <div className="absolute inset-0 bg-fadedBlack/8 animate-pulse" />}
 
                 {/* Actual poster */}
                 <img
                   key={`${searchId}-poster-${movie.slug}`} // Force new image element on search change
                   src={movie.posterUrl}
                   alt={`${movie.title} poster`}
-                  className={`w-12 h-16 object-cover border-2 border-black transition-opacity duration-200 ${
+                  width="160"
+                  height="240"
+                  loading="lazy"
+                  decoding="async"
+                  className={`w-12 h-16 object-cover border border-fadedBlack/15 transition-opacity duration-200 ${
                     loadedPosters.has(movie.slug) ? "opacity-100" : "opacity-0"
                   }`}
                   onLoad={() => handlePosterLoad(movie.slug)}
                   onError={handlePosterError}
-                  loading="lazy"
                 />
               </div>
 
               <div className="flex-1">
-                <div className="font-black text-black text-lg">{movie.title}</div>
-                <div className="text-sm text-black font-bold">{movie.year}</div>
+                <div className="font-black text-fadedBlack text-lg">{movie.title}</div>
+                <div className="text-sm text-fadedBlack font-bold">{movie.year}</div>
 
                 {/* Optional: Show search score for debugging */}
                 {movie._searchScore && process.env.NODE_ENV === "development" && (
@@ -163,15 +179,19 @@ export const SearchBar = ({ disabled, onMovieAdded }) => {
 
       {/* No results message */}
       {showDropdown && !isSearching && searchResults.length === 0 && debouncedSearchQuery && (
-        <div className="absolute top-full left-0 w-full mt-2 p-4 bg-white border-4 border-black">
-          <p className="text-black font-bold">No movies found for "{debouncedSearchQuery}"</p>
-          <p className="text-sm text-gray-600 mt-1">Try checking your spelling or using different keywords</p>
+        <div className="absolute top-full left-0 w-full mt-2 p-4 bg-background border border-fadedBlack/20" aria-live="polite">
+          <p className="text-fadedBlack font-bold">No movies found for "{debouncedSearchQuery}"</p>
+          <p className="text-sm text-fadedBlack/60 mt-1">Try checking your spelling or using different keywords</p>
         </div>
       )}
 
-      {/* Error message */}
+      {/* Search error message */}
       {searchError && (
-        <div className="absolute top-full left-0 w-full mt-2 p-2 bg-red-100 border-2 border-red-500 text-red-700 font-bold text-sm">
+        <div
+          id={`${inputId}-error`}
+          className="absolute top-full left-0 w-full mt-2 p-2 bg-background border border-fadedBlack/20 text-fadedBlack font-bold text-sm"
+          role="alert"
+        >
           {searchError}
         </div>
       )}

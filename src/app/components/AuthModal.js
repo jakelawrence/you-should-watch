@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useId } from "react";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function AuthModal({ isOpen, onClose, onSuccess }) {
   const router = useRouter();
+  const dialogRef = useRef(null);
+  const inputId = useId();
   const [mode, setMode] = useState("signup"); // 'signup' or 'login'
   const [formData, setFormData] = useState({
     email: "",
@@ -17,6 +19,39 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const dialog = dialogRef.current;
+    const focusable = dialog?.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable?.[0];
+    const last = focusable?.[focusable.length - 1];
+
+    first?.focus();
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key === "Tab" && focusable?.length) {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,19 +109,27 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white border-4 border-black max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4" role="presentation">
+      <div
+        ref={dialogRef}
+        className="bg-background border border-fadedBlack/15 max-w-md w-full max-h-[90vh] overflow-y-auto relative"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+      >
         {/* Close button */}
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-100 transition-colors">
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-background transition-colors" aria-label="Close dialog">
           <X size={24} strokeWidth={3} />
         </button>
 
         <div className="p-8">
           {/* Title */}
           <div className="text-center mb-8">
-            <h2 className="text-4xl sm:text-5xl font-black text-black leading-none mb-2">{mode === "signup" ? "create" : "welcome"}</h2>
-            <h2 className="text-4xl sm:text-5xl font-black text-black leading-none mb-4">{mode === "signup" ? "account" : "back"}</h2>
-            <p className="text-base font-bold text-black">
+            <h2 id="auth-modal-title" className="text-4xl sm:text-5xl font-black text-fadedBlack leading-none mb-2">
+              {mode === "signup" ? "create" : "welcome"}
+            </h2>
+            <h2 className="text-4xl sm:text-5xl font-black text-fadedBlack leading-none mb-4">{mode === "signup" ? "account" : "back"}</h2>
+            <p className="text-base font-bold text-fadedBlack">
               {mode === "signup" ? "Sign up to save your streaming preferences" : "Log in to continue"}
             </p>
           </div>
@@ -94,59 +137,71 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-400 border-4 border-black p-4">
-                <p className="text-black font-black uppercase text-sm">{error}</p>
+              <div className="bg-fadedBlack/5 border border-fadedBlack/20 p-4">
+                <p className="text-fadedBlack font-black uppercase text-sm">{error}</p>
               </div>
             )}
 
             {mode === "signup" && (
               <div>
-                <label className="block text-black font-black uppercase mb-2 text-sm">Name</label>
+                <label htmlFor={`${inputId}-name`} className="block text-fadedBlack font-black uppercase mb-2 text-sm">
+                  Name
+                </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="w-full border-4 border-black p-3 text-base font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  id={`${inputId}-name`}
+                  className="w-full border-2 border-fadedBlack/30 bg-background p-3 text-base font-bold focus:outline-none focus:border-fadedBlack/70 transition-colors"
                   placeholder="Your name"
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-black font-black uppercase mb-2 text-sm">Email</label>
+              <label htmlFor={`${inputId}-email`} className="block text-fadedBlack font-black uppercase mb-2 text-sm">
+                Email
+              </label>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full border-4 border-black p-3 text-base font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
+                id={`${inputId}-email`}
+                className="w-full border-2 border-fadedBlack/30 bg-background p-3 text-base font-bold focus:outline-none focus:border-fadedBlack/70 transition-colors"
                 placeholder="your@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-black font-black uppercase mb-2 text-sm">Password</label>
+              <label htmlFor={`${inputId}-password`} className="block text-fadedBlack font-black uppercase mb-2 text-sm">
+                Password
+              </label>
               <input
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
                 minLength={mode === "signup" ? 8 : undefined}
-                className="w-full border-4 border-black p-3 text-base font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
+                id={`${inputId}-password`}
+                className="w-full border-2 border-fadedBlack/30 bg-background p-3 text-base font-bold focus:outline-none focus:border-fadedBlack/70 transition-colors"
                 placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
               />
             </div>
 
             {mode === "signup" && (
               <div>
-                <label className="block text-black font-black uppercase mb-2 text-sm">Confirm Password</label>
+                <label htmlFor={`${inputId}-confirm`} className="block text-fadedBlack font-black uppercase mb-2 text-sm">
+                  Confirm Password
+                </label>
                 <input
                   type="password"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
-                  className="w-full border-4 border-black p-3 text-base font-bold focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  id={`${inputId}-confirm`}
+                  className="w-full border-2 border-fadedBlack/30 bg-background p-3 text-base font-bold focus:outline-none focus:border-fadedBlack/70 transition-colors"
                   placeholder="Re-enter password"
                 />
               </div>
@@ -155,9 +210,9 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-black text-white px-8 py-4 text-lg font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-all duration-200 disabled:opacity-50"
+              className="w-full bg-fadedBlack text-background px-8 py-4 text-lg font-black uppercase border-2 border-fadedBlack hover:bg-fadedBlue hover:text-background transition-all duration-200 disabled:opacity-50"
               style={{
-                boxShadow: "6px 6px 0px 0px #000000",
+                boxShadow: "6px 6px 0px 0px rgba(31,27,23,0.2)",
               }}
             >
               {isLoading ? (mode === "signup" ? "Creating Account..." : "Logging in...") : mode === "signup" ? "Sign Up" : "Log In"}
@@ -166,7 +221,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
 
           {/* Toggle between login/signup */}
           <div className="mt-6 text-center">
-            <p className="text-black font-bold mb-2 text-sm">{mode === "signup" ? "Already have an account?" : "Don't have an account?"}</p>
+            <p className="text-fadedBlack font-bold mb-2 text-sm">{mode === "signup" ? "Already have an account?" : "Don't have an account?"}</p>
             <button
               onClick={() => {
                 setMode(mode === "signup" ? "login" : "signup");
@@ -178,7 +233,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
                   name: "",
                 });
               }}
-              className="text-black font-black text-base hover:underline"
+              className="text-fadedBlack font-black text-base hover:underline"
             >
               {mode === "signup" ? "Log In" : "Sign Up"}
             </button>

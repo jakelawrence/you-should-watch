@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Film, Tv, Users, Database, LogOut } from "lucide-react";
 import Loading from "../components/Loading";
-import Navbar from "../components/Navbar";
+import { Navbar } from "../components/Navbar";
 
 export default function AdminDashboard() {
   const router = useRouter();

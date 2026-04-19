@@ -1,75 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import {
-  Search,
-  X,
-  Plus,
-  ThumbsDown,
-  Loader2,
-  ChevronDown,
-  ChevronUp,
-  Star,
-  Clock,
-  Calendar,
-  Bookmark,
-  BookmarkCheck,
-  SlidersHorizontal,
-  ArrowRight,
-} from "lucide-react";
-import Navbar from "../components/Navbar";
-import { useMovieCollection } from "../context/MovieCollectionContext";
+import React, { useState, useEffect, useRef, useCallback, useMemo, useId } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SEARCH_FILTERS } from "../api/lib/search-filters";
+import { Search, X, Loader2, ChevronDown, ChevronUp, Star, Bookmark, BookmarkCheck, SlidersHorizontal } from "lucide-react";
+import { Navbar } from "../components/Navbar";
 import { useAuth } from "../hooks/useAuth";
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const ALL_GENRES = [
-  "Action",
-  "Adventure",
-  "Animation",
-  "Comedy",
-  "Crime",
-  "Documentary",
-  "Drama",
-  "Family",
-  "Fantasy",
-  "History",
-  "Horror",
-  "Music",
-  "Mystery",
-  "Romance",
-  "Science Fiction",
-  "Thriller",
-  "War",
-  "Western",
-];
-
-const VIBE_OPTIONS = [
-  { key: "dark", label: "Dark", field: "darknessLevel", op: ">", val: 6 },
-  { key: "light", label: "Light", field: "darknessLevel", op: "<", val: 4 },
-  { key: "intense", label: "Intense", field: "intensenessLevel", op: ">", val: 6 },
-  { key: "chill", label: "Chill", field: "intensenessLevel", op: "<", val: 4 },
-  { key: "funny", label: "Funny", field: "funninessLevel", op: ">", val: 6 },
-  { key: "slow-burn", label: "Slow Burn", field: "slownessLevel", op: ">", val: 6 },
-  { key: "fast-pace", label: "Fast Paced", field: "slownessLevel", op: "<", val: 4 },
-];
-
-const DURATION_OPTIONS = [
-  { key: "short", label: "Short  < 90m", max: 90 },
-  { key: "medium", label: "Medium  90–150m", min: 90, max: 150 },
-  { key: "long", label: "Long   > 150m", min: 150 },
-];
-
-const DECADE_OPTIONS = [
-  { key: "2020s", label: "2020s", min: 2020 },
-  { key: "2010s", label: "2010s", min: 2010, max: 2019 },
-  { key: "2000s", label: "2000s", min: 2000, max: 2009 },
-  { key: "1990s", label: "1990s", min: 1990, max: 1999 },
-  { key: "1980s", label: "1980s", min: 1980, max: 1989 },
-  { key: "classic", label: "Classic  pre‑1980", max: 1979 },
-];
-
+import { MovieDetailsModal } from "../components/MovieDetailsModal";
 // ─── Tiny helpers ──────────────────────────────────────────────────────────────
 
 function useDebounce(value, delay = 450) {
@@ -80,6 +17,24 @@ function useDebounce(value, delay = 450) {
   }, [value, delay]);
   return debounced;
 }
+
+export const useDisableBodyScroll = (isOpen) => {
+  useEffect(() => {
+    // Save the original overflow style to restore it later
+    const originalOverflow = document.body.style.overflow;
+
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      // Optional: Add padding-right to the body to prevent the page from jumping
+      // when the scrollbar disappears (a common UI issue)
+    }
+
+    // Cleanup function to re-enable scrolling when the component unmounts or isOpen becomes false
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]); // The effect runs whenever the isOpen state changes
+};
 
 // ─── Movie search autocomplete dropdown ───────────────────────────────────────
 
@@ -93,6 +48,8 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
   const debouncedQuery = useDebounce(query);
   const inputRef = useRef(null);
   const dropRef = useRef(null);
+  const inputId = useId();
+  const listboxId = useId();
 
   // Close on outside click
   useEffect(() => {
@@ -134,26 +91,39 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
     };
   }, [debouncedQuery]);
 
-  const hoverClass = accentColor === "red" ? "hover:bg-red-200" : "hover:bg-yellow-200";
+  const hoverClass = "hover:bg-backgroundSecondary";
 
   return (
     <div className="relative w-full">
       <div className="relative">
+        <label htmlFor={inputId} className="sr-only">
+          {placeholder}
+        </label>
         <input
           ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
-          className="w-full px-4 py-3 border-4 border-black bg-white text-black font-bold text-sm placeholder-black/40 outline-none pr-10"
+          id={inputId}
+          aria-controls={listboxId}
+          aria-expanded={open && results.length > 0}
+          aria-autocomplete="list"
+          className="w-full px-4 py-3 border-2 border-fadedBlack/30 bg-background text-fadedBlack font-bold text-sm placeholder-fadedBlack/40 outline-none focus:border-fadedBlack/60 transition-colors pr-10"
         />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-black pointer-events-none">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-fadedBlack/50 pointer-events-none">
           {loading ? <Loader2 size={18} strokeWidth={3} className="animate-spin" /> : <Search size={18} strokeWidth={3} />}
         </div>
       </div>
 
       {open && results.length > 0 && (
-        <div ref={dropRef} className="absolute top-full left-0 w-full border-4 border-t-0 border-black bg-white z-40 max-h-72 overflow-y-auto">
+        <div
+          ref={dropRef}
+          id={listboxId}
+          role="listbox"
+          aria-label="Movie search results"
+          className="absolute top-full left-0 w-full border-2 border-t-0 border-fadedBlack/30 bg-background z-40 max-h-72 overflow-y-auto"
+        >
           {results.map((movie, i) => (
             <button
               key={`${searchId}-${movie.slug}`}
@@ -162,24 +132,30 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
                 setQuery("");
                 setOpen(false);
               }}
-              className={`w-full flex items-center gap-3 px-4 py-3 border-b-2 border-black/10 last:border-0 text-left transition-colors ${hoverClass}`}
+              role="option"
+              aria-label={`Select ${movie.title}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 border-b border-fadedBlack/8 last:border-0 text-left transition-colors ${hoverClass}`}
             >
-              <div className="relative w-8 h-12 flex-shrink-0 bg-gray-200 border-2 border-black overflow-hidden">
-                {!loaded.has(movie.slug) && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+              <div className="relative w-8 h-12 flex-shrink-0 bg-fadedBlack/5 border border-fadedBlack/15 overflow-hidden">
+                {!loaded.has(movie.slug) && <div className="absolute inset-0 bg-fadedBlack/5 animate-pulse" />}
                 <img
                   key={`${searchId}-img-${movie.slug}`}
                   src={movie.posterUrl}
-                  alt=""
+                  alt={`${movie.title} poster`}
+                  width="160"
+                  height="240"
+                  loading="lazy"
+                  decoding="async"
                   className={`w-full h-full object-cover transition-opacity duration-150 ${loaded.has(movie.slug) ? "opacity-100" : "opacity-0"}`}
-                  onLoad={() => setLoaded((s) => new Set([...s, movie.slug]))}
+                  onLoad={() => setLoaded((s) => new Set(s).add(movie.slug))}
                   onError={(e) => {
                     e.target.src = "/placeholder-poster.jpg";
                   }}
                 />
               </div>
               <div>
-                <p className="font-black text-black text-sm">{movie.title}</p>
-                <p className="text-black/50 text-xs font-bold">{movie.year}</p>
+                <p className="font-black text-fadedBlack text-sm">{movie.title}</p>
+                <p className="text-fadedBlack/50 text-xs font-bold">{movie.year}</p>
               </div>
             </button>
           ))}
@@ -192,15 +168,18 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
 // ─── Movie pill (added to input or exclude list) ──────────────────────────────
 
 function MoviePill({ movie, onRemove, variant = "input" }) {
-  const bg = variant === "exclude" ? "bg-red-200 border-red-600" : "bg-yellow-200 border-black";
-  const label = variant === "exclude" ? "Exclude" : "Input";
+  const bg = variant === "exclude" ? "bg-danger/10 border-danger/30" : "bg-backgroundSecondary border-fadedBlack/20";
 
   return (
-    <div className={`flex items-center gap-2 border-4 ${bg} pl-2 pr-1 py-1 max-w-full`}>
-      <div className="w-6 h-9 flex-shrink-0 border-2 border-black overflow-hidden bg-gray-200">
+    <div className={`flex items-center gap-2 border-2 ${bg} pl-2 pr-1 py-1 max-w-full`}>
+      <div className="w-6 h-9 flex-shrink-0 border border-fadedBlack/15 overflow-hidden bg-fadedBlack/5">
         <img
           src={movie.posterUrl}
-          alt=""
+          alt={`${movie.title} poster`}
+          width="160"
+          height="240"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
           onError={(e) => {
             e.target.style.display = "none";
@@ -208,8 +187,8 @@ function MoviePill({ movie, onRemove, variant = "input" }) {
         />
       </div>
       <div className="flex flex-col min-w-0">
-        <p className="font-black text-black text-xs uppercase leading-tight truncate max-w-[120px]">{movie.title}</p>
-        <p className="text-black/50 text-[10px] font-bold">{movie.year}</p>
+        <p className="font-black text-fadedBlack text-xs uppercase leading-tight truncate max-w-[120px]">{movie.title}</p>
+        <p className="text-fadedBlack/50 text-[10px] font-bold">{movie.year}</p>
       </div>
       <button
         onClick={() => onRemove(movie.slug)}
@@ -224,12 +203,20 @@ function MoviePill({ movie, onRemove, variant = "input" }) {
 
 // ─── Filter toggle chip ───────────────────────────────────────────────────────
 
-function Chip({ label, active, onClick }) {
+function Chip({ label, active, onClick, disabled = false }) {
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-1.5 border-4 font-black text-xs uppercase tracking-wide transition-colors duration-100 ${
-        active ? "bg-black text-white border-black" : "bg-white text-black border-black hover:bg-yellow-200"
+      type="button"
+      aria-pressed={active}
+      disabled={disabled}
+      aria-disabled={disabled}
+      className={`px-3 py-1.5 border-2 font-black text-xs uppercase tracking-wide transition-colors duration-100 ${
+        disabled
+          ? "bg-fadedBlack/5 text-fadedBlack/30 border-fadedBlack/15 cursor-not-allowed"
+          : active
+            ? "bg-fadedBlack text-background border-fadedBlack"
+            : "bg-background text-fadedBlack border-fadedBlack/25 hover:border-fadedBlack/60 hover:bg-backgroundSecondary"
       }`}
     >
       {label}
@@ -242,29 +229,50 @@ function Chip({ label, active, onClick }) {
 function FilterSection({ title, children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-4 border-black bg-white">
-      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-4 py-3 hover:bg-yellow-200 transition-colors">
-        <span className="font-black text-black text-xs uppercase tracking-widest">{title}</span>
+    <div className="border border-fadedBlack/15 bg-background">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        type="button"
+        aria-expanded={open}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-backgroundSecondary transition-colors"
+      >
+        <span className="font-black text-fadedBlack text-xs uppercase tracking-widest">{title}</span>
         {open ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
       </button>
-      {open && <div className="px-4 pb-4 pt-1 border-t-4 border-black">{children}</div>}
+      {open && <div className="px-4 pb-4 pt-1 border-t border-fadedBlack/10">{children}</div>}
     </div>
   );
 }
 
 // ─── Result movie card ────────────────────────────────────────────────────────
 
-function ResultCard({ movie, onSave, isSaved, inputSlugs }) {
+function ResultCard({ movie, onSave, isSaved, inputSlugs, onOpen }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="bg-white border-4 border-black flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0px_black] group">
+    <div
+      className="cv-auto bg-background border border-fadedBlack/15 flex flex-col transition-all duration-200 hover:-translate-y-1 group cursor-pointer"
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      aria-label={`View details for ${movie.title}`}
+    >
       {/* Poster */}
-      <div className="relative w-full aspect-[2/3] border-b-4 border-black overflow-hidden bg-gray-200">
-        {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+      <div className="relative w-full aspect-[2/3] border-b border-fadedBlack/10 overflow-hidden bg-fadedBlack/5">
+        {!loaded && <div className="absolute inset-0 bg-fadedBlack/5 animate-pulse" />}
         <img
           src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
           alt={`${movie.title} poster`}
+          width="1000"
+          height="1500"
+          loading="lazy"
+          decoding="async"
           className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoad={() => setLoaded(true)}
           onError={(e) => {
@@ -273,45 +281,54 @@ function ResultCard({ movie, onSave, isSaved, inputSlugs }) {
           }}
         />
 
-        {/* Bookmark button overlay */}
-        <button
-          onClick={() => onSave(movie)}
-          className={`absolute top-2 right-2 p-1.5 border-2 border-black shadow transition-all ${
-            isSaved ? "bg-yellow-300" : "bg-white hover:bg-yellow-200"
-          }`}
-        >
-          {isSaved ? (
-            <BookmarkCheck size={16} strokeWidth={3} className="text-black" />
-          ) : (
-            <Bookmark size={16} strokeWidth={3} className="text-black" />
-          )}
-        </button>
-
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-3 pointer-events-none">
-          <div className="flex gap-2 flex-wrap mb-1">
-            {movie.darknessLevel > 6 && <span className="text-[9px] font-black uppercase bg-white text-black px-1">Dark</span>}
-            {movie.intensenessLevel > 7 && <span className="text-[9px] font-black uppercase bg-red-300 text-black px-1">Intense</span>}
-            {movie.funninessLevel > 6 && <span className="text-[9px] font-black uppercase bg-green-300 text-black px-1">Funny</span>}
-            {movie.slownessLevel > 6 && <span className="text-[9px] font-black uppercase bg-gray-300 text-black px-1">Slow Burn</span>}
+        <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-3 pointer-events-none">
+          {/* Bookmark button */}
+          <div className="flex justify-end">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onSave(movie);
+              }}
+              aria-label={isSaved ? `Remove ${movie.title} from saved` : `Save ${movie.title}`}
+              className={`pointer-events-auto p-1.5 border border-fadedBlack/20 shadow-sm transition-all ${
+                isSaved ? "bg-background" : "bg-background/90 hover:bg-background"
+              }`}
+            >
+              {isSaved ? (
+                <BookmarkCheck size={16} strokeWidth={3} className="text-fadedBlack" />
+              ) : (
+                <Bookmark size={16} strokeWidth={3} className="text-fadedBlack" />
+              )}
+            </button>
           </div>
-          {movie.genres?.length > 0 && <p className="text-white text-[10px] font-bold">{movie.genres.slice(0, 2).join(", ")}</p>}
+
+          {/* Tags and genre */}
+          <div>
+            <div className="flex gap-2 flex-wrap mb-1">
+              {movie.darknessLevel > 6 && <span className="text-[9px] font-black uppercase bg-background/90 text-fadedBlack px-1">Dark</span>}
+              {movie.intensenessLevel > 7 && <span className="text-[9px] font-black uppercase bg-danger/90 text-background px-1">Intense</span>}
+              {movie.funninessLevel > 6 && <span className="text-[9px] font-black uppercase bg-fadedGreen/90 text-background px-1">Funny</span>}
+              {movie.slownessLevel > 6 && <span className="text-[9px] font-black uppercase bg-fadedBlack/60 text-background px-1">Slow Burn</span>}
+            </div>
+            {movie.genres?.length > 0 && <p className="text-white text-[10px] font-bold">{movie.genres.slice(0, 2).join(", ")}</p>}
+          </div>
         </div>
       </div>
 
       {/* Card info */}
       <div className="p-3 flex flex-col gap-1 flex-1">
-        <p className="font-black text-black text-xs uppercase leading-tight line-clamp-2">{movie.title}</p>
+        <p className="font-black text-fadedBlack text-xs uppercase leading-tight line-clamp-2">{movie.title}</p>
         <div className="flex items-center gap-2 mt-0.5">
-          {movie.year && <span className="text-black/40 text-[10px] font-black">{movie.year}</span>}
-          {movie.duration && <span className="text-black/40 text-[10px] font-black">{movie.duration}m</span>}
+          {movie.year && <span className="text-fadedBlack/50 text-[10px] font-black">{movie.year}</span>}
+          {movie.duration && <span className="text-fadedBlack/50 text-[10px] font-black">{movie.duration}m</span>}
           {movie.averageRating && (
-            <span className="text-black/60 text-[10px] font-black flex items-center gap-0.5">
-              <Star size={9} className="fill-black text-black" /> {movie.averageRating.toFixed(1)}
+            <span className="text-fadedBlack/70 text-[10px] font-black flex items-center gap-0.5">
+              <Star size={9} className="fill-fadedBlack text-fadedBlack" /> {movie.averageRating.toFixed(1)}
             </span>
           )}
         </div>
-        {movie.director && <p className="text-black/40 text-[10px] font-bold truncate">{movie.director}</p>}
+        {movie.director && <p className="text-fadedBlack/50 text-[10px] font-bold truncate">{movie.director}</p>}
       </div>
     </div>
   );
@@ -325,14 +342,13 @@ function EmptyState({ hasInputMovies }) {
       {hasInputMovies ? (
         <>
           <div className="text-5xl mb-4">🎬</div>
-          <p className="font-specialGothicExpandedOne text-white text-2xl uppercase leading-tight mb-2">refine & search</p>
-          <p className="text-white/40 font-bold text-sm">Adjust your filters then hit Find Movies</p>
+          <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase leading-tight mb-2">refine & search</p>
+          <p className="text-fadedBlack/60 font-bold text-sm">Adjust your filters, then tap Find Movies.</p>
         </>
       ) : (
         <>
-          {/* if mobible view, point up */}
-          <p className="font-specialGothicExpandedOne text-white text-2xl uppercase leading-tight mb-2">add a movie</p>
-          <p className="text-white/40 font-bold text-sm max-w-xs">Selct filters and search for a film you love to get started</p>
+          <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase leading-tight mb-2">add a film</p>
+          <p className="text-fadedBlack/60 font-bold text-sm max-w-xs">Search for a title you love to anchor your recommendations.</p>
         </>
       )}
     </div>
@@ -343,8 +359,8 @@ function EmptyState({ hasInputMovies }) {
 
 export default function SearchPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuth();
-  const { addToCollection } = useMovieCollection();
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -358,6 +374,7 @@ export default function SearchPage() {
   const [activeDuration, setActiveDuration] = useState(null);
   const [activeDecade, setActiveDecade] = useState(null);
   const [minRating, setMinRating] = useState(0);
+  const [filterStreamingOnly, setFilterStreamingOnly] = useState(false);
 
   // Results
   const [results, setResults] = useState([]);
@@ -365,40 +382,115 @@ export default function SearchPage() {
   const [searchError, setSearchError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [savedSlugs, setSavedSlugs] = useState(new Set());
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [providers, setProviders] = useState(null);
 
   // Mobile filter panel toggle
   const [filtersVisible, setFiltersVisible] = useState(false);
+  const pendingAutoSearch = useRef(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const res = await fetch("/api/providers");
+        if (res.ok) {
+          const data = await res.json();
+          setProviders(data.providers || []);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchProviders();
+  }, []);
+
+  useEffect(() => {
+    const parseList = (value) =>
+      value
+        .split(/[|,]/)
+        .map((v) => v.trim())
+        .filter(Boolean);
+    console.log("Parsing search params:", Object.fromEntries(searchParams.entries()));
+    const genresParam = searchParams.get("genres") || searchParams.get("genre");
+    if (genresParam) {
+      const allowedGenres = new Map(SEARCH_FILTERS.genres.map((g) => [g.toLowerCase(), g]));
+      const nextGenres = parseList(genresParam)
+        .map((g) => allowedGenres.get(g.toLowerCase()))
+        .filter(Boolean);
+      if (nextGenres.length) setActiveGenres(nextGenres);
+    }
+
+    const vibesParam = searchParams.get("vibes") || searchParams.get("vibe");
+    if (vibesParam) {
+      const allowedVibes = new Set(SEARCH_FILTERS.vibes.map((v) => v.key));
+      const nextVibes = parseList(vibesParam).filter((v) => allowedVibes.has(v));
+      if (nextVibes.length) setActiveVibes(nextVibes);
+    }
+
+    const durationParam = searchParams.get("duration") || searchParams.get("durations");
+    if (durationParam) {
+      const allowedDurations = new Set(SEARCH_FILTERS.durations.map((d) => d.key));
+      if (allowedDurations.has(durationParam)) setActiveDuration(durationParam);
+    }
+
+    const decadeParam = searchParams.get("decade") || searchParams.get("era");
+    if (decadeParam) {
+      const allowedDecades = new Set(SEARCH_FILTERS.decades.map((d) => d.key));
+      if (allowedDecades.has(decadeParam)) setActiveDecade(decadeParam);
+    }
+
+    const ratingParam = searchParams.get("minRating") || searchParams.get("rating");
+    if (ratingParam) {
+      const parsed = Number(ratingParam);
+      if (!Number.isNaN(parsed)) setMinRating(Math.max(0, Math.min(5, parsed)));
+    }
+  }, [searchParams]);
+
   // ── Helpers ────────────────────────────────────────────────────────────────
 
-  const allExcludeSlugs = [...inputMovies.map((m) => m.slug), ...excludeMovies.map((m) => m.slug)];
+  const allExcludeSlugs = useMemo(() => [...inputMovies.map((m) => m.slug), ...excludeMovies.map((m) => m.slug)], [inputMovies, excludeMovies]);
 
-  const addInputMovie = (movie) => {
-    if (inputMovies.find((m) => m.slug === movie.slug)) return;
-    setInputMovies((prev) => [...prev, movie]);
-  };
+  const addInputMovie = useCallback((movie) => {
+    setInputMovies((prev) => (prev.find((m) => m.slug === movie.slug) ? prev : [...prev, movie]));
+  }, []);
 
-  const removeInputMovie = (slug) => setInputMovies((prev) => prev.filter((m) => m.slug !== slug));
+  const removeInputMovie = useCallback((slug) => setInputMovies((prev) => prev.filter((m) => m.slug !== slug)), []);
 
-  const addExcludeMovie = (movie) => {
-    if (excludeMovies.find((m) => m.slug === movie.slug)) return;
-    setExcludeMovies((prev) => [...prev, movie]);
-  };
+  const addExcludeMovie = useCallback((movie) => {
+    setExcludeMovies((prev) => (prev.find((m) => m.slug === movie.slug) ? prev : [...prev, movie]));
+  }, []);
 
-  const removeExcludeMovie = (slug) => setExcludeMovies((prev) => prev.filter((m) => m.slug !== slug));
+  const removeExcludeMovie = useCallback((slug) => setExcludeMovies((prev) => prev.filter((m) => m.slug !== slug)), []);
 
   const toggleGenre = (g) => setActiveGenres((p) => (p.includes(g) ? p.filter((x) => x !== g) : [...p, g]));
   const toggleVibe = (k) => setActiveVibes((p) => (p.includes(k) ? p.filter((x) => x !== k) : [...p, k]));
 
-  const activeFilterCount = activeGenres.length + activeVibes.length + (activeDuration ? 1 : 0) + (activeDecade ? 1 : 0) + (minRating > 0 ? 1 : 0);
+  const activeFilterCount =
+    activeGenres.length +
+    activeVibes.length +
+    (activeDuration ? 1 : 0) +
+    (activeDecade ? 1 : 0) +
+    (minRating > 0 ? 1 : 0) +
+    (filterStreamingOnly ? 1 : 0);
 
   const handleSaveToggle = async (movie) => {
     if (!user?.username) {
-      router.push("/login");
+      const params = new URLSearchParams();
+      inputMovies.forEach((m) => params.append("movie", m.slug));
+      excludeMovies.forEach((m) => params.append("exclude", m.slug));
+      if (activeGenres.length) params.set("genres", activeGenres.join("|"));
+      if (activeVibes.length) params.set("vibes", activeVibes.join("|"));
+      if (activeDuration) params.set("duration", activeDuration);
+      if (activeDecade) params.set("decade", activeDecade);
+      if (minRating > 0) params.set("minRating", String(minRating));
+      if (hasSearched && inputMovies.length > 0) params.set("fromSearch", "true");
+      const searchQuery = params.toString();
+      const returnTo = searchQuery ? `/search?${searchQuery}` : "/search";
+      router.push(`/login?returnTo=${encodeURIComponent(returnTo)}`);
       return;
     }
     const isSaved = savedSlugs.has(movie.slug);
@@ -421,7 +513,6 @@ export default function SearchPage() {
   // ── Search ─────────────────────────────────────────────────────────────────
 
   const handleSearch = async () => {
-    console.log("Search initiated with input movies:", inputMovies, "and exclude movies:", excludeMovies);
     if (inputMovies.length === 0) return;
 
     setIsSearching(true);
@@ -441,6 +532,7 @@ export default function SearchPage() {
         duration: activeDuration,
         decade: activeDecade,
         minRating: minRating,
+        filterStreamingServices: filterStreamingOnly,
       };
 
       const res = await fetch("/api/suggestions", {
@@ -451,7 +543,6 @@ export default function SearchPage() {
 
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
-      console.log("Search results:", data);
       // All filtering now happens server-side!
       setResults(data.recommendations || []);
 
@@ -467,10 +558,42 @@ export default function SearchPage() {
     }
   };
 
-  const handleAddToCollection = (movie) => {
-    addToCollection(movie);
-    router.push("/suggestions?scenario=find-similar");
-  };
+  // ── Pre-populate input movie from ?movie=<slug> URL param ──────────────────
+
+  useEffect(() => {
+    const slugs = searchParams.getAll("movie");
+    const excludes = searchParams.getAll("exclude");
+    const fromSearch = searchParams.get("fromSearch") === "true";
+    if (!slugs.length && !excludes.length) return;
+
+    const fetchMovie = (slug) =>
+      fetch(`/api/movies?slug=${encodeURIComponent(slug)}&limit=1`)
+        .then((r) => r.json())
+        .then((data) => data.movies?.[0])
+        .catch(() => null);
+
+    Promise.all([
+      Promise.all(slugs.map(fetchMovie)),
+      Promise.all(excludes.map(fetchMovie)),
+    ]).then(([inputResults, excludeResults]) => {
+      const validInputs = inputResults.filter(Boolean);
+      const validExcludes = excludeResults.filter(Boolean);
+      validInputs.forEach((m) => addInputMovie(m));
+      validExcludes.forEach((m) => addExcludeMovie(m));
+      if (fromSearch && validInputs.length > 0) {
+        pendingAutoSearch.current = true;
+      }
+    });
+  }, [searchParams, addInputMovie, addExcludeMovie]);
+
+  // Auto-trigger search once the pre-populated movie lands in state
+  useEffect(() => {
+    if (pendingAutoSearch.current && inputMovies.length > 0) {
+      pendingAutoSearch.current = false;
+      handleSearch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputMovies]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
 
@@ -487,7 +610,7 @@ export default function SearchPage() {
               ))}
             </div>
           )}
-          {inputMovies.length === 0 && <p className="text-black/40 text-xs font-bold">Add up to 5 movies to anchor your search</p>}
+          {inputMovies.length === 0 && <p className="text-fadedBlack/50 text-xs font-bold">Add up to 5 movies to anchor your search</p>}
         </div>
       </FilterSection>
 
@@ -508,7 +631,7 @@ export default function SearchPage() {
             </div>
           )}
           {excludeMovies.length === 0 && (
-            <p className="text-black/40 text-xs font-bold">Movies added here are excluded — and their fans are down-weighted in results</p>
+            <p className="text-fadedBlack/50 text-xs font-bold">Movies added here are excluded — and their fans are down-weighted in results</p>
           )}
         </div>
       </FilterSection>
@@ -516,14 +639,14 @@ export default function SearchPage() {
       {/* ── GENRE ── */}
       <FilterSection title="Genre" defaultOpen={false}>
         <div className="flex flex-wrap gap-2">
-          {ALL_GENRES.map((g) => (
+          {SEARCH_FILTERS.genres.map((g) => (
             <Chip key={g} label={g} active={activeGenres.includes(g)} onClick={() => toggleGenre(g)} />
           ))}
         </div>
         {activeGenres.length > 0 && (
           <button
             onClick={() => setActiveGenres([])}
-            className="mt-3 text-[10px] font-black uppercase text-black/40 hover:text-black flex items-center gap-1"
+            className="mt-3 text-xs font-black uppercase text-fadedBlack/50 hover:text-fadedBlack flex items-center gap-1"
           >
             <X size={10} strokeWidth={3} /> Clear genres
           </button>
@@ -533,7 +656,7 @@ export default function SearchPage() {
       {/* ── VIBE ── */}
       <FilterSection title="Vibe" defaultOpen={false}>
         <div className="flex flex-wrap gap-2">
-          {VIBE_OPTIONS.map((v) => (
+          {SEARCH_FILTERS.vibes.map((v) => (
             <Chip key={v.key} label={v.label} active={activeVibes.includes(v.key)} onClick={() => toggleVibe(v.key)} />
           ))}
         </div>
@@ -542,7 +665,7 @@ export default function SearchPage() {
       {/* ── RUNTIME ── */}
       <FilterSection title="Runtime" defaultOpen={false}>
         <div className="flex flex-wrap gap-2">
-          {DURATION_OPTIONS.map((d) => (
+          {SEARCH_FILTERS.durations.map((d) => (
             <Chip
               key={d.key}
               label={d.label}
@@ -556,7 +679,7 @@ export default function SearchPage() {
       {/* ── DECADE ── */}
       <FilterSection title="Era" defaultOpen={false}>
         <div className="flex flex-wrap gap-2">
-          {DECADE_OPTIONS.map((d) => (
+          {SEARCH_FILTERS.decades.map((d) => (
             <Chip
               key={d.key}
               label={d.label}
@@ -572,21 +695,39 @@ export default function SearchPage() {
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((val) => (
             <button key={val} onClick={() => setMinRating(minRating === val ? 0 : val)} className="transition-opacity" title={`${val}+ stars`}>
-              <Star size={24} strokeWidth={2.5} className={val <= minRating ? "fill-black text-black" : "text-black opacity-20"} />
+              <Star size={24} strokeWidth={2.5} className={val <= minRating ? "fill-fadedBlack text-fadedBlack" : "text-fadedBlack opacity-20"} />
             </button>
           ))}
-          {minRating > 0 && <span className="text-xs font-black text-black/50 ml-2">{minRating}.0+ stars</span>}
+          {minRating > 0 && <span className="text-xs font-black text-fadedBlack/60 ml-2">{minRating}.0+ stars</span>}
         </div>
       </FilterSection>
+
+      {/* ── STREAMING ── */}
+      <div className="border border-fadedBlack/15 bg-background px-4 py-3">
+        <label
+          className={`flex items-center gap-3 font-black text-xs uppercase tracking-widest ${!user?.username ? "text-fadedBlack/40" : "text-fadedBlack"}`}
+        >
+          <input
+            type="checkbox"
+            className="h-4 w-4 accent-fadedBlack"
+            checked={filterStreamingOnly}
+            onChange={() => setFilterStreamingOnly((p) => !p)}
+            disabled={!user?.username}
+          />
+          Only show movies on my services
+        </label>
+        {!user?.username && <p className="mt-2 text-fadedBlack/50 text-xs font-bold">Sign in to use your saved services.</p>}
+      </div>
 
       {/* ── SEARCH BUTTON ── */}
       <button
         onClick={handleSearch}
         disabled={inputMovies.length === 0 || isSearching}
-        className={`w-full py-4 font-black text-sm uppercase tracking-widest border-4 flex items-center justify-center gap-2 transition-all duration-150 ${
+        type="button"
+        className={`w-full py-4 font-black text-sm uppercase tracking-widest border-2 flex items-center justify-center gap-2 transition-all duration-150 ${
           inputMovies.length === 0
-            ? "bg-white/10 text-white/30 border-white/20 cursor-not-allowed"
-            : "bg-white text-black border-white hover:bg-yellow-300 hover:border-yellow-300 active:scale-95"
+            ? "bg-fadedBlack/5 text-fadedBlack/40 border-fadedBlack/15 cursor-not-allowed"
+            : "bg-fadedBlack text-background border-fadedBlack hover:bg-fadedBlue hover:border-fadedBlue active:scale-95"
         }`}
       >
         {isSearching ? (
@@ -608,9 +749,9 @@ export default function SearchPage() {
       {hasSearched && (
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="font-specialGothicExpandedOne text-white text-3xl uppercase leading-none">results</h2>
+            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-3xl uppercase leading-none">results</h2>
             {results.length > 0 && (
-              <p className="text-white/40 text-xs font-bold mt-1">
+              <p className="text-fadedBlack/60 text-xs font-bold mt-1">
                 {results.length} film{results.length !== 1 ? "s" : ""} found
                 {activeFilterCount > 0 && ` after ${activeFilterCount} filter${activeFilterCount !== 1 ? "s" : ""}`}
               </p>
@@ -621,8 +762,8 @@ export default function SearchPage() {
 
       {/* Error */}
       {searchError && (
-        <div className="border-4 border-red-500 bg-red-100 p-4 mb-4">
-          <p className="text-red-700 font-black text-sm uppercase">{searchError}</p>
+        <div className="border border-fadedBlack/20 bg-fadedBlack/5 p-4 mb-4" role="alert">
+          <p className="text-fadedBlack font-black text-sm uppercase">{searchError}</p>
         </div>
       )}
 
@@ -633,16 +774,16 @@ export default function SearchPage() {
             <EmptyState hasInputMovies={inputMovies.length > 0} />
           ) : (
             <div className="text-center">
-              <p className="font-specialGothicExpandedOne text-white text-2xl uppercase mb-2">No matches</p>
-              <p className="text-white/40 font-bold text-sm">Try removing some filters or adding more input movies</p>
+              <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase mb-2">No matches</p>
+              <p className="text-fadedBlack/60 font-bold text-sm">Try removing some filters or adding more input movies</p>
             </div>
           )}
         </div>
       ) : isSearching ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <Loader2 size={48} strokeWidth={2} className="text-white animate-spin mx-auto mb-4" />
-            <p className="text-white font-black uppercase text-sm tracking-widest opacity-50">Finding films…</p>
+            <Loader2 size={48} strokeWidth={2} className="text-fadedBlack animate-spin mx-auto mb-4" />
+            <p className="text-fadedBlack font-black uppercase text-sm tracking-widest opacity-50">Finding films…</p>
           </div>
         </div>
       ) : (
@@ -654,23 +795,35 @@ export default function SearchPage() {
               onSave={handleSaveToggle}
               isSaved={savedSlugs.has(movie.slug)}
               inputSlugs={inputMovies.map((m) => m.slug)}
+              onOpen={() => setSelectedMovie(movie)}
             />
           ))}
         </div>
       )}
+      <MovieDetailsModal
+        movie={selectedMovie}
+        providers={providers}
+        onClose={() => setSelectedMovie(null)}
+        onToggleSave={() => {
+          if (!selectedMovie) return;
+          handleSaveToggle(selectedMovie);
+        }}
+        isSaved={selectedMovie ? savedSlugs.has(selectedMovie.slug) : false}
+        canSave={!!user?.username}
+      />
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-fadedBlack flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar isLoaded={isLoaded} currentPage="search" />
 
       <div className={`flex-1 transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
         {/* Page header */}
-        <div className="px-4 md:px-8 pt-6 pb-4">
+        <div className="px-4 md:px-8 pt-8 pb-6">
           <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
-            <h1 className="font-specialGothicExpandedOne text-white text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">find your</h1>
-            <h2 className="font-specialGothicExpandedOne text-white text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">next film</h2>
+            <h1 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">find your</h1>
+            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">next film</h2>
           </div>
         </div>
 
@@ -678,13 +831,15 @@ export default function SearchPage() {
         <div className="lg:hidden px-4 mb-4">
           <button
             onClick={() => setFiltersVisible((o) => !o)}
-            className={`flex items-center gap-2 border-4 px-4 py-2 font-black text-sm uppercase transition-colors ${
-              filtersVisible ? "bg-white text-black border-white" : "bg-transparent text-white border-white hover:bg-white hover:text-black"
+            className={`flex items-center gap-2 border-2 px-4 py-2 font-black text-sm uppercase transition-colors ${
+              filtersVisible
+                ? "bg-fadedBlack text-background border-fadedBlack"
+                : "bg-transparent text-fadedBlack border-fadedBlack/30 hover:bg-fadedBlack hover:text-background hover:border-fadedBlack"
             }`}
           >
             <SlidersHorizontal size={16} strokeWidth={3} />
             {filtersVisible ? "Hide Filters" : "Show Filters"}
-            {activeFilterCount > 0 && <span className="bg-black text-white text-[10px] px-1.5 py-0.5 font-black">{activeFilterCount}</span>}
+            {activeFilterCount > 0 && <span className="bg-fadedBlue text-background text-xs px-1.5 py-0.5 font-black">{activeFilterCount}</span>}
           </button>
         </div>
 
@@ -692,7 +847,7 @@ export default function SearchPage() {
         <div className="flex flex-col lg:flex-row gap-0 lg:gap-0 min-h-0 flex-1">
           {/* Left panel */}
           <div
-            className={`lg:w-80 xl:w-96 flex-shrink-0 border-b-4 lg:border-b-0 lg:border-r-4 border-white/20 overflow-y-auto transition-all duration-300 ${
+            className={`lg:w-80 xl:w-96 flex-shrink-0 border-b lg:border-b-0 lg:border-r border-fadedBlack/10 overflow-y-auto transition-all duration-300 ${
               filtersVisible ? "block" : "hidden lg:block"
             }`}
           >

@@ -1,19 +1,16 @@
-import { Outfit, Poppins, Special_Gothic_Expanded_One } from "next/font/google";
+import { Raleway, Special_Gothic_Expanded_One, Syne } from "next/font/google";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
 import Footer from "./components/Footer";
-const outfit = Outfit({ weight: "200", subsets: ["latin"] });
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "700", "900"],
-  variable: "--font-poppins",
-});
+const syne = Syne({ subsets: ["latin"], weight: ["800"], variable: "--font-syne", display: "swap" });
+const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400", "600", "700"], variable: "--font-raleway", display: "swap" });
 
 const specialGothicExpandedOne = Special_Gothic_Expanded_One({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-special-gothic-expanded-one",
+  display: "swap",
 });
 
 export const metadata = {
@@ -39,8 +36,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${poppins.variable} ${specialGothicExpandedOne.variable}`}>
-      <body className={`${outfit.className} antialiased bg-fadedBlack`}>
+    <html lang="en" className={`${raleway.variable} ${specialGothicExpandedOne.variable} ${syne.variable}`}>
+      <body className={`${raleway.className} antialiased bg-background text-fadedBlack`}>
         <MovieCollectionProvider>
           <div>{children}</div>
           <Footer />

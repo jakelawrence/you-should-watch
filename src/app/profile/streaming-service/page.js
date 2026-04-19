@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import AuthModal from "../../components/AuthModal";
-import Navbar from "../../components/Navbar";
+import { Navbar } from "../../components/Navbar";
 
 export default function StreamingServicesPage() {
   const router = useRouter();
@@ -17,6 +17,7 @@ export default function StreamingServicesPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingProviders, setIsLoadingProviders] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     setIsLoaded(true);
@@ -94,6 +95,7 @@ export default function StreamingServicesPage() {
 
   const savePreferences = async () => {
     setIsSaving(true);
+    setSaveError("");
     try {
       const response = await fetch("/api/user/streaming-services", {
         method: "POST",
@@ -102,18 +104,14 @@ export default function StreamingServicesPage() {
       });
 
       if (response.ok) {
-        // Get return URL from query params, default to profile
         const params = new URLSearchParams(window.location.search);
         const returnTo = params.get("returnTo") || "/";
-        console.log("Redirecting to:", returnTo);
         router.push(returnTo);
       } else {
-        console.error("Failed to save preferences");
-        alert("Failed to save preferences. Please try again.");
+        setSaveError("Failed to save preferences. Please try again.");
       }
     } catch (error) {
-      console.error("Error saving preferences:", error);
-      alert("An error occurred. Please try again.");
+      setSaveError("An error occurred. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -140,49 +138,57 @@ export default function StreamingServicesPage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="animate-spin mx-auto mb-4" size={48} />
-          <p className="text-black font-bold text-xl">Loading...</p>
+          <p className="text-fadedBlack font-bold text-xl">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-fadedBlack pb-24">
+    <div className="min-h-screen bg-background pb-24">
       <Navbar isLoaded={isLoaded} currentPage="profile" />
 
-      <div className="max-w-6xl mx-auto px-4 pt-4">
-        {/* ── Header ── */}
-        <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} mb-10`}>
-          <h1 className="font-specialGothicExpandedOne text-background text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">your</h1>
-          <h2 className="font-specialGothicExpandedOne text-background text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">services</h2>
+      <div className={`transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
+        <div className="max-w-6xl mx-auto px-4 md:px-8 pt-6 pb-4">
+          {/* ── Header ── */}
+          <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} mb-10`}>
+            <h1 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">your</h1>
+            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">services</h2>
+          </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto px-4 pt-4">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 pt-4">
         {/* Paid/Subscription Services */}
         <div
           className={`transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           style={{ transitionDelay: "300ms" }}
         >
-          <h2 className="text-2xl lg:text-3xl font-black text-background uppercase mb-[50px]">Subscription Services</h2>
+          <h2 className="text-2xl lg:text-3xl font-black text-fadedBlack uppercase mb-2">Subscription Services</h2>
+          <p className="text-sm font-bold text-fadedBlack/60 mb-6">Paid streaming platforms</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
             {providers
               .filter((p) => p.type === "flatrate")
               .map((service) => {
                 const isSelected = selectedServices.includes(service.id);
                 return (
-                  <div key={service.id} className="flex flex-col items-center gap-3 bg-background p-4 rounded-lg">
-                    <span className="text-xs font-bold text-black text-center">{service.name}</span>
+                  <div
+                    key={service.id}
+                    className={`flex flex-col items-center gap-3 p-4 border transition-colors cursor-pointer  ${
+                      isSelected ? "bg-backgroundSecondary border-fadedBlack/40" : "bg-background border-fadedBlack/15 hover:bg-backgroundSecondary"
+                    }`}
+                  >
+                    <span className="text-xs font-black text-fadedBlack text-center uppercase">{service.name}</span>
                     <button onClick={() => toggleService(service.id)} className="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-24 w-auto" />
+                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} width={200} height={96} loading="lazy" className="h-24 w-auto" />
                     </button>
                     <div className="flex flex-col items-center gap-2 w-full">
                       <label className="flex items-center cursor-pointer gap-2">
                         <div
-                          className={`w-5 h-5 border-3 border-black rounded-full flex items-center justify-center transition-all duration-200 ${
-                            isSelected ? "bg-black" : "bg-white"
+                          className={`w-5 h-5 border-2 border-fadedBlack/40 rounded-full flex items-center justify-center transition-all duration-200 ${
+                            isSelected ? "bg-fadedBlack border-fadedBlack" : "bg-background"
                           }`}
                         >
-                          {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                          {isSelected && <div className="w-2 h-2 bg-background rounded-full" />}
                         </div>
                         <input type="checkbox" checked={isSelected} onChange={() => toggleService(service.id)} className="hidden" />
                       </label>
@@ -198,10 +204,10 @@ export default function StreamingServicesPage() {
           className={`transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           style={{ transitionDelay: "400ms" }}
         >
-          <div className="flex items-center justify-between mb-[50px] mt-[50px]">
+          <div className="flex items-center justify-between mb-6 mt-10">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-black text-background uppercase">Free Services (with ads)</h2>
-              <p className="text-sm font-bold text-background mt-1">Ad-supported streaming platforms</p>
+              <h2 className="text-2xl lg:text-3xl font-black text-fadedBlack uppercase">Free Services (with ads)</h2>
+              <p className="text-sm font-bold text-fadedBlack/60 mt-1">Ad-supported streaming platforms</p>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
@@ -210,19 +216,24 @@ export default function StreamingServicesPage() {
               .map((service) => {
                 const isSelected = selectedServices.includes(service.id);
                 return (
-                  <div key={service.id} className="flex flex-col items-center gap-3 bg-background p-4 rounded-lg">
-                    <span className="text-xs font-bold text-black text-center">{service.name}</span>
+                  <div
+                    key={service.id}
+                    className={`flex flex-col items-center gap-3 p-4 border transition-colors ${
+                      isSelected ? "bg-backgroundSecondary border-fadedBlack/40" : "bg-background border-fadedBlack/15 hover:bg-backgroundSecondary"
+                    }`}
+                  >
+                    <span className="text-xs font-black text-fadedBlack text-center uppercase">{service.name}</span>
                     <button onClick={() => toggleService(service.id)} className="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} className="h-24 w-auto" />
+                      <img src={`https://image.tmdb.org/t/p/w500${service.logo_path}`} alt={service.name} width={200} height={96} loading="lazy" className="h-24 w-auto" />
                     </button>
                     <div className="flex flex-col items-center gap-2 w-full">
                       <label className="flex items-center cursor-pointer gap-2">
                         <div
-                          className={`w-5 h-5 border-3 border-black rounded-full flex items-center justify-center transition-all duration-200 ${
-                            isSelected ? "bg-black" : "bg-white"
+                          className={`w-5 h-5 border-2 border-fadedBlack/40 rounded-full flex items-center justify-center transition-all duration-200 ${
+                            isSelected ? "bg-fadedBlack border-fadedBlack" : "bg-background"
                           }`}
                         >
-                          {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                          {isSelected && <div className="w-2 h-2 bg-background rounded-full" />}
                         </div>
                         <input type="checkbox" checked={isSelected} onChange={() => toggleService(service.id)} className="hidden" />
                       </label>
@@ -233,6 +244,28 @@ export default function StreamingServicesPage() {
           </div>
         </div>
       </div>
+
+      {/* Sticky Save Footer */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-fadedBlack/15 px-4 py-4 flex flex-col items-center gap-2">
+        {saveError && (
+          <p className="text-sm font-bold text-danger text-center">{saveError}</p>
+        )}
+        <button
+          onClick={handleSaveAndContinue}
+          disabled={isSaving}
+          className="w-full max-w-sm bg-fadedBlack text-background border-2 border-fadedBlack font-black uppercase py-4 hover:bg-fadedBlue transition-colors disabled:opacity-50"
+        >
+          {isSaving ? "Saving..." : "Save & Continue"}
+        </button>
+      </div>
+
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
     </div>
   );
 }

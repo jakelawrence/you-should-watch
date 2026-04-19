@@ -4,21 +4,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#ebe7e2",
-        fadedBlack: "#171717ff",
-        fadedBlue: "#05479b",
-        fadedGreen: "#65fb44",
+        background: "#f6f1ea",
+        backgroundSecondary: "#efe7dd",
+        fadedBlack: "#1f1b17",
+        fadedBlue: "#4f6f8a",
+        fadedGreen: "#5b7c66",
+        fadedGold: "#d7c7a3",
+        danger: "#b25b5b",
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ["var(--font-outft)"],
-        poppins: ["var(--font-poppins)"],
+        sans: ["var(--font-raleway)"],
+        raleway: ["var(--font-raleway)"],
         specialGothicExpandedOne: ["var(--font-special-gothic-expanded-one)"],
+        syne: ["var(--font-syne)"],
       },
       keyframes: {
         marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+          "0%": { transform: "translate3d(0, 0, 0)" },
+          "100%": { transform: "translate3d(-50%, 0, 0)" },
         },
       },
       animation: {

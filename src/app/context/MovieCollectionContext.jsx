@@ -7,6 +7,7 @@ const MovieCollectionContext = createContext(null);
 export function MovieCollectionProvider({ children }) {
   const router = useRouter();
   const [collectionItems, setCollectionItems] = useState([]);
+  const [collectionError, setCollectionError] = useState(null);
 
   const handleGetSuggestedMovies = async () => {
     try {
@@ -18,24 +19,20 @@ export function MovieCollectionProvider({ children }) {
 
   const addToCollection = (movie) => {
     if (collectionItems.length >= 4) {
-      alert("Your collection is limited to 4 movies maximum.");
+      setCollectionError("Your collection is limited to 4 movies.");
+      setTimeout(() => setCollectionError(null), 3000);
       return;
     }
-    console.log("Adding movie to collection: " + movie.title);
     if (!collectionItems.find((item) => item.slug === movie.slug)) {
       setCollectionItems([...collectionItems, movie]);
     }
   };
 
   const removeFromCollection = (movie) => {
-    console.log("Removing movie from collection: " + movie.title);
-    console.log(collectionItems);
-    let movieIdx = collectionItems.findIndex((item) => item.slug === movie.slug);
-    console.log("movieIdx=" + movieIdx);
+    const movieIdx = collectionItems.findIndex((item) => item.slug === movie.slug);
     if (movieIdx !== -1) {
-      const updatedItems = [...collectionItems]; // Create a new array
-      updatedItems.splice(movieIdx, 1); // Remove 1 item at movieIdx
-      console.log(updatedItems);
+      const updatedItems = [...collectionItems];
+      updatedItems.splice(movieIdx, 1);
       setCollectionItems(updatedItems);
     }
   };
@@ -46,6 +43,7 @@ export function MovieCollectionProvider({ children }) {
 
   const value = {
     collectionItems,
+    collectionError,
     setCollectionItems,
     addToCollection,
     removeFromCollection,

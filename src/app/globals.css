@@ -3,24 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --primary: #4f46e5;
-  --primary-light: #6366f1;
-  --secondary: #f3f4f6;
-  --accent: #8b5cf6;
-  --danger: #ef4444;
-  --success: #22c55e;
-  --text-primary: #99aabb;
-  --text-secondary: #4b5563;
-  --background: #4ecdc4;
-  --foreground: #212830;
-  --background-secondary: #14181c;
-  --border: #e5e7eb;
+  --primary: #4f6f8a;
+  --primary-light: #6c879c;
+  --secondary: #efe7dd;
+  --accent: #d7c7a3;
+  --danger: #b25b5b;
+  --success: #5b7c66;
+  --text-primary: #1f1b17;
+  --text-secondary: #5f574f;
+  --background: #f6f1ea;
+  --foreground: #1f1b17;
+  --background-secondary: #efe7dd;
+  --border: #1f1b17;
 }
 
 body {
   width: 100%;
-  /* background-color: var(--background); */
-  /* color: var(--text-primary); */
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
 html,
@@ -184,4 +185,26 @@ body {
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 450px;
+}
+
+/* Keyboard focus indicator */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
