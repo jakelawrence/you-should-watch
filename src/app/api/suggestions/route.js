@@ -3,9 +3,7 @@ import { DatabaseError } from "../../api/lib/db";
 import { logger } from "../lib/logger";
 import {
   getMovies,
-  getMovieFavoritedUsers,
   getMovieLikedUsers,
-  getUsersFavorites,
   getUsersLikes,
   getMoviesByFilter,
   getUserSelectedStreamingServces,
@@ -14,6 +12,7 @@ import {
 import { filterByStreamingServices } from "../lib/streamingFilters";
 import { checkRateLimit, getRateLimitKey } from "../lib/rate-limiting";
 import { getClientIp } from "../lib/utils";
+import { cache } from "../lib/cache";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
@@ -24,9 +23,6 @@ import jwt from "jsonwebtoken";
 const COLLAB_CONFIG = {
   numRecommendations: 6,
   likedBothMoviesBoost: 5.0,
-  favoritedInputMovieBoost: 5.0,
-  combinedBoost: 10.0,
-  favoriteWeight: 2.0,
   obscurityBias: 1.5,
   minInteractionsThreshold: 2,
   darknessMatchWeight: 1.0,
@@ -188,12 +184,11 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
 
   // Step 1: Map Users for INPUT movies
   for (const slug of inputMovieSlugs) {
-    const [likes, favorites] = await Promise.all([getMovieLikedUsers(slug), getMovieFavoritedUsers(slug)]);
+    const likes = await getMovieLikedUsers(slug);
 
     likes.forEach((u) => {
       userInteractions[u] = userInteractions[u] || {
         inputLikeCount: 0,
-        inputFavoriteCount: 0,
         interactedInputMovies: new Set(),
         affinityScore: 1.0,
         otherMovies: new Map(),
@@ -203,20 +198,6 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
       userInteractions[u].inputLikeCount++;
       userInteractions[u].interactedInputMovies.add(slug);
     });
-
-    favorites.forEach((u) => {
-      userInteractions[u] = userInteractions[u] || {
-        inputLikeCount: 0,
-        inputFavoriteCount: 0,
-        affinityScore: 1.0,
-        interactedInputMovies: new Set(),
-        otherMovies: new Map(),
-        likedExcluded: false,
-        excludedScore: 0,
-      };
-      userInteractions[u].inputFavoriteCount++;
-      userInteractions[u].interactedInputMovies.add(slug);
-    });
   }
 
   // Step 1b: Map Users for EXCLUDED movies
@@ -224,16 +205,11 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
     console.log(`Processing ${excludeSlugs.length} excluded movies for negative signals`);
 
     for (const slug of excludeSlugs) {
-      const [likes, favorites] = await Promise.all([getMovieLikedUsers(slug), getMovieFavoritedUsers(slug)]);
+      const likes = await getMovieLikedUsers(slug);
 
       likes.forEach((u) => {
-        excludeUserInteractions[u] = excludeUserInteractions[u] || { likeCount: 0, favoriteCount: 0 };
+        excludeUserInteractions[u] = excludeUserInteractions[u] || { likeCount: 0 };
         excludeUserInteractions[u].likeCount++;
-      });
-
-      favorites.forEach((u) => {
-        excludeUserInteractions[u] = excludeUserInteractions[u] || { likeCount: 0, favoriteCount: 0 };
-        excludeUserInteractions[u].favoriteCount++;
       });
     }
 
@@ -243,9 +219,8 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
         userInteractions[u].likedExcluded = true;
 
         const excludeLikes = excludeUserInteractions[u].likeCount;
-        const excludeFavorites = excludeUserInteractions[u].favoriteCount;
 
-        const excludePenalty = (excludeLikes + excludeFavorites * config.favoriteWeight) * config.excludedMovieWeight;
+        const excludePenalty = excludeLikes * config.excludedMovieWeight;
         userInteractions[u].excludedScore = excludePenalty;
 
         userInteractions[u].affinityScore *= config.excludedMoviePenalty;
@@ -259,7 +234,7 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
   const usernames = Object.keys(userInteractions);
   if (!usernames.length) return { recommendations: [], userInteractions: {} };
 
-  const [allLikes, allFavorites] = await Promise.all([getUsersLikes(usernames), getUsersFavorites(usernames)]);
+  const allLikes = await getUsersLikes(usernames);
 
   usernames.forEach((u) => {
     let data = userInteractions[u];
@@ -270,24 +245,12 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
     if (distinctInputMovieCount >= 2) {
       data.affinityScore *= Math.pow(config.likedBothMoviesBoost, boostMultiplier);
     }
-    if (data.inputFavoriteCount >= 1) {
-      data.affinityScore *= Math.pow(config.favoritedInputMovieBoost, data.inputFavoriteCount * boostMultiplier);
-    }
-    if (data.inputFavoriteCount >= 1 && distinctInputMovieCount >= 2) {
-      data.affinityScore *= Math.pow(config.combinedBoost, boostMultiplier);
-    }
 
     const excludeSet = new Set([...inputMovieSlugs, ...(excludeSlugs || [])]);
 
     (allLikes.get(u) || []).forEach((s) => {
       if (!excludeSet.has(s)) {
         data.otherMovies.set(s, "like");
-      }
-    });
-
-    (allFavorites.get(u) || []).forEach((s) => {
-      if (!excludeSet.has(s)) {
-        data.otherMovies.set(s, "favorite");
       }
     });
   });
@@ -306,7 +269,7 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
       }
 
       const item = candidateScores.get(slug);
-      const interactionScore = (type === "favorite" ? config.favoriteWeight : 1.0) * data.affinityScore;
+      const interactionScore = data.affinityScore;
 
       item.score += interactionScore;
       item.total++;
@@ -364,7 +327,6 @@ async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = 
       username,
       {
         inputLikeCount: data.inputLikeCount,
-        inputFavoriteCount: data.inputFavoriteCount,
         distinctInputMovieCount: data.interactedInputMovies?.size || 0,
         interactedInputMovies: Array.from(data.interactedInputMovies || []),
         affinityScore: data.affinityScore,
@@ -412,6 +374,24 @@ async function runSurprise() {
 }
 
 // ============================================================================
+// CACHE HELPERS
+// ============================================================================
+
+function collabCacheKey(inputSlugs, excludeSlugs, configOverrides) {
+  const input = [...inputSlugs].sort().join(",");
+  const exclude = [...(excludeSlugs || [])].sort().join(",");
+  const overrides = configOverrides ? JSON.stringify(configOverrides) : "";
+  return `collab:${input}:${exclude}:${overrides}`;
+}
+
+function moodCacheKey(moodParams) {
+  const sorted = Object.keys(moodParams)
+    .sort()
+    .reduce((acc, k) => { if (moodParams[k]) acc[k] = moodParams[k]; return acc; }, {});
+  return `mood:${JSON.stringify(sorted)}`;
+}
+
+// ============================================================================
 // MAIN ROUTE HANDLER
 // ============================================================================
 
@@ -440,22 +420,41 @@ export async function POST(req) {
       duration = null,
       decade = null,
       minRating = 0,
+      filterStreamingServices = false,
     } = body;
 
     let recommendations = [];
     let userInteractions = {};
 
     switch (mode) {
-      case "collaborative":
-        {
-          const collaborativeResult = await runCollaborative(inputSlugs, excludeSlugs || [], configOverrides);
-          recommendations = collaborativeResult.recommendations;
-          userInteractions = collaborativeResult.userInteractions;
+      case "collaborative": {
+        const cacheKey = collabCacheKey(inputSlugs, excludeSlugs, configOverrides);
+        const cached = cache.get(cacheKey);
+        if (cached) {
+          ({ recommendations, userInteractions } = cached);
+          logger.info(`Cache hit: ${cacheKey}`);
+        } else {
+          const result = await runCollaborative(inputSlugs, excludeSlugs || [], configOverrides);
+          recommendations = result.recommendations;
+          userInteractions = result.userInteractions;
+          cache.set(cacheKey, { recommendations, userInteractions });
+          logger.info(`Cache set: ${cacheKey}`);
         }
         break;
-      case "mood":
-        recommendations = await runMood(moodParams);
+      }
+      case "mood": {
+        const cacheKey = moodCacheKey(moodParams);
+        const cached = cache.get(cacheKey);
+        if (cached) {
+          recommendations = cached;
+          logger.info(`Cache hit: ${cacheKey}`);
+        } else {
+          recommendations = await runMood(moodParams);
+          cache.set(cacheKey, recommendations);
+          logger.info(`Cache set: ${cacheKey}`);
+        }
         break;
+      }
       case "surprise":
         recommendations = await runSurprise();
         break;
@@ -555,7 +554,7 @@ export async function POST(req) {
     console.log("User streaming services for filtering:", streamingServices);
 
     let afterCount = recommendations.length;
-    if (streamingServices && streamingServices.length > 0) {
+    if (filterStreamingServices && streamingServices && streamingServices.length > 0) {
       console.log("Applying streaming services filter:", streamingServices);
       recommendations = filterByStreamingServices(recommendations, streamingServices);
       afterCount = recommendations.length;
@@ -566,7 +565,7 @@ export async function POST(req) {
     console.log(`Final recommendation count after all filters: ${recommendations.length}`);
     return Response.json({
       recommendations,
-      filteredByStreaming: streamingServices?.length > 0,
+      filteredByStreaming: !!filterStreamingServices && streamingServices?.length > 0,
       originalCount: beforeCount,
       filteredCount: afterCount,
       userStreamingServices: streamingServices,
@@ -579,6 +578,7 @@ export async function POST(req) {
         duration: !!duration,
         decade: !!decade,
         minRating: minRating > 0,
+        streamingServices: !!filterStreamingServices,
       },
     });
   } catch (error) {

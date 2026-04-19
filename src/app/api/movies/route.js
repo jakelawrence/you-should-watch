@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { openDb, DatabaseError } from "../lib/db";
 import { validateQueryParams } from "../lib/validation";
-import { query, getMoviesOfGenres, getMovies } from "../lib/dynamodb";
+import { query, getMoviesOfGenres, getMovies, getMovie } from "../lib/dynamodb";
 import { cache } from "../lib/cache";
 import { normalizeString, rankMovies } from "../lib/fuzzySearch";
 
@@ -53,17 +53,23 @@ export async function GET(request) {
       return NextResponse.json(cachedResult);
     }
 
-    let conditions = [];
+    // Slug lookup — direct GetItem by primary key, no scan needed
+    if (slug) {
+      const movie = await getMovie(slug);
+      const result = {
+        movies: movie ? [movie] : [],
+        total: movie ? 1 : 0,
+        page: 1,
+        limit,
+        hasMore: false,
+      };
+      cache.set(cacheKey, result);
+      return NextResponse.json(result);
+    }
+
     let filters = [];
     let params = {};
     let names = {};
-
-    // Add search by slug
-    if (slug) {
-      conditions.push(`slug = :slug`);
-      params[":slug"] = slug;
-      names["#slug"] = "slug"; // needed if 'slug' is a reserved word
-    }
 
     // Add search by title
     // NEW: We'll do broad search first, then apply fuzzy matching
