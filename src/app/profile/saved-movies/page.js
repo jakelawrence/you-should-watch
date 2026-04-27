@@ -368,8 +368,8 @@ export default function SavedMoviesPage() {
       <div className="max-w-6xl mx-auto px-4 pt-4">
         {/* ── Header ── */}
         <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} mb-10`}>
-          <h1 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">saved</h1>
-          <h2 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">movies</h2>
+          <h1 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">saved</h1>
+          <h2 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">movies</h2>
           <p className="text-fadedBlack/60 text-sm font-bold mt-3">
             {displayedMovies.length} of {savedMovies.length} {savedMovies.length === 1 ? "film" : "films"}
           </p>
@@ -501,7 +501,7 @@ export default function SavedMoviesPage() {
             className={`border border-fadedBlack/10 bg-background p-16 text-center transition-all duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             style={{ transitionDelay: "300ms" }}
           >
-            <p className="text-fadedBlack font-specialGothicExpandedOne text-2xl uppercase mb-2">No saved movies</p>
+            <p className="text-fadedBlack font-bigShouldersDisplay font-black text-2xl uppercase mb-2">No saved movies</p>
             <p className="text-fadedBlack/60 font-bold mb-8 text-sm">Start exploring and bookmark films you want to watch</p>
             <button
               onClick={() => router.push("/")}
@@ -526,7 +526,14 @@ export default function SavedMoviesPage() {
 
       {/* ── Detail Modal ── */}
       {selectedMovie && (
-        <MovieDetailsModal movie={selectedMovie} providers={providers} onClose={() => setSelectedMovie(null)} onRemove={handleRemoveMovie} />
+        <MovieDetailsModal
+          movie={selectedMovie}
+          providers={providers}
+          onClose={() => setSelectedMovie(null)}
+          onToggleSave={() => handleRemoveMovie(selectedMovie.slug)}
+          isSaved={true}
+          canSave={true}
+        />
       )}
     </div>
   );

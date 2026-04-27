@@ -1,15 +1,24 @@
-import { Raleway, Special_Gothic_Expanded_One, Syne } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { MovieCollectionProvider } from "./context/MovieCollectionContext";
 import Footer from "./components/Footer";
+import AuthProvider from "./components/AuthProvider";
 
-const syne = Syne({ subsets: ["latin"], weight: ["800"], variable: "--font-syne", display: "swap" });
-const raleway = Raleway({ subsets: ["latin"], weight: ["300", "400", "600", "700"], variable: "--font-raleway", display: "swap" });
+const dmSerifDisplay = localFont({
+  src: "../../design/fonts/dm-serif-display-v17-latin-regular.woff2",
+  variable: "--font-dm-serif-display",
+  display: "swap",
+});
 
-const specialGothicExpandedOne = Special_Gothic_Expanded_One({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-special-gothic-expanded-one",
+const bigShouldersDisplay = localFont({
+  src: "../../design/fonts/big-shoulders-v4-latin-regular.woff2",
+  variable: "--font-big-shoulders-display",
+  display: "swap",
+});
+
+const dmSans = localFont({
+  src: "../../design/fonts/dm-sans-v17-latin-regular.woff2",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -23,7 +32,7 @@ export const metadata = {
     siteName: "You Should Watch",
     images: [
       {
-        url: "https://raw.githubusercontent.com/jakelawrence/you-should-watch/refs/heads/main/public/images/you-should-watch-meta-image.png", // Must be absolute URL
+        url: "https://raw.githubusercontent.com/jakelawrence/you-should-watch/refs/heads/main/public/images/you-should-watch-meta-image.png",
         width: 1748,
         height: 2480,
         alt: "You Should Watch",
@@ -36,12 +45,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${raleway.variable} ${specialGothicExpandedOne.variable} ${syne.variable}`}>
-      <body className={`${raleway.className} antialiased bg-background text-fadedBlack`}>
-        <MovieCollectionProvider>
-          <div>{children}</div>
-          <Footer />
-        </MovieCollectionProvider>
+    <html
+      lang="en"
+      className={`${dmSerifDisplay.variable} ${bigShouldersDisplay.variable} ${dmSans.variable}`}
+    >
+      <body className={`${dmSans.className} antialiased bg-background text-fadedBlack`}>
+        <AuthProvider>
+          <MovieCollectionProvider>
+            <div>{children}</div>
+            <Footer />
+          </MovieCollectionProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -14,10 +14,10 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ["var(--font-raleway)"],
-        raleway: ["var(--font-raleway)"],
-        specialGothicExpandedOne: ["var(--font-special-gothic-expanded-one)"],
-        syne: ["var(--font-syne)"],
+        sans: ["var(--font-dm-sans)"],
+        dmSans: ["var(--font-dm-sans)"],
+        dmSerifDisplay: ["var(--font-dm-serif-display)"],
+        bigShouldersDisplay: ["var(--font-big-shoulders-display)"],
       },
       keyframes: {
         marquee: {

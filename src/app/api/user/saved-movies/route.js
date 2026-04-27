@@ -1,39 +1,18 @@
 import { NextResponse } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { UpdateCommand, GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { getUserSavedMovies, saveUserSavedMovie, deleteUserSavedMovie, getMovies } from "../../lib/dynamodb";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION || "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-const dynamodb = DynamoDBDocumentClient.from(client);
-
-async function getUserFromToken() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
-
-    if (!token) {
-      return null;
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-    return decoded;
-  } catch (error) {
+async function getAuthenticatedUser() {
+  const session = await auth();
+  if (!session?.user?.username) {
     return null;
   }
+  return session.user;
 }
 
 export async function POST(req) {
   try {
-    const user = await getUserFromToken();
+    const user = await getAuthenticatedUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -52,29 +31,29 @@ export async function POST(req) {
 
 export async function GET() {
   try {
-    const user = await getUserFromToken();
+    const user = await getAuthenticatedUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    let savedMovieSlugs = await getUserSavedMovies(user.username);
-    if (savedMovieSlugs.savedMovies.length > 0) {
-      const movies = await getMovies(savedMovieSlugs.savedMovies);
-      //sort by saved date, most recent first
-      Array.from(movies.values()).sort((a, b) => {
-        const aIndex = savedMovieSlugs.savedMovies.findIndex((slug) => slug === a.movieSlug);
-        const bIndex = savedMovieSlugs.savedMovies.findIndex((slug) => slug === b.movieSlug);
-        return bIndex - aIndex;
-      });
-      console.log("Movies found for saved slugs:", Array.from(movies.values()));
+
+    const savedMovieData = await getUserSavedMovies(user.username);
+    const savedMovieSlugs = savedMovieData?.savedMovies || [];
+
+    if (savedMovieSlugs.length > 0) {
+      const movies = await getMovies(savedMovieSlugs);
+      const sortedMovies = savedMovieSlugs
+        .map((slug) => movies.get(slug))
+        .filter(Boolean);
+
       return NextResponse.json({
-        savedMovies: Array.from(movies.values()) || [],
-      });
-    } else {
-      return NextResponse.json({
-        savedMovies: [],
+        savedMovies: sortedMovies,
       });
     }
+
+    return NextResponse.json({
+      savedMovies: [],
+    });
   } catch (error) {
     console.error("Error loading saved movies:", error);
     return NextResponse.json({ error: "Failed to load saved movies" }, { status: 500 });
@@ -83,7 +62,7 @@ export async function GET() {
 
 export async function DELETE(req) {
   try {
-    const user = await getUserFromToken();
+    const user = await getAuthenticatedUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { getUserSavedMovies } from "../../lib/dynamodb";
+import { auth } from "@/auth";
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || "us-east-1",
@@ -15,25 +14,17 @@ const client = new DynamoDBClient({
 
 const dynamodb = DynamoDBDocumentClient.from(client);
 
-async function getUserFromToken() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
-
-    if (!token) {
-      return null;
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-    return decoded;
-  } catch (error) {
+async function getAuthenticatedUser() {
+  const session = await auth();
+  if (!session?.user?.username) {
     return null;
   }
+  return session.user;
 }
 
 export async function GET() {
   try {
-    const user = await getUserFromToken();
+    const user = await getAuthenticatedUser();
     console.log("Authenticated user:", user);
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

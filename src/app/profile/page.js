@@ -133,7 +133,7 @@ export default function ProfilePage() {
           className={`p-8 mb-12 transition-all duration-700 text-fadedBlack ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           style={{ transitionDelay: "200ms" }}
         >
-          <div className="flex justify-between items-start mb-12 font-specialGothicExpandedOne text-fadedBlack">
+          <div className="flex justify-between items-start mb-12 font-bigShouldersDisplay font-black text-fadedBlack">
             <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-none">your</h1>
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-none">profile</h2>
