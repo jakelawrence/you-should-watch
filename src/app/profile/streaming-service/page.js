@@ -152,8 +152,8 @@ export default function StreamingServicesPage() {
         <div className="max-w-6xl mx-auto px-4 md:px-8 pt-6 pb-4">
           {/* ── Header ── */}
           <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} mb-10`}>
-            <h1 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">your</h1>
-            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">services</h2>
+            <h1 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">your</h1>
+            <h2 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl leading-none uppercase">services</h2>
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ export default function Footer() {
             .map((_, i) => (
               <span
                 key={i}
-                className="inline-block font-specialGothicExpandedOne text-fadedBlack text-xs tracking-widest uppercase px-8 py-2 opacity-30"
+                className="inline-block font-bigShouldersDisplay text-fadedBlack text-[10px] uppercase tracking-[0.1em] px-8 py-2 opacity-30"
               >
                 &nbsp;★&nbsp; find your next favorite film &nbsp;★&nbsp;
               </span>
@@ -57,7 +57,7 @@ export default function Footer() {
                     →
                   </span>
                   <span
-                    className={`font-black text-md uppercase transition-colors duration-150 ${
+                    className={`font-dmSans font-black text-xs uppercase tracking-[0.15em] transition-colors duration-150 ${
                       hoveredLink === link.label ? "text-fadedBlue" : "text-fadedBlack"
                     }`}
                   >
@@ -74,7 +74,7 @@ export default function Footer() {
           {/* CTA block */}
           <div>
             <p className="text-fadedBlack text-xs font-black uppercase tracking-widest mb-4 opacity-50">Get Started</p>
-            <p className="text-fadedBlack font-black text-xl uppercase leading-snug mb-6">Find something to watch tonight.</p>
+            <p className="font-dmSans font-black text-base uppercase leading-snug mb-6">Find something to watch tonight.</p>
             <button
               onClick={() => router.push("/search")}
               className="w-full bg-fadedBlack text-background border-2 border-fadedBlack py-3 px-6 font-black text-sm uppercase tracking-widest hover:bg-fadedBlue hover:border-fadedBlue transition-colors duration-150"

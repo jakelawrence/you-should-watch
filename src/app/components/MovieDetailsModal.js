@@ -1,127 +1,164 @@
-import React, { useState } from "react";
+import React from "react";
 import { RemoveScroll } from "react-remove-scroll";
-import { X, Star, Bookmark, BookmarkCheck, Calendar, Clock } from "lucide-react";
+import { X, Bookmark, BookmarkCheck } from "lucide-react";
 
 export function MovieDetailsModal({ movie, providers, onClose, onToggleSave, isSaved, canSave }) {
   if (!movie) return null;
 
+  const visibleProviders = movie.streamingProviders?.filter(
+    (p) => !providers || providers.some((dp) => dp.provider_id === p.provider_id)
+  ) ?? [];
+
   return (
     <RemoveScroll>
-      <div className="fixed inset-0 bg-fadedBlack/60 flex items-end sm:items-center justify-center z-50 backdrop-blur-sm" onClick={onClose}>
+      <div
+        className="fixed inset-0 bg-fadedBlack/50 flex items-end sm:items-center justify-center z-50 backdrop-blur-sm cursor-pointer"
+        onClick={onClose}
+      >
         <div
-          className="bg-background w-full sm:max-w-lg max-h-[88vh] overflow-y-auto border-t sm:border border-fadedBlack/15"
+          className="bg-background w-full sm:max-w-lg sm:mx-4 max-h-[88vh] overflow-y-auto border-t sm:border border-fadedBlack/10 animate-slide-up"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Sticky header */}
-          <div className="sticky z-100 top-0 bg-background border-b border-fadedBlack/10 p-4 flex items-center justify-between">
-            <p className="font-black text-fadedBlack/60 bg-background text-xs uppercase tracking-widest">About This Film</p>
+          <div className="sticky top-0 bg-background border-b border-fadedBlack/10 px-6 py-4 flex items-center justify-between z-10">
+            <p className="font-dmSans text-[9px] uppercase tracking-[0.25em] opacity-40">About This Film</p>
             <button
               onClick={onClose}
-              className="bg-fadedBlack text-background p-2 hover:bg-fadedBlue border border-fadedBlack transition-colors"
+              className="text-fadedBlack/30 hover:text-fadedBlack transition-colors p-1"
+              aria-label="Close"
             >
-              <X size={18} strokeWidth={3} />
+              <X size={18} strokeWidth={1.5} />
             </button>
           </div>
 
-          <div className="p-6 space-y-5 z-40">
+          <div className="px-6 py-7 space-y-6">
+            {/* Title + tagline */}
             <div>
-              <h2 className="text-2xl font-black text-fadedBlack uppercase leading-tight">{movie.title?.replace(/\u00A0/g, " ")}</h2>
+              <h2 className="font-dmSerifDisplay text-2xl sm:text-3xl text-fadedBlack leading-tight">
+                {movie.title?.replace(/\u00A0/g, " ")}
+              </h2>
               {movie.tagline && (
-                <p className="text-fadedBlack/70 text-sm font-bold mt-2 border-l-2 border-fadedBlack/20 pl-3 z-40">{movie.tagline}</p>
+                <p className="font-dmSans font-light text-xs text-fadedBlack/45 mt-2 italic border-l border-fadedBlack/15 pl-2.5">
+                  {movie.tagline}
+                </p>
               )}
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { icon: <Calendar size={18} strokeWidth={3} />, label: "Year", val: movie.year || "N/A" },
-                { icon: <Clock size={18} strokeWidth={3} />, label: "Runtime", val: movie.duration ? `${movie.duration}m` : "N/A" },
-                {
-                  icon: <Star size={18} strokeWidth={3} className="fill-black" />,
-                  label: "Rating",
-                  val: movie.averageRating ? movie.averageRating.toFixed(1) : "N/A",
-                },
-              ].map(({ icon, label, val }) => (
-                <div key={label} className="bg-backgroundSecondary border border-fadedBlack/10 p-3 text-center">
-                  <div className="flex justify-center mb-1">{icon}</div>
-                  <p className="text-fadedBlack font-black text-base">{val}</p>
-                  <p className="text-fadedBlack/60 text-[10px] font-black uppercase mt-0.5">{label}</p>
-                </div>
-              ))}
+            {/* Stats — inline, no boxes */}
+            <div className="flex gap-8">
+              <div>
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-1">Year</p>
+                <p className="font-dmSans font-black text-fadedBlack text-base">{movie.year || "—"}</p>
+              </div>
+              <div>
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-1">Runtime</p>
+                <p className="font-dmSans font-black text-fadedBlack text-base">
+                  {movie.duration ? `${movie.duration}m` : "—"}
+                </p>
+              </div>
+              <div>
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-1">Rating</p>
+                <p className="font-dmSans font-black text-fadedBlack text-base">
+                  {movie.averageRating ? movie.averageRating.toFixed(1) : "—"}
+                </p>
+              </div>
             </div>
 
             {/* Vibe meters */}
-            <div className="border border-fadedBlack/10 p-4 bg-backgroundSecondary">
-              <p className="text-fadedBlack text-xs font-black uppercase tracking-widest mb-3">Tone & Mood</p>
-              {[
-                { label: "Darkness", val: movie.darknessLevel },
-                { label: "Intensity", val: movie.intensenessLevel },
-                { label: "Funniness", val: movie.funninessLevel },
-                { label: "Slow Burn", val: movie.slownessLevel },
-              ].map(
-                ({ label, val }) =>
-                  val != null && (
-                    <div key={label} className="flex items-center gap-3 mb-2 last:mb-0">
-                      <span className="text-[10px] font-black uppercase w-16 text-fadedBlack/60">{label}</span>
-                      <div className="flex-1 bg-fadedBlack/10 border border-fadedBlack/10 h-2.5 rounded-sm">
-                        <div className="h-full bg-fadedBlack transition-all" style={{ width: `${(val / 10) * 100}%` }} />
-                      </div>
-                      <span className="text-[10px] font-black w-6 text-right text-fadedBlack">{val}</span>
-                    </div>
-                  ),
-              )}
-            </div>
-
-            {/* Genre + Director */}
-            {(movie.genres?.length > 0 || movie.genreNames?.length > 0) && (
-              <div className="border border-fadedBlack/10 p-4 bg-backgroundSecondary">
-                <p className="text-xs font-black uppercase mb-1 text-fadedBlack/60">Genre</p>
-                <p className="font-bold text-base text-fadedBlack">{(movie.genres || movie.genreNames).join(", ")}</p>
-              </div>
-            )}
-            {movie.director && (
-              <div className="border border-fadedBlack/10 p-4 bg-backgroundSecondary">
-                <p className="text-xs font-black uppercase mb-1 text-fadedBlack/60">Director</p>
-                <p className="font-bold text-base text-fadedBlack">{movie.director}</p>
-              </div>
-            )}
-
-            {/* Streaming */}
-            {movie.streamingProviders?.length > 0 && (
-              <div className="border border-fadedBlack/10 p-4 bg-backgroundSecondary">
-                <p className="text-xs font-black uppercase mb-3 text-fadedBlack/60">Available On</p>
-                <div className="flex flex-wrap gap-3">
-                  {movie.streamingProviders
-                    .filter((p) => !providers || providers.some((dp) => dp.provider_id === p.provider_id))
-                    .map((p) => (
-                      <div key={p.provider_id} className="flex flex-col items-center gap-1">
-                        <img
-                          src={`https://image.tmdb.org/t/p/original${p.logo_path}`}
-                          alt={p.provider_name}
-                          className="h-10 w-auto border border-fadedBlack/10"
-                        />
-                        <span className="text-[10px] font-bold text-fadedBlack">{p.provider_name}</span>
-                      </div>
-                    ))}
+            {[
+              { label: "Darkness", val: movie.darknessLevel },
+              { label: "Intensity", val: movie.intensenessLevel },
+              { label: "Funniness", val: movie.funninessLevel },
+              { label: "Slow Burn", val: movie.slownessLevel },
+            ].some(({ val }) => val != null) && (
+              <div className="border-t border-fadedBlack/10 pt-5">
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-4">Tone &amp; Mood</p>
+                <div className="space-y-3">
+                  {[
+                    { label: "Darkness", val: movie.darknessLevel },
+                    { label: "Intensity", val: movie.intensenessLevel },
+                    { label: "Funniness", val: movie.funninessLevel },
+                    { label: "Slow Burn", val: movie.slownessLevel },
+                  ].map(
+                    ({ label, val }) =>
+                      val != null && (
+                        <div key={label} className="flex items-center gap-4">
+                          <span className="font-dmSans text-[9px] uppercase tracking-[0.08em] opacity-40 w-[60px]">
+                            {label}
+                          </span>
+                          <div className="flex-1 h-[5px] bg-fadedBlack/8 rounded-none">
+                            <div
+                              className="h-full bg-fadedBlack/40 transition-all"
+                              style={{ width: `${(val / 10) * 100}%` }}
+                            />
+                          </div>
+                          <span className="font-dmSans text-[9px] w-5 text-right text-fadedBlack/40">{val}</span>
+                        </div>
+                      )
+                  )}
                 </div>
               </div>
             )}
 
+            {/* Genre + Director */}
+            <div className="border-t border-fadedBlack/10 pt-5 space-y-4">
+              {(movie.genres?.length > 0 || movie.genreNames?.length > 0) && (
+                <div>
+                  <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-1">Genre</p>
+                  <p className="font-dmSans font-bold text-fadedBlack text-sm">
+                    {(movie.genres || movie.genreNames).join(", ")}
+                  </p>
+                </div>
+              )}
+              {movie.director && (
+                <div>
+                  <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-1">Director</p>
+                  <p className="font-dmSans font-bold text-fadedBlack text-sm">{movie.director}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Streaming */}
+            {visibleProviders.length > 0 && (
+              <div className="border-t border-fadedBlack/10 pt-5">
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-4">Available On</p>
+                <div className="flex flex-wrap gap-4">
+                  {visibleProviders.map((p) => (
+                    <div key={p.provider_id} className="flex flex-col items-center gap-1.5">
+                      <img
+                        src={`https://image.tmdb.org/t/p/original${p.logo_path}`}
+                        alt={p.provider_name}
+                        className="h-10 w-auto border border-fadedBlack/10"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span className="font-dmSans text-[10px] text-fadedBlack/50">{p.provider_name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Save button */}
             <button
               onClick={onToggleSave}
               disabled={!canSave}
-              className={`w-full py-3 font-black text-sm uppercase border-2 transition-colors flex items-center justify-center gap-2 ${
+              className={`w-full py-3.5 font-dmSans font-black text-[10px] uppercase tracking-[0.12em] border transition-colors flex items-center justify-center gap-2 ${
                 !canSave
-                  ? "bg-fadedBlack/5 text-fadedBlack/40 border-fadedBlack/20 cursor-not-allowed"
+                  ? "bg-fadedBlack/5 text-fadedBlack/30 border-fadedBlack/15 cursor-not-allowed"
                   : isSaved
                     ? "bg-fadedBlack text-background border-fadedBlack hover:bg-background hover:text-fadedBlack"
                     : "bg-fadedBlack text-background border-fadedBlack hover:bg-fadedBlue hover:border-fadedBlue"
               }`}
             >
-              {isSaved ? <BookmarkCheck size={16} strokeWidth={3} /> : <Bookmark size={16} strokeWidth={3} />}
+              {isSaved ? <BookmarkCheck size={14} strokeWidth={2.5} /> : <Bookmark size={14} strokeWidth={2.5} />}
               {isSaved ? "Remove from Saved" : "Save to My Movies"}
             </button>
-            {!canSave && <p className="text-fadedBlack/50 text-[10px] font-bold text-center">Sign in to save movies.</p>}
+            {!canSave && (
+              <p className="font-dmSans text-fadedBlack/40 text-[10px] uppercase tracking-wide text-center">
+                Sign in to save movies.
+              </p>
+            )}
           </div>
         </div>
       </div>

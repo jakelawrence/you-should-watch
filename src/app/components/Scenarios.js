@@ -63,7 +63,7 @@ export default function Scenarios({ isLoaded }) {
 
   return (
     <div
-      className={`px-4 sm:px-6 pb-8 sm:pb-10 transition-all relative z-1 duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+      className={`px-6 sm:px-12 lg:px-20 pb-10 sm:pb-14 transition-all relative z-1 duration-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
       style={{ transitionDelay: "400ms" }}
     >
       {/* Mobile Carousel */}
@@ -77,11 +77,11 @@ export default function Scenarios({ isLoaded }) {
                   <button
                     onClick={() => handleScenarioClick(scenario)}
                     aria-label={`Open ${scenario.label} scenario`}
-                    className="bg-background hover:bg-fadedBlack border border-fadedBlack/15 p-6 text-left transition-colors duration-200 group w-full h-56 flex flex-col"
+                    className="bg-background hover:bg-fadedBlack border border-fadedBlack/10 p-5 text-left transition-colors duration-200 group w-full min-h-[140px] flex flex-col gap-2.5"
                   >
-                    <Icon className="mb-3 text-fadedBlack group-hover:text-background transition-colors" size={40} strokeWidth={3} />
-                    <h3 className="text-2xl sm:text-3xl font-black uppercase mb-2 text-fadedBlack group-hover:text-background transition-colors">{scenario.label}</h3>
-                    <p className="text-base sm:text-lg font-bold text-fadedBlack group-hover:text-background transition-colors">{scenario.description}</p>
+                    <Icon className="text-fadedBlack group-hover:text-background transition-colors" size={36} strokeWidth={2.5} />
+                    <h3 className="font-bigShouldersDisplay text-sm uppercase tracking-[0.03em] text-fadedBlack group-hover:text-background transition-colors leading-tight">{scenario.label}</h3>
+                    <p className="font-dmSans text-xs opacity-60 font-normal text-fadedBlack group-hover:text-background/70 transition-colors">{scenario.description}</p>
                   </button>
                 </div>
               );
@@ -112,17 +112,17 @@ export default function Scenarios({ isLoaded }) {
       </div>
 
       {/* Desktop Grid */}
-      <div className="hidden md:grid grid-cols-2 gap-6">
-        {SCENARIOS.slice(0, NUM_SCENARIOS_SHOWN).map((scenario, index) => {
+      <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-3">
+        {SCENARIOS.slice(0, NUM_SCENARIOS_SHOWN).map((scenario) => {
           return (
             <button
               key={scenario.key}
               onClick={() => handleScenarioClick(scenario)}
-              className="bg-background hover:bg-fadedBlack border border-fadedBlack/15 p-6 flex flex-col items-start gap-4 transition-colors duration-200 group"
+              className="bg-background hover:bg-fadedBlack border border-fadedBlack/10 p-5 min-h-[140px] flex flex-col items-start gap-2.5 transition-colors duration-200 group"
             >
-              <scenario.icon size={48} className="text-fadedBlack group-hover:text-background transition-colors" />
-              <p className="font-specialGothicExpandedOne text-fadedBlack text-xl font-bold uppercase group-hover:text-background transition-colors">{scenario.label}</p>
-              <p className="font-bold text-fadedBlack text-sm text-left group-hover:text-background transition-colors">{scenario.description}</p>
+              <scenario.icon size={36} strokeWidth={2.5} className="text-fadedBlack group-hover:text-background transition-colors" />
+              <p className="font-bigShouldersDisplay text-fadedBlack text-sm uppercase tracking-[0.03em] group-hover:text-background transition-colors leading-tight">{scenario.label}</p>
+              <p className="font-dmSans font-normal text-fadedBlack/60 text-xs opacity-60 text-left group-hover:text-background/70 transition-colors">{scenario.description}</p>
             </button>
           );
         })}
@@ -130,7 +130,7 @@ export default function Scenarios({ isLoaded }) {
           <button
             onClick={() => router.push("/scenarios")}
             aria-label="Explore more scenarios"
-            className="text-fadedBlack font-black text-xs uppercase tracking-widest hover:text-fadedBlue transition-colors border-b border-fadedBlack hover:border-fadedBlue pb-0.5"
+            className="font-dmSans font-black text-fadedBlack text-xs uppercase tracking-widest hover:text-fadedBlue transition-colors border-b border-fadedBlack hover:border-fadedBlue pb-0.5"
           >
             All Scenarios →
           </button>

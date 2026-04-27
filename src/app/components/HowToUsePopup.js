@@ -29,7 +29,7 @@ export default function HowToUsePopup({ open, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/40" onClick={close} aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/40 cursor-pointer" onClick={close} aria-hidden="true" />
       <div
         className="relative bg-background border border-fadedBlack/15 p-8 max-w-sm w-full"
         role="dialog"
@@ -48,7 +48,7 @@ export default function HowToUsePopup({ open, onClose }) {
 
         <div className="space-y-6">
           <div className="flex items-start gap-4">
-            <span className="font-specialGothicExpandedOne text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">01</span>
+            <span className="font-bigShouldersDisplay text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">01</span>
             <div>
               <p className="font-black text-fadedBlack uppercase text-sm mb-1">Search a film you love</p>
               <p className="font-bold text-fadedBlack/60 text-sm leading-snug">Type any title — something you've seen and want more like.</p>
@@ -56,7 +56,7 @@ export default function HowToUsePopup({ open, onClose }) {
           </div>
 
           <div className="flex items-start gap-4">
-            <span className="font-specialGothicExpandedOne text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">02</span>
+            <span className="font-bigShouldersDisplay text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">02</span>
             <div>
               <p className="font-black text-fadedBlack uppercase text-sm mb-1">See your matches</p>
               <p className="font-bold text-fadedBlack/60 text-sm leading-snug">We find films with the same tone, mood, and feel — not just the same genre.</p>
@@ -64,7 +64,7 @@ export default function HowToUsePopup({ open, onClose }) {
           </div>
 
           <div className="flex items-start gap-4">
-            <span className="font-specialGothicExpandedOne text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">03</span>
+            <span className="font-bigShouldersDisplay text-fadedBlack/20 text-2xl leading-none mt-0.5 flex-shrink-0 tabular-nums">03</span>
             <div>
               <p className="font-black text-fadedBlack uppercase text-sm mb-1">Save what appeals</p>
               <p className="font-bold text-fadedBlack/60 text-sm leading-snug">Bookmark films to your profile. Sign up to keep them.</p>

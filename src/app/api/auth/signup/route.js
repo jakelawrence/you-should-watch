@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { getUserByUsername } from "../../lib/dynamodb";
-import jwt from "jsonwebtoken";
+import { getUserByEmail, getUserByUsername } from "../../lib/dynamodb";
 import bcrypt from "bcryptjs";
-import { v4 as uuidv4 } from "uuid";
 
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || "us-east-1",
@@ -18,52 +16,41 @@ const dynamodb = DynamoDBDocumentClient.from(client);
 
 export async function POST(req) {
   try {
-    const { username, email, password } = await req.json();
-    console.log("Sign up attempt for:", username, email);
+    const { name, email, password } = await req.json();
 
-    // Check if user already exists for username
-    const existingUserByUsername = await getUserByUsername(username);
-    if (existingUser) {
-      return NextResponse.json({ error: "Username already registered" }, { status: 400 });
+    // Derive a username from the display name
+    const baseUsername = (name || email.split("@")[0])
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "_")
+      .substring(0, 20)
+      .replace(/^_+|_+$/g, "");
+
+    let username = baseUsername || "user";
+    const existingByUsername = await getUserByUsername(username);
+    if (existingByUsername) {
+      username = `${username}_${Math.random().toString(36).substring(2, 6)}`;
     }
 
-    const existingUserByEmail = await getUserByEmail(email);
-    if (existingUserByEmail) {
+    const existingByEmail = await getUserByEmail(email);
+    if (existingByEmail) {
       return NextResponse.json({ error: "Email already registered" }, { status: 400 });
     }
 
-    // Hash password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Create user in DynamoDB
     const user = {
       username,
       email,
+      name: name || username,
       passwordHash,
       isAdmin: false,
       createdAt: new Date().toISOString(),
-      streamingServices: [], // Store user's streaming preferences
+      streamingServices: [],
     };
 
-    const command = new PutCommand({
-      TableName: "users",
-      Item: user,
-    });
+    await dynamodb.send(new PutCommand({ TableName: "users", Item: user }));
 
-    await dynamodb.send(command);
-
-    // Create JWT token
-    const token = jwt.sign({ userId, email, isAdmin: false }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "7d" });
-
-    const response = NextResponse.json({ success: true, userId });
-    response.cookies.set("auth_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 604800, // 7 days
-    });
-
-    return response;
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Sign up error:", error);
     return NextResponse.json({ error: "Sign up failed" }, { status: 500 });

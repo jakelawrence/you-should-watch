@@ -13,8 +13,7 @@ import { filterByStreamingServices } from "../lib/streamingFilters";
 import { checkRateLimit, getRateLimitKey } from "../lib/rate-limiting";
 import { getClientIp } from "../lib/utils";
 import { cache } from "../lib/cache";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { auth } from "@/auth";
 
 // ============================================================================
 // CONFIGURATIONS
@@ -88,18 +87,12 @@ const DECADE_CONFIG = {
 // SHARED UTILITIES
 // ============================================================================
 
-async function getUserFromToken() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
-
-    if (!token) return null;
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-    return decoded;
-  } catch (error) {
+async function getAuthenticatedUser() {
+  const session = await auth();
+  if (!session?.user) {
     return null;
   }
+  return session.user;
 }
 
 function applyObscurityBias(score, moviePopularityRank, avgPopularityRank, bias) {
@@ -524,7 +517,7 @@ export async function POST(req) {
 
     // ── User bookmarks ──────────────────────────────────────────────────────
 
-    const user = await getUserFromToken();
+    const user = await getAuthenticatedUser();
     console.log("Authenticated user for filtering:", user);
 
     let userBookmarkedSlugs = [];

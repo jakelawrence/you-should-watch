@@ -1,26 +1,19 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 
 export async function GET() {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
+  const session = await auth();
 
-    if (!token) {
-      return NextResponse.json({ user: null }, { status: 401 });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-    console.log("Decoded token in /auth/me:", decoded);
-    return NextResponse.json({
-      user: {
-        username: decoded.username,
-        email: decoded.email,
-        isAdmin: decoded.isAdmin || false,
-      },
-    });
-  } catch (error) {
+  if (!session?.user) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
+
+  return NextResponse.json({
+    user: {
+      username: session.user.username,
+      email: session.user.email,
+      name: session.user.name,
+      isAdmin: session.user.isAdmin || false,
+    },
+  });
 }

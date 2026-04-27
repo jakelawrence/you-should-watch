@@ -342,12 +342,12 @@ function EmptyState({ hasInputMovies }) {
       {hasInputMovies ? (
         <>
           <div className="text-5xl mb-4">🎬</div>
-          <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase leading-tight mb-2">refine & search</p>
+          <p className="font-bigShouldersDisplay font-black text-fadedBlack text-2xl uppercase leading-tight mb-2">refine & search</p>
           <p className="text-fadedBlack/60 font-bold text-sm">Adjust your filters, then tap Find Movies.</p>
         </>
       ) : (
         <>
-          <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase leading-tight mb-2">add a film</p>
+          <p className="font-bigShouldersDisplay font-black text-fadedBlack text-2xl uppercase leading-tight mb-2">add a film</p>
           <p className="text-fadedBlack/60 font-bold text-sm max-w-xs">Search for a title you love to anchor your recommendations.</p>
         </>
       )}
@@ -749,7 +749,7 @@ export default function SearchPage() {
       {hasSearched && (
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-3xl uppercase leading-none">results</h2>
+            <h2 className="font-bigShouldersDisplay font-black text-fadedBlack text-3xl uppercase leading-none">results</h2>
             {results.length > 0 && (
               <p className="text-fadedBlack/60 text-xs font-bold mt-1">
                 {results.length} film{results.length !== 1 ? "s" : ""} found
@@ -774,7 +774,7 @@ export default function SearchPage() {
             <EmptyState hasInputMovies={inputMovies.length > 0} />
           ) : (
             <div className="text-center">
-              <p className="font-specialGothicExpandedOne text-fadedBlack text-2xl uppercase mb-2">No matches</p>
+              <p className="font-bigShouldersDisplay font-black text-fadedBlack text-2xl uppercase mb-2">No matches</p>
               <p className="text-fadedBlack/60 font-bold text-sm">Try removing some filters or adding more input movies</p>
             </div>
           )}
@@ -822,8 +822,8 @@ export default function SearchPage() {
         {/* Page header */}
         <div className="px-4 md:px-8 pt-8 pb-6">
           <div className={`transition-all duration-1000 ${isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}>
-            <h1 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">find your</h1>
-            <h2 className="font-specialGothicExpandedOne text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">next film</h2>
+            <h1 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">find your</h1>
+            <h2 className="font-bigShouldersDisplay font-black text-fadedBlack text-5xl sm:text-6xl lg:text-7xl uppercase leading-none">next film</h2>
           </div>
         </div>
 
