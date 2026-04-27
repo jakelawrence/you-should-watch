@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 :root {
+  --font-dm-sans: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+  --font-dm-serif-display: Georgia, "Times New Roman", serif;
+  --font-big-shoulders-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   --primary: #4f6f8a;
   --primary-light: #6c879c;
   --secondary: #efe7dd;

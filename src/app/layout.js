@@ -5,19 +5,19 @@ import Footer from "./components/Footer";
 import AuthProvider from "./components/AuthProvider";
 
 const dmSerifDisplay = localFont({
-  src: "../../design/fonts/dm-serif-display-v17-latin-regular.woff2",
+  src: "../../public/fonts/dm-serif-display-v17-latin-regular.woff2",
   variable: "--font-dm-serif-display",
   display: "swap",
 });
 
 const bigShouldersDisplay = localFont({
-  src: "../../design/fonts/big-shoulders-v4-latin-regular.woff2",
+  src: "../../public/fonts/big-shoulders-v4-latin-regular.woff2",
   variable: "--font-big-shoulders-display",
   display: "swap",
 });
 
 const dmSans = localFont({
-  src: "../../design/fonts/dm-sans-v17-latin-regular.woff2",
+  src: "../../public/fonts/dm-sans-v17-latin-regular.woff2",
   variable: "--font-dm-sans",
   display: "swap",
 });
