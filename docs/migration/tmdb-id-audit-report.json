@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-06-13T15:35:10.795Z",
+  "dry_run": false,
+  "concurrency": 5,
+  "summary": {
+    "total": 5,
+    "found": 2,
+    "id_changed": 2,
+    "year_mismatch": 1,
+    "not_found": 3,
+    "errored": 0
+  },
+  "id_changes": [
+    {
+      "movie_slug": "ever-after-1998",
+      "title": "Ever After",
+      "release_year": 1998,
+      "old_tmdb_id": null,
+      "new_tmdb_id": 9454,
+      "strategy": "title_search",
+      "vote_count": 1578
+    },
+    {
+      "movie_slug": "pink-flamingos",
+      "title": "Pink Flamingos",
+      "release_year": 1972,
+      "old_tmdb_id": null,
+      "new_tmdb_id": 692,
+      "strategy": "title_search",
+      "vote_count": 563
+    }
+  ],
+  "not_found": [
+    {
+      "movie_slug": "lovers-rock-2020",
+      "title": "Lovers Rock",
+      "release_year": 2020,
+      "previous_tmdb_id": null,
+      "strategy": "title_search"
+    },
+    {
+      "movie_slug": "kill-bill-the-whole-bloody-affair",
+      "title": "Kill Bill: The Whole Bloody Affair",
+      "release_year": 2004,
+      "previous_tmdb_id": null,
+      "strategy": "title_search"
+    },
+    {
+      "movie_slug": "jeanne-dielman-23-quai-du-commerce-1080-bruxelles",
+      "title": "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+      "release_year": 1975,
+      "previous_tmdb_id": null,
+      "strategy": "title_search"
+    }
+  ],
+  "year_mismatches": [
+    {
+      "movie_slug": "pink-flamingos",
+      "title": "Pink Flamingos",
+      "db_year": 1972,
+      "tmdb_year": 1976,
+      "tmdb_id": 692,
+      "strategy": "title_search"
+    }
+  ],
+  "all_results": [
+    {
+      "movie_slug": "lovers-rock-2020",
+      "title": "Lovers Rock",
+      "release_year": 2020,
+      "previous_tmdb_id": null,
+      "previous_imdb_id": null,
+      "status": "not_found",
+      "strategy": "title_search"
+    },
+    {
+      "movie_slug": "kill-bill-the-whole-bloody-affair",
+      "title": "Kill Bill: The Whole Bloody Affair",
+      "release_year": 2004,
+      "previous_tmdb_id": null,
+      "previous_imdb_id": null,
+      "status": "not_found",
+      "strategy": "title_search"
+    },
+    {
+      "movie_slug": "jeanne-dielman-23-quai-du-commerce-1080-bruxelles",
+      "title": "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+      "release_year": 1975,
+      "previous_tmdb_id": null,
+      "previous_imdb_id": null,
+      "status": "not_found",
+      "strategy": "title_search"
+    },
+    {
+      "movie_slug": "ever-after-1998",
+      "title": "Ever After",
+      "release_year": 1998,
+      "previous_tmdb_id": null,
+      "previous_imdb_id": null,
+      "status": "found",
+      "strategy": "title_search",
+      "tmdb_id": 9454,
+      "imdb_id": null,
+      "tmdb_title": "EverAfter",
+      "tmdb_release_date": "1998-07-31",
+      "tmdb_vote_average": 7.452,
+      "tmdb_vote_count": 1578,
+      "tmdb_popularity": 3.4569,
+      "tmdb_year": 1998,
+      "id_changed": true,
+      "year_mismatch": false
+    },
+    {
+      "movie_slug": "pink-flamingos",
+      "title": "Pink Flamingos",
+      "release_year": 1972,
+      "previous_tmdb_id": null,
+      "previous_imdb_id": null,
+      "status": "found",
+      "strategy": "title_search",
+      "tmdb_id": 692,
+      "imdb_id": null,
+      "tmdb_title": "Pink Flamingos",
+      "tmdb_release_date": "1976-03-31",
+      "tmdb_vote_average": 6.1,
+      "tmdb_vote_count": 563,
+      "tmdb_popularity": 3.5954,
+      "tmdb_year": 1976,
+      "id_changed": true,
+      "year_mismatch": true
+    }
+  ]
+}
