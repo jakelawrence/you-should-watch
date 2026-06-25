@@ -49,7 +49,7 @@ function validateSemanticQuery(query) {
 }
 
 function cacheKey(query) {
-  return `${process.env.QUERY_EMBEDDING_PROVIDER || "http"}:${process.env.QUERY_EMBEDDING_MODEL || ""}:${query.toLowerCase()}`;
+  return `openai:${process.env.QUERY_EMBEDDING_MODEL || ""}:${query.toLowerCase()}`;
 }
 
 function getCachedEmbedding(key) {
@@ -113,40 +113,6 @@ async function fetchJson(url, options) {
   return response.json();
 }
 
-async function embedWithHttpProvider(query) {
-  const endpoint = process.env.QUERY_EMBEDDING_ENDPOINT;
-  if (!endpoint) {
-    throw new QueryEmbeddingError(
-      "QUERY_EMBEDDING_ENDPOINT is not set. Configure a 384-dimensional embedding provider before enabling semantic search.",
-      "EMBEDDING_PROVIDER_NOT_CONFIGURED",
-    );
-  }
-
-  const headers = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
-
-  if (process.env.QUERY_EMBEDDING_API_KEY) {
-    headers.Authorization = `Bearer ${process.env.QUERY_EMBEDDING_API_KEY}`;
-  }
-
-  const body = {
-    input: query,
-    text: query,
-    ...(process.env.QUERY_EMBEDDING_MODEL ? { model: process.env.QUERY_EMBEDDING_MODEL } : {}),
-    dimensions: expectedDimensions(),
-  };
-
-  const json = await fetchJson(endpoint, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body),
-  });
-
-  return normalizeEmbedding(extractEmbedding(json));
-}
-
 async function embedWithOpenAI(query) {
   if (!process.env.OPENAI_API_KEY) {
     throw new QueryEmbeddingError("OPENAI_API_KEY is not set.", "EMBEDDING_PROVIDER_NOT_CONFIGURED");
@@ -189,17 +155,15 @@ export async function generateQueryEmbedding(queryInput) {
   const cached = getCachedEmbedding(key);
   if (cached) return cached;
 
-  const provider = (process.env.QUERY_EMBEDDING_PROVIDER || "http").toLowerCase();
-  const embedding =
-    provider === "openai"
-      ? await embedWithOpenAI(query)
-      : provider === "http"
-        ? await embedWithHttpProvider(query)
-        : null;
-
-  if (!embedding) {
-    throw new QueryEmbeddingError(`Unsupported QUERY_EMBEDDING_PROVIDER "${provider}".`, "UNSUPPORTED_EMBEDDING_PROVIDER");
+  const provider = (process.env.QUERY_EMBEDDING_PROVIDER || "openai").toLowerCase();
+  if (provider !== "openai") {
+    throw new QueryEmbeddingError(
+      `Unsupported QUERY_EMBEDDING_PROVIDER "${provider}". Only "openai" is supported.`,
+      "UNSUPPORTED_EMBEDDING_PROVIDER",
+    );
   }
+
+  const embedding = await embedWithOpenAI(query);
 
   const result = {
     query,

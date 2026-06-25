@@ -8,6 +8,7 @@ const SEMANTIC_EMBEDDING_COLUMNS = new Set([
   "embedding_emotional",
   "embedding_stylistic",
   "embedding_nanogenres",
+  "embedding_openai_3_small_384",
 ]);
 
 const VIBE_LEVEL_EXPRESSIONS = {
