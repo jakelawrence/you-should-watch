@@ -46,15 +46,27 @@ export function Navbar({ isLoaded, currentPage }) {
             <div className="hidden md:flex items-center gap-8">
               <button
                 onClick={() => router.push("/search")}
-                className="font-dmSans font-normal text-sm tracking-wide text-fadedBlack hover:opacity-40 transition-opacity cursor-pointer"
+                className={`font-dmSans font-normal text-sm tracking-wide text-fadedBlack hover:opacity-40 transition-opacity cursor-pointer ${
+                  currentPage === "search" ? "opacity-40" : ""
+                }`}
               >
                 search
               </button>
               <button
                 onClick={() => router.push("/scenarios")}
-                className="font-dmSans font-normal text-sm tracking-wide text-fadedBlack hover:opacity-40 transition-opacity cursor-pointer"
+                className={`font-dmSans font-normal text-sm tracking-wide text-fadedBlack hover:opacity-40 transition-opacity cursor-pointer ${
+                  currentPage === "scenarios" ? "opacity-40" : ""
+                }`}
               >
                 scenarios
+              </button>
+              <button
+                onClick={() => router.push("/spin")}
+                className={`font-dmSans font-normal text-sm tracking-wide text-fadedBlack hover:opacity-40 transition-opacity cursor-pointer ${
+                  currentPage === "spin" ? "opacity-40" : ""
+                }`}
+              >
+                spin
               </button>
               <button
                 onClick={() => router.push("/profile")}
@@ -125,7 +137,7 @@ export function Navbar({ isLoaded, currentPage }) {
         >
           <div className="h-full flex flex-col">
             <div className="flex flex-col gap-7">
-              {["search", "scenarios", "profile"].map((page) => (
+              {["search", "scenarios", "spin", "profile"].map((page) => (
                 <button
                   key={page}
                   onClick={() => {
