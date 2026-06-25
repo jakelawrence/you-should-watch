@@ -131,7 +131,13 @@ function RatingStars({ min, setMin }) {
       {[0, 1, 2, 3, 4].map((i) => {
         const val = i + 1;
         return (
-          <button key={i} onClick={() => setMin(min === val ? 0 : val)} className="transition-opacity p-1" aria-label={`Filter by ${val}+ star${val !== 1 ? "s" : ""}`} aria-pressed={val <= min}>
+          <button
+            key={i}
+            onClick={() => setMin(min === val ? 0 : val)}
+            className="transition-opacity p-1"
+            aria-label={`Filter by ${val}+ star${val !== 1 ? "s" : ""}`}
+            aria-pressed={val <= min}
+          >
             <Star size={20} strokeWidth={2.5} className={val <= min ? "fill-fadedBlack text-fadedBlack" : "text-fadedBlack/30"} />
           </button>
         );
@@ -149,7 +155,7 @@ function MovieCard({ movie, onSelect, onRemove }) {
       {/* Poster */}
       <button onClick={() => onSelect(movie)} className="relative w-full aspect-[2/3] overflow-hidden border-b border-fadedBlack/10">
         <img
-          src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
+          src={movie.posterUrl?.replace("-0-70-0-105-", "-0-1000-0-1500-") || movie.posterUrl}
           alt={`${movie.title} poster`}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
@@ -179,19 +185,13 @@ function MovieCard({ movie, onSelect, onRemove }) {
         <div className="flex gap-1 flex-wrap">
           {movie.darknessLevel > 6 && <span className="text-xs font-black uppercase bg-fadedBlack text-background px-1.5 py-0.5">Dark</span>}
           {movie.darknessLevel < 4 && (
-            <span className="text-xs font-black uppercase bg-fadedGold text-fadedBlack border border-fadedBlack/20 px-1.5 py-0.5">
-              Light
-            </span>
+            <span className="text-xs font-black uppercase bg-fadedGold text-fadedBlack border border-fadedBlack/20 px-1.5 py-0.5">Light</span>
           )}
           {movie.intensenessLevel > 7 && (
-            <span className="text-xs font-black uppercase bg-danger text-background border border-fadedBlack/20 px-1.5 py-0.5">
-              Intense
-            </span>
+            <span className="text-xs font-black uppercase bg-danger text-background border border-fadedBlack/20 px-1.5 py-0.5">Intense</span>
           )}
           {movie.funninessLevel > 6 && (
-            <span className="text-xs font-black uppercase bg-fadedGreen text-background border border-fadedBlack/20 px-1.5 py-0.5">
-              Funny
-            </span>
+            <span className="text-xs font-black uppercase bg-fadedGreen text-background border border-fadedBlack/20 px-1.5 py-0.5">Funny</span>
           )}
           {movie.slownessLevel > 6 && (
             <span className="text-xs font-black uppercase bg-backgroundSecondary text-fadedBlack border border-fadedBlack/20 px-1.5 py-0.5">

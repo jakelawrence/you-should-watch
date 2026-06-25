@@ -1,14 +1,7 @@
-import { NextResponse } from "next/server";
 import { DatabaseError } from "../../api/lib/db";
 import { logger } from "../lib/logger";
-import {
-  getMovies,
-  getMovieLikedUsers,
-  getUsersLikes,
-  getMoviesByFilter,
-  getUserSelectedStreamingServces,
-  getUserSavedMovies,
-} from "../lib/dynamodb";
+import { getMultiSeedEmbeddingRecommendations, getMoviesByFilter } from "../lib/movieRepository";
+import { getUserSelectedStreamingServces, getUserSavedMovies } from "../lib/userRepository";
 import { filterByStreamingServices } from "../lib/streamingFilters";
 import { checkRateLimit, getRateLimitKey } from "../lib/rate-limiting";
 import { getClientIp } from "../lib/utils";
@@ -19,16 +12,7 @@ import { auth } from "@/auth";
 // CONFIGURATIONS
 // ============================================================================
 
-const COLLAB_CONFIG = {
-  numRecommendations: 6,
-  likedBothMoviesBoost: 5.0,
-  obscurityBias: 1.5,
-  minInteractionsThreshold: 2,
-  darknessMatchWeight: 1.0,
-  darknessTolerance: 3.0,
-  excludedMoviePenalty: 0.3,
-  excludedMovieWeight: 0.5,
-};
+const EMBEDDING_CANDIDATE_LIMIT = Number.parseInt(process.env.EMBEDDING_RECOMMENDER_CANDIDATE_LIMIT || "250", 10);
 
 const MOOD_FILTERS = {
   tone: {
@@ -95,242 +79,32 @@ async function getAuthenticatedUser() {
   return session.user;
 }
 
-function applyObscurityBias(score, moviePopularityRank, avgPopularityRank, bias) {
-  if (bias === 1.0) return score;
-  const popularityRatio = moviePopularityRank / avgPopularityRank;
-  return score * Math.pow(popularityRatio, bias - 1.0);
-}
-
-function calculateAverageDarkness(inputMovies) {
-  const darkLevels = inputMovies.map((m) => m.darknessLevel).filter((d) => d !== null && d !== undefined && !isNaN(d));
-  return darkLevels.length === 0 ? 5.0 : darkLevels.reduce((a, b) => a + b, 0) / darkLevels.length;
-}
-
-function applyDarknessScoring(baseScore, inputDarkness, candidateDarkness, config) {
-  if (config.darknessMatchWeight === 0 || candidateDarkness == null) return baseScore;
-  const difference = Math.abs(inputDarkness - candidateDarkness);
-  let similarity =
-    difference <= config.darknessTolerance ? 1.0 : Math.max(0, 1.0 - (difference - config.darknessTolerance) / (4.0 - config.darknessTolerance));
-  return baseScore * (1.0 + config.darknessMatchWeight * (2 * similarity - 1));
-}
-
-function calculateGenreSimilarity(inputGenreIds, candidateGenreIds) {
-  if (!inputGenreIds?.length || !candidateGenreIds?.length) {
-    return {
-      matchType: "none",
-      sharedCount: 0,
-      sharedIds: [],
-      boost: 0.3,
-    };
-  }
-
-  const inputSet = new Set(inputGenreIds);
-  const candidateSet = new Set(candidateGenreIds);
-
-  const sharedGenres = [...inputSet].filter((g) => candidateSet.has(g));
-  const sharedCount = sharedGenres.length;
-
-  let matchType;
-  let boost;
-
-  if (inputSet.size === candidateSet.size && sharedCount === inputSet.size) {
-    matchType = "exact";
-    boost = 3.0;
-  } else if (sharedCount === inputSet.size) {
-    matchType = "input-subset";
-    boost = 2.0;
-  } else if (sharedCount === candidateSet.size) {
-    matchType = "candidate-subset";
-    boost = 1.5;
-  } else if (sharedCount > 0) {
-    matchType = "partial";
-    const overlapPercent = sharedCount / Math.max(inputSet.size, candidateSet.size);
-    boost = 1.0 + overlapPercent;
-  } else {
-    matchType = "none";
-    boost = 0.3;
-  }
-
-  return {
-    matchType,
-    sharedCount,
-    sharedIds: sharedGenres,
-    boost,
-    inputGenreCount: inputSet.size,
-    candidateGenreCount: candidateSet.size,
-  };
+function getDisplayTitle(movie) {
+  return typeof movie?.title === "string" && movie.title.trim() ? movie.title.trim() : null;
 }
 
 // ============================================================================
 // CORE LOGIC FUNCTIONS
 // ============================================================================
 
-async function runCollaborative(inputMovieSlugs, excludeSlugs = [], overrides = {}) {
-  const config = { ...COLLAB_CONFIG, ...overrides };
-  if (!inputMovieSlugs?.length) return { recommendations: [], userInteractions: {} };
-
-  const userInteractions = {};
-  const excludeUserInteractions = {};
-
-  const inputMoviesMap = await getMovies(inputMovieSlugs);
-  const inputMovies = Array.from(inputMoviesMap.values());
-
-  // Step 1: Map Users for INPUT movies
-  for (const slug of inputMovieSlugs) {
-    const likes = await getMovieLikedUsers(slug);
-
-    likes.forEach((u) => {
-      userInteractions[u] = userInteractions[u] || {
-        inputLikeCount: 0,
-        interactedInputMovies: new Set(),
-        affinityScore: 1.0,
-        otherMovies: new Map(),
-        likedExcluded: false,
-        excludedScore: 0,
-      };
-      userInteractions[u].inputLikeCount++;
-      userInteractions[u].interactedInputMovies.add(slug);
-    });
-  }
-
-  // Step 1b: Map Users for EXCLUDED movies
-  if (excludeSlugs?.length > 0) {
-    console.log(`Processing ${excludeSlugs.length} excluded movies for negative signals`);
-
-    for (const slug of excludeSlugs) {
-      const likes = await getMovieLikedUsers(slug);
-
-      likes.forEach((u) => {
-        excludeUserInteractions[u] = excludeUserInteractions[u] || { likeCount: 0 };
-        excludeUserInteractions[u].likeCount++;
-      });
-    }
-
-    // Apply penalties
-    Object.keys(userInteractions).forEach((u) => {
-      if (excludeUserInteractions[u]) {
-        userInteractions[u].likedExcluded = true;
-
-        const excludeLikes = excludeUserInteractions[u].likeCount;
-
-        const excludePenalty = excludeLikes * config.excludedMovieWeight;
-        userInteractions[u].excludedScore = excludePenalty;
-
-        userInteractions[u].affinityScore *= config.excludedMoviePenalty;
-
-        console.log(`User ${u}: liked input & excluded movies, affinity reduced by ${(1 - config.excludedMoviePenalty) * 100}%`);
-      }
-    });
-  }
-
-  // Step 2 & 3: Affinity & Fetch other movies
-  const usernames = Object.keys(userInteractions);
-  if (!usernames.length) return { recommendations: [], userInteractions: {} };
-
-  const allLikes = await getUsersLikes(usernames);
-
-  usernames.forEach((u) => {
-    let data = userInteractions[u];
-
-    const boostMultiplier = data.likedExcluded ? 0.5 : 1.0;
-
-    const distinctInputMovieCount = data.interactedInputMovies?.size || 0;
-    if (distinctInputMovieCount >= 2) {
-      data.affinityScore *= Math.pow(config.likedBothMoviesBoost, boostMultiplier);
-    }
-
-    const excludeSet = new Set([...inputMovieSlugs, ...(excludeSlugs || [])]);
-
-    (allLikes.get(u) || []).forEach((s) => {
-      if (!excludeSet.has(s)) {
-        data.otherMovies.set(s, "like");
-      }
-    });
+async function runEmbeddingCollaborative(inputMovieSlugs, excludeSlugs = []) {
+  const recommendations = await getMultiSeedEmbeddingRecommendations({
+    seedSlugs: inputMovieSlugs,
+    excludeSlugs,
+    limit: Number.isFinite(EMBEDDING_CANDIDATE_LIMIT) ? EMBEDDING_CANDIDATE_LIMIT : 250,
+    region: "US",
   });
 
-  // Step 4 & 5: Scoring
-  const candidateScores = new Map();
-  for (const [u, data] of Object.entries(userInteractions)) {
-    for (const [slug, type] of data.otherMovies) {
-      if (!candidateScores.has(slug)) {
-        candidateScores.set(slug, {
-          score: 0,
-          total: 0,
-          fromExcludedUsers: 0,
-          fromCleanUsers: 0,
-        });
-      }
-
-      const item = candidateScores.get(slug);
-      const interactionScore = data.affinityScore;
-
-      item.score += interactionScore;
-      item.total++;
-
-      if (data.likedExcluded) {
-        item.fromExcludedUsers++;
-      } else {
-        item.fromCleanUsers++;
-      }
-    }
-  }
-
-  const filtered = Array.from(candidateScores.entries()).filter(([_, d]) => d.total >= config.minInteractionsThreshold);
-  const details = await getMovies(filtered.map((f) => f[0]));
-  const avgPop = 10000;
-  const inputAvgDark = calculateAverageDarkness(inputMovies);
-
-  const inputGenres = inputMovies.flatMap((m) => m.genreIds || []);
-  const uniqueInputGenres = [...new Set(inputGenres)];
-
-  const recommendations = filtered
-    .map(([slug, data]) => {
-      const m = details.get(slug);
-
-      const genreMatch = calculateGenreSimilarity(uniqueInputGenres, m?.genreIds || []);
-
-      let finalScore = applyDarknessScoring(data.score, inputAvgDark, m?.darknessLevel, config);
-      finalScore = applyObscurityBias(finalScore, m?.popularity || avgPop, avgPop, config.obscurityBias);
-      finalScore *= genreMatch.boost;
-
-      if (data.fromExcludedUsers > data.fromCleanUsers) {
-        const excludeRatio = data.fromExcludedUsers / data.total;
-        const excludePenalty = 1.0 - excludeRatio * 0.5;
-        finalScore *= excludePenalty;
-        console.log(
-          `Movie ${slug}: ${data.fromExcludedUsers}/${data.total} from excluded users, applying ${((1 - excludePenalty) * 100).toFixed(1)}% penalty`,
-        );
-      }
-
-      return {
-        ...m,
-        slug,
-        recommendationScore: finalScore,
-        genreMatchType: genreMatch.matchType,
-        sharedGenres: genreMatch.sharedIds,
-        genreBoost: genreMatch.boost,
-        fromExcludedUsers: data.fromExcludedUsers,
-        fromCleanUsers: data.fromCleanUsers,
-      };
-    })
-    .sort((a, b) => b.recommendationScore - a.recommendationScore);
-
-  const serializedUserInteractions = Object.fromEntries(
-    Object.entries(userInteractions).map(([username, data]) => [
-      username,
-      {
-        inputLikeCount: data.inputLikeCount,
-        distinctInputMovieCount: data.interactedInputMovies?.size || 0,
-        interactedInputMovies: Array.from(data.interactedInputMovies || []),
-        affinityScore: data.affinityScore,
-        likedExcluded: data.likedExcluded,
-        excludedScore: data.excludedScore,
-        otherMoviesCount: data.otherMovies?.size || 0,
-      },
-    ]),
-  );
-
-  return { recommendations, userInteractions: serializedUserInteractions };
+  return {
+    recommendations: recommendations
+      .filter((movie) => getDisplayTitle(movie))
+      .map((movie, index) => ({
+        ...movie,
+        recommendationScore: movie.recommendationScore ?? 1 / (index + 1),
+        recommendationRank: index + 1,
+      })),
+    userInteractions: {},
+  };
 }
 
 async function runMood(moodParams) {
@@ -370,18 +144,25 @@ async function runSurprise() {
 // CACHE HELPERS
 // ============================================================================
 
-function collabCacheKey(inputSlugs, excludeSlugs, configOverrides) {
-  const input = [...inputSlugs].sort().join(",");
-  const exclude = [...(excludeSlugs || [])].sort().join(",");
-  const overrides = configOverrides ? JSON.stringify(configOverrides) : "";
-  return `collab:${input}:${exclude}:${overrides}`;
-}
-
 function moodCacheKey(moodParams) {
   const sorted = Object.keys(moodParams)
     .sort()
-    .reduce((acc, k) => { if (moodParams[k]) acc[k] = moodParams[k]; return acc; }, {});
+    .reduce((acc, k) => {
+      if (moodParams[k]) acc[k] = moodParams[k];
+      return acc;
+    }, {});
   return `mood:${JSON.stringify(sorted)}`;
+}
+
+function embeddingCacheKey(inputSlugs, excludeSlugs) {
+  const input = [...inputSlugs].sort().join(",");
+  const exclude = [...(excludeSlugs || [])].sort().join(",");
+  return `embedding:${input}:${exclude}:${EMBEDDING_CANDIDATE_LIMIT}`;
+}
+
+function stripInternalRecommendationFields(movie) {
+  const { embeddingDistance, _embeddingDistance, embedding_distance, ...publicMovie } = movie;
+  return publicMovie;
 }
 
 // ============================================================================
@@ -406,7 +187,6 @@ export async function POST(req) {
       inputSlugs,
       excludeSlugs,
       moodParams,
-      configOverrides,
       // NEW: Filter parameters
       genres = [],
       vibes = [],
@@ -421,13 +201,13 @@ export async function POST(req) {
 
     switch (mode) {
       case "collaborative": {
-        const cacheKey = collabCacheKey(inputSlugs, excludeSlugs, configOverrides);
+        const cacheKey = embeddingCacheKey(inputSlugs, excludeSlugs);
         const cached = cache.get(cacheKey);
         if (cached) {
           ({ recommendations, userInteractions } = cached);
           logger.info(`Cache hit: ${cacheKey}`);
         } else {
-          const result = await runCollaborative(inputSlugs, excludeSlugs || [], configOverrides);
+          const result = await runEmbeddingCollaborative(inputSlugs, excludeSlugs || []);
           recommendations = result.recommendations;
           userInteractions = result.userInteractions;
           cache.set(cacheKey, { recommendations, userInteractions });
@@ -554,8 +334,12 @@ export async function POST(req) {
       console.log(`Filtered from ${beforeCount} to ${afterCount} movies by streaming services`);
     }
 
-    recommendations = recommendations.slice(0, 50); // Return more for /search page
+    recommendations = recommendations.slice(0, 50).map(stripInternalRecommendationFields); // Return more for /search page
     console.log(`Final recommendation count after all filters: ${recommendations.length}`);
+    console.log(
+      "Final recommendations:",
+      recommendations.map((m) => ({ slug: m.slug, title: m.title })),
+    );
     return Response.json({
       recommendations,
       filteredByStreaming: !!filterStreamingServices && streamingServices?.length > 0,

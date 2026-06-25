@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { UpdateCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { getUserSelectedStreamingServces } from "../../lib/dynamodb";
+import { getUserSelectedStreamingServces, updateUserStreamingServices } from "../../lib/userRepository";
 import { auth } from "@/auth";
-
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION || "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-const dynamodb = DynamoDBDocumentClient.from(client);
 
 async function getAuthenticatedUser() {
   const session = await auth();
@@ -51,19 +39,7 @@ export async function POST(req) {
     }
     console.log("Authenticated user:", user);
     const { streamingServices } = await req.json();
-
-    const command = new UpdateCommand({
-      TableName: "users",
-      Key: { username: user.username },
-      UpdateExpression: "SET streamingServices = :services, updatedAt = :updatedAt",
-      ExpressionAttributeValues: {
-        ":services": streamingServices,
-        ":updatedAt": new Date().toISOString(),
-      },
-      ReturnValues: "ALL_NEW",
-    });
-
-    await dynamodb.send(command);
+    await updateUserStreamingServices(user.username, streamingServices);
 
     return NextResponse.json({ success: true, streamingServices });
   } catch (error) {

@@ -44,8 +44,8 @@ YouShouldWatch provides personalized movie recommendations based on multiple dis
 ### Backend
 
 - **Next.js API Routes** - Serverless API endpoints
-- **AWS DynamoDB** - NoSQL database for movie data
-- **AWS SDK** - DynamoDB client integration
+- **Neon Postgres** - Movie catalog, app users, saved movies, and pgvector similarity
+- **postgres.js** - Server-side Postgres client
 
 ### Data Processing
 
@@ -55,7 +55,7 @@ YouShouldWatch provides personalized movie recommendations based on multiple dis
 ### Deployment
 
 - **Vercel** - Hosting and deployment platform
-- **AWS** - Database infrastructure
+- **Neon** - Postgres database infrastructure
 
 ## Architecture
 
@@ -63,7 +63,7 @@ YouShouldWatch provides personalized movie recommendations based on multiple dis
 
 ```
 User Input → Scenario Selection → Movie Collection → API Request →
-DynamoDB Query → Recommendation Algorithm → AI Enhancement → Results Display
+Neon Postgres Query → Recommendation Algorithm → Results Display
 ```
 
 ### Project Structure
@@ -83,7 +83,7 @@ DynamoDB Query → Recommendation Algorithm → AI Enhancement → Results Displ
 ├── context/
 │   └── MovieCollectionContext.js  # Global state management
 ├── lib/
-│   ├── dynamodb.js               # Database operations
+│   ├── movieRepository.js        # Movie database operations
 │   └── logger.js                 # Logging utilities
 └── scripts/
     └── add-mood-levels.js        # Mood metric calculation
@@ -130,20 +130,17 @@ Provides diversity by selecting one movie from each popularity tier:
 
 - Node.js 18+
 - npm or yarn
-- AWS Account (for DynamoDB)
+- Neon Postgres database
 
 ### Environment Variables
 
-Create a `.env.local` file:
+Create a `.env.local` file from `.env.example`. Use the pooled Neon URL for runtime app traffic:
 
 ```env
-# AWS Configuration
-AWS_REGION=us-east-1
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-
-# Database
-DYNAMODB_TABLE_NAME=movies
+DATABASE_URL="postgresql://USER:PASSWORD@HOST-pooler.REGION.aws.neon.tech/DB?sslmode=require&channel_binding=require"
+NEON_DATABASE_URL_DIRECT="postgresql://USER:PASSWORD@HOST.REGION.aws.neon.tech/DB?sslmode=require&channel_binding=require"
+AUTH_SECRET=replace-me
+JWT_SECRET=replace-me
 ```
 
 ### Installation
@@ -165,12 +162,13 @@ npm run dev
 
 ### Database Setup
 
-1. Create a DynamoDB table named `movies` with primary key `slug` (String)
-2. Run the mood metrics calculation script:
+The app expects these Neon tables at minimum:
 
-```bash
-node scripts/add-mood-levels.js
-```
+- `public.movies`
+- `public.users`
+- `public.user_saved_movies`
+
+`public.reviews` is intentionally optional; runtime code does not query it. Watch-provider tables are optional for local/runtime reads and return empty provider lists when absent.
 
 ## Data Collection
 
@@ -240,7 +238,7 @@ Unified endpoint for all recommendation types.
 - Client-side caching of movie data
 - Lazy loading of images
 - Request interception to block unnecessary resources
-- DynamoDB query optimization with batch operations
+- Postgres query optimization and pgvector similarity search
 - In-memory caching for frequent queries
 
 ## Contributing
@@ -256,7 +254,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Movie data sourced from Letterboxd
 - Icons from Lucide React
 - Hosted on Vercel
-- Database powered by AWS DynamoDB
+- Database powered by Neon Postgres
 
 ---
 

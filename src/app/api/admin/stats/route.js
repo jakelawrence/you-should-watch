@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
-import { getTableCount } from "../../lib/dynamodb";
+import { getMovieCount } from "../../lib/movieRepository";
+import { getProviderCount } from "../../lib/providerRepository";
+import { getUserCount } from "../../lib/userRepository";
 
 export async function GET() {
   try {
-    // Fetch real stats from DynamoDB
-    const movieCount = await getTableCount("movies");
-    const providerCount = await getTableCount("providers");
-    const userCount = await getTableCount("users");
+    const movieCount = await getMovieCount();
+    const providerCount = await getProviderCount();
+    const userCount = await getUserCount();
 
     return NextResponse.json({
       totalMovies: movieCount,

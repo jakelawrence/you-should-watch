@@ -1,14 +1,12 @@
-// scripts/create-admin-user.js
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import postgres from "postgres";
 import bcrypt from "bcryptjs";
 import readline from "readline";
+import { getDatabaseUrl } from "./lib/postgres-url.mjs";
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-const dynamodb = DynamoDBDocumentClient.from(client);
+const sql = postgres(getDatabaseUrl({ direct: true }), { ssl: "require", prepare: false });
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -44,24 +42,29 @@ async function createAdminUser() {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Create admin user object
-    const adminUser = {
-      username: username,
-      email: email.toLowerCase().trim(),
-      passwordHash,
-      isAdmin: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    // Save to DynamoDB
-    const command = new PutCommand({
-      TableName: "users", // Change to your users table name
-      Item: adminUser,
-      ConditionExpression: "attribute_not_exists(username)", // Prevent duplicates
-    });
-
-    await dynamodb.send(command);
+    const now = new Date().toISOString();
+    await sql`
+      insert into public.users (
+        username,
+        email,
+        name,
+        password_hash,
+        is_admin,
+        streaming_services,
+        created_at,
+        updated_at
+      )
+      values (
+        ${username},
+        ${email.toLowerCase().trim()},
+        ${username},
+        ${passwordHash},
+        true,
+        ${[]},
+        ${now},
+        ${now}
+      )
+    `;
 
     console.log("\n✅ Admin user created successfully!");
     console.log("\nUser Details:");
@@ -70,12 +73,13 @@ async function createAdminUser() {
     console.log(`  Admin: Yes`);
     console.log("\n⚠️  Keep your credentials safe!");
   } catch (error) {
-    if (error.name === "ConditionalCheckFailedException") {
+    if (error.code === "23505") {
       console.error("\n❌ User with this username already exists!");
     } else {
       console.error("\n❌ Error creating admin user:", error.message);
     }
   } finally {
+    await sql.end({ timeout: 5 }).catch(() => {});
     rl.close();
   }
 }

@@ -1,6 +1,6 @@
 // app/api/admin/auth/login/route.js
 import { NextResponse } from "next/server";
-import { getUserByEmail } from "../../../lib/dynamodb";
+import { getUserByEmail } from "../../../lib/userRepository";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -8,7 +8,6 @@ export async function POST(req) {
   try {
     const { email, password } = await req.json();
 
-    // Fetch user from DynamoDB users table
     const user = await getUserByEmail(email);
 
     if (!user || !user.isAdmin) {

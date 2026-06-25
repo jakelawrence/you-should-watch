@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
-import { getProviders } from "../lib/dynamodb";
-import { cache } from "../lib/cache";
+import { getProviders } from "../lib/providerRepository";
+import { DatabaseError } from "../lib/db";
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
 
-    const limit = parseInt(searchParams.get("limit")) || 10;
+    const limitParam = searchParams.get("limit");
+    const limit = limitParam ? parseInt(limitParam, 10) : null;
     const type = searchParams.get("type");
     // Generate cache key based on query parameters
     // const cacheKey = `pr:${type}:${limit}`;

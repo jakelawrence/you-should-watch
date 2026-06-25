@@ -1,12 +1,36 @@
 import { NextResponse } from "next/server";
-import { openDb, DatabaseError } from "../lib/db";
+import { DatabaseError } from "../lib/db";
 import { validateQueryParams } from "../lib/validation";
-import { query, getMoviesOfGenres, getMovies, getMovie } from "../lib/dynamodb";
 import { cache } from "../lib/cache";
-import { normalizeString, rankMovies } from "../lib/fuzzySearch";
+import { generateQueryEmbedding, QueryEmbeddingError } from "../lib/queryEmbeddings";
+import {
+  countSearchMovies,
+  countSemanticSearchMovies,
+  getMovie,
+  searchMovieTitles,
+  searchMovies,
+  semanticSearchMovies,
+} from "../lib/movieRepository";
+import { toPostgresDatabaseError } from "../lib/postgres";
 
 const SORT_OPTIONS = ["popularity", "alphabetical", "rating", "year", "releaseDate", "popularityRanking", "views"];
 const VALID_RATINGS = ["G", "PG", "PG-13", "R", "NC-17"];
+const SEARCH_MODES = ["keyword", "semantic"];
+
+function normalizeSearchText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\u00a0/g, " ")
+    .replace(/&/g, "and")
+    .replace(/['']/g, "")
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function hasMinimumSearchLength(value) {
+  return normalizeSearchText(value).replace(/\s/g, "").length >= 2;
+}
 
 const querySchema = {
   sortBy: { type: "enum", values: SORT_OPTIONS },
@@ -19,6 +43,7 @@ const querySchema = {
   rating: { type: "enum", values: VALID_RATINGS },
   slug: { type: "string" },
   name: { type: "string" },
+  searchMode: { type: "enum", values: SEARCH_MODES },
 };
 
 export async function GET(request) {
@@ -41,11 +66,12 @@ export async function GET(request) {
     const rating = searchParams.get("rating");
     const slug = searchParams.get("slug");
     const title = searchParams.get("title");
+    const searchMode = searchParams.get("searchMode") || "keyword";
 
     const offset = (page - 1) * limit;
 
     // Generate cache key based on query parameters
-    const cacheKey = `movies:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${title}`;
+    const cacheKey = `movies:${searchMode}:${sortBy}:${limit}:${page}:${genre}:${nanogenre}:${decade}:${minRating}:${rating}:${slug}:${title}`;
 
     // Check cache
     const cachedResult = cache.get(cacheKey);
@@ -67,86 +93,125 @@ export async function GET(request) {
       return NextResponse.json(result);
     }
 
-    let filters = [];
-    let params = {};
-    let names = {};
-
-    // Add search by title
-    // NEW: We'll do broad search first, then apply fuzzy matching
-    if (title) {
-      console.log("Searching for title: " + title);
-
-      // Normalize the search query
-      const normalizedTitle = normalizeString(title);
-
-      // Extract key words from the search (for broader initial search)
-      const searchWords = normalizedTitle.split(" ").filter((word) => word.length > 2);
-
-      if (searchWords.length > 0) {
-        // Build a filter that checks if title contains ANY of the key words
-        // This casts a wide net, then we'll use fuzzy matching to rank results
-        const wordFilters = searchWords.map((word, idx) => {
-          params[`:word${idx}`] = word;
-          return `contains(titleLower, :word${idx})`;
-        });
-
-        // Use OR logic to be more permissive in initial filter
-        filters.push(`(${wordFilters.join(" OR ")})`);
-      } else {
-        // Fallback for very short queries
-        filters.push(`contains(titleLower, :titleLower)`);
-        params[":titleLower"] = normalizedTitle;
+    if (searchMode === "semantic") {
+      if (!title || !title.trim()) {
+        return NextResponse.json({ error: "Semantic search requires a title query." }, { status: 400 });
       }
+
+      if (!hasMinimumSearchLength(title)) {
+        const result = {
+          movies: [],
+          total: 0,
+          page,
+          limit,
+          hasMore: false,
+        };
+        cache.set(cacheKey, result);
+        return NextResponse.json(result);
+      }
+
+      const { vector } = await generateQueryEmbedding(title);
+      const semanticFilters = {
+        genre,
+        nanogenre,
+        decade,
+        minRating: Number.isFinite(minRating) ? minRating : null,
+        rating,
+      };
+      const [semanticMovies, fuzzyTitleMatches, total] = await Promise.all([
+        semanticSearchMovies({
+          queryEmbedding: vector,
+          title,
+          ...semanticFilters,
+          limit: limit + 5,
+          offset,
+          region: "US",
+        }),
+        searchMovieTitles({
+          title,
+          limit: 3,
+          region: "US",
+        }),
+        countSemanticSearchMovies(semanticFilters),
+      ]);
+      const seenSlugs = new Set();
+      const movies = [...fuzzyTitleMatches, ...semanticMovies]
+        .filter((movie) => {
+          const slug = movie.slug || movie.movie_slug;
+          if (!slug || seenSlugs.has(slug)) return false;
+          seenSlugs.add(slug);
+          return true;
+        })
+        .slice(0, limit);
+
+      const result = {
+        movies,
+        total,
+        page,
+        limit,
+        hasMore: offset + limit < total,
+      };
+
+      cache.set(cacheKey, result);
+      return NextResponse.json(result);
     }
 
-    // Improved decade search
-    if (decade) {
-      filters.push(`#year >= :fromYear AND #year < :toYear`);
-      params[":fromYear"] = decade;
-      params[":toYear"] = decade + 10;
-      names["#year"] = "year";
+    if (title && !hasMinimumSearchLength(title)) {
+      const result = {
+        movies: [],
+        total: 0,
+        page,
+        limit,
+        hasMore: false,
+      };
+      cache.set(cacheKey, result);
+      return NextResponse.json(result);
     }
 
-    if (minRating) {
-      filters.push(`avgRating >= :minRating`);
-      params[":minRating"] = minRating;
+    const hasSearchFilters = Boolean(genre || nanogenre || decade || Number.isFinite(minRating) || rating);
+    if (title && !hasSearchFilters) {
+      const movies = await searchMovieTitles({
+        title,
+        limit,
+        region: "US",
+      });
+      const result = {
+        movies,
+        total: movies.length,
+        page: 1,
+        limit,
+        hasMore: false,
+      };
+
+      cache.set(cacheKey, result);
+      return NextResponse.json(result);
     }
 
-    if (rating) {
-      filters.push(`rating = :rating`);
-      params[":rating"] = rating;
-    }
-
-    let movies;
-    console.log("filters=" + filters);
-
-    if (genre) {
-      let movieSlugs = await getMoviesOfGenres([genre]);
-      movies = await getMovies(movieSlugs);
-      movies = Array.from(movies.values());
-    } else {
-      movies = await query("movies", filters, params, names);
-    }
-
-    // NEW: Apply fuzzy search ranking if title search is being performed
-    if (title) {
-      console.log(`Before fuzzy search: ${movies.length} movies`);
-      movies = rankMovies(movies, title, 0.65); // 0.65 threshold allows for typos
-      console.log(`After fuzzy search: ${movies.length} movies`);
-    } else {
-      // Default sorting by popularity if no title search
-      movies.sort((a, b) => (a.popularity || 999999) - (b.popularity || 999999));
-    }
-
-    // Apply pagination after fuzzy filtering
-    const paginatedMovies = movies.slice(offset, offset + limit);
+    const filters = {
+      title,
+      genre,
+      nanogenre,
+      decade,
+      minRating: Number.isFinite(minRating) ? minRating : null,
+      rating,
+    };
+    const [movies, total] = await Promise.all([
+      searchMovies({
+        ...filters,
+        sortBy,
+        limit,
+        offset,
+        region: "US",
+      }),
+      countSearchMovies(filters),
+    ]);
 
     const result = {
-      movies: paginatedMovies,
-      total: movies.length,
+      movies,
+      total,
       page,
       limit,
-      hasMore: offset + limit < movies.length,
+      hasMore: offset + limit < total,
     };
 
     // Cache the result
@@ -156,8 +221,14 @@ export async function GET(request) {
   } catch (error) {
     console.error("Database error:", error);
 
-    if (error instanceof DatabaseError) {
-      return NextResponse.json({ error: error.message, code: error.code }, { status: 503 });
+    const databaseError = error instanceof DatabaseError ? error : toPostgresDatabaseError(error);
+    if (databaseError) {
+      return NextResponse.json({ error: databaseError.message, code: databaseError.code }, { status: 503 });
+    }
+
+    if (error instanceof QueryEmbeddingError) {
+      const status = ["EMPTY_QUERY", "QUERY_TOO_LONG", "INVALID_EMBEDDING_DIMENSIONS"].includes(error.code) ? 400 : 503;
+      return NextResponse.json({ error: error.message, code: error.code }, { status });
     }
 
     return NextResponse.json({ error: "Failed to fetch movies" }, { status: 500 });

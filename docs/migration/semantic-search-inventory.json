@@ -1,0 +1,181 @@
+{
+  "generated_at": "2026-06-10T03:20:13.897Z",
+  "phase": "semantic-search-phase-1",
+  "embedding_dimension": 384,
+  "extensions": {
+    "pg_trgm": "1.6",
+    "vector": "0.8.0"
+  },
+  "embedding_columns": [
+    {
+      "column": "embedding_audience",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_emotional",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_nanogenres",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_overall",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_performance",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_semantic",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_stylistic",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_technical",
+      "type": "vector"
+    },
+    {
+      "column": "embedding_thematic",
+      "type": "vector"
+    }
+  ],
+  "embedding_coverage": {
+    "total": 5000,
+    "columns": {
+      "embedding_overall": {
+        "count": 2980,
+        "coverage": 0.596
+      },
+      "embedding_thematic": {
+        "count": 2979,
+        "coverage": 0.5958
+      },
+      "embedding_emotional": {
+        "count": 2979,
+        "coverage": 0.5958
+      },
+      "embedding_stylistic": {
+        "count": 2956,
+        "coverage": 0.5912
+      },
+      "embedding_performance": {
+        "count": 2970,
+        "coverage": 0.594
+      },
+      "embedding_technical": {
+        "count": 2922,
+        "coverage": 0.5844
+      },
+      "embedding_audience": {
+        "count": 2955,
+        "coverage": 0.591
+      },
+      "embedding_semantic": {
+        "count": 2980,
+        "coverage": 0.596
+      },
+      "embedding_nanogenres": {
+        "count": 1989,
+        "coverage": 0.3978
+      }
+    }
+  },
+  "vector_indexes": [
+    {
+      "indexname": "movies_emb_emotional_idx",
+      "indexdef": "CREATE INDEX movies_emb_emotional_idx ON public.movies USING hnsw (embedding_emotional vector_cosine_ops)"
+    },
+    {
+      "indexname": "movies_emb_nanogenres_idx",
+      "indexdef": "CREATE INDEX movies_emb_nanogenres_idx ON public.movies USING hnsw (embedding_nanogenres vector_cosine_ops)"
+    },
+    {
+      "indexname": "movies_emb_overall_idx",
+      "indexdef": "CREATE INDEX movies_emb_overall_idx ON public.movies USING hnsw (embedding_overall vector_cosine_ops)"
+    },
+    {
+      "indexname": "movies_emb_stylistic_idx",
+      "indexdef": "CREATE INDEX movies_emb_stylistic_idx ON public.movies USING hnsw (embedding_stylistic vector_cosine_ops)"
+    },
+    {
+      "indexname": "movies_emb_thematic_idx",
+      "indexdef": "CREATE INDEX movies_emb_thematic_idx ON public.movies USING hnsw (embedding_thematic vector_cosine_ops)"
+    }
+  ],
+  "candidate_embedding_metadata_columns": [],
+  "recommended_embedding_column": "embedding_overall",
+  "query_embedding_model_status": "not_identified_in_schema_or_repo",
+  "sample_similarity": {
+    "status": "ok",
+    "seed": {
+      "movie_slug": "the-night-of-the-hunter",
+      "title": "The Night of the Hunter",
+      "has_semantic": true,
+      "has_overall": true
+    },
+    "column": "embedding_semantic",
+    "neighbors": [
+      {
+        "movie_slug": "it-comes-at-night",
+        "title": "It Comes at Night",
+        "distance": 0.16162312994141
+      },
+      {
+        "movie_slug": "longlegs",
+        "title": "Longlegs",
+        "distance": 0.165613174438477
+      },
+      {
+        "movie_slug": "the-devil-all-the-time",
+        "title": "The Devil All the Time",
+        "distance": 0.178579021776971
+      },
+      {
+        "movie_slug": "the-cabin-in-the-woods",
+        "title": "The Cabin in the Woods",
+        "distance": 0.181701958179474
+      },
+      {
+        "movie_slug": "sinister",
+        "title": "Sinister",
+        "distance": 0.183257796376008
+      },
+      {
+        "movie_slug": "the-blackcoats-daughter",
+        "title": "The Blackcoat’s Daughter",
+        "distance": 0.188219785690308
+      },
+      {
+        "movie_slug": "the-lodge-2019",
+        "title": "The Lodge",
+        "distance": 0.18846583366394
+      },
+      {
+        "movie_slug": "it-follows",
+        "title": "It Follows",
+        "distance": 0.190209209918976
+      },
+      {
+        "movie_slug": "sleepers",
+        "title": "Sleepers",
+        "distance": 0.190294969660342
+      },
+      {
+        "movie_slug": "the-innocents",
+        "title": "The Innocents",
+        "distance": 0.192577362060547
+      }
+    ]
+  },
+  "acceptance": {
+    "vector_extension": "passed",
+    "semantic_or_overall_coverage": "failed",
+    "vector_index_available": "passed",
+    "sample_similarity": "ok"
+  }
+}
