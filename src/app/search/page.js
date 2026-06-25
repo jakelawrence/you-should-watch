@@ -7,6 +7,7 @@ import { Search, X, Loader2, ChevronDown, ChevronUp, Star, Bookmark, BookmarkChe
 import { Navbar } from "../components/Navbar";
 import { useAuth } from "../hooks/useAuth";
 import { MovieDetailsModal } from "../components/MovieDetailsModal";
+import { FALLBACK_POSTER_URL, getPosterUrl } from "../utils/posters";
 // ─── Tiny helpers ──────────────────────────────────────────────────────────────
 
 function useDebounce(value, delay = 450) {
@@ -16,6 +17,17 @@ function useDebounce(value, delay = 450) {
     return () => clearTimeout(t);
   }, [value, delay]);
   return debounced;
+}
+
+function countNormalizedSearchCharacters(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\u00a0/g, " ")
+    .replace(/&/g, "and")
+    .replace(/['']/g, "")
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, "")
+    .length;
 }
 
 export const useDisableBodyScroll = (isOpen) => {
@@ -63,9 +75,10 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
   }, []);
 
   useEffect(() => {
-    if (!debouncedQuery.trim()) {
+    if (countNormalizedSearchCharacters(debouncedQuery) < 2) {
       setResults([]);
       setOpen(false);
+      setLoading(false);
       return;
     }
 
@@ -140,16 +153,19 @@ function MovieSearchInput({ placeholder, onSelect, excludeSlugs = [], accentColo
                 {!loaded.has(movie.slug) && <div className="absolute inset-0 bg-fadedBlack/5 animate-pulse" />}
                 <img
                   key={`${searchId}-img-${movie.slug}`}
-                  src={movie.posterUrl}
+                  src={getPosterUrl(movie)}
                   alt={`${movie.title} poster`}
                   width="160"
                   height="240"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   className={`w-full h-full object-cover transition-opacity duration-150 ${loaded.has(movie.slug) ? "opacity-100" : "opacity-0"}`}
                   onLoad={() => setLoaded((s) => new Set(s).add(movie.slug))}
                   onError={(e) => {
-                    e.target.src = "/placeholder-poster.jpg";
+                    if (!e.currentTarget.src.endsWith(FALLBACK_POSTER_URL)) {
+                      e.currentTarget.src = FALLBACK_POSTER_URL;
+                    }
+                    setLoaded((s) => new Set(s).add(movie.slug));
                   }}
                 />
               </div>
@@ -174,7 +190,7 @@ function MoviePill({ movie, onRemove, variant = "input" }) {
     <div className={`flex items-center gap-2 border-2 ${bg} pl-2 pr-1 py-1 max-w-full`}>
       <div className="w-6 h-9 flex-shrink-0 border border-fadedBlack/15 overflow-hidden bg-fadedBlack/5">
         <img
-          src={movie.posterUrl}
+          src={getPosterUrl(movie)}
           alt={`${movie.title} poster`}
           width="160"
           height="240"
@@ -267,7 +283,7 @@ function ResultCard({ movie, onSave, isSaved, inputSlugs, onOpen }) {
       <div className="relative w-full aspect-[2/3] border-b border-fadedBlack/10 overflow-hidden bg-fadedBlack/5">
         {!loaded && <div className="absolute inset-0 bg-fadedBlack/5 animate-pulse" />}
         <img
-          src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
+          src={getPosterUrl(movie, "large")}
           alt={`${movie.title} poster`}
           width="1000"
           height="1500"
@@ -572,10 +588,7 @@ export default function SearchPage() {
         .then((data) => data.movies?.[0])
         .catch(() => null);
 
-    Promise.all([
-      Promise.all(slugs.map(fetchMovie)),
-      Promise.all(excludes.map(fetchMovie)),
-    ]).then(([inputResults, excludeResults]) => {
+    Promise.all([Promise.all(slugs.map(fetchMovie)), Promise.all(excludes.map(fetchMovie))]).then(([inputResults, excludeResults]) => {
       const validInputs = inputResults.filter(Boolean);
       const validExcludes = excludeResults.filter(Boolean);
       validInputs.forEach((m) => addInputMovie(m));

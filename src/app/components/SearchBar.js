@@ -1,6 +1,18 @@
 import { Search, Loader2 } from "lucide-react";
 import { React, useRef, useState, useEffect, useId } from "react";
 import { useRouter } from "next/navigation";
+import { FALLBACK_POSTER_URL, getPosterUrl } from "../utils/posters";
+
+function countNormalizedSearchCharacters(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\u00a0/g, " ")
+    .replace(/&/g, "and")
+    .replace(/['']/g, "")
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, "")
+    .length;
+}
 
 export const SearchBar = ({ disabled }) => {
   const router = useRouter();
@@ -29,21 +41,27 @@ export const SearchBar = ({ disabled }) => {
 
   // Search effect
   useEffect(() => {
-    const searchMovies = async () => {
-      if (!debouncedSearchQuery.trim()) {
-        setSearchResults([]);
-        setShowDropdown(false);
-        setLoadedPosters(new Set());
-        return;
-      }
+    if (countNormalizedSearchCharacters(debouncedSearchQuery) < 2) {
+      setSearchResults([]);
+      setShowDropdown(false);
+      setLoadedPosters(new Set());
+      setSearchError(null);
+      setIsSearching(false);
+      return;
+    }
 
+    const controller = new AbortController();
+
+    const searchMovies = async () => {
       setIsSearching(true);
       setSearchError(null);
       setLoadedPosters(new Set()); // Reset loaded posters for new search
       setSearchId((prev) => prev + 1); // Increment search ID to force image remount
 
       try {
-        const response = await fetch(`/api/movies?title=${encodeURIComponent(debouncedSearchQuery)}&limit=10`);
+        const response = await fetch(`/api/movies?title=${encodeURIComponent(debouncedSearchQuery)}&limit=10`, {
+          signal: controller.signal,
+        });
         if (!response.ok) {
           throw new Error("Failed to search movies");
         }
@@ -51,17 +69,23 @@ export const SearchBar = ({ disabled }) => {
 
         // Add a small delay before showing results to prevent poster flickering
         await new Promise((resolve) => setTimeout(resolve, 100));
+        if (controller.signal.aborted) return;
 
         setSearchResults(data.movies || []);
         setShowDropdown(true);
       } catch (err) {
+        if (err.name === "AbortError") return;
         setSearchError("Failed to search movies");
       } finally {
-        setIsSearching(false);
+        if (!controller.signal.aborted) {
+          setIsSearching(false);
+        }
       }
     };
 
     searchMovies();
+
+    return () => controller.abort();
   }, [debouncedSearchQuery]);
 
   const handleFocus = () => {
@@ -80,8 +104,14 @@ export const SearchBar = ({ disabled }) => {
     setLoadedPosters((prev) => new Set(prev).add(movieSlug));
   };
 
-  const handlePosterError = (e) => {
-    e.target.src = "/placeholder-poster.jpg";
+  const handlePosterError = (e, movieSlug) => {
+    if (e.currentTarget.src.endsWith(FALLBACK_POSTER_URL)) {
+      handlePosterLoad(movieSlug);
+      return;
+    }
+
+    e.currentTarget.src = FALLBACK_POSTER_URL;
+    handlePosterLoad(movieSlug);
   };
 
   return (
@@ -149,17 +179,17 @@ export const SearchBar = ({ disabled }) => {
                 {/* Actual poster */}
                 <img
                   key={`${searchId}-poster-${movie.slug}`} // Force new image element on search change
-                  src={movie.posterUrl}
+                  src={getPosterUrl(movie)}
                   alt={`${movie.title} poster`}
                   width="160"
                   height="240"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   className={`w-12 h-16 object-cover border border-fadedBlack/15 transition-opacity duration-200 ${
                     loadedPosters.has(movie.slug) ? "opacity-100" : "opacity-0"
                   }`}
                   onLoad={() => handlePosterLoad(movie.slug)}
-                  onError={handlePosterError}
+                  onError={(e) => handlePosterError(e, movie.slug)}
                 />
               </div>
 
@@ -168,8 +198,8 @@ export const SearchBar = ({ disabled }) => {
                 <div className="text-sm text-fadedBlack font-bold">{movie.year}</div>
 
                 {/* Optional: Show search score for debugging */}
-                {movie._searchScore && process.env.NODE_ENV === "development" && (
-                  <div className="text-xs text-gray-500">Match: {(movie._searchScore * 100).toFixed(0)}%</div>
+                {movie.matchScore && process.env.NODE_ENV === "development" && (
+                  <div className="text-xs text-gray-500">Match: {(movie.matchScore * 100).toFixed(0)}%</div>
                 )}
               </div>
             </button>
