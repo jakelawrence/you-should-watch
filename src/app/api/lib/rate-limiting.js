@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 // In-memory store (for simple implementation)
-// For production, use Redis or DynamoDB
+// For production, use Redis or Postgres-backed rate limiting.
 const rateLimitStore = new Map();
 
 // Configuration

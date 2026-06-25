@@ -1,7 +1,7 @@
 // app/api/admin/providers/add/route.js
 import { NextResponse } from "next/server";
 import { verifyAdmin } from "../../lib/adminAuth";
-import { saveProvider, updateProvider } from "../../lib/dynamodb";
+import { saveProvider, updateProvider } from "../../lib/providerRepository";
 
 export async function POST(req) {
   try {
@@ -13,7 +13,6 @@ export async function POST(req) {
     const provider = await req.json();
     console.log("Adding provider:", provider);
 
-    // Save to DynamoDB providers table
     await saveProvider(provider);
 
     return NextResponse.json({ success: true, provider });
@@ -25,7 +24,7 @@ export async function POST(req) {
 export async function PUT(request) {
   try {
     const { provider_id, provider_name, type, logo_path } = await request.json();
-    const result = await updateProvider({ provider_id, provider_name, type, logo_path });
+    const result = await updateProvider(provider_id, { provider_name, type, logo_path });
     return NextResponse.json({ message: "Provider updated successfully", result });
   } catch (error) {
     console.error("Database error:", error);

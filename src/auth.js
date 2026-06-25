@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { getUserByEmail } from "@/app/api/lib/dynamodb";
+import { getUserByEmail } from "@/app/api/lib/userRepository";
 import { createOAuthUser } from "@/app/api/lib/auth-helpers";
 import authConfig from "@/auth.config";
 
@@ -50,7 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async jwt({ token, user }) {
-      // Only hit DynamoDB on initial sign-in (when user object is present)
+      // Only hit Postgres on initial sign-in (when user object is present)
       if (user) {
         const dbUser = await getUserByEmail(user.email);
         token.username = dbUser?.username;

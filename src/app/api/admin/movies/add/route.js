@@ -19,7 +19,7 @@ export async function POST(req) {
     // TODO: Fetch streaming providers from TMDB
     // const providers = await fetchStreamingProviders(tmdbId);
 
-    // TODO: Save to DynamoDB
+    // TODO: Save to Postgres
     // await saveMovie({ ...movieData, tmdbId, streamingProviders: providers });
 
     return NextResponse.json({

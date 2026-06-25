@@ -38,7 +38,10 @@ function MovieSuggestionsContent() {
     const focusable = dialog?.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     focusable?.[0]?.focus();
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") { e.preventDefault(); setSelectedMovie(null); }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setSelectedMovie(null);
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -150,16 +153,8 @@ function MovieSuggestionsContent() {
         body: JSON.stringify({ movieSlug }),
       });
       if (!res.ok) throw new Error("Failed to save the movie.");
-      setMovies((prev) =>
-        prev?.map((movie) =>
-          movie.slug === movieSlug
-            ? { ...movie, isBookmarkedByUser: !isSaved }
-            : movie
-        ) || prev
-      );
-      setSelectedMovie((prev) =>
-        prev?.slug === movieSlug ? { ...prev, isBookmarkedByUser: !isSaved } : prev
-      );
+      setMovies((prev) => prev?.map((movie) => (movie.slug === movieSlug ? { ...movie, isBookmarkedByUser: !isSaved } : movie)) || prev);
+      setSelectedMovie((prev) => (prev?.slug === movieSlug ? { ...prev, isBookmarkedByUser: !isSaved } : prev));
       setSaveMessage({ type: "success", text: isSaved ? "Removed from saved" : "Movie saved!" });
       setTimeout(() => setSaveMessage(null), 2500);
     } catch (err) {
@@ -238,9 +233,7 @@ function MovieSuggestionsContent() {
       {saveMessage && (
         <div
           className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 font-dmSans font-black text-xs uppercase tracking-wide border ${
-            saveMessage.type === "success"
-              ? "bg-fadedBlack text-background border-fadedBlack"
-              : "bg-danger text-background border-danger"
+            saveMessage.type === "success" ? "bg-fadedBlack text-background border-fadedBlack" : "bg-danger text-background border-danger"
           }`}
         >
           {saveMessage.text}
@@ -264,48 +257,40 @@ function MovieSuggestionsContent() {
 
       {/* Featured film */}
       <div
-        className={`px-6 sm:px-12 lg:px-20 pb-12 sm:pb-16 transition-all duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        className={`px-6 sm:px-12 lg:px-20 pb-12 sm:pb-16 transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         style={{ transitionDelay: "150ms" }}
       >
         <div className="border-t border-fadedBlack/10 pt-8 sm:pt-10">
-          <p className="font-bigShouldersDisplay text-[10px] uppercase tracking-[0.25em] text-fadedBlack/30 mb-6 sm:mb-8">
-            Featured
-          </p>
+          <p className="font-bigShouldersDisplay text-[10px] uppercase tracking-[0.25em] text-fadedBlack/30 mb-6 sm:mb-8">Featured</p>
 
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 lg:gap-16">
             {/* Poster */}
             <div className="relative w-full sm:w-52 lg:w-72 flex-shrink-0">
-              <button
-                onClick={() => setSelectedMovie(featured)}
-                className="w-full block group"
-                aria-label={`View details for ${featured.title}`}
-              >
+              <button onClick={() => setSelectedMovie(featured)} className="w-full block group" aria-label={`View details for ${featured.title}`}>
                 <div className="aspect-[2/3] overflow-hidden bg-fadedBlack/5">
                   <img
-                    src={featured.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || featured.posterUrl}
+                    src={featured.posterUrl?.replace("-0-70-0-105-", "-0-1000-0-1500-") || featured.posterUrl}
                     alt={`${featured.title} poster`}
                     width="1000"
                     height="1500"
                     loading="eager"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                    onError={(e) => { e.target.style.display = "none"; }}
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
                   />
                 </div>
               </button>
               <button
-                onClick={(e) => { e.stopPropagation(); handleSaveMovie(featured.slug); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSaveMovie(featured.slug);
+                }}
                 aria-label={featured.isBookmarkedByUser ? `Remove ${featured.title} from saved` : `Save ${featured.title}`}
                 className="absolute top-3 right-3 bg-background/90 p-2 border border-fadedBlack/15 hover:bg-background transition z-10"
               >
-                <Bookmark
-                  className="text-fadedBlack"
-                  fill={featured.isBookmarkedByUser ? "#d7c7a3" : "none"}
-                  size={16}
-                  strokeWidth={2.5}
-                />
+                <Bookmark className="text-fadedBlack" fill={featured.isBookmarkedByUser ? "#d7c7a3" : "none"} size={16} strokeWidth={2.5} />
               </button>
             </div>
 
@@ -316,20 +301,12 @@ function MovieSuggestionsContent() {
               aria-label={`View details for ${featured.title}`}
             >
               <div className="flex items-center gap-5 mb-4 sm:mb-6">
-                {featured.year && (
-                  <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">
-                    {featured.year}
-                  </span>
-                )}
+                {featured.year && <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">{featured.year}</span>}
                 {featured.duration && (
-                  <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">
-                    {featured.duration}m
-                  </span>
+                  <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">{featured.duration}m</span>
                 )}
                 {featured.averageRating && (
-                  <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">
-                    ★ {featured.averageRating.toFixed(1)}
-                  </span>
+                  <span className="font-dmSans text-[10px] uppercase tracking-[0.2em] text-fadedBlack/35">★ {featured.averageRating.toFixed(1)}</span>
                 )}
               </div>
 
@@ -344,9 +321,7 @@ function MovieSuggestionsContent() {
               )}
 
               {featured.director && (
-                <p className="font-dmSans text-xs text-fadedBlack/35 uppercase tracking-widest mb-6 sm:mb-8">
-                  {featured.director}
-                </p>
+                <p className="font-dmSans text-xs text-fadedBlack/35 uppercase tracking-widest mb-6 sm:mb-8">{featured.director}</p>
               )}
 
               <span className="inline-flex items-center gap-1.5 font-dmSans text-xs uppercase tracking-widest text-fadedBlack border-b border-fadedBlack/25 pb-0.5 group-hover:border-fadedBlack transition-colors w-fit">
@@ -360,35 +335,29 @@ function MovieSuggestionsContent() {
       {/* Supporting films */}
       {supporting.length > 0 && (
         <div
-          className={`px-6 sm:px-12 lg:px-20 pb-20 transition-all duration-700 ${
-            isLoaded ? "opacity-100" : "opacity-0"
-          }`}
+          className={`px-6 sm:px-12 lg:px-20 pb-20 transition-all duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
           style={{ transitionDelay: "300ms" }}
         >
           <div className="border-t border-fadedBlack/10 pt-8 sm:pt-10 mb-6 sm:mb-8">
-            <p className="font-bigShouldersDisplay text-[10px] uppercase tracking-[0.25em] text-fadedBlack/30">
-              Also consider
-            </p>
+            <p className="font-bigShouldersDisplay text-[10px] uppercase tracking-[0.25em] text-fadedBlack/30">Also consider</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {supporting.map((movie) => (
               <div key={movie.slug} className="relative">
-                <button
-                  onClick={() => setSelectedMovie(movie)}
-                  className="w-full text-left group"
-                  aria-label={`View details for ${movie.title}`}
-                >
+                <button onClick={() => setSelectedMovie(movie)} className="w-full text-left group" aria-label={`View details for ${movie.title}`}>
                   <div className="aspect-[2/3] overflow-hidden bg-fadedBlack/5">
                     <img
-                      src={movie.posterUrl?.replace("-0-140-0-210-", "-0-1000-0-1500-") || movie.posterUrl}
+                      src={movie.posterUrl?.replace("-0-70-0-105-", "-0-1000-0-1500-") || movie.posterUrl}
                       alt={`${movie.title} poster`}
                       width="1000"
                       height="1500"
                       loading="lazy"
                       decoding="async"
                       className="w-full h-full object-cover transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md"
-                      onError={(e) => { e.target.style.display = "none"; }}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
                     />
                   </div>
                   <div className="mt-2.5">
@@ -399,16 +368,14 @@ function MovieSuggestionsContent() {
                   </div>
                 </button>
                 <button
-                  onClick={(e) => { e.stopPropagation(); handleSaveMovie(movie.slug); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSaveMovie(movie.slug);
+                  }}
                   aria-label={movie.isBookmarkedByUser ? `Remove ${movie.title} from saved` : `Save ${movie.title}`}
                   className="absolute top-2 right-2 bg-background/90 p-1.5 border border-fadedBlack/15 hover:bg-background transition z-10"
                 >
-                  <Bookmark
-                    className="text-fadedBlack"
-                    fill={movie.isBookmarkedByUser ? "#d7c7a3" : "none"}
-                    size={14}
-                    strokeWidth={2.5}
-                  />
+                  <Bookmark className="text-fadedBlack" fill={movie.isBookmarkedByUser ? "#d7c7a3" : "none"} size={14} strokeWidth={2.5} />
                 </button>
               </div>
             ))}
@@ -446,10 +413,7 @@ function MovieSuggestionsContent() {
             <div className="px-6 py-7 space-y-6">
               {/* Title */}
               <div>
-                <h2
-                  id="modal-title"
-                  className="font-dmSerifDisplay text-2xl sm:text-3xl text-fadedBlack leading-tight"
-                >
+                <h2 id="modal-title" className="font-dmSerifDisplay text-2xl sm:text-3xl text-fadedBlack leading-tight">
                   {selectedMovie.title.replace(/\u00A0/g, " ")}
                 </h2>
                 {selectedMovie.tagline && (
@@ -467,9 +431,7 @@ function MovieSuggestionsContent() {
                 </div>
                 <div>
                   <p className="font-dmSans text-[10px] uppercase tracking-widest text-fadedBlack/35 mb-1">Runtime</p>
-                  <p className="font-dmSans font-black text-fadedBlack text-base">
-                    {selectedMovie.duration ? `${selectedMovie.duration}m` : "—"}
-                  </p>
+                  <p className="font-dmSans font-black text-fadedBlack text-base">{selectedMovie.duration ? `${selectedMovie.duration}m` : "—"}</p>
                 </div>
                 <div>
                   <p className="font-dmSans text-[10px] uppercase tracking-widest text-fadedBlack/35 mb-1">Rating</p>
@@ -495,20 +457,22 @@ function MovieSuggestionsContent() {
                 )}
                 {filteredProviders(selectedMovie).length > 0 && (
                   <div>
-                    <p className="font-dmSans text-[10px] uppercase tracking-widest text-fadedBlack/35 mb-3">Available On</p>
-                    <div className="flex flex-wrap gap-3">
+                    <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-3">Available On</p>
+                    <div className="flex flex-wrap gap-x-3 gap-y-4">
                       {filteredProviders(selectedMovie).map((p) => (
-                        <div key={p.provider_id} className="flex flex-col items-center gap-1.5">
+                        <div key={p.provider_id} className="flex flex-col items-center gap-1.5 w-14">
                           <img
-                            src={`https://image.tmdb.org/t/p/original${p.logo_path}`}
+                            src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
                             alt={p.provider_name}
-                            width="80"
-                            height="80"
+                            width="48"
+                            height="48"
                             loading="lazy"
                             decoding="async"
-                            className="h-10 w-auto border border-fadedBlack/10"
+                            className="w-12 h-12 object-cover border border-fadedBlack/10 flex-shrink-0"
                           />
-                          <span className="font-dmSans text-[10px] text-fadedBlack/50">{p.provider_name}</span>
+                          <span className="font-dmSans text-[9px] text-fadedBlack/50 text-center leading-tight line-clamp-2 w-full">
+                            {p.provider_name}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -574,7 +538,9 @@ function RateLimitWarning({ remaining, total, resetAt, onCreateAccount }) {
   return (
     <div className="fixed bottom-4 right-4 bg-background border border-fadedBlack/15 p-5 max-w-xs z-40">
       <p className="font-dmSans font-black text-xs uppercase tracking-widest mb-1.5 text-fadedBlack">Suggestions remaining</p>
-      <p className="font-dmSans font-bold text-fadedBlack text-lg">{remaining} / {total}</p>
+      <p className="font-dmSans font-bold text-fadedBlack text-lg">
+        {remaining} / {total}
+      </p>
       {remaining === 0 && (
         <button
           onClick={onCreateAccount}

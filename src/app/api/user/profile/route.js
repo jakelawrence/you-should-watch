@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { GetCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { getUserSavedMovies } from "../../lib/dynamodb";
+import { getUserByUsername, getUserSavedMovies } from "../../lib/userRepository";
 import { auth } from "@/auth";
-
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION || "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-const dynamodb = DynamoDBDocumentClient.from(client);
 
 async function getAuthenticatedUser() {
   const session = await auth();
@@ -30,19 +18,11 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Fetch full user data from DynamoDB
-    const command = new GetCommand({
-      TableName: "users",
-      Key: { username: user.username },
-    });
-
-    const result = await dynamodb.send(command);
-
-    if (!result.Item) {
+    const userData = await getUserByUsername(user.username);
+    if (!userData) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const userData = result.Item;
     const userSavedMoviesRes = await getUserSavedMovies(userData.username);
     const userSavedMovies = userSavedMoviesRes?.savedMovies || [];
     // Return user profile data

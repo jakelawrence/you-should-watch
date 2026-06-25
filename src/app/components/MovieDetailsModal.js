@@ -121,18 +121,22 @@ export function MovieDetailsModal({ movie, providers, onClose, onToggleSave, isS
             {/* Streaming */}
             {visibleProviders.length > 0 && (
               <div className="border-t border-fadedBlack/10 pt-5">
-                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-4">Available On</p>
-                <div className="flex flex-wrap gap-4">
+                <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-3">Available On</p>
+                <div className="flex flex-wrap gap-x-3 gap-y-4">
                   {visibleProviders.map((p) => (
-                    <div key={p.provider_id} className="flex flex-col items-center gap-1.5">
+                    <div key={p.provider_id} className="flex flex-col items-center gap-1.5 w-14">
                       <img
-                        src={`https://image.tmdb.org/t/p/original${p.logo_path}`}
+                        src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
                         alt={p.provider_name}
-                        className="h-10 w-auto border border-fadedBlack/10"
+                        width="48"
+                        height="48"
+                        className="w-12 h-12 object-cover border border-fadedBlack/10 flex-shrink-0"
                         loading="lazy"
                         decoding="async"
                       />
-                      <span className="font-dmSans text-[10px] text-fadedBlack/50">{p.provider_name}</span>
+                      <span className="font-dmSans text-[9px] text-fadedBlack/50 text-center leading-tight line-clamp-2 w-full">
+                        {p.provider_name}
+                      </span>
                     </div>
                   ))}
                 </div>

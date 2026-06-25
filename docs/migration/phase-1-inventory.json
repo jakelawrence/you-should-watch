@@ -1,0 +1,324 @@
+{
+  "generated_at": "2026-06-08T22:20:20.769Z",
+  "phase": "phase-1-inventory-and-schema-mapping",
+  "sample_slugs": [
+    "the-night-of-the-hunter"
+  ],
+  "sources": {
+    "dynamodb": {
+      "status": "ok",
+      "region": "us-east-2",
+      "row_counts": [
+        {
+          "table": "movies",
+          "source": "dynamodb",
+          "required": true,
+          "status": "ok",
+          "row_count": 5000,
+          "scanned_count": 5000
+        },
+        {
+          "table": "users",
+          "source": "dynamodb",
+          "required": true,
+          "status": "ok",
+          "row_count": 1,
+          "scanned_count": 1
+        },
+        {
+          "table": "user-saved-movies",
+          "source": "dynamodb",
+          "required": true,
+          "status": "ok",
+          "row_count": 20,
+          "scanned_count": 20
+        },
+        {
+          "table": "providers",
+          "source": "dynamodb",
+          "required": false,
+          "status": "ok",
+          "row_count": 15,
+          "scanned_count": 15
+        }
+      ],
+      "sample_movies": {
+        "the-night-of-the-hunter": {
+          "slug": "the-night-of-the-hunter",
+          "title": "The Night of the Hunter",
+          "director": "Charles Laughton",
+          "year": "1955",
+          "duration": 93,
+          "rating": null,
+          "avgRating": null,
+          "popularity": 1281,
+          "genres": [
+            "Drama",
+            "Crime",
+            "Thriller",
+            "Horror"
+          ],
+          "nanogenres": [
+            "evil-menacing-danger",
+            "dark-complex-subtlety",
+            "horror-murderous-twisted",
+            "sex-moral-naive",
+            "moving-timeless-subtlety",
+            "terrifying-sinister-darkness",
+            "murderer-tense-creepy",
+            "eerie-murder-twist",
+            "terror-disturbing-mysterious",
+            "chilling-nightmares-fears"
+          ],
+          "posterUrl": "https://a.ltrbxd.com/resized/film-poster/4/9/8/6/0/49860-the-night-of-the-hunter-0-70-0-105-crop.jpg?v=23fb657323",
+          "tmdbId": null,
+          "streamingProvidersCount": null,
+          "darknessLevel": null,
+          "funninessLevel": null,
+          "slownessLevel": null,
+          "intensenessLevel": null
+        }
+      }
+    },
+    "postgres": {
+      "status": "ok",
+      "row_counts": [
+        {
+          "table": "movies",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 4000
+        },
+        {
+          "table": "reviews",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 282069
+        },
+        {
+          "table": "users",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "user_saved_movies",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "watch_providers",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "movie_watch_providers",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "movie_watch_provider_sync_state",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "watch_provider_sync_runs",
+          "source": "postgres",
+          "status": "ok",
+          "row_count": 0
+        }
+      ],
+      "sample_movies": {
+        "the-night-of-the-hunter": {
+          "slug": "the-night-of-the-hunter",
+          "title": "The Night of the Hunter",
+          "director": "Charles Laughton",
+          "year": 1955,
+          "duration": 93,
+          "rating": "PG-13",
+          "avgRating": null,
+          "popularity": 1281,
+          "genres": [
+            "Drama",
+            "Crime",
+            "Thriller",
+            "Horror"
+          ],
+          "nanogenres": [
+            "evil-menacing-danger",
+            "dark-complex-subtlety",
+            "horror-murderous-twisted",
+            "sex-moral-naive",
+            "moving-timeless-subtlety",
+            "terrifying-sinister-darkness",
+            "murderer-tense-creepy",
+            "eerie-murder-twist",
+            "terror-disturbing-mysterious",
+            "chilling-nightmares-fears"
+          ],
+          "posterUrl": "https://a.ltrbxd.com/resized/film-poster/4/9/8/6/0/49860-the-night-of-the-hunter-0-70-0-105-crop.jpg?v=23fb657323",
+          "tmdbId": 3112,
+          "streamingProvidersCount": null,
+          "darknessLevel": null,
+          "funninessLevel": null,
+          "slownessLevel": null,
+          "intensenessLevel": null
+        }
+      }
+    },
+    "sqlite": {
+      "status": "ok",
+      "database_path": "movies.db",
+      "row_counts": [
+        {
+          "table": "movies",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "genres",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "nanogenres",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 27653
+        },
+        {
+          "table": "directors",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 3187
+        },
+        {
+          "table": "actors",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "likes",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 0
+        },
+        {
+          "table": "favorites",
+          "source": "sqlite",
+          "status": "ok",
+          "row_count": 0
+        }
+      ],
+      "movies_columns": [
+        {
+          "name": "slug",
+          "type": "TEXT",
+          "not_null": false,
+          "primary_key": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "not_null": true,
+          "primary_key": false
+        },
+        {
+          "name": "avgRating",
+          "type": "REAL",
+          "not_null": false,
+          "primary_key": false
+        },
+        {
+          "name": "popularityRanking",
+          "type": "INTEGER",
+          "not_null": false,
+          "primary_key": false
+        },
+        {
+          "name": "posterUrl",
+          "type": "TEXT",
+          "not_null": false,
+          "primary_key": false
+        },
+        {
+          "name": "link",
+          "type": "TEXT",
+          "not_null": false,
+          "primary_key": false
+        },
+        {
+          "name": "year",
+          "type": "INTEGER",
+          "not_null": false,
+          "primary_key": false
+        }
+      ],
+      "note": "Local SQLite is a legacy source and should only be used if it has data not present in DynamoDB or Supabase."
+    },
+    "tmdb_watch_providers": {
+      "status": "ok",
+      "region": "US",
+      "provider_catalog_count": 291,
+      "per_movie_availability_count": 1,
+      "sample_availability": {
+        "the-night-of-the-hunter": {
+          "status": "ok",
+          "tmdb_id": 3112,
+          "region": "US",
+          "tmdb_link": "https://www.themoviedb.org/movie/3112-the-night-of-the-hunter/watch?locale=US",
+          "counts_by_type": {
+            "flatrate": 2,
+            "free": 0,
+            "ads": 2,
+            "rent": 5,
+            "buy": 4
+          }
+        }
+      },
+      "note": "Per-movie availability is sampled for the configured slugs only; the full backfill belongs to Phase 3."
+    },
+    "review_sources": {
+      "status": "ok",
+      "root_dir": "scripts/reviews",
+      "files": [
+        "scripts/reviews/parse-letterboxd-reviews.mjs"
+      ],
+      "embedding_related_files": [],
+      "note": "No embedding-generation script was found under scripts/reviews; current source is review HTML parsing only."
+    }
+  },
+  "sample_comparisons": [
+    {
+      "slug": "the-night-of-the-hunter",
+      "status": "diff",
+      "mismatches": [
+        {
+          "field": "year",
+          "dynamodb": "1955",
+          "postgres": 1955
+        },
+        {
+          "field": "rating",
+          "dynamodb": null,
+          "postgres": "PG-13"
+        }
+      ]
+    }
+  ],
+  "acceptance": {
+    "table_by_table_inventory": "complete",
+    "dynamodb_required_row_counts": "complete",
+    "postgres_core_row_counts": "complete",
+    "tmdb_watch_provider_inventory": "complete",
+    "field_mapping_documented": "complete in docs/migration/phase-1-schema-mapping.md",
+    "sample_movie_comparison": "complete"
+  }
+}

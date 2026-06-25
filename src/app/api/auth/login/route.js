@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getUserByEmail } from "../../lib/dynamodb";
+import { getUserByEmail } from "../../lib/userRepository";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
@@ -7,7 +7,6 @@ export async function POST(req) {
   try {
     const { email, password } = await req.json();
     console.log("Login attempt for email:", email);
-    // Fetch user from DynamoDB
     const user = await getUserByEmail(email);
     if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });

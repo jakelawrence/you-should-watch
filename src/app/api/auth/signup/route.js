@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { getUserByEmail, getUserByUsername } from "../../lib/dynamodb";
+import { createUser, getUserByEmail, getUserByUsername } from "../../lib/userRepository";
 import bcrypt from "bcryptjs";
-
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION || "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-const dynamodb = DynamoDBDocumentClient.from(client);
 
 export async function POST(req) {
   try {
@@ -38,17 +26,14 @@ export async function POST(req) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = {
+    await createUser({
       username,
       email,
       name: name || username,
       passwordHash,
       isAdmin: false,
-      createdAt: new Date().toISOString(),
       streamingServices: [],
-    };
-
-    await dynamodb.send(new PutCommand({ TableName: "users", Item: user }));
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

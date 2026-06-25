@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getUserSavedMovies, saveUserSavedMovie, deleteUserSavedMovie, getMovies } from "../../lib/dynamodb";
+import { getUserSavedMovies, saveUserSavedMovie, deleteUserSavedMovie } from "../../lib/userRepository";
+import { getMovies } from "../../lib/movieRepository";
 import { auth } from "@/auth";
 
 async function getAuthenticatedUser() {
