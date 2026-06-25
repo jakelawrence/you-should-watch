@@ -6,6 +6,7 @@ import { Heart, ThumbsUp, Trash2, Star, Clock, Calendar, ChevronUp, ChevronDown,
 import { Navbar } from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import { MovieDetailsModal } from "@/app/components/MovieDetailsModal";
+import { VIBE_FILTERS, applyFilters, collectGenres } from "@/app/lib/spinFilters";
 
 // ─── Sort / Filter Config ────────────────────────────────────────────────────
 
@@ -18,16 +19,6 @@ const SORT_OPTIONS = [
   { key: "darkness", label: "Darkness", field: "darknessLevel" },
   { key: "intensity", label: "Intensity", field: "intensenessLevel" },
   { key: "funniness", label: "Funniness", field: "funninessLevel" },
-];
-
-// Vibe filters use the numeric mood fields
-const VIBE_FILTERS = [
-  { key: "dark", label: "Dark", field: "darknessLevel", op: ">", val: 6 },
-  { key: "light", label: "Light", field: "darknessLevel", op: "<", val: 4 },
-  { key: "intense", label: "Intense", field: "intensenessLevel", op: ">", val: 6 },
-  { key: "chill", label: "Chill", field: "intensenessLevel", op: "<", val: 4 },
-  { key: "funny", label: "Funny", field: "funninessLevel", op: ">", val: 6 },
-  { key: "slow-burn", label: "Slow Burn", field: "slownessLevel", op: ">", val: 6 },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -58,40 +49,6 @@ function applySort(movies, sortKey, dir) {
 
     return dir === "asc" ? av - bv : bv - av;
   });
-}
-
-function applyFilters(movies, activeVibes, activeGenres, ratingMin) {
-  return movies.filter((m) => {
-    // Vibe filters (all selected must match)
-    for (const key of activeVibes) {
-      const vibe = VIBE_FILTERS.find((v) => v.key === key);
-      if (!vibe) continue;
-      const val = m[vibe.field] ?? 5;
-      if (vibe.op === ">" && !(val > vibe.val)) return false;
-      if (vibe.op === "<" && !(val < vibe.val)) return false;
-    }
-
-    // Genre filter
-    if (activeGenres.length > 0) {
-      const movieGenres = m.genres || m.genreNames || [];
-      const hasGenre = activeGenres.some((g) => movieGenres.map((mg) => mg.toLowerCase()).includes(g.toLowerCase()));
-      if (!hasGenre) return false;
-    }
-
-    // Min rating
-    if (ratingMin > 0 && (m.averageRating ?? 0) < ratingMin) return false;
-
-    return true;
-  });
-}
-
-// Collect all unique genres from saved movies
-function collectGenres(movies) {
-  const all = new Set();
-  movies.forEach((m) => {
-    (m.genres || m.genreNames || []).forEach((g) => all.add(g));
-  });
-  return Array.from(all).sort();
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -325,7 +282,7 @@ export default function SavedMoviesPage() {
   const allGenres = useMemo(() => collectGenres(savedMovies), [savedMovies]);
 
   const displayedMovies = useMemo(() => {
-    const filtered = applyFilters(savedMovies, activeVibes, activeGenres, ratingMin);
+    const filtered = applyFilters(savedMovies, { vibes: activeVibes, genres: activeGenres, ratingMin });
     return applySort(filtered, sortKey, sortDir);
   }, [savedMovies, activeVibes, activeGenres, ratingMin, sortKey, sortDir]);
 
