@@ -195,7 +195,6 @@ export default function SavedMoviesPage() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [error, setError] = useState(null);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [providers, setProviders] = useState(null);
   const [panelOpen, setPanelOpen] = useState(false);
 
   // Sort state
@@ -210,20 +209,7 @@ export default function SavedMoviesPage() {
   useEffect(() => {
     setIsLoaded(true);
     loadSavedMovies();
-    fetchProviders();
   }, []);
-
-  const fetchProviders = async () => {
-    try {
-      const res = await fetch("/api/providers");
-      if (res.ok) {
-        const data = await res.json();
-        setProviders(data.providers || []);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   const loadSavedMovies = async () => {
     try {
@@ -485,7 +471,6 @@ export default function SavedMoviesPage() {
       {selectedMovie && (
         <MovieDetailsModal
           movie={selectedMovie}
-          providers={providers}
           onClose={() => setSelectedMovie(null)}
           onToggleSave={() => handleRemoveMovie(selectedMovie.slug)}
           isSaved={true}

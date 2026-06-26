@@ -11,7 +11,7 @@ export function filterByStreamingServices(movies, selectedServiceIds) {
     }
 
     // Check if movie is on any selected provider
-    return movie.streamingProviders.some((provider) => selectedServiceIds.includes(provider.provider_id));
+    return movie.streamingProviders.some((provider) => selectedServiceIds.includes(provider.providerId));
   });
 }
 
@@ -22,7 +22,7 @@ export function groupMoviesByProvider(movies) {
     if (!movie.streamingProviders) return;
 
     movie.streamingProviders.forEach((provider) => {
-      const normalizedId = normalizeProviderId(provider.provider_id);
+      const normalizedId = normalizeProviderId(provider.providerId);
       if (!grouped[normalizedId]) {
         grouped[normalizedId] = [];
       }

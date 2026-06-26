@@ -24,7 +24,6 @@ function MovieSuggestionsContent() {
   const [rateLimitInfo, setRateLimitInfo] = useState(null);
   const [showSignUpPrompt, setShowSignUpPrompt] = useState(false);
   const [saveMessage, setSaveMessage] = useState(null);
-  const [providers, setProviders] = useState(null);
   const [userStreamingServices, setUserStreamingServices] = useState(null);
   const modalRef = useRef(null);
 
@@ -46,21 +45,6 @@ function MovieSuggestionsContent() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [selectedMovie]);
-
-  useEffect(() => {
-    const fetchProviders = async () => {
-      try {
-        const res = await fetch("/api/providers");
-        if (res.ok) {
-          const data = await res.json();
-          setProviders(data.providers || []);
-        }
-      } catch (err) {
-        console.error("Failed to fetch providers:", err);
-      }
-    };
-    fetchProviders();
-  }, []);
 
   useEffect(() => {
     const fetchSuggestedMovies = async () => {
@@ -166,9 +150,11 @@ function MovieSuggestionsContent() {
 
   const filteredProviders = (movie) => {
     if (!movie?.streamingProviders) return [];
-    return movie.streamingProviders
-      .filter((p) => !providers || providers.some((dp) => dp.provider_id === p.provider_id))
-      .filter((p) => !userStreamingServices?.length || userStreamingServices.includes(p.provider_id));
+    // Show every streaming site the movie is on. When the user has picked their
+    // own services, narrow to those so they see where *they* can watch it.
+    return movie.streamingProviders.filter(
+      (p) => !userStreamingServices?.length || userStreamingServices.includes(p.providerId)
+    );
   };
 
   if (isLoading) {
@@ -460,22 +446,27 @@ function MovieSuggestionsContent() {
                     <p className="font-dmSans text-[9px] uppercase tracking-[0.22em] opacity-35 mb-3">Available On</p>
                     <div className="flex flex-wrap gap-x-3 gap-y-4">
                       {filteredProviders(selectedMovie).map((p) => (
-                        <div key={p.provider_id} className="flex flex-col items-center gap-1.5 w-14">
-                          <img
-                            src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
-                            alt={p.provider_name}
-                            width="48"
-                            height="48"
-                            loading="lazy"
-                            decoding="async"
-                            className="w-12 h-12 object-cover border border-fadedBlack/10 flex-shrink-0"
-                          />
+                        <div key={p.providerId} className="flex flex-col items-center gap-1.5 w-14">
+                          {p.logoUrl ? (
+                            <img
+                              src={p.logoUrl}
+                              alt={p.providerName || "Streaming provider"}
+                              width="48"
+                              height="48"
+                              loading="lazy"
+                              decoding="async"
+                              className="w-12 h-12 object-cover border border-fadedBlack/10 flex-shrink-0"
+                            />
+                          ) : (
+                            <div className="w-12 h-12 border border-fadedBlack/10 bg-fadedBlack/5 flex-shrink-0" />
+                          )}
                           <span className="font-dmSans text-[9px] text-fadedBlack/50 text-center leading-tight line-clamp-2 w-full">
-                            {p.provider_name}
+                            {p.providerName}
                           </span>
                         </div>
                       ))}
                     </div>
+                    <p className="font-dmSans text-[8px] uppercase tracking-[0.18em] opacity-30 mt-4">Streaming data provided by JustWatch</p>
                   </div>
                 )}
               </div>
