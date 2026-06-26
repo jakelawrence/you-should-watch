@@ -242,7 +242,7 @@ function Chip({ label, active, onClick, disabled = false }) {
 
 // ─── Section expander ─────────────────────────────────────────────────────────
 
-function FilterSection({ title, children, defaultOpen = true }) {
+function FilterSection({ title, children, defaultOpen = true, count = 0 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <div className="border border-fadedBlack/15 bg-background">
@@ -252,7 +252,17 @@ function FilterSection({ title, children, defaultOpen = true }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-backgroundSecondary transition-colors"
       >
-        <span className="font-black text-fadedBlack text-xs uppercase tracking-widest">{title}</span>
+        <span className="flex items-center gap-2">
+          <span className="font-black text-fadedBlack text-xs uppercase tracking-widest">{title}</span>
+          {count > 0 && (
+            <span
+              className="flex items-center justify-center h-4 min-w-4 px-1 rounded-full bg-fadedBlack text-background text-[10px] font-black leading-none"
+              aria-label={`${count} active filter${count !== 1 ? "s" : ""}`}
+            >
+              {count}
+            </span>
+          )}
+        </span>
         {open ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
       </button>
       {open && <div className="px-4 pb-4 pt-1 border-t border-fadedBlack/10">{children}</div>}
@@ -634,7 +644,7 @@ export default function SearchPage() {
       </FilterSection>
 
       {/* ── GENRE ── */}
-      <FilterSection title="Genre" defaultOpen={false}>
+      <FilterSection title="Genre" defaultOpen={false} count={activeGenres.length}>
         <div className="flex flex-wrap gap-2">
           {SEARCH_FILTERS.genres.map((g) => (
             <Chip key={g} label={g} active={activeGenres.includes(g)} onClick={() => toggleGenre(g)} />
@@ -651,7 +661,7 @@ export default function SearchPage() {
       </FilterSection>
 
       {/* ── VIBE ── */}
-      <FilterSection title="Vibe" defaultOpen={false}>
+      <FilterSection title="Vibe" defaultOpen={false} count={activeVibes.length}>
         <div className="flex flex-wrap gap-2">
           {SEARCH_FILTERS.vibes.map((v) => (
             <Chip key={v.key} label={v.label} active={activeVibes.includes(v.key)} onClick={() => toggleVibe(v.key)} />
@@ -660,7 +670,7 @@ export default function SearchPage() {
       </FilterSection>
 
       {/* ── RUNTIME ── */}
-      <FilterSection title="Runtime" defaultOpen={false}>
+      <FilterSection title="Runtime" defaultOpen={false} count={activeDuration ? 1 : 0}>
         <div className="flex flex-wrap gap-2">
           {SEARCH_FILTERS.durations.map((d) => (
             <Chip
@@ -674,7 +684,7 @@ export default function SearchPage() {
       </FilterSection>
 
       {/* ── DECADE ── */}
-      <FilterSection title="Era" defaultOpen={false}>
+      <FilterSection title="Era" defaultOpen={false} count={activeDecade ? 1 : 0}>
         <div className="flex flex-wrap gap-2">
           {SEARCH_FILTERS.decades.map((d) => (
             <Chip
@@ -688,7 +698,7 @@ export default function SearchPage() {
       </FilterSection>
 
       {/* ── MIN RATING ── */}
-      <FilterSection title="Minimum Rating" defaultOpen={false}>
+      <FilterSection title="Minimum Rating" defaultOpen={false} count={minRating > 0 ? 1 : 0}>
         <div className="flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((val) => (
             <button key={val} onClick={() => setMinRating(minRating === val ? 0 : val)} className="transition-opacity" title={`${val}+ stars`}>
