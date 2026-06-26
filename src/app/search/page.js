@@ -399,7 +399,6 @@ export default function SearchPage() {
   const [hasSearched, setHasSearched] = useState(false);
   const [savedSlugs, setSavedSlugs] = useState(new Set());
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [providers, setProviders] = useState(null);
 
   // Mobile filter panel toggle
   const [filtersVisible, setFiltersVisible] = useState(false);
@@ -407,21 +406,6 @@ export default function SearchPage() {
 
   useEffect(() => {
     setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    const fetchProviders = async () => {
-      try {
-        const res = await fetch("/api/providers");
-        if (res.ok) {
-          const data = await res.json();
-          setProviders(data.providers || []);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchProviders();
   }, []);
 
   useEffect(() => {
@@ -815,7 +799,6 @@ export default function SearchPage() {
       )}
       <MovieDetailsModal
         movie={selectedMovie}
-        providers={providers}
         onClose={() => setSelectedMovie(null)}
         onToggleSave={() => {
           if (!selectedMovie) return;

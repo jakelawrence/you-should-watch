@@ -28,26 +28,12 @@ export default function SpinPage() {
   const [phase, setPhase] = useState("idle");
   const [winner, setWinner] = useState(null);
   const [spinId, setSpinId] = useState(0); // remounts the reel for a fresh animation
-  const [providers, setProviders] = useState(null);
   const [detailsMovie, setDetailsMovie] = useState(null); // movie shown in the details modal
 
   useEffect(() => {
     setIsLoaded(true);
     loadSavedMovies();
-    fetchProviders();
   }, []);
-
-  const fetchProviders = async () => {
-    try {
-      const res = await fetch("/api/providers");
-      if (res.ok) {
-        const data = await res.json();
-        setProviders(data.providers || []);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   // ─── Filter handlers ─────────────────────────────────────────────────────────
   const toggleInArray = (key, value) =>
@@ -244,7 +230,6 @@ export default function SpinPage() {
       {detailsMovie && (
         <MovieDetailsModal
           movie={detailsMovie}
-          providers={providers}
           onClose={() => setDetailsMovie(null)}
           onToggleSave={() => handleRemoveMovie(detailsMovie.slug)}
           isSaved={true}

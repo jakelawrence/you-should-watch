@@ -1,5 +1,32 @@
 import { getSql } from "./postgres";
-import { getStreamingProvidersForMovieSlugs } from "./providerRepository";
+// Monetization buckets in display order — flatrate first, then free/ads, then
+// transactional. Within each bucket TMDB pre-sorts by display priority.
+const WATCH_PROVIDER_BUCKETS = ["flatrate", "free", "ads", "rent", "buy"];
+
+// Flatten the country-keyed watch_providers JSONB into a single de-duplicated
+// list of providers for one region, preserving bucket priority (a provider on
+// both flatrate and rent surfaces once, tagged with its best bucket).
+function flattenWatchProviders(watchProviders, region = "US") {
+  const country = watchProviders?.[region];
+  if (!country) return [];
+
+  const seen = new Map();
+  for (const bucket of WATCH_PROVIDER_BUCKETS) {
+    const list = country[bucket];
+    if (!Array.isArray(list)) continue;
+    for (const p of list) {
+      if (p?.providerId == null || seen.has(p.providerId)) continue;
+      seen.set(p.providerId, {
+        providerId: p.providerId,
+        providerName: p.providerName ?? null,
+        logoUrl: p.logoUrl ?? null,
+        displayPriority: p.displayPriority ?? null,
+        type: bucket,
+      });
+    }
+  }
+  return Array.from(seen.values());
+}
 
 const SEMANTIC_EMBEDDING_COLUMNS = new Set([
   "embedding_semantic",
@@ -65,9 +92,13 @@ function fallbackIntensenessLevel(row) {
   return toVibeLevel(row.vibe_kinetic_momentum, row.vibe_body_transgression, row.vibe_urban_pressure, row.vibe_surreal_identity_instability);
 }
 
-function normalizeMovie(row) {
+function normalizeMovie(row, region = "US") {
   if (!row) return null;
-  const publicRow = Object.fromEntries(Object.entries(row).filter(([key]) => !key.startsWith("embedding_")));
+  // Drop embeddings and the raw watch_providers blob (we expose a flattened,
+  // region-specific view instead of shipping every country to the client).
+  const publicRow = Object.fromEntries(
+    Object.entries(row).filter(([key]) => !key.startsWith("embedding_") && key !== "watch_providers")
+  );
 
   return {
     ...publicRow,
@@ -79,7 +110,8 @@ function normalizeMovie(row) {
     genreIds: row.genreIds ?? [],
     genreNames: row.genreNames ?? row.genres ?? [],
     keywordNames: row.keywordNames ?? row.keyword_names ?? [],
-    streamingProviders: row.streamingProviders ?? [],
+    streamingProviders: flattenWatchProviders(row.watch_providers, region),
+    watchLink: row.watch_providers?.[region]?.link ?? null,
     darknessLevel: row.darknessLevel ?? row.darkness_level ?? fallbackDarknessLevel(row),
     funninessLevel: row.funninessLevel ?? row.funniness_level ?? fallbackFunninessLevel(row),
     slownessLevel: row.slownessLevel ?? row.slowness_level ?? fallbackSlownessLevel(row),
@@ -305,16 +337,10 @@ function buildSearchClauses(
   return { clauses, normalizedTitle };
 }
 
-async function hydrateMovies(rows, region = "US") {
-  const movieSlugs = rows.map((row) => row.movie_slug).filter(Boolean);
-  const providerMap = await getStreamingProvidersForMovieSlugs(movieSlugs, region);
-
-  return rows.map((row) =>
-    normalizeMovie({
-      ...row,
-      streamingProviders: providerMap.get(row.movie_slug) || [],
-    })
-  );
+function hydrateMovies(rows, region = "US") {
+  // Streaming data now lives on the movies.watch_providers JSONB column, so
+  // normalizeMovie reads it directly — no extra provider query/join needed.
+  return rows.map((row) => normalizeMovie(row, region));
 }
 
 export async function getMovie(movieSlug, { region = "US" } = {}) {
