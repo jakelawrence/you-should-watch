@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { getJwtSecret } from "./jwtSecret";
 
 export async function verifyAdmin(req) {
   try {
@@ -8,7 +9,7 @@ export async function verifyAdmin(req) {
 
     if (!token) return null;
 
-    const decoded = jwt.verify(token.value, process.env.JWT_SECRET || "your-secret-key");
+    const decoded = jwt.verify(token.value, getJwtSecret());
     return decoded;
   } catch (error) {
     return null;

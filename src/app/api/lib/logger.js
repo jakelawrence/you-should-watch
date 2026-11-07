@@ -1,16 +1,18 @@
 import fs from "fs";
 import path from "path";
 
-// Detect if running on Vercel or in production
-const isVercel = process.env.VERCEL === "1";
-const isProduction = process.env.NODE_ENV === "production";
+// File logging is a local-development convenience only. Hosted runtimes (Amplify, Vercel)
+// have read-only or ephemeral filesystems and capture console output instead.
+const writeLogFiles = process.env.NODE_ENV !== "production" && process.env.VERCEL !== "1";
 
-// Use /tmp for Vercel (ephemeral), or local logs directory for development
-const logsDir = isVercel ? "/tmp/logs" : path.join(process.cwd(), "logs");
+const logsDir = path.join(process.cwd(), "logs");
 
-// Only create logs directory in development (not on Vercel's read-only filesystem)
-if (!isVercel && !fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
+if (writeLogFiles) {
+  try {
+    fs.mkdirSync(logsDir, { recursive: true });
+  } catch (error) {
+    console.error("Failed to create logs directory:", error.message);
+  }
 }
 
 // Generate timestamp for log files
@@ -24,9 +26,9 @@ const timestamp = getTimestamp();
 const logFile = path.join(logsDir, `recommendations-${timestamp}.log`);
 const errorFile = path.join(logsDir, `recommendations-errors-${timestamp}.log`);
 
-// Helper to safely write to file (skip on Vercel)
+// Helper to safely write to file (development only)
 const writeToFile = (filePath, message) => {
-  if (!isVercel) {
+  if (writeLogFiles) {
     try {
       fs.appendFileSync(filePath, message);
     } catch (error) {
@@ -45,7 +47,7 @@ const logger = {
     // Write to file only in development
     writeToFile(logFile, fullMessage);
 
-    // Always log to console (Vercel captures this)
+    // Always log to console (hosted runtimes capture this)
     console.log(message, ...args);
   },
 

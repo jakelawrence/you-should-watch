@@ -2,17 +2,17 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { getJwtSecret } from "../../../lib/jwtSecret";
 
 export async function GET(req) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("admin_token");
-    console.log("Token fetched:", token);
     if (!token) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token.value, process.env.JWT_SECRET || "your-secret-key");
+    const decoded = jwt.verify(token.value, getJwtSecret());
 
     // Fetch user from database to verify admin status
     // const user = await getUserById(decoded.userId);
