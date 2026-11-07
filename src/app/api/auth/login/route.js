@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getUserByEmail } from "../../lib/userRepository";
 import jwt from "jsonwebtoken";
+import { getJwtSecret } from "../../lib/jwtSecret";
 import bcrypt from "bcryptjs";
 
 export async function POST(req) {
@@ -21,7 +22,7 @@ export async function POST(req) {
     // Create JWT token
     const token = jwt.sign(
       { username: user.username, email: user.email, isAdmin: user.isAdmin || false },
-      process.env.JWT_SECRET || "your-secret-key",
+      getJwtSecret(),
       {
         expiresIn: "7d",
       }

@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { getUserByEmail } from "../../../lib/userRepository";
 import jwt from "jsonwebtoken";
+import { getJwtSecret } from "../../../lib/jwtSecret";
 import bcrypt from "bcryptjs";
 
 export async function POST(req) {
@@ -21,7 +22,7 @@ export async function POST(req) {
     }
 
     // Create JWT token
-    const token = jwt.sign({ userId: "admin", email }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "24h" });
+    const token = jwt.sign({ userId: "admin", email }, getJwtSecret(), { expiresIn: "24h" });
 
     const response = NextResponse.json({ success: true });
     response.cookies.set("admin_token", token, {
