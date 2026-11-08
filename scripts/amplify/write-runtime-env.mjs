@@ -1,11 +1,14 @@
 // Writes allowlisted server-side runtime variables to .env.production during an Amplify build.
 //
 // Amplify Hosting does not expose console environment variables to the Next.js SSR runtime,
-// so they must be written to .env.production before `next build`. Values are read from:
-//   1. Amplify branch environment variables (process.env)
-//   2. Amplify secrets stored in SSM Parameter Store (/amplify/<appId>/<branch>/<NAME>),
-//      which Amplify exposes to the build as a JSON string in process.env.secrets.
-// Secret values take precedence. Values are never printed.
+// so they must be written to .env.production before `next build`. Values are read from,
+// highest precedence first:
+//   1. SSM Parameter Store SecureStrings under SSM_PARAMETER_PATH (e.g. /ysw/nonprod), read with
+//      the Amplify service role. The parameter name's last segment is the variable name.
+//   2. Amplify Gen 1 secrets, which Amplify exposes as a JSON string in process.env.secrets.
+//   3. Amplify branch environment variables (process.env).
+// Values are never printed.
+import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 
 const REQUIRED = ["DATABASE_URL", "AUTH_SECRET", "JWT_SECRET"];
@@ -45,7 +48,27 @@ if (process.env.secrets) {
   }
 }
 
-const read = (name) => secrets[name] ?? process.env[name];
+let ssm = {};
+const ssmPath = process.env.SSM_PARAMETER_PATH;
+if (ssmPath) {
+  const region = process.env.SSM_PARAMETER_REGION || process.env.AWS_REGION || "us-east-1";
+  let output;
+  try {
+    // The AWS CLI handles pagination. stderr is inherited for diagnostics; it never contains values.
+    output = execFileSync(
+      "aws",
+      ["ssm", "get-parameters-by-path", "--path", ssmPath, "--recursive", "--with-decryption", "--region", region, "--query", "Parameters[].[Name,Value]", "--output", "json"],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"], maxBuffer: 10 * 1024 * 1024 }
+    );
+  } catch {
+    console.error(`write-runtime-env: could not read SSM parameters under ${ssmPath}`);
+    process.exit(1);
+  }
+  for (const [name, value] of JSON.parse(output)) ssm[name.split("/").pop()] = value;
+  console.log(`write-runtime-env: loaded ${Object.keys(ssm).length} parameters from ${ssmPath}`);
+}
+
+const read = (name) => ssm[name] ?? secrets[name] ?? process.env[name];
 
 // dotenv does not unescape quotes, so wrap each value in a quote character it does not contain.
 // Only double-quoted values expand \n, so multi-line values (such as private keys) use double quotes.
