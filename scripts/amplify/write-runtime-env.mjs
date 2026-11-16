@@ -11,23 +11,13 @@
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 
-const REQUIRED = ["DATABASE_URL", "AUTH_SECRET", "JWT_SECRET"];
+const REQUIRED = ["DATABASE_URL"];
 
 const OPTIONAL = [
   "NEON_DATABASE_URL",
-  "AUTH_URL",
-  "AUTH_TRUST_HOST",
   "POSTGRES_MAX_CONNECTIONS",
   "POSTGRES_IDLE_TIMEOUT_SECONDS",
   "POSTGRES_MAX_LIFETIME_SECONDS",
-  "GOOGLE_CLIENT_ID",
-  "GOOGLE_CLIENT_SECRET",
-  "GITHUB_ID",
-  "GITHUB_CLIENT_SECRET",
-  "APPLE_ID",
-  "APPLE_SECRET",
-  "FACEBOOK_CLIENT_ID",
-  "FACEBOOK_CLIENT_SECRET",
   "RECOMMENDER_ENGINE",
   "SEMANTIC_SEARCH_EMBEDDING_COLUMN",
   "SEMANTIC_SEARCH_MAX_QUERY_LENGTH",
@@ -97,12 +87,6 @@ for (const name of [...REQUIRED, ...OPTIONAL]) {
   if (value === undefined || value === "") continue;
   lines.push(`${name}=${quote(name, value)}`);
   written.push(name);
-}
-
-// NextAuth v5 must trust the forwarded host behind Amplify's CloudFront distribution.
-if (!read("AUTH_TRUST_HOST") && !read("AUTH_URL")) {
-  lines.push(`AUTH_TRUST_HOST="true"`);
-  written.push("AUTH_TRUST_HOST");
 }
 
 writeFileSync(".env.production", `${lines.join("\n")}\n`, { mode: 0o600 });

@@ -1,17 +1,7 @@
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import { getJwtSecret } from "./jwtSecret";
+import { auth } from "@/auth";
 
-export async function verifyAdmin(req) {
-  try {
-    const cookieStore = cookies();
-    const token = cookieStore.get("admin_token");
-
-    if (!token) return null;
-
-    const decoded = jwt.verify(token.value, getJwtSecret());
-    return decoded;
-  } catch (error) {
-    return null;
-  }
+/** Returns the signed-in user if they are in the Cognito "admins" group, otherwise null. */
+export async function verifyAdmin() {
+  const session = await auth();
+  return session?.user?.isAdmin ? session.user : null;
 }

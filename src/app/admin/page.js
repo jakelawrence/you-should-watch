@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import { Film, Tv, Users, Database, LogOut } from "lucide-react";
 import Loading from "../components/Loading";
 import { Navbar } from "../components/Navbar";
+import { useAuth } from "../hooks/useAuth";
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const { logout } = useAuth();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +33,7 @@ export default function AdminDashboard() {
       });
 
       if (!response.ok) {
-        router.push("/admin/login");
+        router.push("/login?returnTo=/admin");
         return;
       }
 
@@ -41,7 +43,7 @@ export default function AdminDashboard() {
       loadStats();
     } catch (error) {
       console.error("Auth check failed:", error);
-      router.push("/admin/login");
+      router.push("/login?returnTo=/admin");
     } finally {
       setIsLoading(false);
       setIsLoaded(true);
@@ -60,10 +62,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/admin/auth/logout", { method: "POST" });
-    router.push("/admin/login");
-  };
+  const handleLogout = logout;
 
   // Loading state
   if (isLoading) {

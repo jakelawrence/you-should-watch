@@ -1,70 +1,38 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { getUserByEmail } from "@/app/api/lib/userRepository";
-import { createOAuthUser } from "@/app/api/lib/auth-helpers";
-import authConfig from "@/auth.config";
+import { cache } from "react";
+import { cookies } from "next/headers";
+import { getIdTokenClaims, ADMIN_GROUP } from "@/app/lib/authClaims";
+import { createOAuthUser } from "@/app/api/lib/userRepository";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  providers: [
-    ...authConfig.providers,
-    Credentials({
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+export { ADMIN_GROUP };
 
-        const user = await getUserByEmail(credentials.email);
-        if (!user || !user.passwordHash) return null;
+const isTrue = (value) => value === true || value === "true";
 
-        const isValid = await bcrypt.compare(credentials.password, user.passwordHash);
-        if (!isValid) return null;
+/**
+ * Returns `{ user: { username, email, name, isAdmin, sub } }` for the signed-in user, or null.
+ *
+ * Identity always comes from the verified Cognito token, never from the request body. The user's
+ * database row is matched by verified email (so email/password and Google sign-ins with the same
+ * address share one account) and created on first sign-in. Admin rights come from the Cognito
+ * "admins" group.
+ */
+export const auth = cache(async () => {
+  const claims = await getIdTokenClaims({ cookies });
+  if (!claims?.email || !isTrue(claims.email_verified)) return null;
 
-        return {
-          id: user.email,
-          email: user.email,
-          name: user.name || user.username,
-        };
-      },
-    }),
-  ],
-  callbacks: {
-    async signIn({ user, account }) {
-      // Require email for all providers
-      if (!user.email) return false;
+  const user = await createOAuthUser({
+    email: String(claims.email).toLowerCase(),
+    name: claims.name,
+    provider: Array.isArray(claims.identities) && claims.identities.length ? claims.identities[0].providerName : "cognito",
+  });
+  const groups = Array.isArray(claims["cognito:groups"]) ? claims["cognito:groups"] : [];
 
-      if (account?.type === "oauth") {
-        const existingUser = await getUserByEmail(user.email);
-        if (!existingUser) {
-          await createOAuthUser({
-            email: user.email,
-            name: user.name,
-            provider: account.provider,
-          });
-        }
-      }
-      return true;
+  return {
+    user: {
+      username: user.username,
+      email: user.email,
+      name: user.name || user.username,
+      isAdmin: groups.includes(ADMIN_GROUP),
+      sub: claims.sub,
     },
-
-    async jwt({ token, user }) {
-      // Only hit Postgres on initial sign-in (when user object is present)
-      if (user) {
-        const dbUser = await getUserByEmail(user.email);
-        token.username = dbUser?.username;
-        token.isAdmin = dbUser?.isAdmin || false;
-        token.name = dbUser?.name || dbUser?.username || user.name;
-      }
-      return token;
-    },
-
-    async session({ session, token }) {
-      session.user.username = token.username;
-      session.user.isAdmin = token.isAdmin;
-      session.user.name = token.name;
-      return session;
-    },
-  },
+  };
 });

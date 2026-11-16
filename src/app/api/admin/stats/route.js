@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import { getMovieCount } from "../../lib/movieRepository";
 import { getProviderCount } from "../../lib/providerRepository";
 import { getUserCount } from "../../lib/userRepository";
+import { verifyAdmin } from "../../lib/adminAuth";
 
 export async function GET() {
   try {
+    if (!(await verifyAdmin())) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const movieCount = await getMovieCount();
     const providerCount = await getProviderCount();
     const userCount = await getUserCount();

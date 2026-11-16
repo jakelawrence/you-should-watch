@@ -48,3 +48,8 @@ logs/
 
 # Local migration exports/import payloads
 /data/migration/
+
+# amplify
+.amplify
+amplify_outputs*
+amplifyconfiguration*

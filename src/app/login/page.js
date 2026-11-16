@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useId } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { credentialsSignIn } from "../actions/auth";
+import EmailAuthForm from "../components/auth/EmailAuthForm";
+import { googleSignIn, safeReturnTo } from "../lib/authClient";
+import { useAuth } from "../hooks/useAuth";
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,79 +20,28 @@ export default function LoginPage() {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [loginMode, setLoginMode] = useState("login");
-  const inputId = useId();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
-  });
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { refreshAuth } = useAuth();
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  const getReturnUrl = () => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("returnTo") || "/";
-  };
+  const getReturnUrl = () => safeReturnTo(new URLSearchParams(window.location.search).get("returnTo"));
 
   const handleGoogleSignIn = async () => {
-    const returnTo = getReturnUrl();
-    await signIn("google", { callbackUrl: returnTo });
+    setError("");
+    try {
+      await googleSignIn(getReturnUrl());
+    } catch {
+      setError("Couldn't start Google sign-in. Please try again.");
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (loginMode === "signup") {
-      if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
-      if (formData.password.length < 8) {
-        setError("Password must be at least 8 characters");
-        return;
-      }
-    }
-
-    setIsLoading(true);
-
-    try {
-      if (loginMode === "signup") {
-        const response = await fetch("/api/auth/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            name: formData.name,
-          }),
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          setError(data.error || "Sign up failed");
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      const result = await credentialsSignIn(formData.email, formData.password, getReturnUrl());
-
-      if (result?.error) {
-        setError(result.error);
-        setIsLoading(false);
-        return;
-      }
-      // On success the server action redirects — no router.push needed
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-      setIsLoading(false);
-    }
+  const handleSignedIn = async () => {
+    await refreshAuth();
+    router.push(getReturnUrl());
+    router.refresh();
   };
 
   // Reusable form block (used by both desktop and mobile)
@@ -134,88 +84,12 @@ export default function LoginPage() {
         </div>
 
         {/* Email / password form */}
-        <form onSubmit={handleSubmit} className="space-y-4 mb-6">
-          {error && (
-            <div className="bg-danger/10 border border-danger/30 p-4">
-              <p className="font-dmSans text-danger text-sm">{error}</p>
-            </div>
-          )}
-
-          {loginMode === "signup" && (
-            <div>
-              <label htmlFor={`${inputId}-name-${size}`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                id={`${inputId}-name-${size}`}
-                className={`w-full font-dmSans text-fadedBlack placeholder-fadedBlack/65 border-2 border-fadedBlack/50 bg-background focus:outline-none focus:border-fadedBlack/70 transition-colors ${isLg ? "p-4 text-base" : "p-3 text-base"}`}
-                placeholder="Your name"
-              />
-            </div>
-          )}
-
-          <div>
-            <label htmlFor={`${inputId}-email-${size}`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-              id={`${inputId}-email-${size}`}
-              className={`w-full font-dmSans text-fadedBlack placeholder-fadedBlack/65 border-2 border-fadedBlack/50 bg-background focus:outline-none focus:border-fadedBlack/70 transition-colors ${isLg ? "p-4 text-base" : "p-3 text-base"}`}
-              placeholder="your@email.com"
-            />
+        {error && (
+          <div className="bg-danger/10 border border-danger/30 p-4 mb-4" role="alert">
+            <p className="font-dmSans text-danger text-sm">{error}</p>
           </div>
-
-          <div>
-            <label htmlFor={`${inputId}-password-${size}`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-              minLength={loginMode === "signup" ? 8 : undefined}
-              id={`${inputId}-password-${size}`}
-              className={`w-full font-dmSans text-fadedBlack placeholder-fadedBlack/65 border-2 border-fadedBlack/50 bg-background focus:outline-none focus:border-fadedBlack/70 transition-colors ${isLg ? "p-4 text-base" : "p-3 text-base"}`}
-              placeholder={loginMode === "signup" ? "At least 8 characters" : "Your password"}
-            />
-          </div>
-
-          {loginMode === "signup" && (
-            <div>
-              <label htmlFor={`${inputId}-confirm-${size}`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                required
-                id={`${inputId}-confirm-${size}`}
-                className={`w-full font-dmSans text-fadedBlack placeholder-fadedBlack/65 border-2 border-fadedBlack/50 bg-background focus:outline-none focus:border-fadedBlack/70 transition-colors ${isLg ? "p-4 text-base" : "p-3 text-base"}`}
-                placeholder="Re-enter password"
-              />
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`w-full border border-fadedBlack bg-fadedBlack text-background font-dmSans uppercase tracking-[0.12em] hover:bg-fadedBlue hover:border-fadedBlue transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${isLg ? "px-8 py-4 text-[11px]" : "px-6 py-4 text-[10px]"}`}
-          >
-            {isLoading
-              ? loginMode === "signup" ? "Creating account…" : "Logging in…"
-              : loginMode === "signup" ? "Sign Up" : "Log In"}
-          </button>
-        </form>
+        )}
+        <EmailAuthForm mode={loginMode} size={size} onSignedIn={handleSignedIn} />
 
         <p className="text-center font-dmSans text-sm text-fadedBlack/70 leading-relaxed">
           {loginMode === "signup"
