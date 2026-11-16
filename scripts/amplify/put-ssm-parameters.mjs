@@ -7,6 +7,7 @@
 //   generate      a new random 48-byte secret (for AUTH_SECRET / JWT_SECRET)
 //   env:KEY       the value of KEY in .env.local
 //   file:PATH     the trimmed contents of a file (~ is expanded)
+//   ssm:NAME      the value of another SSM parameter (copied without printing)
 //
 // Example:
 //   node scripts/amplify/put-ssm-parameters.mjs /ysw/nonprod DATABASE_URL=file:~/.ysw-nonprod-db-url AUTH_SECRET=generate
@@ -45,6 +46,11 @@ try {
       if (source === "generate") value = randomBytes(48).toString("base64url");
       else if (source.startsWith("env:")) value = local[source.slice(4)];
       else if (source.startsWith("file:")) value = readFileSync(source.slice(5).replace(/^~(?=\/)/, homedir()), "utf8").trim();
+      else if (source.startsWith("ssm:"))
+        value = execFileSync("aws", ["ssm", "get-parameter", "--name", source.slice(4), "--with-decryption", "--query", "Parameter.Value", "--output", "text"], {
+          encoding: "utf8",
+          stdio: ["ignore", "pipe", "inherit"],
+        }).replace(/\n$/, "");
       else throw new Error(`unknown source "${source}"`);
     } catch (error) {
       console.error(`${name}: failed (${error.code === "ENOENT" ? "file not found" : error.message})`);
