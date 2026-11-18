@@ -13,7 +13,8 @@ export const auth = defineAuth({
   loginWith: {
     email: {
       verificationEmailSubject: "Your You Should Watch verification code",
-      verificationEmailBody: (createCode: () => string) => `Your verification code is ${createCode()}`,
+      verificationEmailBody: (createCode: () => string) =>
+        `Your You Should Watch verification code is ${createCode()}. It expires in 24 hours. If you didn't create an account, you can ignore this email.`,
     },
     externalProviders: {
       google: {
@@ -34,6 +35,14 @@ export const auth = defineAuth({
     fullname: { required: false, mutable: true },
   },
   accountRecovery: "EMAIL_ONLY",
+  // Send verification and password-reset emails through Amazon SES from our own domain
+  // (DKIM-signed, custom MAIL FROM) instead of Cognito's limited default sender.
+  senders: {
+    email: {
+      fromEmail: "no-reply@youshouldwatch.app",
+      fromName: "You Should Watch",
+    },
+  },
   groups: ["admins"],
   triggers: {
     // Moves existing email/password users from Postgres into Cognito on their first sign-in
