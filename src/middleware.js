@@ -13,20 +13,28 @@ export async function middleware(request) {
   if (path.startsWith("/admin")) {
     const groups = claims?.["cognito:groups"] || [];
     if (!claims) return redirectToLogin(request, path);
-    if (!groups.includes(ADMIN_GROUP)) return NextResponse.redirect(new URL("/", request.url));
-    return response;
+    if (!groups.includes(ADMIN_GROUP)) return noStore(NextResponse.redirect(new URL("/", request.url)));
+    return noStore(response);
   }
 
-  if (protectedRoutes.some((route) => path.startsWith(route)) && !claims) {
-    return redirectToLogin(request, path);
+  if (protectedRoutes.some((route) => path.startsWith(route))) {
+    return claims ? noStore(response) : redirectToLogin(request, path);
   }
+  return response;
+}
+
+// Every answer here depends on the visitor's session, so a CDN must not store it. Otherwise a
+// cached page could skip this check for signed-out visitors, or a cached redirect could lock out
+// signed-in ones.
+function noStore(response) {
+  response.headers.set("Cache-Control", "private, no-store");
   return response;
 }
 
 function redirectToLogin(request, path) {
   const url = new URL("/login", request.url);
   url.searchParams.set("returnTo", `${path}${request.nextUrl.search}`);
-  return NextResponse.redirect(url);
+  return noStore(NextResponse.redirect(url));
 }
 
 export const config = {
