@@ -2,7 +2,7 @@
 
 You Should Watch is a Next.js movie discovery app for finding something good to watch without browsing an endless catalog. It combines direct movie search, guided scenarios, semantic recommendations, mood/vibe filters, saved movies, streaming-provider preferences, and a random picker for a user's own watchlist.
 
-Live site: https://you-should-watch.vercel.app/
+Live site: https://youshouldwatch.app/
 
 ## What the App Does
 
@@ -19,7 +19,8 @@ Live site: https://you-should-watch.vercel.app/
 - Next.js 15 App Router
 - React 19
 - Tailwind CSS
-- NextAuth v5 with credentials and optional OAuth providers
+- Amazon Cognito (AWS Amplify Gen 2) for email/password and Google sign-in
+- AWS Amplify Hosting (production deploys from `main`)
 - Neon/Postgres via `postgres`
 - pgvector and pg_trgm for semantic and fuzzy search
 - TMDB provider data for streaming availability
@@ -46,8 +47,8 @@ Live site: https://you-should-watch.vercel.app/
 - `GET|POST|DELETE /api/user/saved-movies` - saved movie library
 - `GET|POST /api/user/streaming-services` - saved provider preferences
 - `GET /api/user/profile` - profile metadata and counts
-- `/api/auth/*` and `/api/auth/[...nextauth]` - app auth
-- `/api/admin/*` - admin login, stats, movies, and provider management
+- `GET /api/auth/me` - the signed-in user, read from the Cognito session
+- `/api/admin/*` - admin check, stats, movies, and provider management (requires the `admins` group)
 
 ## Recommendation and Search
 
@@ -83,22 +84,22 @@ Create `.env.local` from `.env.example`:
 ```env
 DATABASE_URL="postgresql://USER:PASSWORD@HOST-pooler.REGION.aws.neon.tech/DB?sslmode=require&channel_binding=require"
 NEON_DATABASE_URL_DIRECT="postgresql://USER:PASSWORD@HOST.REGION.aws.neon.tech/DB?sslmode=require&channel_binding=require"
-AUTH_SECRET="replace-me"
-JWT_SECRET="replace-me"
 ```
+
+Sign-in uses Amazon Cognito, so there are no auth secrets in `.env.local`. To run sign-in locally, start your own test backend with your AWS credentials:
+
+```bash
+npx ampx sandbox secret set GOOGLE_CLIENT_ID
+npx ampx sandbox secret set GOOGLE_CLIENT_SECRET
+npx ampx sandbox secret set DATABASE_URL   # used by the user-migration Lambda
+npx ampx sandbox
+```
+
+The sandbox writes `amplify_outputs.json` (gitignored), which the app reads at build and run time. Run `npm run dev` in a second terminal.
 
 Optional integrations:
 
 ```env
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
-GITHUB_ID=""
-GITHUB_CLIENT_SECRET=""
-APPLE_ID=""
-APPLE_SECRET=""
-FACEBOOK_CLIENT_ID=""
-FACEBOOK_CLIENT_SECRET=""
-
 QUERY_EMBEDDING_PROVIDER="openai"
 QUERY_EMBEDDING_MODEL="text-embedding-3-small"
 QUERY_EMBEDDING_DIMENSIONS="384"
@@ -146,8 +147,12 @@ src/
     discover/            Search and discovery UI
     profile/             User profile, saved movies, streaming services
     spin/                Saved-movie random picker
-  auth.js                NextAuth setup
-  auth.config.js         Optional OAuth provider config
+  auth.js                Server-side session helper (Cognito ID token -> app user)
+  middleware.js          Protects signed-in and admin routes
+amplify/
+  auth/                  Cognito user pool, identity pool, Google sign-in, SES email
+  functions/migrate-user Lambda that moves existing users into Cognito on first sign-in
+  backend.ts             Backend definition and Cognito overrides
 scripts/
   admin/                 One-off account/admin helpers
   maintenance/           Ongoing Neon/TMDB diagnostics and sync jobs
@@ -164,10 +169,16 @@ public/                  Fonts, images, placeholder assets
 - `npm run build` - build the app
 - `npm run start` - run the production build on port 3000
 - `npm run lint` - run Next lint
-- `npm run admin:create` - create an admin user in Neon
+- `npm run admin:create` - legacy: creates a user row in Neon (admin access now comes from the Cognito `admins` group)
 - `npm run sync:providers` - refresh TMDB watch providers in Neon
 - `npm run sync:posters` - refresh TMDB poster URLs in Neon
 - `npm run audit:tmdb-ids` - audit and repair movie TMDB metadata
+
+## Deployment
+
+AWS Amplify Hosting builds each connected branch with `amplify.yml`: it deploys that branch's Cognito backend (`npx ampx pipeline-deploy`), writes runtime settings from SSM Parameter Store (`scripts/amplify/write-runtime-env.mjs`), then builds Next.js. Pushes to `main` deploy production at https://youshouldwatch.app. See `docs/aws-amplify-phase-1-runbook.md`.
+
+To make someone an admin, add their Cognito user to the `admins` group. They need to sign out and back in afterwards.
 
 ## Notes
 
