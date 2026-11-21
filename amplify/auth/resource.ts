@@ -7,7 +7,6 @@ const appOrigins = [
   "https://www.youshouldwatch.app",
   "https://main.d327p6sk4vykqb.amplifyapp.com",
   "http://localhost:3000",
-  "https://amplify-phase-1.d327p6sk4vykqb.amplifyapp.com",
   "https://cognito-auth.d327p6sk4vykqb.amplifyapp.com",
 ];
 
