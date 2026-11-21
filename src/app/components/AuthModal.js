@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useId } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { signIn } from "next-auth/react";
+import EmailAuthForm from "./auth/EmailAuthForm";
+import { googleSignIn } from "../lib/authClient";
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,43 +14,14 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const AppleIcon = () => (
-  <svg width="16" height="18" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 376.7 0 248.7 0 123.7 0 55.5 23.4 0 66.1 0c40.7 0 66.8 29.2 98.3 29.2 64 0 94.7-29.2 169.1-29.2 40.7 0 130.3 30 174.4 111.2z"/>
-    <path d="M549.7 0c17.6 0 67.2 19.8 99.5 57.8 27.6 32.9 54.7 90.2 54.7 147.5 0 3.9-.3 7.8-.6 11.8-31.2 9.2-107.6 62.2-107.6 182.2 0 3.5.1 7 .3 10.5-14.8-2.5-44.5-7.8-80.5-7.8-72 0-135.9 29-195.2 87.9V20.6C372.1 7.2 456.4 0 549.7 0z"/>
-  </svg>
-);
-
-const FacebookIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
-    <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
-  </svg>
-);
-
-const GitHubIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-  </svg>
-);
-
 const oauthProviders = [
   { id: "google", label: "Continue with Google", Icon: GoogleIcon },
 ];
 
 export default function AuthModal({ isOpen, onClose, onSuccess }) {
   const dialogRef = useRef(null);
-  const inputId = useId();
   const [mode, setMode] = useState("signup"); // 'signup' or 'login'
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
-  });
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  if (!isOpen) return null;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -84,66 +56,16 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleOAuthSignIn = async (provider) => {
+  // Hooks above must run on every render, so the early return comes after them.
+  if (!isOpen) return null;
+
+  const handleOAuthSignIn = async () => {
     setError("");
-    await signIn(provider, { callbackUrl: "/" });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (mode === "signup") {
-      if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
-      if (formData.password.length < 8) {
-        setError("Password must be at least 8 characters");
-        return;
-      }
-    }
-
-    setIsLoading(true);
-
     try {
-      if (mode === "signup") {
-        // Create the account first
-        const response = await fetch("/api/auth/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-            name: formData.name,
-          }),
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          setError(data.error || "Sign up failed");
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      // Sign in via NextAuth credentials
-      const result = await signIn("credentials", {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError("Invalid email or password");
-        setIsLoading(false);
-        return;
-      }
-
-      onSuccess();
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-      setIsLoading(false);
+      // Return to this page after Google sign-in.
+      await googleSignIn(`${window.location.pathname}${window.location.search}`);
+    } catch {
+      setError("Couldn't start Google sign-in. Please try again.");
     }
   };
 
@@ -183,7 +105,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
             {oauthProviders.map(({ id, label, Icon }) => (
               <button
                 key={id}
-                onClick={() => handleOAuthSignIn(id)}
+                onClick={handleOAuthSignIn}
                 className="w-full border border-fadedBlack/20 bg-background px-4 py-3 text-sm font-dmSans text-fadedBlack flex items-center justify-center gap-3 hover:border-fadedBlack/50 transition-colors"
               >
                 <Icon />
@@ -200,80 +122,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
           </div>
 
           {/* Email / password form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === "signup" && (
-              <div>
-                <label htmlFor={`${inputId}-name`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                  id={`${inputId}-name`}
-                  className="w-full border-2 border-fadedBlack/50 bg-background p-3 text-base font-dmSans text-fadedBlack placeholder-fadedBlack/65 focus:outline-none focus:border-fadedBlack/70 transition-colors"
-                  placeholder="Your name"
-                />
-              </div>
-            )}
-
-            <div>
-              <label htmlFor={`${inputId}-email`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                id={`${inputId}-email`}
-                className="w-full border-2 border-fadedBlack/50 bg-background p-3 text-base font-dmSans text-fadedBlack placeholder-fadedBlack/65 focus:outline-none focus:border-fadedBlack/70 transition-colors"
-                placeholder="your@email.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor={`${inputId}-password`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required
-                minLength={mode === "signup" ? 8 : undefined}
-                id={`${inputId}-password`}
-                className="w-full border-2 border-fadedBlack/50 bg-background p-3 text-base font-dmSans text-fadedBlack placeholder-fadedBlack/65 focus:outline-none focus:border-fadedBlack/70 transition-colors"
-                placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
-              />
-            </div>
-
-            {mode === "signup" && (
-              <div>
-                <label htmlFor={`${inputId}-confirm`} className="block font-dmSans text-[9px] uppercase tracking-[0.22em] text-fadedBlack/70 mb-2">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  required
-                  id={`${inputId}-confirm`}
-                  className="w-full border-2 border-fadedBlack/50 bg-background p-3 text-base font-dmSans text-fadedBlack placeholder-fadedBlack/65 focus:outline-none focus:border-fadedBlack/70 transition-colors"
-                  placeholder="Re-enter password"
-                />
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-fadedBlack text-background px-8 py-4 font-dmSans text-[11px] uppercase tracking-[0.12em] border border-fadedBlack hover:bg-fadedBlue hover:border-fadedBlue transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (mode === "signup" ? "Creating account…" : "Logging in…") : mode === "signup" ? "Sign Up" : "Log In"}
-            </button>
-          </form>
+          <EmailAuthForm mode={mode} size="md" onSignedIn={onSuccess} />
 
           {/* Toggle between login/signup */}
           <div className="mt-6 text-center">
@@ -282,7 +131,6 @@ export default function AuthModal({ isOpen, onClose, onSuccess }) {
               onClick={() => {
                 setMode(mode === "signup" ? "login" : "signup");
                 setError("");
-                setFormData({ email: "", password: "", confirmPassword: "", name: "" });
               }}
               className="font-dmSans text-fadedBlack text-sm uppercase tracking-[0.12em] border-b border-fadedBlack hover:text-fadedBlue hover:border-fadedBlue transition-colors pb-0.5"
             >

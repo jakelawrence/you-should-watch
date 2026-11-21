@@ -1,6 +1,5 @@
 import crypto from "node:crypto";
 
-import bcrypt from "bcryptjs";
 
 import { getSql } from "./postgres";
 

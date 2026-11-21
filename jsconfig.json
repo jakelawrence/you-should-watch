@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@amplify-outputs": ["./amplify_outputs.json"]
     }
   }
 }
