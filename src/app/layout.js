@@ -27,7 +27,7 @@ export const metadata = {
   openGraph: {
     title: "You Should Watch",
     description: "Find your next favorite movie",
-    url: "https://you-should-watch.vercel.app/",
+    url: "https://youshouldwatch.app/",
     siteName: "You Should Watch",
     images: [
       {

@@ -2,8 +2,10 @@ import { defineAuth, secret } from "@aws-amplify/backend";
 import { migrateUser } from "../functions/migrate-user/resource";
 
 // Sign-in and return addresses for every place the app runs. Cognito only redirects to these.
-// Add the production domain here when it exists.
 const appOrigins = [
+  "https://youshouldwatch.app",
+  "https://www.youshouldwatch.app",
+  "https://main.d327p6sk4vykqb.amplifyapp.com",
   "http://localhost:3000",
   "https://amplify-phase-1.d327p6sk4vykqb.amplifyapp.com",
   "https://cognito-auth.d327p6sk4vykqb.amplifyapp.com",
