@@ -13,21 +13,12 @@
     "db:semantic-inventory": "node scripts/maintenance/semantic-search-inventory.mjs",
     "sync:providers": "node scripts/maintenance/sync-watch-providers.mjs",
     "sync:posters": "node scripts/maintenance/sync-tmdb-posters.mjs",
-    "sync:languages": "node scripts/maintenance/sync-tmdb-languages.mjs",
-    "inventory:phase1": "node scripts/migration/phase-1-inventory.mjs --out docs/migration/phase-1-inventory.json --include-tmdb",
-    "inventory:phase1:strict": "node scripts/migration/phase-1-inventory.mjs --out docs/migration/phase-1-inventory.json --include-tmdb --strict",
-    "migrate:phase3:export": "node scripts/migration/phase-3-export-dynamodb.mjs",
-    "migrate:phase3:transform": "node scripts/migration/phase-3-transform.mjs",
-    "migrate:phase3:load": "node scripts/migration/phase-3-load-postgres.mjs",
-    "migrate:phase3:validate": "node scripts/migration/phase-3-validate.mjs"
+    "sync:languages": "node scripts/maintenance/sync-tmdb-languages.mjs"
   },
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.8.1",
-    "@aws-sdk/client-dynamodb": "^3.806.0",
-    "@aws-sdk/lib-dynamodb": "^3.806.0",
     "@heroicons/react": "^2.2.0",
     "aws-amplify": "^6.22.2",
-    "aws-sdk": "^2.1692.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "flickity": "^3.0.0",
