@@ -122,16 +122,11 @@ The app expects Postgres tables for:
 
 The phase 2 schema migration is in `db/migrations/20260608222000_phase_2_schema.sql`. It adds user tables, provider tables, pgvector/pg_trgm extensions, movie vibe columns, and supporting indexes. Runtime code tolerates missing watch-provider tables by returning empty provider lists, but full streaming filters need those tables populated.
 
-Useful migration/data scripts:
+Useful data scripts:
 
 ```bash
-npm run inventory:phase1
 npm run db:semantic-inventory
-npm run migrate:phase3:export
-npm run migrate:phase3:transform
-npm run migrate:phase3:load
 npm run sync:providers
-npm run migrate:phase3:validate
 npm run sync:posters
 npm run audit:tmdb-ids
 ```
@@ -156,9 +151,8 @@ amplify/
 scripts/
   admin/                 One-off account/admin helpers
   maintenance/           Ongoing Neon/TMDB diagnostics and sync jobs
-  migration/             Historical DynamoDB-to-Postgres cutover scripts
   reviews/               Review parsing utilities
-docs/migration/          Migration reports and handoff docs
+docs/migration/          Reports and notes from the DynamoDB-to-Postgres move (historical)
 db/migrations/           Postgres schema migrations
 public/                  Fonts, images, placeholder assets
 ```
